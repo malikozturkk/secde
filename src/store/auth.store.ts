@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { AuthTokensWithUser, User } from "../types";
+import Cookies from "js-cookie";
+import type { User, AuthTokensWithUser } from "../types";
+import { AUTH_COOKIE_NAME } from "../constants/routes";
 
 interface AuthState {
   accessToken: string | null;
@@ -21,20 +23,27 @@ export const useAuthStore = create<AuthState>()(
       tempToken: null,
       user: null,
 
-      setAuth: ({ accessToken, refreshToken, user }) =>
-        set({ accessToken, refreshToken, user, tempToken: null }),
+      setAuth: ({ accessToken, refreshToken, user }) => {
+        Cookies.set(AUTH_COOKIE_NAME, accessToken, {
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+        });
+        set({ accessToken, refreshToken, user, tempToken: null });
+      },
 
       setTempToken: (token) => set({ tempToken: token }),
 
       clearTempToken: () => set({ tempToken: null }),
 
-      clearAuth: () =>
+      clearAuth: () => {
+        Cookies.remove(AUTH_COOKIE_NAME);
         set({
           accessToken: null,
           refreshToken: null,
           tempToken: null,
           user: null,
-        }),
+        });
+      },
     }),
     {
       name: "auth-storage",
