@@ -5,7 +5,12 @@ export const PUBLIC_ROUTES = [
   "/reset-password",
   "/verify-otp",
 ];
-export const AUTH_ROUTES = ["/login", "/register"];
+export const AUTH_ROUTES = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+];
 export const DEFAULT_AUTHENTICATED_REDIRECT = "/";
 export const DEFAULT_UNAUTHENTICATED_REDIRECT = "/login";
 export const AUTH_COOKIE_NAME = "auth-token";

@@ -30,6 +30,27 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Şifre zorunludur"),
 });
 
-export type LoginFormValues = z.infer<typeof loginSchema>;
-export type OtpFormValues = z.infer<typeof otpSchema>;
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Geçerli bir e-posta adresi giriniz"),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(8, "Şifre en az 8 karakter olmalıdır")
+      .regex(/[A-Z]/, "Şifre en az bir büyük harf içermelidir")
+      .regex(/[a-z]/, "Şifre en az bir küçük harf içermelidir")
+      .regex(/[0-9]/, "Şifre en az bir rakam içermelidir"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Şifreler eşleşmiyor",
+    path: ["confirmPassword"],
+  });
+
 export type RegisterFormValues = z.infer<typeof registerSchema>;
+export type OtpFormValues = z.infer<typeof otpSchema>;
+export type LoginFormValues = z.infer<typeof loginSchema>;
+export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
