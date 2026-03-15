@@ -10,6 +10,7 @@ interface AuthState {
   tempToken: string | null;
   user: User | null;
   setAuth: (data: AuthTokensWithUser) => void;
+  setUser: (user: User) => void;
   setTempToken: (token: string) => void;
   clearTempToken: () => void;
   clearAuth: () => void;
@@ -30,6 +31,8 @@ export const useAuthStore = create<AuthState>()(
         });
         set({ accessToken, refreshToken, user, tempToken: null });
       },
+
+      setUser: (user) => set({ user }),
 
       setTempToken: (token) => set({ tempToken: token }),
 

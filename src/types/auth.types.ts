@@ -37,6 +37,8 @@ export interface RefreshTokenPayload {
 export interface UpdateProfilePayload {
   username?: string;
   avatar?: string;
+  currentPassword?: string;
+  newPassword?: string;
 }
 
 export interface ForgotPasswordPayload {

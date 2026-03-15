@@ -34,8 +34,20 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
             message: "Bu kullanıcı adı zaten kullanılıyor",
           });
           break;
+        case AuthErrorCode.INVALID_USERNAME_FORMAT:
+          setError("username", {
+            message: "Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir",
+          });
+          break;
         case AuthErrorCode.USER_ALREADY_EXISTS:
           setError("email", { message: "Bu e-posta adresi zaten kayıtlı" });
+          break;
+        case AuthErrorCode.INVALID_EMAIL_FORMAT:
+          setError("email", { message: "Geçerli bir e-posta adresi giriniz" });
+          break;
+
+        case AuthErrorCode.PASSWORD_TOO_SHORT:
+          setError("password", { message: "Şifre en az 8 karakter olmalıdır" });
           break;
         case AuthErrorCode.ACTIVE_REGISTRATION_EXISTS:
           setError("root", {
