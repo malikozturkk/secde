@@ -10,64 +10,52 @@
   /* Secondary — Warm Gold */
   --color-secondary: #f5a623;
   --color-secondary-light: #ffca6b;
-  --color-secondary-dark: #c47d0a;
 
   /* Accent — Sky Blue */
   --color-accent: #4fc3f7;
-  --color-accent-dark: #0288d1;
 
   /* Streak — Flame Orange */
   --color-streak: #ff6b35;
-  --color-streak-light: #ff9a6c;
-
-  /* Ramadan — Deep Purple Night */
-  --color-ramadan: #6c3fc5;
-  --color-ramadan-light: #a97ff5;
 
   /* Neutral */
-  --color-bg: #f7f4ef;
-  --color-surface: #ffffff;
-  --color-surface-2: #eef9f6;
-  --color-text: #1a2b2a;
-  --color-text-muted: #6b8c88;
-  --color-border: #d4ede8;
-
-  /* Feedback */
-  --color-success: #4caf50;
-  --color-error: #ef5350;
-  --color-warning: #ff9800;
-
-  /* Gamification */
-  --color-xp: #9c27b0;
-  --color-gem: #00bcd4;
+  --color-bg: #131f24;
+  --color-surface: #1a2b2a;
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.55);
+  --color-border: rgba(255, 255, 255, 0.15);
 
   /* Shapes */
   --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 32px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-card: 0 4px 0px 0px rgba(0, 0, 0, 0.15),
-    0 6px 20px rgba(0, 0, 0, 0.08);
-  --shadow-button: 0 4px 0px 0px var(--color-primary-dark);
-  --shadow-button-pressed: 0 1px 0px 0px var(--color-primary-dark);
-
-  /* Sidebar */
-  --sidebar-width: 256px;
-  --sidebar-bg: #1a2b2a;
-  --mobile-bar-height: 64px;
+  --shadow-button-primary: 0 4px 0px 0px var(--color-primary-dark);
+  --shadow-button-primary-pressed: 0 0px 0px 0px var(--color-primary-dark);
+  --shadow-button-ghost: 0 4px 0px 0px rgba(255, 255, 255, 0.1);
+  --shadow-button-ghost-pressed: 0 0px 0px 0px rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-light: var(--color-secondary-light);
+  --color-accent: var(--color-accent);
+  --color-streak: var(--color-streak);
+  --color-surface: var(--color-surface);
+  --color-text-muted: var(--color-text-muted);
+
   --font-sans: "Nunito", sans-serif;
   --font-display: "Fredoka One", cursive;
 }
 
 body {
-  background: var(--color-bg);
+  background-color: var(--color-bg);
   color: var(--color-text);
   font-family: "Nunito", sans-serif;
   margin: 0;
