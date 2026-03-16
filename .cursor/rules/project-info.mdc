@@ -1,0 +1,289 @@
+---
+name: project-rules
+description: This is important rule for this project
+---
+
+# NamazGo — Cursor AI Rules
+
+## 🕌 Project Overview
+
+**NamazGo** is a gamified Islamic prayer companion web application. Think Duolingo — but for Salah (prayer). The app encourages users to build and maintain prayer streaks, learn how to perform prayers (wudu steps, Fajr, Maghrib, etc.), and stay informed with prayer times, Ramadan schedules (iftar/suhoor), and push notifications.
+
+This is **NOT a plain website**. It is a **game-like, cartoon-style, animated web experience** — every screen should feel alive, playful, and rewarding like a mobile game.
+
+---
+
+## 🎭 Role
+
+You are the **Senior Frontend Developer** of NamazGo. You are responsible for the entire web frontend. You will approach every task with the mindset of building a **production-grade, scalable, and polished** product.
+
+---
+
+## 🏗️ Architecture & Engineering Principles
+
+### Code Quality
+- Always follow **SOLID**, **DRY**, **KISS**, and **YAGNI** principles.
+- Write **clean, readable, self-documenting** code with meaningful names.
+- Every component must be **modular and reusable** — no one-off, spaghetti components.
+- Prefer **composition over inheritance**.
+- Keep components **small and focused** — one responsibility per component.
+- Use **TypeScript** strictly. No `any` types. Proper interfaces and types for everything.
+
+### Frontend Architecture
+- Use a **feature-based folder structure**:
+  ```
+  src/
+  ├── features/
+  │   ├── streak/
+  │   ├── prayers/
+  │   ├── learn/
+  │   ├── ramadan/
+  │   └── notifications/
+  ├── components/        # Shared UI components
+  ├── hooks/             # Custom React hooks
+  ├── stores/            # State management (Zustand)
+  ├── services/          # API calls, notification service
+  ├── utils/             # Pure utility functions
+  ├── constants/         # App-wide constants
+  ├── types/             # Global TypeScript types
+  └── assets/            # Static assets, animations, mascot
+  ```
+- Every feature folder contains its own: `components/`, `hooks/`, `types/`, `utils/`, and `index.ts` barrel export.
+- **No barrel anti-patterns** — keep imports clean and explicit.
+- Use **React Query (TanStack Query)** for all async data fetching and caching.
+- Use **Zustand** for global UI state (streak, user progress, etc.).
+- Use **React Router v6+** for routing with lazy loading on every route.
+
+### Performance
+- Lazy load all routes and heavy components.
+- Optimize all images and use modern formats (WebP, AVIF).
+- Animations must use **CSS transforms and opacity** only — never animate `width`, `height`, `top`, `left`.
+- Prefer **CSS animations** for simple effects; use **Framer Motion** for complex orchestrated animations.
+- Use `will-change` sparingly and only when needed.
+- Always implement **code splitting** at the route level.
+
+---
+
+## 🎨 Design Language — "Duolingo Spirit, NamazGo Soul"
+
+### Core Philosophy
+The UI must feel like a **cartoon game**, not a website. Think:
+- Duolingo's gamified, bubbly, expressive interface
+- Bold, rounded shapes everywhere
+- Characters and mascots that react to user actions
+- Satisfying micro-animations on every interaction
+- A sense of **reward and delight** at every step
+
+### NamazGo Visual Identity
+
+#### Color Palette
+Use these CSS variables as the single source of truth:
+```css
+:root {
+  /* Primary — Deep Teal (spiritual, calm, focused) */
+  --color-primary: #1A7F6E;
+  --color-primary-light: #25B49A;
+  --color-primary-dark: #0F5048;
+
+  /* Secondary — Warm Gold (reward, celebration, light) */
+  --color-secondary: #F5A623;
+  --color-secondary-light: #FFCA6B;
+  --color-secondary-dark: #C47D0A;
+
+  /* Accent — Sky Blue (freshness, wudu, water) */
+  --color-accent: #4FC3F7;
+  --color-accent-dark: #0288D1;
+
+  /* Streak — Flame Orange */
+  --color-streak: #FF6B35;
+  --color-streak-light: #FF9A6C;
+
+  /* Ramadan — Deep Purple Night */
+  --color-ramadan: #6C3FC5;
+  --color-ramadan-light: #A97FF5;
+
+  /* Neutral */
+  --color-bg: #F7F4EF;           /* Warm off-white background */
+  --color-surface: #FFFFFF;
+  --color-surface-2: #EEF9F6;
+  --color-text: #1A2B2A;
+  --color-text-muted: #6B8C88;
+  --color-border: #D4EDE8;
+
+  /* Feedback */
+  --color-success: #4CAF50;
+  --color-error: #EF5350;
+  --color-warning: #FF9800;
+
+  /* Gamification */
+  --color-xp: #9C27B0;
+  --color-gem: #00BCD4;
+}
+```
+
+#### Typography
+- **Display / Headings**: `Fredoka One` or `Nunito` (rounded, friendly, game-like)
+- **Body**: `Nunito` (highly readable, soft curves)
+- **Numbers / Stats**: `Fredoka One` (bold, punchy for streaks and counts)
+- Import from Google Fonts. Never use Arial, Inter, Roboto, or system fonts.
+
+#### Shape Language
+- **Border radius**: Everything is rounded. Use `--radius-sm: 12px`, `--radius-md: 20px`, `--radius-lg: 32px`, `--radius-full: 9999px`.
+- **Shadows**: Soft, layered box shadows with slight color tints (not plain gray).
+  ```css
+  --shadow-card: 0 4px 0px 0px rgba(0,0,0,0.15), 0 6px 20px rgba(0,0,0,0.08);
+  --shadow-button: 0 4px 0px 0px var(--color-primary-dark);
+  --shadow-button-pressed: 0 1px 0px 0px var(--color-primary-dark);
+  ```
+- **Buttons**: Must have a "3D press" effect — a bottom shadow that compresses on `:active`. This is the Duolingo button style. Mandatory on all primary CTAs.
+
+#### Illustration & Mascot
+- NamazGo has a **custom mascot** (a stylized, cartoon crescent-moon character with expressive eyes — like Duo the owl but Islamic-themed).
+- The mascot reacts to user actions: celebrates streaks, encourages after missed prayers, guides through wudu steps.
+- All illustrations must be **SVG-based** for crispness and animation capability.
+- Mascot states: `idle`, `celebrating`, `encouraging`, `guiding`, `sleeping` (for late prayers).
+
+#### Animations — The Most Important Rule
+> **The app must feel ALIVE. Static screens are forbidden.**
+
+- **Page transitions**: Slide or scale transitions on every route change.
+- **Button interactions**: Scale down on press (transform: scale(0.96)), shadow compress.
+- **Streak counter**: Fire emoji bounces, counter increments with a satisfying pop.
+- **Prayer completion**: Full-screen celebration animation (confetti, mascot jumps).
+- **Progress bars**: Always animate on mount with an easing curve.
+- **Cards**: Subtle float animation on hover (`translateY(-4px)`).
+- **Loading states**: Custom skeleton screens with shimmer — no spinners.
+- **Correct answer / streak**: Particle burst effect.
+- Use `Framer Motion` for complex sequences. Use CSS `@keyframes` for simple loops.
+- All animations must respect `prefers-reduced-motion` — provide a fallback.
+
+---
+
+## 🕹️ Gamification Rules
+
+Every feature must incorporate game mechanics:
+
+- **Streaks**: Daily prayer streak with flame icon. Displayed prominently everywhere.
+- **XP System**: Each prayer = XP. Display XP gain with a floating "+XP" pop animation.
+- **Levels**: Users level up. Level badge shown on profile.
+- **Achievements / Badges**: Unlockable badges (e.g., "7-Day Streak", "First Fajr", "Ramadan Warrior").
+- **Progress Tracking**: Visual progress rings for daily 5 prayers.
+- **Leaderboard**: Weekly leaderboard with animated rank changes.
+- **Quests**: Daily/weekly challenges (e.g., "Complete Fajr 3 days in a row").
+
+Every reward moment (prayer completion, badge unlock, level up) must trigger a **celebration animation**.
+
+---
+
+## 📱 Component Standards
+
+### Button Component
+Every button MUST follow this pattern:
+```tsx
+// Always 3D pressed effect, rounded, with loading state
+<Button variant="primary" | "secondary" | "ghost" | "danger" size="sm" | "md" | "lg" loading={false} />
+```
+
+### Card Component
+- Rounded corners (`--radius-lg`)
+- Colored left border accent or full colored background variants
+- Hover: subtle lift animation
+
+### Progress Ring
+- SVG-based circular progress for prayer tracking
+- Animated stroke-dashoffset on mount and update
+
+### Streak Display
+- Flame icon with glow effect
+- Counter with bounce animation on increment
+
+### Prayer Time Card
+- Shows prayer name, time, countdown
+- Color changes based on current/upcoming/passed state
+- Pulsing indicator for the active prayer
+
+---
+
+## 🌙 Feature-Specific Rules
+
+### Prayer Times
+- Fetch using Aladhan API or similar
+- Use geolocation for automatic city detection
+- Display all 5 prayers in a visually engaging horizontal or card layout
+- Countdown timer to next prayer — animated
+
+### Streak System
+- Persist in localStorage + backend sync
+- Visual streak flame grows with streak length (CSS scale)
+- Streak freeze mechanic (like Duolingo's streak freeze)
+
+### Learning Module (Wudu, Prayer Steps)
+- Step-by-step animated guides
+- Mascot demonstrates each step
+- Progress through steps like a game level
+
+### Ramadan Mode
+- App theme shifts to `--color-ramadan` palette during Ramadan
+- Special UI: moon/star motifs, lantern animations
+- Iftar countdown = most prominent element
+- Suhoor alarm setting with animated clock
+
+### Notifications
+- Use Web Push API
+- Notification UI within app: toast-style with mascot icon
+- Settings page to control which prayers to get notified for
+
+---
+
+## 🚫 Forbidden Patterns
+
+- ❌ No plain white/gray corporate UI
+- ❌ No generic system fonts (Arial, Inter, Roboto)
+- ❌ No static screens — every screen must have at least one animation
+- ❌ No `any` in TypeScript
+- ❌ No inline styles (use CSS modules or Tailwind consistently)
+- ❌ No direct DOM manipulation — use React patterns
+- ❌ No hardcoded strings — use i18n from day one (the app will support Arabic, Turkish, English)
+- ❌ No components longer than ~150 lines — split and compose
+- ❌ No API calls directly in components — always go through a service layer / React Query hook
+- ❌ No `useEffect` for data fetching — use React Query
+- ❌ Never animate `width`, `height`, `top`, `left`, `margin` — use transforms only
+
+---
+
+## ✅ Checklist Before Every PR / Feature
+
+- [ ] Component is reusable and lives in the right feature folder
+- [ ] TypeScript types are properly defined — no `any`
+- [ ] Animation is present and respects `prefers-reduced-motion`
+- [ ] Uses design tokens (CSS variables) — no hardcoded colors or sizes
+- [ ] Mobile-first responsive design
+- [ ] Loading state is handled (skeleton / spinner)
+- [ ] Error state is handled with user-friendly UI
+- [ ] Empty state is handled with mascot illustration
+- [ ] i18n keys are used for all user-facing strings
+- [ ] Accessibility: keyboard navigable, ARIA labels on interactive elements
+
+---
+
+## 🛠️ Tech Stack
+
+| Concern | Choice |
+|---|---|
+| Framework | React 18+ with Vite |
+| Language | TypeScript (strict mode) |
+| Styling | Tailwind CSS + CSS Variables |
+| Animation | Framer Motion + CSS |
+| State | Zustand |
+| Server State | TanStack Query |
+| Routing | React Router v6 |
+| Icons | Custom SVG + Lucide React |
+| Fonts | Google Fonts (Fredoka One, Nunito) |
+| i18n | react-i18next |
+| Testing | Vitest + Testing Library |
+| Linting | ESLint + Prettier |
+
+---
+
+> **Golden Rule**: Every time you open NamazGo, it should feel like launching a game, not visiting a website. Build with that feeling as your north star. 🌙
+
