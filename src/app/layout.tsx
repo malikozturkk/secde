@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import QueryProvider from "../providers/QueryProvider";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "App",
+  title: "NamazGo — Namaz Yolculuğun Başlasın",
+  description:
+    "Duolingo tarzı oyunlaştırılmış İslami namaz uygulaması. Namaz kıl, abdest öğren, seri tut!",
 };
 
 export default function RootLayout({
@@ -12,6 +15,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         <QueryProvider>{children}</QueryProvider>
       </body>

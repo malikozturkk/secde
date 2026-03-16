@@ -9,6 +9,7 @@ import {
   updateProfileSchema,
   type UpdateProfileFormValues,
 } from "@/src/validations/auth.validation";
+import AppLayout from "@/src/components/layout/AppLayout";
 
 export default function ProfileSettingsPage() {
   const { user } = useAuthStore();
@@ -58,6 +59,7 @@ export default function ProfileSettingsPage() {
   };
 
   return (
+    <AppLayout>
     <div>
       <h1>Profil Ayarları</h1>
 
@@ -129,5 +131,6 @@ export default function ProfileSettingsPage() {
         </button>
       </form>
     </div>
+    </AppLayout>
   );
 }

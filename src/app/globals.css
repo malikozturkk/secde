@@ -1,26 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap");
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary — Deep Teal */
+  --color-primary: #1a7f6e;
+  --color-primary-light: #25b49a;
+  --color-primary-dark: #0f5048;
+
+  /* Secondary — Warm Gold */
+  --color-secondary: #f5a623;
+  --color-secondary-light: #ffca6b;
+  --color-secondary-dark: #c47d0a;
+
+  /* Accent — Sky Blue */
+  --color-accent: #4fc3f7;
+  --color-accent-dark: #0288d1;
+
+  /* Streak — Flame Orange */
+  --color-streak: #ff6b35;
+  --color-streak-light: #ff9a6c;
+
+  /* Ramadan — Deep Purple Night */
+  --color-ramadan: #6c3fc5;
+  --color-ramadan-light: #a97ff5;
+
+  /* Neutral */
+  --color-bg: #f7f4ef;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef9f6;
+  --color-text: #1a2b2a;
+  --color-text-muted: #6b8c88;
+  --color-border: #d4ede8;
+
+  /* Feedback */
+  --color-success: #4caf50;
+  --color-error: #ef5350;
+  --color-warning: #ff9800;
+
+  /* Gamification */
+  --color-xp: #9c27b0;
+  --color-gem: #00bcd4;
+
+  /* Shapes */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 0px 0px rgba(0, 0, 0, 0.15),
+    0 6px 20px rgba(0, 0, 0, 0.08);
+  --shadow-button: 0 4px 0px 0px var(--color-primary-dark);
+  --shadow-button-pressed: 0 1px 0px 0px var(--color-primary-dark);
+
+  /* Sidebar */
+  --sidebar-width: 256px;
+  --sidebar-bg: #1a2b2a;
+  --mobile-bar-height: 64px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --font-sans: "Nunito", sans-serif;
+  --font-display: "Fredoka One", cursive;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Nunito", sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

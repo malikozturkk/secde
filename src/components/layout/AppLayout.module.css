@@ -1,0 +1,40 @@
+/* ===========================
+   AppLayout — CSS Grid Shell
+   =========================== */
+
+.appShell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: 100vh;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+/* When right panel is added later:
+   grid-template-columns: var(--sidebar-width) 1fr 300px; */
+
+.mainContent {
+  grid-column: 2;
+  overflow-y: auto;
+  height: 100vh;
+  background: #131f24;
+  /* NO padding-left. NO margin-left. The grid handles positioning. */
+}
+
+/* Mobile — sidebar moves to bottom, main takes full width */
+@media (max-width: 1023px) {
+  .appShell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .mainContent {
+    flex: 1;
+    padding-bottom: calc(
+      var(--mobile-bar-height) + env(safe-area-inset-bottom, 0px)
+    );
+    height: auto;
+    overflow-y: auto;
+  }
+}

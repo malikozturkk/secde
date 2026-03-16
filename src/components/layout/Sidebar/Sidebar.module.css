@@ -1,0 +1,324 @@
+/* ===========================
+   NamazGo Sidebar — Duolingo Style
+   =========================== */
+
+/* ----- Desktop Sidebar ----- */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  background: #131f24;
+  border-right: 2px solid rgba(255, 255, 255, 0.05);
+  padding: 0 14px 20px;
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+}
+
+/* ----- Logo ----- */
+.logo {
+  font-family: "Fredoka One", cursive;
+  font-size: 26px;
+  color: #5dcc8a;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  height: 72px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* ----- Nav List ----- */
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ----- Nav Item (Desktop) ----- */
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: transparent;
+  transition: background 150ms ease;
+}
+
+.navItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.navItemIcon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.navItemLabel {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  transition: color 150ms ease;
+}
+
+/* Hover (desktop) */
+@media (hover: hover) {
+  .navItem:hover:not(.navItemActive) {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .navItem:hover:not(.navItemActive) .navItemLabel {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .navItem:hover:not(.navItemActive) .navItemIcon {
+    transform: scale(1.08);
+  }
+}
+
+/* Focus visible */
+.navItem:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* ----- Active State (Duolingo solid pill) ----- */
+.navItemActive {
+  background: transparent;
+}
+
+.activePill {
+  position: absolute;
+  inset: 0;
+  color: #1cb0f6;
+  border: 2px solid #1cb0f6;
+  border-radius: var(--radius-sm);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.navItemActive .navItemIcon {
+  position: relative;
+  z-index: 1;
+  transform: scale(1.05);
+}
+
+.navItemActive .navItemLabel {
+  position: relative;
+  z-index: 1;
+  color: #1cb0f6;
+  font-weight: 800;
+}
+
+/* ----- Bottom Settings ----- */
+.bottomSection {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.settingsItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 150ms ease, background 150ms ease;
+}
+
+@media (hover: hover) {
+  .settingsItem:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+.settingsItem:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+.settingsIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: inherit;
+  transition: color 150ms ease;
+}
+
+.settingsIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.settingsLabel {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: inherit;
+  transition: color 150ms ease;
+}
+
+/* ===========================
+   Mobile Bottom Bar
+   =========================== */
+.mobileBar {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    display: none;
+  }
+
+  .mobileBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--mobile-bar-height);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: #131f24;
+    border-top: 2px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 50;
+  }
+
+  .mobileNavItem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 14px;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 100ms ease;
+  }
+
+  .mobileNavItem:active {
+    transform: scale(0.85);
+  }
+
+  .mobileNavItem:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .mobileNavItemIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    transition: transform 150ms ease;
+  }
+
+  .mobileNavItemIcon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Inactive mobile icon — dimmed */
+  .mobileNavItem:not(.mobileNavItemActive) .mobileNavItemIcon {
+    opacity: 0.45;
+    filter: saturate(0.35);
+  }
+
+  /* Active mobile icon */
+  .mobileNavItemActive .mobileNavItemIcon {
+    transform: scale(1.12);
+  }
+
+  .mobileActiveDot {
+    width: 5px;
+    height: 5px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary-light);
+    box-shadow: 0 0 6px rgba(37, 180, 154, 0.6);
+  }
+
+  /* Hide items flagged as hidden on mobile */
+  .hideOnMobile {
+    display: none !important;
+  }
+}
+
+/* ===========================
+   Reduced Motion
+   =========================== */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .mobileBar,
+  .navItem,
+  .navItemIcon,
+  .navItemLabel,
+  .mobileNavItem,
+  .mobileNavItemIcon,
+  .activePill,
+  .settingsItem,
+  .settingsIcon,
+  .settingsLabel {
+    animation: none !important;
+    transition: none !important;
+  }
+}
