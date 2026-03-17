@@ -1,10 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
 import { authService } from "@/src/services/auth.service";
 import { AuthErrorCode } from "@/src/types/enums";
-import { DEFAULT_UNAUTHENTICATED_REDIRECT } from "@/src/constants/routes";
 import { ResetPasswordFormValues } from "@/src/validations/auth.validation";
 import type { ApiResponse } from "@/src/types";
 
@@ -19,8 +17,6 @@ export const useResetPassword = ({
   token,
   setError,
 }: UseResetPasswordOptions) => {
-  const router = useRouter();
-
   return useMutation({
     mutationFn: (payload: ResetPasswordFormValues) =>
       authService.resetPassword({
@@ -29,9 +25,6 @@ export const useResetPassword = ({
         newPassword: payload.newPassword,
         confirmPassword: payload.confirmPassword,
       }),
-    onSuccess: () => {
-      router.push(DEFAULT_UNAUTHENTICATED_REDIRECT);
-    },
     onError: (error: AxiosError<ApiResponse<null>>) => {
       const errorCode = error.response?.data?.error?.message;
 

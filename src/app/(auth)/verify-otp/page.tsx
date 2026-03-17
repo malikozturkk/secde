@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useOtpVerify } from "@/src/hooks/auth/useOtpVerify";
 import { useOtpResend } from "@/src/hooks/auth/useOtpResend";

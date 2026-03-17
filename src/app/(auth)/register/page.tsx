@@ -51,10 +51,7 @@ export default function RegisterPage() {
 
       <main className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-[400px] flex flex-col gap-6">
-          <h1
-            className="text-center text-white text-2xl font-bold"
-            style={{ fontFamily: "'Fredoka One', cursive" }}
-          >
+          <h1 className="text-center text-white text-2xl font-bold">
             Hesap Oluştur
           </h1>
 
