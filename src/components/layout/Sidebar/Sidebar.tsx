@@ -40,40 +40,60 @@ const IconSeries = () => (
 );
 
 /** 💧 Abdest — Water drop with sparkle lines */
-const IconWudu = () => (
+const IconLearn = () => (
   <svg
-    viewBox="0 0 32 32"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
+    width="46"
+    height="46"
+    viewBox="0 0 46 46"
+    fill="none"
   >
-    <path
-      d="M16 4C16 4 8 13.5 8 19.5C8 23.9 11.6 27.5 16 27.5C20.4 27.5 24 23.9 24 19.5C24 13.5 16 4 16 4Z"
-      fill="#4FC3F7"
-    />
-    <path
-      d="M13 18C13 18 14.5 15.5 16.5 15.5"
-      stroke="#FFFFFF"
-      strokeWidth="2"
-      strokeLinecap="round"
-      opacity="0.7"
-    />
-    <ellipse cx="13.5" cy="20" rx="1.5" ry="2" fill="#81D4FA" opacity="0.6" />
-    <path
-      d="M6 13L8 11"
-      stroke="#4FC3F7"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <path
-      d="M26 13L24 11"
-      stroke="#4FC3F7"
+    <rect x="4" y="11" width="19" height="30" rx="4" fill="#1899D6" />
+    <rect x="23" y="11" width="19" height="30" rx="4" fill="#1899D6" />
+
+    <rect x="4" y="8" width="19" height="30" rx="4" fill="#1CB0F6" />
+    <rect x="23" y="8" width="19" height="30" rx="4" fill="#1CB0F6" />
+
+    <rect x="8" y="14" width="15" height="22" rx="2" fill="#E5E5E5" />
+    <rect x="23" y="14" width="15" height="22" rx="2" fill="#E5E5E5" />
+
+    <rect x="8" y="11" width="15" height="23" rx="2" fill="#FFFFFF" />
+    <rect x="23" y="11" width="15" height="23" rx="2" fill="#FFFFFF" />
+
+    <line
+      x1="23"
+      y1="11"
+      x2="23"
+      y2="34"
+      stroke="#F0F0F0"
       strokeWidth="2"
       strokeLinecap="round"
     />
-    <path d="M16 2V1" stroke="#4FC3F7" strokeWidth="2" strokeLinecap="round" />
-    <circle cx="5" cy="10" r="1" fill="#81D4FA" opacity="0.5" />
-    <circle cx="27" cy="10" r="1" fill="#81D4FA" opacity="0.5" />
+
+    <path d="M12 11V27L15.5 24L19 27V11H12Z" fill="#FFC800" />
+
+    <rect x="26" y="16" width="9" height="3" rx="1.5" fill="#E5E5E5" />
+    <rect x="26" y="22" width="9" height="3" rx="1.5" fill="#E5E5E5" />
+    <rect x="26" y="28" width="6" height="3" rx="1.5" fill="#E5E5E5" />
+
+    <rect
+      x="5.5"
+      y="10"
+      width="1.5"
+      height="10"
+      rx="0.75"
+      fill="white"
+      opacity="0.4"
+    />
+    <rect
+      x="39"
+      y="10"
+      width="1.5"
+      height="10"
+      rx="0.75"
+      fill="white"
+      opacity="0.4"
+    />
   </svg>
 );
 
@@ -240,7 +260,7 @@ const IconStats = () => (
 );
 
 /** ⚙️ Ayarlar — Clean gear/cog SVG, stroke-based */
-const IconAyarlar = () => (
+const IconSettings = () => (
   <svg
     width="24"
     height="24"
@@ -284,9 +304,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       hideOnMobile: false,
     },
     {
-      label: "Abdest",
-      href: "/wudu",
-      icon: <IconWudu />,
+      label: "Öğren",
+      href: "/learn",
+      icon: <IconLearn />,
       hideOnMobile: true,
     },
     {
@@ -379,7 +399,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             aria-label="Ayarlar"
           >
             <span className={styles.settingsIcon}>
-              <IconAyarlar />
+              <IconSettings />
             </span>
             <span className={styles.settingsLabel}>Ayarlar</span>
           </Link>
