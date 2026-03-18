@@ -1,40 +1,101 @@
 /* ===========================
-   AppLayout — CSS Grid Shell
+   AppLayout — 3-Column Layout
    =========================== */
 
 .appShell {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
-  grid-template-rows: 100vh;
-  min-height: 100vh;
+  /* Using block layout prevents margin: auto from overflowing left */
+  display: block;
   background-color: var(--color-bg);
+  /* Desktop constraints: full viewport height, no native page scroll */
+  height: 100vh;
+  overflow: hidden;
+  /* Make room for the fixed absolute left Sidebar */
+  padding-left: var(--sidebar-width);
 }
 
-/* When right panel is added later:
-   grid-template-columns: var(--sidebar-width) 1fr 300px; */
+.mainContainer {
+  display: flex;
+  width: 100%;
+  max-width: 1056px;
+  gap: 24px;
+  margin: 0 auto;
+  height: 100vh;
+  min-width: 0;
+}
 
 .mainContent {
-  grid-column: 2;
-  overflow-y: auto;
+  flex: 1;
+  /* Limit main width for readability, like Duolingo */
+  max-width: 600px;
   height: 100vh;
-  background: #131f24;
-  /* NO padding-left. NO margin-left. The grid handles positioning. */
+  /* Main area is independently scrollable */
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: transparent;
+  /* Remove scrollbar for aesthetics */
+  scrollbar-width: none;
+  /* Unified padding for all pages so they don't need margin-top / padding */
+  padding: 24px 16px;
+  /* Prevent flex item from blowing out container */
+  min-width: 0;
 }
 
-/* Mobile — sidebar moves to bottom, main takes full width */
+.mainContent::-webkit-scrollbar {
+  display: none;
+}
+
+.rightPanelWrapper {
+  /* Typical standard widget width */
+  width: 368px;
+  flex-shrink: 0;
+  height: 100vh;
+  /* Never explicitly scrolls on desktop */
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.rightPanelInner {
+  height: 100%;
+  width: 100%;
+  padding: 24px 16px 24px 16px;
+}
+
+/* Mobile — sidebar moves to bottom menu, layout stacks dynamically */
 @media (max-width: 1023px) {
   .appShell {
-    display: flex;
+    /* Lift restrictions, let the native body control scroll */
+    height: auto;
+    overflow: visible;
+    padding-left: 0;
     flex-direction: column;
-    min-height: 100vh;
+    padding-bottom: calc(
+      var(--mobile-bar-height, 80px) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  .mainContainer {
+    flex-direction: column;
+    height: auto;
+    max-width: 100%;
+    padding: 0;
+    gap: 32px;
   }
 
   .mainContent {
-    flex: 1;
-    padding-bottom: calc(
-      var(--mobile-bar-height) + env(safe-area-inset-bottom, 0px)
-    );
+    max-width: 100%;
     height: auto;
-    overflow-y: auto;
+    overflow: visible;
+    padding: 0 16px;
+  }
+
+  .rightPanelWrapper {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .rightPanelInner {
+    height: auto;
+    padding: 0 16px;
   }
 }

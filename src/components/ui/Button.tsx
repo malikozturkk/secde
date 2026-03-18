@@ -15,7 +15,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "relative inline-flex items-center justify-center font-bold tracking-wide uppercase transition-all duration-100 active:translate-y-[4px] disabled:opacity-50 disabled:cursor-not-allowed";
+      "relative cursor-pointer inline-flex items-center justify-center font-bold tracking-wide uppercase transition-all duration-100 active:translate-y-[4px] disabled:opacity-50 disabled:cursor-not-allowed";
 
     const variants = {
       primary:

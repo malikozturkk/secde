@@ -68,7 +68,7 @@ export interface RegisterResponseData {
 export type LoginResponseData = AuthTokensWithUser;
 export type RefreshTokenResponseData = AuthTokensWithUser;
 
-export type MeResponseData = UserDetail;
+export type ProfileResponseData = UserDetail;
 export type UpdateProfileResponseData = User;
 
 export interface ForgotPasswordResponseData {

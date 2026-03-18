@@ -7,7 +7,6 @@ import type {
   LoginResponseData,
   RefreshTokenPayload,
   RefreshTokenResponseData,
-  MeResponseData,
   UpdateProfilePayload,
   UpdateProfileResponseData,
   ForgotPasswordPayload,
@@ -17,6 +16,7 @@ import type {
   ResetPasswordPayload,
   LogoutPayload,
 } from "../types";
+import { ProfileResponseData } from "../types/auth.types";
 
 export const authService = {
   register: (payload: RegisterPayload) =>
@@ -28,7 +28,8 @@ export const authService = {
   login: (payload: LoginPayload) =>
     axiosInstance.post<ApiResponse<LoginResponseData>>("/auth/login", payload),
 
-  me: () => axiosInstance.get<ApiResponse<MeResponseData>>("/auth/me"),
+  getProfile: (username: string) =>
+    axiosInstance.get<ApiResponse<ProfileResponseData>>(`/auth/${username}`),
 
   refresh: (payload: RefreshTokenPayload) =>
     axiosInstance.post<ApiResponse<RefreshTokenResponseData>>(
