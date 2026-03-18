@@ -60,4 +60,19 @@ export const authService = {
 
   resetPassword: (payload: ResetPasswordPayload) =>
     axiosInstance.post<ApiResponse<null>>("/auth/reset-password", payload),
+
+  toggleFollow: (username: string) =>
+    axiosInstance.post<ApiResponse<{ following: boolean }>>(
+      `/auth/${username}/follow`
+    ),
+
+  getFollowers: (username: string) =>
+    axiosInstance.get<
+      ApiResponse<{ username: string; avatar: string | null }[]>
+    >(`/auth/${username}/followers`),
+
+  getFollowing: (username: string) =>
+    axiosInstance.get<
+      ApiResponse<{ username: string; avatar: string | null }[]>
+    >(`/auth/${username}/following`),
 };

@@ -6,6 +6,16 @@ export interface User {
 }
 
 export interface UserDetail extends User {
+  followingCount: number;
+  followerCount: number;
+  isFollowing: boolean | null;
+  mutualFollowers: {
+    count: number;
+    preview: {
+      username: string;
+      avatar: string | null;
+    }[];
+  };
   createdAt: string;
   updatedAt: string;
 }

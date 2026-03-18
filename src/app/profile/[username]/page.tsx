@@ -1,16 +1,21 @@
 "use client";
 
-import { use } from "react";
+import { useState, use } from "react";
 import Link from "next/link";
-import { Mail, Hash, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useProfile } from "@/src/hooks/auth/useProfile";
+import { useGetFollowers } from "@/src/hooks/auth/useGetFollowers";
+import { useGetFollowing } from "@/src/hooks/auth/useGetFollowing";
 import { Button } from "@/src/components/ui/Button";
 import AppLayout from "@/src/components/layout/AppLayout";
 import DefaultAvatar from "./DefaultAvatar";
 import ProfileSkeleton from "./ProfileSkeleton";
 import NotFound from "./NotFound";
-import InfoBlock from "./InfoBlock";
+import FollowNetworkCard from "./components/FollowNetworkCard";
+import AddFriendCard from "./components/AddFriendCard";
+import FollowButton from "./components/FollowButton";
+import FollowListDialog from "./components/FollowListDialog";
 
 interface ProfilePageProps {
   params: Promise<{ username: string }>;
@@ -19,9 +24,36 @@ interface ProfilePageProps {
 export default function ProfilePage({ params }: ProfilePageProps) {
   const { username } = use(params);
   const { user: currentUser } = useAuthStore();
-  const { data: profile, isLoading, isError } = useProfile(username);
+  const {
+    data: profile,
+    isLoading: isProfileLoading,
+    isError,
+  } = useProfile(username);
+  const { data: followersData } = useGetFollowers(username);
+  const { data: followingData } = useGetFollowing(username);
+  const { data: myFollowingData } = useGetFollowing(
+    currentUser?.username || ""
+  );
+
+  const followers = followersData ?? [];
+  const following = followingData ?? [];
+  const myFollowing = myFollowingData ?? [];
 
   const isOwner = currentUser?.username === username;
+  const isFollowing =
+    profile?.isFollowing ??
+    followers.some((f) => f.username === currentUser?.username);
+  const followersCount = profile?.followerCount ?? followers.length;
+  const followingCount = profile?.followingCount ?? following.length;
+  const mutualFollowers = profile?.mutualFollowers?.preview || [];
+  const mutualCount = profile?.mutualFollowers?.count || 0;
+
+  const [isFollowListOpen, setIsFollowListOpen] = useState(false);
+  const [activeListTab, setActiveListTab] = useState<"following" | "followers">(
+    "following"
+  );
+
+  const isLoading = isProfileLoading;
 
   const joinDate = profile
     ? new Date(profile.createdAt).toLocaleDateString("tr-TR", {
@@ -33,8 +65,14 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   return (
     <AppLayout
       rightPanel={
-        <div className="h-full bg-white/5 rounded-2xl border border-white/5 p-6 flex items-center justify-center text-white/50 font-bold tracking-wide">
-          Right Panel (Profile)
+        <div className="w-full flex flex-col">
+          <FollowNetworkCard
+            followers={followers}
+            following={following}
+            myFollowing={myFollowing}
+            currentUsername={currentUser?.username}
+          />
+          <AddFriendCard />
         </div>
       }
     >
@@ -119,35 +157,85 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                     {profile.email}
                   </span>
                 )}
-                <span className="text-[13px] font-bold text-white/90 leading-none whitespace-nowrap">
+                <span className="text-[13px] font-bold text-white/90 leading-none whitespace-nowrap mb-2">
                   {joinDate} tarihinde katıldı
                 </span>
-              </div>
-            </div>
 
-            {isOwner && (profile as any).id && (
-              <div className="flex flex-col gap-[10px]">
-                <InfoBlock
-                  icon={<Hash strokeWidth={2.5} />}
-                  label="Kullanıcı ID"
-                  value={(profile as any).id}
-                  accentBg="rgba(167,139,250,0.15)"
-                  accentIcon="#a78bfa"
-                />
-                {profile.email && (
-                  <InfoBlock
-                    icon={<Mail strokeWidth={2.5} />}
-                    label="E-posta Adresi"
-                    value={profile.email}
-                    accentBg="rgba(79,195,247,0.13)"
-                    accentIcon="#4FC3F7"
-                  />
+                <div className="flex gap-4 items-center mb-4">
+                  <span
+                    onClick={() => {
+                      setActiveListTab("following");
+                      setIsFollowListOpen(true);
+                    }}
+                    className="text-[14px] font-extrabold text-[#4fc3f7] whitespace-nowrap cursor-pointer hover:underline"
+                  >
+                    {followingCount} Takip Edilen
+                  </span>
+                  <span
+                    onClick={() => {
+                      setActiveListTab("followers");
+                      setIsFollowListOpen(true);
+                    }}
+                    className="text-[14px] font-extrabold text-[#4fc3f7] whitespace-nowrap cursor-pointer hover:underline"
+                  >
+                    {followersCount} Takipçi
+                  </span>
+                </div>
+
+                {!isOwner && mutualCount > 0 && (
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex -space-x-2 overflow-hidden">
+                      {mutualFollowers.slice(0, 3).map((f) => (
+                        <div
+                          key={f.username}
+                          className="inline-block h-6 w-6 rounded-full ring-2 ring-[#1c2e35] bg-[#1a2b2a] overflow-hidden"
+                        >
+                          {f.avatar ? (
+                            <img
+                              src={f.avatar}
+                              alt={f.username}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <DefaultAvatar username={f.username} />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[13px] font-bold text-white/60 m-0">
+                      {mutualFollowers
+                        .slice(0, 2)
+                        .map((f) => f.username)
+                        .join(", ")}
+                      {mutualCount > 2 && ` ve diğer ${mutualCount - 2} kişi`}{" "}
+                      takip ediyor
+                    </p>
+                  </div>
+                )}
+
+                {!isOwner && currentUser && (
+                  <div className="mt-2 border-t border-[rgba(255,255,255,0.06)] pt-6 pb-2">
+                    <FollowButton
+                      username={username}
+                      isFollowing={isFollowing}
+                    />
+                  </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
         )}
       </div>
+
+      <FollowListDialog
+        isOpen={isFollowListOpen}
+        onClose={() => setIsFollowListOpen(false)}
+        followers={followers}
+        following={following}
+        myFollowing={myFollowing}
+        currentUsername={currentUser?.username}
+        defaultTab={activeListTab}
+      />
     </AppLayout>
   );
 }
