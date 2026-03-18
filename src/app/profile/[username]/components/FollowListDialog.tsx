@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog } from "@/src/components/ui/Dialog";
 import DefaultAvatar from "../DefaultAvatar";
 import Link from "next/link";
@@ -26,6 +26,12 @@ export default function FollowListDialog({
   const [activeTab, setActiveTab] = useState<"following" | "followers">(
     defaultTab
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab(defaultTab);
+    }
+  }, [isOpen, defaultTab]);
 
   const list = activeTab === "following" ? following : followers;
 
