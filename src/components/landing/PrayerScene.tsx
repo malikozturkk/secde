@@ -86,7 +86,6 @@ const PrayerScene = () => {
           }
         `}</style>
 
-        {/* Background glow */}
         <ellipse
           className="bg-glow"
           cx="200"
@@ -96,14 +95,12 @@ const PrayerScene = () => {
           fill="url(#bgGlow)"
         />
 
-        {/* Stars */}
         <circle className="star1" cx="55" cy="65" r="2.5" fill="#FFD700" />
         <circle className="star2" cx="365" cy="55" r="3" fill="#4FC3F7" />
         <circle className="star3" cx="380" cy="170" r="2" fill="#FFD700" />
         <circle className="star4" cx="35" cy="200" r="2.5" fill="#25B49A" />
         <circle className="star5" cx="340" cy="385" r="2" fill="#F5A623" />
 
-        {/* 4-pointed sparkles */}
         <g className="star1" transform="translate(90,40)">
           <line
             x1="0"
@@ -165,7 +162,6 @@ const PrayerScene = () => {
           />
         </g>
 
-        {/* Crescent moon */}
         <path
           d="M190 30 Q220 20 240 45 Q215 35 195 50 Q175 45 190 30Z"
           fill="#F5A623"
@@ -181,7 +177,6 @@ const PrayerScene = () => {
           opacity=".3"
         />
 
-        {/* Prayer rug */}
         <g className="rug">
           <rect
             x="80"
@@ -223,23 +218,16 @@ const PrayerScene = () => {
           />
         </g>
 
-        {/* Shadow under figure */}
         <ellipse cx="200" cy="292" rx="48" ry="8" fill="#000" opacity=".25" />
 
-        {/* Prayer figure — Sujud (secde) pose */}
         <g className="prayer-figure">
-          {/* Body/torso */}
           <rect x="152" y="228" width="50" height="36" rx="10" fill="#25B49A" />
-          {/* Lower body */}
           <rect x="145" y="256" width="60" height="28" rx="10" fill="#1A7F6E" />
-          {/* Head */}
           <circle cx="178" cy="220" r="22" fill="#FFCC80" />
-          {/* Hair */}
           <path
             d="M156 214 Q178 198 200 214 Q195 205 178 202 Q161 205 156 214Z"
             fill="#5D4037"
           />
-          {/* Eyes closed (in sujud) */}
           <path
             d="M169 220 Q173 217 177 220"
             stroke="#5D4037"
@@ -254,7 +242,6 @@ const PrayerScene = () => {
             fill="none"
             strokeLinecap="round"
           />
-          {/* Peaceful smile */}
           <path
             d="M174 228 Q179 232 184 228"
             stroke="#BF8060"
@@ -262,13 +249,10 @@ const PrayerScene = () => {
             fill="none"
             strokeLinecap="round"
           />
-          {/* Left arm extended forward */}
           <rect x="108" y="246" width="50" height="16" rx="8" fill="#25B49A" />
           <circle cx="108" cy="254" r="9" fill="#FFCC80" />
-          {/* Right arm */}
           <rect x="200" y="246" width="50" height="16" rx="8" fill="#25B49A" />
           <circle cx="250" cy="254" r="9" fill="#FFCC80" />
-          {/* Forehead touching rug */}
           <ellipse
             cx="178"
             cy="280"
@@ -277,7 +261,6 @@ const PrayerScene = () => {
             fill="#FFCC80"
             opacity=".9"
           />
-          {/* Prayer cap (takke) */}
           <path
             d="M157 210 Q178 196 199 210 Q190 200 178 198 Q166 200 157 210Z"
             fill="#E0E0E0"
@@ -285,7 +268,6 @@ const PrayerScene = () => {
           />
         </g>
 
-        {/* Badge: Streak */}
         <g className="badge-streak pop-in">
           <rect
             x="285"
@@ -323,7 +305,6 @@ const PrayerScene = () => {
           </text>
         </g>
 
-        {/* Badge: XP */}
         <g className="badge-xp pop-in-2">
           <rect x="20" y="168" width="100" height="38" rx="19" fill="#9C27B0" />
           <rect
@@ -350,7 +331,6 @@ const PrayerScene = () => {
           </text>
         </g>
 
-        {/* Badge: Namaz vakti */}
         <g className="badge-time pop-in-3">
           <rect
             x="265"
@@ -409,7 +389,6 @@ const PrayerScene = () => {
           </text>
         </g>
 
-        {/* Progress ring: 3/5 */}
         <g className="pop-in-4" transform="translate(28,28)">
           <circle
             cx="50"

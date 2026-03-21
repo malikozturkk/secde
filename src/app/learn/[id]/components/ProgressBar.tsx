@@ -1,6 +1,4 @@
 "use client";
-
-import React from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -11,10 +9,14 @@ interface ProgressBarProps {
   accentColor: string;
 }
 
-export default function ProgressBar({ progress, onClose, accentColor }: ProgressBarProps) {
+export default function ProgressBar({
+  progress,
+  onClose,
+  accentColor,
+}: ProgressBarProps) {
   return (
     <div className="flex items-center gap-4 w-full">
-      <Link 
+      <Link
         href="/learn"
         onClick={(e) => {
           e.preventDefault();
@@ -24,9 +26,9 @@ export default function ProgressBar({ progress, onClose, accentColor }: Progress
       >
         <X size={28} strokeWidth={2.5} />
       </Link>
-      
+
       <div className="flex-1 h-4 bg-white/10 rounded-full overflow-hidden shadow-inner">
-        <motion.div 
+        <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5, ease: "easeOut" }}

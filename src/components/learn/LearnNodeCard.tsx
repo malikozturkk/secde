@@ -22,15 +22,17 @@ export function LearnNodeCard({ node }: LearnNodeCardProps) {
     sparkle,
   } = node;
   return (
-    <div className="group relative flex flex-col items-center gap-5">
-      <CircleButton
-        Icon={icon}
-        iconColor={iconColor}
-        innerGradient={innerGradient}
-        shadowColor={shadowColor}
-        bgDark={bgDark}
-        bgColor={bgColor}
-      />
+    <div className="group relative flex flex-col items-center gap-5 z-5" data-path-node={node.id}>
+      <Link href={href}>
+        <CircleButton
+          Icon={icon}
+          iconColor={iconColor}
+          innerGradient={innerGradient}
+          shadowColor={shadowColor}
+          bgDark={bgDark}
+          bgColor={bgColor}
+        />
+      </Link>
 
       <div className="text-center">
         <h3 className="text-2xl font-black text-on-surface mb-3 tracking-tight">

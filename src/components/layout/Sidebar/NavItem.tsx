@@ -14,9 +14,6 @@ export interface NavItemProps {
   index?: number;
 }
 
-/* ------------------------------------------------
-   Desktop NavItem — Duolingo solid pill active
-   ------------------------------------------------ */
 export const NavItem: React.FC<NavItemProps> = ({
   href,
   label,
@@ -47,7 +44,6 @@ export const NavItem: React.FC<NavItemProps> = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Active pill — Framer Motion layoutId morphing */}
         <AnimatePresence>
           {isActive && (
             <motion.span
@@ -65,7 +61,6 @@ export const NavItem: React.FC<NavItemProps> = ({
           )}
         </AnimatePresence>
 
-        {/* Icon with hover wiggle */}
         <motion.span
           className={styles.navItemIcon}
           animate={
@@ -86,9 +81,6 @@ export const NavItem: React.FC<NavItemProps> = ({
   );
 };
 
-/* ------------------------------------------------
-   Mobile NavItem (bottom bar) — Duolingo style
-   ------------------------------------------------ */
 export const MobileNavItem: React.FC<NavItemProps> = ({
   href,
   icon,

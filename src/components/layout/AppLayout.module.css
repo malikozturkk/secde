@@ -1,15 +1,8 @@
-/* ===========================
-   AppLayout — 3-Column Layout
-   =========================== */
-
 .appShell {
-  /* Using block layout prevents margin: auto from overflowing left */
   display: block;
   background-color: var(--color-bg);
-  /* Desktop constraints: full viewport height, no native page scroll */
   height: 100vh;
   overflow: hidden;
-  /* Make room for the fixed absolute left Sidebar */
   padding-left: var(--sidebar-width);
 }
 
@@ -26,15 +19,11 @@
 .mainContent {
   flex: 1;
   height: 100vh;
-  /* Main area is independently scrollable */
   overflow-y: auto;
   overflow-x: hidden;
   background: transparent;
-  /* Remove scrollbar for aesthetics */
   scrollbar-width: none;
-  /* Unified padding for all pages so they don't need margin-top / padding */
   padding: 24px 16px;
-  /* Prevent flex item from blowing out container */
   min-width: 0;
 }
 
@@ -47,11 +36,9 @@
 }
 
 .rightPanelWrapper {
-  /* Typical standard widget width */
   width: 368px;
   flex-shrink: 0;
   height: 100vh;
-  /* Never explicitly scrolls on desktop */
   overflow-y: hidden;
   overflow-x: hidden;
 }
@@ -62,10 +49,8 @@
   padding: 24px 16px 24px 16px;
 }
 
-/* Mobile — sidebar moves to bottom menu, layout stacks dynamically */
 @media (max-width: 1023px) {
   .appShell {
-    /* Lift restrictions, let the native body control scroll */
     height: auto;
     overflow: visible;
     padding-left: 0;

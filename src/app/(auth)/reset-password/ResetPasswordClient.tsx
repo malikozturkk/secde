@@ -59,9 +59,7 @@ export default function ResetPasswordClient({
 
       <main className="flex-1 flex items-center justify-center px-4 py-10">
         {success ? (
-          /* ── SUCCESS STATE ── */
           <div className="w-full max-w-[400px] flex flex-col items-center gap-6 text-center">
-            {/* Shield + checkmark icon with glow */}
             <div className="relative flex items-center justify-center">
               <div
                 className="absolute w-32 h-32 rounded-full bg-[#25B49A]/10 animate-ping"
@@ -69,7 +67,6 @@ export default function ResetPasswordClient({
               />
               <div className="w-24 h-24 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/40 flex items-center justify-center shadow-lg shadow-[#25B49A]/10">
                 <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
-                  {/* Shield */}
                   <path
                     d="M23 4L6 11V22C6 31.4 13.4 40.2 23 42C32.6 40.2 40 31.4 40 22V11L23 4Z"
                     fill="#1e3533"
@@ -77,7 +74,6 @@ export default function ResetPasswordClient({
                     strokeWidth="2"
                     strokeLinejoin="round"
                   />
-                  {/* Checkmark */}
                   <path
                     d="M15 23L20.5 28.5L31 18"
                     stroke="#25B49A"
@@ -85,7 +81,6 @@ export default function ResetPasswordClient({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  {/* Gold star sparkle top-right */}
                   <path
                     d="M36 7L37 4.5L38 7L40.5 8L38 9L37 11.5L36 9L33.5 8Z"
                     fill="#FFD700"
@@ -107,7 +102,6 @@ export default function ResetPasswordClient({
               </p>
             </div>
 
-            {/* Achievement badge */}
             <div className="w-full bg-[#25B49A]/10 border border-[#25B49A]/25 rounded-2xl px-4 py-3 flex items-center gap-3">
               <span className="text-2xl flex-shrink-0">🏅</span>
               <div className="text-left">
@@ -130,9 +124,7 @@ export default function ResetPasswordClient({
             </Link>
           </div>
         ) : (
-          /* ── FORM STATE ── */
           <div className="w-full max-w-[400px] flex flex-col gap-6">
-            {/* Lock icon */}
             <div className="flex justify-center">
               <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -165,8 +157,6 @@ export default function ResetPasswordClient({
                 </svg>
               </div>
             </div>
-
-            {/* Title */}
             <div className="flex flex-col gap-2 text-center">
               <h1 className="text-white text-2xl font-bold">
                 Yeni Şifre Belirle
@@ -179,7 +169,6 @@ export default function ResetPasswordClient({
               </p>
             </div>
 
-            {/* Root error */}
             {errors.root && (
               <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
                 <span

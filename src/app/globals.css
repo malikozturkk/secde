@@ -3,35 +3,22 @@
 @import "tailwindcss";
 
 :root {
-  /* Primary — Deep Teal */
   --color-primary: #1a7f6e;
   --color-primary-light: #25b49a;
   --color-primary-dark: #0f5048;
-
-  /* Secondary — Warm Gold */
   --color-secondary: #f5a623;
   --color-secondary-light: #ffca6b;
-
-  /* Accent — Sky Blue */
   --color-accent: #4fc3f7;
-
-  /* Streak — Flame Orange */
   --color-streak: #ff6b35;
-
-  /* Neutral */
   --color-bg: #131f24;
   --color-surface: #1a2b2a;
   --color-text: #ffffff;
   --color-text-muted: rgba(255, 255, 255, 0.55);
   --color-border: rgba(255, 255, 255, 0.15);
-
-  /* Shapes */
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
-
-  /* Shadows */
   --shadow-button-primary: 0 4px 0px 0px var(--color-primary-dark);
   --shadow-button-primary-pressed: 0 0px 0px 0px var(--color-primary-dark);
   --shadow-button-ghost: 0 4px 0px 0px rgba(255, 255, 255, 0.1);

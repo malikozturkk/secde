@@ -21,16 +21,18 @@ export function FeaturedLearnNode({ node }: FeaturedLearnNodeProps) {
   } = node;
 
   return (
-    <div className="group relative flex flex-col items-center gap-8 pt-24">
-      <CircleButton
-        Icon={icon}
-        iconColor={iconColor}
-        bgColor={bgColor}
-        innerGradient={innerGradient}
-        shadowColor={shadowColor}
-        bgDark={bgDark}
-        size={256}
-      />
+    <div className="group relative flex flex-col items-center gap-8 pt-24 z-5" data-path-node={node.id}>
+      <Link href={href}>
+        <CircleButton
+          Icon={icon}
+          iconColor={iconColor}
+          bgColor={bgColor}
+          innerGradient={innerGradient}
+          shadowColor={shadowColor}
+          bgDark={bgDark}
+          size={256}
+        />
+      </Link>
 
       <div className="text-center z-10">
         <h3 className="text-4xl font-black text-on-surface mb-6 tracking-tight drop-shadow-lg">

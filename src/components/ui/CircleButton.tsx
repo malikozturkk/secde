@@ -37,17 +37,20 @@ export function CircleButton({
       onClick={!disabled ? onClick : undefined}
       className={cn(
         "rounded-full p-3 transition-all",
+        "shadow-[0_20px_0_0_var(--btn-shadow)]",
         !disabled &&
-          "hover:-translate-y-2 active:translate-y-2 active:shadow-none cursor-pointer",
+          "active:translate-y-[20px] active:shadow-none cursor-pointer",
         disabled && "opacity-50 cursor-not-allowed",
         bgDark,
         className
       )}
-      style={{
-        width: size,
-        height: size,
-        boxShadow: `0 20px 0 0 ${shadowColor}`,
-      }}
+      style={
+        {
+          width: size,
+          height: size,
+          "--btn-shadow": shadowColor,
+        } as React.CSSProperties
+      }
     >
       <div
         className={cn(

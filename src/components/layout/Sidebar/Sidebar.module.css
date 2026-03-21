@@ -1,8 +1,3 @@
-/* ===========================
-   NamazGo Sidebar — Duolingo Style
-   =========================== */
-
-/* ----- Desktop Sidebar ----- */
 .sidebar {
   position: fixed;
   left: 0;
@@ -19,7 +14,6 @@
   overflow-x: hidden;
 }
 
-/* Custom scrollbar for sidebar */
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -33,7 +27,6 @@
   border-radius: var(--radius-full);
 }
 
-/* ----- Logo ----- */
 .logo {
   font-family: "Fredoka One", cursive;
   font-size: 26px;
@@ -48,7 +41,6 @@
   user-select: none;
 }
 
-/* ----- Nav List ----- */
 .navList {
   display: flex;
   flex-direction: column;
@@ -59,7 +51,6 @@
   padding: 0;
 }
 
-/* ----- Nav Item (Desktop) ----- */
 .navItem {
   position: relative;
   display: flex;
@@ -101,7 +92,6 @@
   transition: color 150ms ease;
 }
 
-/* Hover (desktop) */
 @media (hover: hover) {
   .navItem:hover:not(.navItemActive) {
     background: rgba(255, 255, 255, 0.06);
@@ -116,13 +106,11 @@
   }
 }
 
-/* Focus visible */
 .navItem:focus-visible {
   outline: 2px solid var(--color-primary-light);
   outline-offset: 2px;
 }
 
-/* ----- Active State (Duolingo solid pill) ----- */
 .navItemActive {
   background: transparent;
 }
@@ -150,7 +138,6 @@
   font-weight: 800;
 }
 
-/* ----- Bottom Settings ----- */
 .bottomSection {
   margin-top: auto;
   padding-top: 16px;
@@ -210,9 +197,6 @@
   transition: color 150ms ease;
 }
 
-/* ===========================
-   Mobile Bottom Bar
-   =========================== */
 .mobileBar {
   display: none;
 }
@@ -278,13 +262,11 @@
     height: 30px;
   }
 
-  /* Inactive mobile icon — dimmed */
   .mobileNavItem:not(.mobileNavItemActive) .mobileNavItemIcon {
     opacity: 0.45;
     filter: saturate(0.35);
   }
 
-  /* Active mobile icon */
   .mobileNavItemActive .mobileNavItemIcon {
     transform: scale(1.12);
   }
@@ -296,16 +278,12 @@
     background: var(--color-primary-light);
     box-shadow: 0 0 6px rgba(37, 180, 154, 0.6);
   }
-
-  /* Hide items flagged as hidden on mobile */
-  .hideOnMobile {
-    display: none !important;
-  }
 }
 
-/* ===========================
-   Reduced Motion
-   =========================== */
+.hideOnMobile {
+  display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
   .mobileBar,

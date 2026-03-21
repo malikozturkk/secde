@@ -116,9 +116,7 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
         ) : (
-          /* ── FORM STATE ── */
           <div className="w-full max-w-[400px] flex flex-col gap-6">
-            {/* Icon */}
             <div className="flex justify-center">
               <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -149,8 +147,6 @@ export default function ForgotPasswordPage() {
                 </svg>
               </div>
             </div>
-
-            {/* Title */}
             <div className="flex flex-col gap-2 text-center">
               <h1 className="text-white text-2xl font-bold">Şifremi unuttum</h1>
               <p
@@ -160,8 +156,6 @@ export default function ForgotPasswordPage() {
                 E-posta adresini gir, sana sıfırlama bağlantısı gönderelim.
               </p>
             </div>
-
-            {/* Root error */}
             {errors.root && (
               <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
                 <span

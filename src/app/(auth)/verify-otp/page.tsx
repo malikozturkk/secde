@@ -26,19 +26,16 @@ export default function VerifyOtpPage() {
     Array(OTP_LENGTH).fill(null)
   );
 
-  // Guard: no tempToken → back to register
   useEffect(() => {
     if (!tempToken) router.replace("/register");
   }, [tempToken, router]);
 
-  // Countdown timer
   useEffect(() => {
     if (cooldown <= 0) return;
     const timer = setTimeout(() => setCooldown((c) => c - 1), 1000);
     return () => clearTimeout(timer);
   }, [cooldown]);
 
-  // Clear errors when user starts typing again
   const clearErrors = () => {
     setFieldError(null);
     setRootError(null);
@@ -49,7 +46,6 @@ export default function VerifyOtpPage() {
   };
 
   const handleChange = (index: number, value: string) => {
-    // Allow only digits
     const digit = value.replace(/\D/g, "").slice(-1);
     clearErrors();
     const next = [...digits];
@@ -78,7 +74,6 @@ export default function VerifyOtpPage() {
     }
   };
 
-  // Paste: fill all boxes from pasted string
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     clearErrors();
@@ -92,7 +87,6 @@ export default function VerifyOtpPage() {
       next[i] = char;
     });
     setDigits(next);
-    // Focus the box after the last pasted digit (or last box)
     focusIndex(Math.min(pasted.length, OTP_LENGTH - 1));
   };
 
@@ -110,7 +104,6 @@ export default function VerifyOtpPage() {
       setResendError(null);
       setResendSuccess(true);
       setCooldown(RESEND_COOLDOWN);
-      // Clear boxes on resend so user starts fresh
       setDigits(Array(OTP_LENGTH).fill(""));
       focusIndex(0);
     },
@@ -159,7 +152,6 @@ export default function VerifyOtpPage() {
 
       <main className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-[400px] flex flex-col gap-6">
-          {/* Icon */}
           <div className="flex justify-center">
             <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -181,7 +173,6 @@ export default function VerifyOtpPage() {
             </div>
           </div>
 
-          {/* Title & description */}
           <div className="flex flex-col gap-2 text-center">
             <h1 className="text-white text-2xl font-bold">E-posta Doğrulama</h1>
             <p
@@ -197,7 +188,6 @@ export default function VerifyOtpPage() {
             </p>
           </div>
 
-          {/* Root error */}
           {rootError && (
             <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
               <span
@@ -209,7 +199,6 @@ export default function VerifyOtpPage() {
             </div>
           )}
 
-          {/* Resend success */}
           {resendSuccess && (
             <div className="flex items-center gap-2 bg-[#25B49A]/10 border border-[#25B49A]/30 rounded-2xl px-4 py-3">
               <span
@@ -226,7 +215,6 @@ export default function VerifyOtpPage() {
             className="flex flex-col gap-6"
             noValidate
           >
-            {/* 6-box OTP input */}
             <div className="flex flex-col gap-2">
               <div className="flex gap-3 justify-center">
                 {digits.map((digit, index) => (
@@ -248,7 +236,6 @@ export default function VerifyOtpPage() {
                       "bg-[#1a2b2a] border-2 rounded-2xl outline-none",
                       "transition-colors duration-150 caret-transparent",
                       "disabled:opacity-40",
-                      // autofill override
                       "[&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_#1a2b2a_inset!important]",
                       "[&:-webkit-autofill]:[-webkit-text-fill-color:white!important]",
                       fieldError
@@ -288,7 +275,6 @@ export default function VerifyOtpPage() {
             </Button>
           </form>
 
-          {/* Resend */}
           <div className="flex flex-col items-center gap-2">
             {resendError && (
               <p

@@ -1,18 +1,23 @@
 import "@/src/styles/learn.css";
 import AppLayout from "@/src/components/layout/AppLayout";
 import { AmbientBackground } from "@/src/components/learn/AmbientBackground";
-import { PathOverlay } from "@/src/components/learn/PathOverlay";
+import { DynamicPath } from "@/src/components/learn/DynamicPath";
 import { NodeRow } from "@/src/components/learn/NodeRow";
 import { LearnNodeCard } from "@/src/components/learn/LearnNodeCard";
 import { FeaturedLearnNode } from "@/src/components/learn/FeaturedLearnNode";
 import { WeeklyProgress } from "@/src/components/learn/WeeklyProgress";
-import { LEARN_NODES } from "./LearnNode";
+import { LEARN_NODES } from "./learnNodes";
 
 export const revalidate = 3600;
 
 export default function LearnPage() {
   const regularNodes = LEARN_NODES.filter((n) => !n.isFeatured);
   const featuredNode = LEARN_NODES.find((n) => n.isFeatured);
+
+  const nodeIds = [
+    ...regularNodes.map((n) => n.id),
+    ...(featuredNode ? [featuredNode.id] : []),
+  ];
 
   return (
     <AppLayout>
@@ -28,7 +33,7 @@ export default function LearnPage() {
               Abdest, Gusül Abdesti, Namazlar rehberlerini oyunlaştırarak öğren
             </p>
           </header>
-          <PathOverlay />
+          <DynamicPath nodeIds={nodeIds} />
           <div className="space-y-48 pb-20">
             {regularNodes.map((node) => (
               <NodeRow key={node.id} alignment={node.alignment as never}>

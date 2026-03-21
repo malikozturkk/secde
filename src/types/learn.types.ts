@@ -34,3 +34,24 @@ export interface LearnNode {
     position: string;
   };
 }
+
+export interface GuideStep {
+  id: string;
+  name: string;
+  shortDescription: string;
+  description: string;
+  recitation?: string;
+  tips?: string[];
+  rekat?: number;
+  bodyPart?: string;
+  repeat?: string;
+  isFard?: boolean;
+}
+
+export interface GuideData {
+  id: string;
+  title: string;
+  description: string;
+  totalSteps: number;
+  steps: GuideStep[];
+}

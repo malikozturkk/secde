@@ -9,11 +9,6 @@ import styles from "./Sidebar.module.css";
 import { useAuthStore } from "@/src/store/auth.store";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
 
-/* ================================================================
-   Custom SVG Icons — Duolingo-style colorful illustrations
-   Each icon has its own unique vibrant color palette.
-   ================================================================ */
-
 /** 🔥 Serilerim — Flame with warm gradient feel */
 const IconSeries = () => (
   <svg
@@ -277,9 +272,6 @@ const IconSettings = () => (
   </svg>
 );
 
-/* ================================================================
-   Navigation Items Configuration
-   ================================================================ */
 interface NavItemConfig {
   label: string;
   href: string;
@@ -359,7 +351,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
 
   return (
     <LayoutGroup>
-      {/* ----- Desktop Sidebar ----- */}
       <motion.aside
         className={`${styles.sidebar} ${className ?? ""}`}
         initial={{ x: "-100%" }}
@@ -371,12 +362,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         role="navigation"
         aria-label="Ana navigasyon"
       >
-        {/* Logo — navigates to home */}
         <Link href="/" className={styles.logo}>
           NamazGo
         </Link>
 
-        {/* Nav Items */}
         <ul className={styles.navList}>
           {NAV_ITEMS.map((item, index) => (
             <NavItem
@@ -391,7 +380,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           ))}
         </ul>
 
-        {/* Bottom Settings */}
         <div className={styles.bottomSection}>
           <Link
             href="/settings/profile"
@@ -406,7 +394,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         </div>
       </motion.aside>
 
-      {/* ----- Mobile Bottom Bar ----- */}
       <nav className={styles.mobileBar} aria-label="Ana navigasyon">
         {NAV_ITEMS.map((item) => (
           <MobileNavItem
