@@ -25,8 +25,6 @@
 
 .mainContent {
   flex: 1;
-  /* Limit main width for readability, like Duolingo */
-  max-width: 600px;
   height: 100vh;
   /* Main area is independently scrollable */
   overflow-y: auto;
@@ -38,6 +36,10 @@
   padding: 24px 16px;
   /* Prevent flex item from blowing out container */
   min-width: 0;
+}
+
+.mainContentWithRightPanel {
+  max-width: 600px;
 }
 
 .mainContent::-webkit-scrollbar {

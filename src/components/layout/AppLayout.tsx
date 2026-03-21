@@ -14,7 +14,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, rightPanel }) => {
     <div className={styles.appShell}>
       <Sidebar />
       <div className={styles.mainContainer}>
-        <main className={styles.mainContent}>{children}</main>
+        <main
+          className={`${styles.mainContent} ${
+            rightPanel ? styles.mainContentWithRightPanel : ""
+          }`}
+        >
+          {children}
+        </main>
         {rightPanel && (
           <aside className={styles.rightPanelWrapper}>
             <div className={styles.rightPanelInner}>{rightPanel}</div>

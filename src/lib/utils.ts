@@ -1,15 +1,6 @@
-export function cn(...inputs: (string | undefined | null | boolean | { [key: string]: boolean })[]) {
-    return inputs
-        .flat()
-        .filter(Boolean)
-        .map((input) => {
-            if (typeof input === "object") {
-                return Object.entries(input)
-                    .filter(([_, value]) => value)
-                    .map(([key]) => key)
-                    .join(" ");
-            }
-            return input;
-        })
-        .join(" ");
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }

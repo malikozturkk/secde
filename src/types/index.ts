@@ -13,7 +13,6 @@ export type {
   RegisterResponseData,
   LoginResponseData,
   RefreshTokenResponseData,
-  MeResponseData,
   UpdateProfileResponseData,
   ForgotPasswordPayload,
   ValidateResetTokenPayload,
