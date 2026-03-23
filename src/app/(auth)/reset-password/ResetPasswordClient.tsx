@@ -43,7 +43,7 @@ export default function ResetPasswordClient({
   };
 
   return (
-    <div className="min-h-screen bg-[#131f24] flex flex-col">
+    <div className="min-h-screen bg-[#070F12] flex flex-col">
       <header className="w-full flex items-center justify-between px-6 py-5 flex-shrink-0">
         <Link
           href="/"

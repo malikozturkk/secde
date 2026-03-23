@@ -47,7 +47,7 @@ export function Dialog({
       />
 
       <div
-        className={`relative w-full ${maxWidthClass} bg-[#131f24] border-2 border-[rgba(255,255,255,0.15)] rounded-3xl flex flex-col shadow-2xl overflow-hidden ng-animate-pop ${className}`}
+        className={`relative w-full ${maxWidthClass} bg-[#070F12] border-2 border-[rgba(255,255,255,0.15)] rounded-3xl flex flex-col shadow-2xl overflow-hidden ng-animate-pop ${className}`}
         role="dialog"
         aria-modal="true"
       >

@@ -147,7 +147,7 @@ export default function ProfileSettings() {
             <DefaultAvatar username={user?.username || "A"} />
           </div>
           <button
-            className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#4fc3f7] flex items-center justify-center border-2 border-[#131f24] text-white"
+            className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#4fc3f7] flex items-center justify-center border-2 border-[#070F12] text-white"
             aria-label="Edit Avatar"
             type="button"
           >

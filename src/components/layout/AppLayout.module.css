@@ -10,7 +10,7 @@
   display: flex;
   width: 100%;
   max-width: 1056px;
-  gap: 24px;
+  gap: 16px;
   margin: 0 auto;
   height: 100vh;
   min-width: 0;
@@ -65,7 +65,7 @@
     height: auto;
     max-width: 100%;
     padding: 0;
-    gap: 32px;
+    gap: 16px;
   }
 
   .mainContent {

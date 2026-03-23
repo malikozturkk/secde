@@ -15,7 +15,7 @@ const PrayerScene = () => {
         <defs>
           <radialGradient id="bgGlow" cx="50%" cy="55%" r="45%">
             <stop offset="0%" stopColor="#1A7F6E" stopOpacity=".5" />
-            <stop offset="100%" stopColor="#131f24" stopOpacity="0" />
+            <stop offset="100%" stopColor="#070F12" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="rugGrad" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#1A7F6E" />

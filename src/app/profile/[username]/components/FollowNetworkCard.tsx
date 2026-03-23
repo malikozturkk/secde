@@ -29,7 +29,7 @@ export default function FollowNetworkCard({
 
   return (
     <>
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col overflow-hidden mb-4 bg-[#131f24] shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
+      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col overflow-hidden mb-4 bg-[#070F12] shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
         <div className="flex items-center justify-between border-b-2 border-[rgba(255,255,255,0.1)] px-4 pt-1">
           <button
             onClick={() => setActiveTab("following")}

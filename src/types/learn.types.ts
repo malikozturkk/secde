@@ -8,12 +8,14 @@ export type ButtonVariant =
   | "ghost"
   | "cyan"
   | "blue"
+  | "lightBlue"
   | "amber"
   | "yellow"
   | "orange"
   | "rose"
   | "indigo"
-  | "emerald";
+  | "emerald"
+  | "gray";
 
 export interface LearnNode {
   id: string;
@@ -46,12 +48,13 @@ export interface GuideStep {
   bodyPart?: string;
   repeat?: string;
   isFard?: boolean;
+  step: number;
+  totalSteps: number;
 }
 
 export interface GuideData {
   id: string;
   title: string;
   description: string;
-  totalSteps: number;
   steps: GuideStep[];
 }
