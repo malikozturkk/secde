@@ -1,6 +1,10 @@
 import { axiosInstance } from "../lib/axios";
-import { ApiResponse } from "../types";
-import { GuideData } from "../types/learn.types";
+import {
+  ApiResponse,
+  GuideCheckQuestionResponse,
+  GuideData,
+  GuideCheckQuestionPayload,
+} from "../types";
 
 export const learnService = {
   getWudu: () => axiosInstance.get<ApiResponse<GuideData>>("/guides/wudu"),
@@ -12,4 +16,9 @@ export const learnService = {
     axiosInstance.get<ApiResponse<GuideData>>("/guides/maghrib"),
   getIsha: () => axiosInstance.get<ApiResponse<GuideData>>("/guides/isha"),
   getJumuah: () => axiosInstance.get<ApiResponse<GuideData>>("/guides/jumuah"),
+  checkGuideQuestion: (body: GuideCheckQuestionPayload) =>
+    axiosInstance.post<ApiResponse<GuideCheckQuestionResponse>>(
+      "/question/guide/check",
+      body
+    ),
 };

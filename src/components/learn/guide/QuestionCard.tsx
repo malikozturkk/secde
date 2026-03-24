@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { Button } from "../../ui/Button";
 import { Question } from "@/src/icons/tsx/learn";
-
-export interface QuestionCardOption {
-  label: string;
-  value: string | number;
-}
-
 export interface QuestionCardProps {
   question: string;
-  options: QuestionCardOption[];
+  options: string[];
   badgeLabel?: string;
   submitLabel?: string;
-  onSubmit?: (selected: QuestionCardOption) => void;
+  onSubmit?: (selected: string) => void;
+  onAnswered?: () => void;
 }
 
 export interface ButtonProps {
@@ -29,12 +24,14 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   badgeLabel = "PEKİŞTİR",
   submitLabel = "GÖNDER",
   onSubmit,
+  onAnswered,
 }) => {
-  const [selected, setSelected] = useState<QuestionCardOption | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
   const handleSubmit = () => {
-    if (selected && onSubmit) {
+    if (selected && onSubmit && onAnswered) {
       onSubmit(selected);
+      onAnswered();
     }
   };
 
@@ -55,10 +52,10 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
       <div className="flex flex-col gap-3">
         {options.map((opt) => {
-          const isSelected = selected?.value === opt.value;
+          const isSelected = selected === opt;
           return (
             <button
-              key={opt.value}
+              key={opt}
               type="button"
               onClick={() => setSelected(opt)}
               className={[
@@ -71,7 +68,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                   : "bg-[#172125] border-[#41494c] text-[#cccccc] hover:border-[#41494c]",
               ].join(" ")}
             >
-              <span>{opt.label}</span>
+              <span>{opt}</span>
               <span
                 className={[
                   "w-5 h-5 rounded-full border-2 flex items-center justify-center",
@@ -95,28 +92,3 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 };
 
 export default QuestionCard;
-
-// ─── Kullanım Örneği ─────────────────────────────────────────────────────────
-/*
-import QuestionCard from "./QuestionCard";
-
-const options = [
-  { label: "2", value: 2 },
-  { label: "3", value: 3 },
-  { label: "4", value: 4 },
-];
-
-<QuestionCard
-  question="Windi namazı _ _ _ rekattır?"
-  options={options}
-  onSubmit={(selected) => console.log("Seçilen:", selected)}
-/>
-
-// Harici Button kullanımı:
-<QuestionCard
-  question="Windi namazı _ _ _ rekattır?"
-  options={options}
-  Button={MyDesignSystemButton}
-  onSubmit={(selected) => console.log(selected)}
-/>
-*/

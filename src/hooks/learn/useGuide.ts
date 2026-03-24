@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { learnService } from "@/src/services/learn.service";
-import { GuideData } from "@/src/types/learn.types";
 
 export const useGuide = (id: string) => {
   return useQuery({

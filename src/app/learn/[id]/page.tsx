@@ -19,13 +19,21 @@ export default function GuideRunnerPage({
   const { data } = useGuide(id);
 
   const [currentStep, setCurrentStep] = useState(0);
+  const [questionAnswered, setQuestionAnswered] = useState(false);
 
   const steps = data?.steps ?? [];
   const activeStepData = steps[currentStep];
 
   const handleNext = useCallback(() => {
-    if (currentStep < steps.length - 1) setCurrentStep((prev) => prev + 1);
-  }, [currentStep, steps.length]);
+    if (currentStep < steps.length - 1) {
+      const hasUnansweredQuestion =
+        !!activeStepData?.randomQuestion && !questionAnswered;
+      if (hasUnansweredQuestion) return;
+
+      setCurrentStep((prev) => prev + 1);
+      setQuestionAnswered(false);
+    }
+  }, [currentStep, steps.length, activeStepData, questionAnswered]);
 
   const handlePrev = useCallback(() => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
@@ -45,15 +53,14 @@ export default function GuideRunnerPage({
     <AppLayout
       rightPanel={
         <div className="flex flex-col h-full gap-4 lg:gap-8">
-          <QuestionCard
-            question="İkindi namazı _ _ _ rekattır?"
-            options={[
-              { label: "2", value: 2 },
-              { label: "3", value: 3 },
-              { label: "4", value: 4 },
-            ]}
-            onSubmit={(selected) => console.log("Seçilen:", selected)}
-          />
+          {activeStepData?.randomQuestion && (
+            <QuestionCard
+              question={activeStepData.randomQuestion.question}
+              options={activeStepData.randomQuestion.options}
+              onSubmit={(selected) => console.log("Seçilen:", selected)}
+              onAnswered={() => setQuestionAnswered(true)}
+            />
+          )}
           <PathOverview
             activeStep={currentStep + 1}
             steps={steps.map((step: GuideStep) => ({
@@ -93,7 +100,10 @@ export default function GuideRunnerPage({
             icon={<ArrowRight width={16} height={16} />}
             iconPosition="right"
             onClick={handleNext}
-            disabled={currentStep === steps.length - 1}
+            disabled={
+              currentStep === steps.length - 1 ||
+              (!!activeStepData?.randomQuestion && !questionAnswered)
+            }
           >
             İleri
           </Button>

@@ -22,3 +22,9 @@ export type {
 } from "./auth.types";
 
 export type { OtpVerifyPayload, OtpVerifyResponseData } from "./otp.types";
+
+export type {
+  GuideCheckQuestionPayload,
+  GuideCheckQuestionResponse,
+  GuideData,
+} from "./learn.types";
