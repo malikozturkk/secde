@@ -1,12 +1,14 @@
-import { Takbir, TipStar } from "@/src/icons/tsx/learn";
+import { TipStar } from "@/src/icons/tsx/learn";
 import Image from "next/image";
 import { GuideStep } from "@/src/types/learn.types";
+import { stepIconMap } from "@/src/lib/utils";
 
 interface StepProgressCardProps {
   step: GuideStep;
 }
 
 const StepProgressCard = ({ step }: StepProgressCardProps) => {
+  const TopicIcon = stepIconMap[step.type];
   return (
     <div className="bg-[#0C1518] p-4 lg:p-8 rounded-2xl flex flex-col gap-6 border border-[#1b2529] flex-1">
       <div className="flex items-center justify-between">
@@ -33,7 +35,7 @@ const StepProgressCard = ({ step }: StepProgressCardProps) => {
           aria-hidden="true"
         />
         <div className="relative z-10 bg-[#1C272C]/60 backdrop-blur-md rounded-md border border-[#3EBBFF]/10 p-6 flex flex-col gap-4 items-center w-fit max-w-sm text-center">
-          <Takbir />
+          <TopicIcon width={48} height={48} />
           {step.bodyPart ||
             (step.repeat && (
               <div className="flex flex-col gap-1">
@@ -57,7 +59,7 @@ const StepProgressCard = ({ step }: StepProgressCardProps) => {
 
       {step.tips && step.tips.length > 0 && (
         <div className="border-l-4 border-[#ffd977] bg-[#FFD977]/10 p-4 flex gap-4 items-start rounded-r-sm">
-          <TipStar />
+          <TipStar width={20} height={20} />
           <div className="flex flex-col gap-1">
             <p className="text-xs text-[#FFD977] font-bold">İPUÇLARI</p>
             <ul className="flex flex-col gap-1">

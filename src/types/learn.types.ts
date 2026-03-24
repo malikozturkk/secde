@@ -20,7 +20,7 @@ export type ButtonVariant =
 export interface LearnNode {
   id: string;
   title: string;
-  icon: SvgIcon;
+  icon: React.ReactElement;
   href: string;
   alignment: NodeAlignment;
   bgColor: string;
@@ -31,7 +31,7 @@ export interface LearnNode {
   variant: ButtonVariant;
   isFeatured?: boolean;
   sparkle?: {
-    icon: SvgIcon;
+    icon: React.ReactElement;
     colorClass: string;
     position: string;
   };
@@ -50,6 +50,7 @@ export interface GuideStep {
   isFard?: boolean;
   step: number;
   totalSteps: number;
+  type: StepType;
 }
 
 export interface GuideData {
@@ -58,3 +59,33 @@ export interface GuideData {
   description: string;
   steps: GuideStep[];
 }
+
+export type StepType =
+  // Namaz
+  | "takbir"
+  | "standing"
+  | "ruku"
+  | "after_standing"
+  | "prostration"
+  | "salutation"
+
+  // Cuma
+  | "khutbah"
+
+  // Abdest
+  | "wash_hands"
+  | "wash_mouth"
+  | "wash_nose"
+  | "wash_face"
+  | "wash_arms"
+  | "anoint_head"
+  | "wash_ears"
+  | "wash_feet"
+
+  // Gusül Abdesti
+  | "intend"
+  | "wash_private"
+  | "full_ablution"
+  | "wash_head"
+  | "wash_body"
+  | "control";

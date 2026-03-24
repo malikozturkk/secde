@@ -3,9 +3,8 @@ import type { SVGProps } from "react";
 const SvgLightMode = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={106}
-    height={106}
     fill="none"
+    viewBox="0 0 106 106"
     {...props}
   >
     <g filter="url(#light_mode_svg__a)">

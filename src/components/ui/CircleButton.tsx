@@ -1,4 +1,4 @@
-import { ComponentType } from "react";
+import { ReactElement } from "react";
 import { cn } from "@/src/lib/utils";
 
 interface CircleButtonProps {
@@ -7,7 +7,7 @@ interface CircleButtonProps {
   bgColor?: string;
   shadowColor?: string;
   iconColor?: string;
-  Icon: ComponentType<{ className?: string }>;
+  icon: ReactElement;
   iconSize?: string;
   innerGradient?: string;
   borderClass?: string;
@@ -23,7 +23,7 @@ export function CircleButton({
   bgColor,
   shadowColor = "rgba(0,0,0,0.3)",
   iconColor = "text-white",
-  Icon,
+  icon,
   iconSize = "text-7xl",
   innerGradient,
   borderClass = "border-4 border-white/20",
@@ -74,7 +74,7 @@ export function CircleButton({
             iconColor
           )}
         >
-          <Icon />
+          {icon}
         </span>
       </div>
     </button>

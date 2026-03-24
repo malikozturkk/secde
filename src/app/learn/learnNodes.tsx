@@ -5,7 +5,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "wudu",
     title: "Abdest",
-    icon: LearnIcons.WaterDrop,
+    icon: <LearnIcons.WaterDrop width={48} height={60} />,
     href: "/learn/wudu",
     alignment: "left",
     bgColor: "bg-cyan-500",
@@ -14,7 +14,7 @@ export const LEARN_NODES: LearnNode[] = [
     iconColor: "text-cyan-950",
     variant: "cyan",
     sparkle: {
-      icon: LearnIcons.WaterLux,
+      icon: <LearnIcons.WaterLux width={20} height={18} />,
       colorClass: "text-cyan-400",
       position: "-top-4 -left-6",
     },
@@ -22,7 +22,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "ghusl",
     title: "Gusül Abdesti",
-    icon: LearnIcons.Shower,
+    icon: <LearnIcons.Shower width={42} height={54} />,
     href: "/learn/ghusl",
     alignment: "right",
     bgColor: "bg-blue-500",
@@ -34,7 +34,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "fajr",
     title: "Sabah Namazı",
-    icon: LearnIcons.Sunny,
+    icon: <LearnIcons.Sunny width={66} height={66} />,
     href: "/learn/fajr",
     alignment: "center-left",
     bgColor: "bg-amber-500",
@@ -47,7 +47,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "dhuhr",
     title: "Öğle Namazı",
-    icon: LearnIcons.LightMode,
+    icon: <LearnIcons.LightMode width={106} height={106} />,
     href: "/learn/dhuhr",
     alignment: "right",
     bgColor: "bg-yellow-400",
@@ -59,7 +59,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "asr",
     title: "İkindi Namazı",
-    icon: LearnIcons.WbSunny,
+    icon: <LearnIcons.WbSunny width={66} height={66} />,
     href: "/learn/asr",
     alignment: "left",
     bgColor: "bg-orange-500",
@@ -71,7 +71,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "maghrib",
     title: "Akşam Namazı",
-    icon: LearnIcons.WbTwilight,
+    icon: <LearnIcons.WbTwilight width={60} height={48} />,
     href: "/learn/maghrib",
     alignment: "right",
     bgColor: "bg-rose-600",
@@ -84,7 +84,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "isha",
     title: "Yatsı Namazı",
-    icon: LearnIcons.Bedtime,
+    icon: <LearnIcons.Bedtime width={60} height={60} />,
     href: "/learn/isha",
     alignment: "center",
     bgColor: "bg-indigo-700",
@@ -93,7 +93,7 @@ export const LEARN_NODES: LearnNode[] = [
     iconColor: "text-indigo-100",
     variant: "indigo",
     sparkle: {
-      icon: LearnIcons.Star,
+      icon: <LearnIcons.Star width={20} height={19} />,
       colorClass: "text-indigo-300",
       position: "-top-8 -right-4",
     },
@@ -101,7 +101,7 @@ export const LEARN_NODES: LearnNode[] = [
   {
     id: "jumuah",
     title: "Cuma Namazı",
-    icon: LearnIcons.Mosque,
+    icon: <LearnIcons.Mosque width={160} height={140} />,
     href: "/learn/jumuah",
     alignment: "center",
     bgColor: "bg-emerald-600",

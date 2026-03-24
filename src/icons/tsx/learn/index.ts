@@ -5,7 +5,6 @@ export { default as Question } from "./Question";
 export { default as Shower } from "./Shower";
 export { default as Star } from "./Star";
 export { default as Sunny } from "./Sunny";
-export { default as Takbir } from "./Takbir";
 export { default as TipStar } from "./TipStar";
 export { default as WaterDrop } from "./WaterDrop";
 export { default as WaterLux } from "./WaterLux";

@@ -42,7 +42,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     <div className="relative flex flex-col gap-5 bg-[#172125] rounded-2xl px-5 pt-5 pb-6 font-sans w-full border border-[#1b2529]">
       <div className="flex items-center gap-2">
         <div className="w-7 h-7 rounded-lg bg-[#1b3636] flex items-center justify-center">
-          <Question />
+          <Question width={12} height={12} />
         </div>
         <span className="text-[#f0f8fc] text-xs font-bold tracking-[0.18em] uppercase">
           {badgeLabel}

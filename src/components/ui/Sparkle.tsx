@@ -1,13 +1,14 @@
 import { cn } from "@/src/lib/utils";
 import { SvgIcon } from "@/src/types/learn.types";
+import { ReactElement } from "react";
 
 interface SparkleProps {
-  Icon: SvgIcon;
+  icon: ReactElement;
   colorClass: string;
   position: string;
 }
 
-export function Sparkle({ Icon, colorClass, position }: SparkleProps) {
+export function Sparkle({ icon, colorClass, position }: SparkleProps) {
   return (
     <span
       className={cn(
@@ -16,7 +17,7 @@ export function Sparkle({ Icon, colorClass, position }: SparkleProps) {
         position
       )}
     >
-      <Icon />
+      {icon}
     </span>
   );
 }

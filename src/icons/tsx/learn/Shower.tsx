@@ -3,9 +3,8 @@ import type { SVGProps } from "react";
 const SvgShower = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={42}
-    height={54}
     fill="none"
+    viewBox="0 0 42 54"
     {...props}
   >
     <path
