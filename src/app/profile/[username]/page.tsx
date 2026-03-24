@@ -117,7 +117,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <NotFound username={username} />
         ) : (
           <div className="ng-animate-up max-w-[1056px] w-full">
-            <div className="bg-[#1c2e35] border border-white/[0.08] rounded-3xl overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.45)] mb-3">
+            <div className="bg-[#1c2e35] border border-white/[0.08] rounded-3xl overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.45)]">
               <div
                 className="min-h-[210px] flex items-end justify-center border-b border-white/[0.06] relative"
                 style={{

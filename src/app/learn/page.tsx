@@ -5,7 +5,6 @@ import { DynamicPath } from "@/src/components/learn/DynamicPath";
 import { NodeRow } from "@/src/components/learn/NodeRow";
 import { LearnNodeCard } from "@/src/components/learn/LearnNodeCard";
 import { FeaturedLearnNode } from "@/src/components/learn/FeaturedLearnNode";
-import { WeeklyProgress } from "@/src/components/learn/WeeklyProgress";
 import { LEARN_NODES } from "./learnNodes";
 
 export const revalidate = 3600;
@@ -21,7 +20,7 @@ export default function LearnPage() {
 
   return (
     <AppLayout>
-      <main className="pt-24 pb-20 px-10 min-h-screen relative overflow-hidden">
+      <main className="lg:pt-24 lg:pb-20 lg:px-10 min-h-screen relative overflow-hidden">
         <AmbientBackground />
 
         <div className="max-w-4xl mx-auto relative">
@@ -34,7 +33,7 @@ export default function LearnPage() {
             </p>
           </header>
           <DynamicPath nodeIds={nodeIds} />
-          <div className="space-y-48 pb-20">
+          <div className="space-y-48 lg:pb-20">
             {regularNodes.map((node) => (
               <NodeRow key={node.id} alignment={node.alignment as never}>
                 <LearnNodeCard node={node} />
@@ -43,7 +42,6 @@ export default function LearnPage() {
             {featuredNode && <FeaturedLearnNode node={featuredNode} />}
           </div>
         </div>
-        <WeeklyProgress percentage={75} current={6} goal={8} />
       </main>
     </AppLayout>
   );

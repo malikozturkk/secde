@@ -1,0 +1,24 @@
+<svg
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M16 3L6 8V15C6 21 10.2 26.4 16 28C21.8 26.4 26 21 26 15V8L16 3Z"
+      fill="#EF5350"
+    />
+    <path
+      d="M16 3L6 8V15C6 15 6 12 10 9L16 6L16 3Z"
+      fill="#EF9A9A"
+      opacity="0.4"
+    />
+    <path d="M17 8L12 17H15.5L14.5 24L20 14H16.5L17 8Z" fill="#FFD54F" />
+    <path
+      d="M17 8L12 17H15.5L14.5 24L20 14H16.5L17 8Z"
+      stroke="#FFF176"
+      strokeWidth="0.8"
+      strokeLinejoin="round"
+      opacity="0.5"
+    />
+  </svg>

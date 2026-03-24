@@ -8,7 +8,7 @@ export default function AddFriendCard() {
 
   return (
     <>
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col overflow-hidden mb-4 bg-[#070F12] shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
+      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col overflow-hidden bg-[#070F12] shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <h2 className="text-[17px] font-extrabold text-white m-0">
             Arkadaş ekle
