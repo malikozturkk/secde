@@ -84,15 +84,6 @@ export default function ProfileSettings() {
             Bildirimler
           </button>
           <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            Kurslar
-          </button>
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            LinkedIn&#39;deki Skor
-          </button>
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            Duolingo for Schools
-          </button>
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
             Sosyal hesaplar
           </button>
           <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
