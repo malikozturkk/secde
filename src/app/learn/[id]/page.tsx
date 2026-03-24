@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useEffect, useCallback } from "react";
 import { useGuide } from "@/src/hooks/learn/useGuide";
 import AppLayout from "@/src/components/layout/AppLayout";
 import QuestionCard from "@/src/components/learn/guide/QuestionCard";
@@ -23,13 +23,23 @@ export default function GuideRunnerPage({
   const steps = data?.steps ?? [];
   const activeStepData = steps[currentStep];
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentStep < steps.length - 1) setCurrentStep((prev) => prev + 1);
-  };
+  }, [currentStep, steps.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
-  };
+  }, [currentStep]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleNext, handlePrev]);
 
   return (
     <AppLayout
