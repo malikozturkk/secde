@@ -1,7 +1,7 @@
 import { TipStar } from "@/src/icons/tsx/learn";
 import Image from "next/image";
 import { GuideStep } from "@/src/types/learn.types";
-import { stepIconMap } from "@/src/lib/utils";
+import { stepIconMap, stepImageMap } from "@/src/lib/utils";
 
 interface StepProgressCardProps {
   step: GuideStep;
@@ -24,9 +24,9 @@ const StepProgressCard = ({ step }: StepProgressCardProps) => {
           </span>
         </div>
       </div>
-      <div className="relative flex items-center justify-center p-4 h-80">
+      <div className="relative flex items-start justify-end p-4 h-80">
         <Image
-          src="/learn/takbir.png"
+          src={stepImageMap[step.type]}
           alt=""
           fill
           className="object-cover rounded-md grayscale"
@@ -34,8 +34,8 @@ const StepProgressCard = ({ step }: StepProgressCardProps) => {
           priority
           aria-hidden="true"
         />
-        <div className="relative z-10 bg-[#1C272C]/60 backdrop-blur-md rounded-md border border-[#3EBBFF]/10 p-6 flex flex-col gap-4 items-center w-fit max-w-sm text-center">
-          <TopicIcon width={48} height={48} />
+        <div className="relative z-10 bg-[#1C272C]/60 backdrop-blur-md rounded-sm border border-[#3EBBFF]/10 p-1 flex flex-col gap-0.5 items-center w-fit max-w-sm text-center text-xs">
+          <TopicIcon width={24} height={24} />
           {step.bodyPart ||
             (step.repeat && (
               <div className="flex flex-col gap-1">
@@ -49,7 +49,7 @@ const StepProgressCard = ({ step }: StepProgressCardProps) => {
                 )}
               </div>
             ))}
-          <p className="text-[#F0F8FC] text-base font-bold">
+          <p className="text-[#F0F8FC] text-[10px] font-bold">
             {step.shortDescription}
           </p>
         </div>

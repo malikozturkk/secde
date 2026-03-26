@@ -59,3 +59,34 @@ export const stepIconMap: Record<StepType, SvgIcon> = {
   wash_body: WashingBody,
   control: Control,
 };
+
+export const stepImageMap: Record<StepType, string> = {
+  // Namaz
+  takbir: "/learn/takbir.png",
+  standing: "/learn/standing.png",
+  ruku: "/learn/ruku.png",
+  after_standing: "/learn/after_standing.png",
+  prostration: "/learn/prostration.png",
+  salutation: "/learn/salutation.png",
+
+  // Cuma
+  khutbah: "/learn/khutbah.png",
+
+  // Abdest
+  wash_hands: "/learn/wash_hands.png",
+  wash_mouth: "/learn/wash_mouth.png",
+  wash_nose: "/learn/wash_nose.png",
+  wash_face: "/learn/wash_face.png",
+  wash_arms: "/learn/wash_arms.png",
+  anoint_head: "/learn/anoint_head.png",
+  wash_ears: "/learn/wash_ears.png",
+  wash_feet: "/learn/wash_feet.png",
+
+  // Gusül Abdesti
+  intend: "/learn/intend.png",
+  wash_private: "/learn/wash_private.png",
+  full_ablution: "/learn/full_ablution.png",
+  wash_head: "/learn/wash_head.png",
+  wash_body: "/learn/wash_body.png",
+  control: "/learn/control.png",
+};
