@@ -29,7 +29,7 @@ const StepProgressCard = ({ step }: StepProgressCardProps) => {
           src={stepImageMap[step.type]}
           alt=""
           fill
-          className="object-cover rounded-md grayscale"
+          className="object-cover rounded-md"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
           aria-hidden="true"
