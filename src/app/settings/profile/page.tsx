@@ -134,9 +134,19 @@ export default function ProfileSettings() {
           Avatar
         </div>
         <div className="relative w-[90px] h-[90px]">
-          <div className="w-full h-full rounded-full bg-[linear-gradient(170deg, rgb(20, 40, 48) 0%, rgb(26, 56, 66) 100%)] border-2 border-[rgba(255,255,255,0.15)] flex items-center justify-center overflow-hidden">
-            <DefaultAvatar username={user?.username || "A"} />
-          </div>
+          {user && (
+            <div
+              className="w-full h-full rounded-full border-2 border-[rgba(255,255,255,0.15)] flex items-center justify-center overflow-hidden"
+              style={{
+                backgroundColor: user.avatarCustomization.colors.background,
+              }}
+            >
+              <DefaultAvatar
+                username={user.username || "A"}
+                config={user.avatarCustomization}
+              />
+            </div>
+          )}
           <button
             className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#4fc3f7] flex items-center justify-center border-2 border-[#070F12] text-white"
             aria-label="Edit Avatar"

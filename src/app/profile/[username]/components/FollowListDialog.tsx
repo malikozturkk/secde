@@ -3,12 +3,21 @@ import { Dialog } from "@/src/components/ui/Dialog";
 import DefaultAvatar from "../DefaultAvatar";
 import Link from "next/link";
 import FollowButton from "./FollowButton";
+import { AvatarCustomization } from "@/src/types/auth.types";
 
 interface FollowListDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  followers: { username: string; avatar: string | null }[];
-  following: { username: string; avatar: string | null }[];
+  followers: {
+    username: string;
+    avatar: string | null;
+    avatarCustomization: AvatarCustomization;
+  }[];
+  following: {
+    username: string;
+    avatar: string | null;
+    avatarCustomization: AvatarCustomization;
+  }[];
   myFollowing: { username: string; avatar: string | null }[];
   currentUsername?: string;
   defaultTab?: "following" | "followers";
@@ -75,16 +84,16 @@ export default function FollowListDialog({
               onClick={onClose}
               className="flex items-center gap-4 p-4 border-b border-[rgba(255,255,255,0.05)] hover:bg-white/5 transition-colors cursor-pointer text-decoration-none last:border-0"
             >
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-[#1a2b2a] border-2 border-[rgba(255,255,255,0.1)] shrink-0">
-                {u.avatar ? (
-                  <img
-                    src={u.avatar}
-                    alt={u.username}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <DefaultAvatar username={u.username} />
-                )}
+              <div
+                className="w-12 h-12 rounded-full overflow-hidden border-2 border-[rgba(255,255,255,0.1)] shrink-0"
+                style={{
+                  backgroundColor: u.avatarCustomization.colors.background,
+                }}
+              >
+                <DefaultAvatar
+                  username={u.username}
+                  config={u.avatarCustomization}
+                />
               </div>
               <div className="flex flex-col flex-1 min-w-0">
                 <span className="text-[17px] font-extrabold text-white truncate">

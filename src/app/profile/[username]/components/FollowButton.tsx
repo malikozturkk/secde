@@ -37,10 +37,10 @@ export default function FollowButton({
       {isPending ? (
         "BEKLENİYOR..."
       ) : (
-        <>
+        <div className="flex items-center gap-2">
           <Icon size={iconSize} strokeWidth={3} />
           {showLabel && label}
-        </>
+        </div>
       )}
     </Button>
   );

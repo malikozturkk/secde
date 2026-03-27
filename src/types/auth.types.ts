@@ -3,6 +3,25 @@ export interface User {
   username: string;
   email: string;
   avatar: string | null;
+  avatarCustomization: AvatarCustomization;
+}
+
+export interface AvatarCustomization {
+  gender: Gender;
+  colors: {
+    iris: string;
+    pupil: string;
+    hair: string;
+    skin: string;
+    lips: string;
+    nose: string;
+    earInner: string;
+    neck: string;
+    eyebrow: string;
+    outfit: string;
+    background: string;
+  };
+  accessories: Record<string, unknown>;
 }
 
 export interface UserDetail extends User {
@@ -14,10 +33,12 @@ export interface UserDetail extends User {
     preview: {
       username: string;
       avatar: string | null;
+      avatarCustomization: AvatarCustomization;
     }[];
   };
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
+  avatarCustomization: AvatarCustomization;
 }
 
 export interface AuthTokens {
@@ -80,6 +101,11 @@ export type RefreshTokenResponseData = AuthTokensWithUser;
 
 export type ProfileResponseData = UserDetail;
 export type UpdateProfileResponseData = User;
+
+export enum Gender {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+}
 
 export interface ForgotPasswordResponseData {
   message: "FORGOT_PASSWORD_EMAIL_SENT";

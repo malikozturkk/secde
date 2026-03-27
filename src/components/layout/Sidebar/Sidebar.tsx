@@ -78,12 +78,15 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         <div
           className="rounded-full"
           style={{
-            background: "linear-gradient(170deg, #142830 0%, #1a3842 100%)",
+            background: user.avatarCustomization.colors.background,
             width: 32,
             height: 32,
           }}
         >
-          <DefaultAvatar username={user.username} />
+          <DefaultAvatar
+            username={user.username}
+            config={user.avatarCustomization}
+          />
         </div>
       ),
       hideOnMobile: false,

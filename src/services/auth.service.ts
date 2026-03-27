@@ -16,7 +16,7 @@ import type {
   ResetPasswordPayload,
   LogoutPayload,
 } from "../types";
-import { ProfileResponseData } from "../types/auth.types";
+import { AvatarCustomization, ProfileResponseData } from "../types/auth.types";
 
 export const authService = {
   register: (payload: RegisterPayload) =>
@@ -68,11 +68,23 @@ export const authService = {
 
   getFollowers: (username: string) =>
     axiosInstance.get<
-      ApiResponse<{ username: string; avatar: string | null }[]>
+      ApiResponse<
+        {
+          username: string;
+          avatar: string | null;
+          avatarCustomization: AvatarCustomization;
+        }[]
+      >
     >(`/auth/${username}/followers`),
 
   getFollowing: (username: string) =>
     axiosInstance.get<
-      ApiResponse<{ username: string; avatar: string | null }[]>
+      ApiResponse<
+        {
+          username: string;
+          avatar: string | null;
+          avatarCustomization: AvatarCustomization;
+        }[]
+      >
     >(`/auth/${username}/following`),
 };

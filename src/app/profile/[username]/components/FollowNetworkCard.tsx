@@ -4,10 +4,19 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import FollowListDialog from "./FollowListDialog";
 import FollowButton from "./FollowButton";
+import { AvatarCustomization } from "@/src/types/auth.types";
 
 interface FollowNetworkCardProps {
-  followers: { username: string; avatar: string | null }[];
-  following: { username: string; avatar: string | null }[];
+  followers: {
+    username: string;
+    avatar: string | null;
+    avatarCustomization: AvatarCustomization;
+  }[];
+  following: {
+    username: string;
+    avatar: string | null;
+    avatarCustomization: AvatarCustomization;
+  }[];
   myFollowing: { username: string; avatar: string | null }[];
   currentUsername?: string;
 }
@@ -65,16 +74,16 @@ export default function FollowNetworkCard({
                 href={`/profile/${u.username}`}
                 className="flex items-center gap-4 px-6 py-3 hover:bg-white/5 transition-colors no-underline"
               >
-                <div className="w-11 h-11 rounded-full overflow-hidden bg-[#1a2b2a] border-2 border-[rgba(255,255,255,0.1)] shrink-0">
-                  {u.avatar ? (
-                    <img
-                      src={u.avatar}
-                      alt={u.username}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <DefaultAvatar username={u.username} />
-                  )}
+                <div
+                  className="w-11 h-11 rounded-full overflow-hidden border-2 border-[rgba(255,255,255,0.1)] shrink-0"
+                  style={{
+                    backgroundColor: u.avatarCustomization.colors.background,
+                  }}
+                >
+                  <DefaultAvatar
+                    username={u.username}
+                    config={u.avatarCustomization}
+                  />
                 </div>
                 <div className="flex flex-col justify-center flex-1 min-w-0">
                   <span className="font-extrabold text-[15px] text-white tracking-tight truncate">

@@ -121,21 +121,16 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               <div
                 className="min-h-[210px] flex items-end justify-center border-b border-white/[0.06] relative"
                 style={{
-                  background:
-                    "linear-gradient(170deg, #142830 0%, #1a3842 100%)",
+                  backgroundColor:
+                    profile.avatarCustomization.colors.background,
                 }}
               >
-                {profile.avatar ? (
-                  <img
-                    src={profile.avatar}
-                    alt={profile.username}
-                    className="ng-animate-pop w-[110px] h-[110px] rounded-full object-cover border-4 border-[#1c2e35] outline outline-[3px] outline-[#25B49A] shadow-[0_0_32px_rgba(37,180,154,0.3)] mb-[14px]"
+                <div className="ng-animate-pop w-[190px] h-[210px] shrink-0">
+                  <DefaultAvatar
+                    username={profile.username}
+                    config={profile.avatarCustomization}
                   />
-                ) : (
-                  <div className="ng-animate-pop w-[190px] h-[210px] shrink-0">
-                    <DefaultAvatar username={profile.username} />
-                  </div>
-                )}
+                </div>
 
                 {isOwner && (
                   <div className="absolute right-4 top-4">
@@ -188,17 +183,16 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                       {mutualFollowers.slice(0, 3).map((f) => (
                         <div
                           key={f.username}
-                          className="inline-block h-6 w-6 rounded-full ring-2 ring-[#1c2e35] bg-[#1a2b2a] overflow-hidden"
+                          className="inline-block h-6 w-6 rounded-full ring-2 ring-[#1c2e35] overflow-hidden"
+                          style={{
+                            backgroundColor:
+                              f.avatarCustomization.colors.background,
+                          }}
                         >
-                          {f.avatar ? (
-                            <img
-                              src={f.avatar}
-                              alt={f.username}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <DefaultAvatar username={f.username} />
-                          )}
+                          <DefaultAvatar
+                            username={f.username}
+                            config={f.avatarCustomization}
+                          />
                         </div>
                       ))}
                     </div>
