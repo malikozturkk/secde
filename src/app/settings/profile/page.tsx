@@ -15,6 +15,7 @@ import { Button } from "@/src/components/ui/Button";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
 import { useLogout } from "@/src/hooks/auth/useLogout";
 import { Pencil, Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 
 export default function ProfileSettings() {
   const { user } = useAuthStore();
@@ -147,13 +148,14 @@ export default function ProfileSettings() {
               />
             </div>
           )}
-          <button
+          <Link
             className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#4fc3f7] flex items-center justify-center border-2 border-[#070F12] text-white"
             aria-label="Edit Avatar"
             type="button"
+            href="/settings/avatar"
           >
             <Pencil size={14} strokeWidth={2.5} />
-          </button>
+          </Link>
         </div>
       </div>
 

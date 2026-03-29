@@ -134,7 +134,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 
                 {isOwner && (
                   <div className="absolute right-4 top-4">
-                    <Link href="/settings/profile">
+                    <Link href="/settings/avatar">
                       <Button variant="primary" size="sm">
                         <Pencil size={20} strokeWidth={2.5} />
                       </Button>
