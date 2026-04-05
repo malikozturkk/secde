@@ -24,6 +24,12 @@ export type {
 export type { OtpVerifyPayload, OtpVerifyResponseData } from "./otp.types";
 
 export type {
+  UserSearchResult,
+  SearchUsersParams,
+  SearchUsersResponse,
+} from "./user.types";
+
+export type {
   GuideCheckQuestionPayload,
   GuideCheckQuestionResponse,
   GuideData,

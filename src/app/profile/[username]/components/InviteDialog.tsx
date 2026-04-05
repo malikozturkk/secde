@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Dialog } from "@/src/components/ui/Dialog";
 import { Copy, Check } from "lucide-react";
 import Link from "next/link";
+import { InviteSearch } from "@/src/icons/tsx/mascot";
 
 interface InviteDialogProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export default function InviteDialog({ isOpen, onClose }: InviteDialogProps) {
   return (
     <Dialog isOpen={isOpen} onClose={onClose} maxWidth="md">
       <div className="flex flex-col items-center text-center p-4">
+        <InviteSearch width={120} height={120} />
         <h2 className="text-[24px] font-black text-white mb-3 m-0 tracking-tight">
           Arkadaşlarını davet et
         </h2>

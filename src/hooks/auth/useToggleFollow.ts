@@ -12,6 +12,7 @@ export const useToggleFollow = () => {
       queryClient.invalidateQueries({ queryKey: ["followers", username] });
       queryClient.invalidateQueries({ queryKey: ["following", username] });
       queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["userSearch"] });
     },
   });
 };
