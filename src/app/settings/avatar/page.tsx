@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -192,20 +192,30 @@ export default function AvatarSettingsPage() {
   const [activeTab, setActiveTab] = useState<AvatarColorKey>("skin");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const initialColors: AvatarColors = {
-    iris: user?.avatarCustomization?.colors?.iris || "",
-    pupil: user?.avatarCustomization?.colors?.pupil || "",
-    hair: user?.avatarCustomization?.colors?.hair || "",
-    skin: user?.avatarCustomization?.colors?.skin || "",
-    lips: user?.avatarCustomization?.colors?.lips || "",
-    nose: user?.avatarCustomization?.colors?.nose || "",
-    earInner: user?.avatarCustomization?.colors?.earInner || "",
-    eyebrow: user?.avatarCustomization?.colors?.eyebrow || "",
-    outfit: user?.avatarCustomization?.colors?.outfit || "",
-    background: user?.avatarCustomization?.colors?.background || "",
-  };
+  const getColorsFromUser = (u: typeof user): AvatarColors => ({
+    iris: u?.avatarCustomization?.colors?.iris || "",
+    pupil: u?.avatarCustomization?.colors?.pupil || "",
+    hair: u?.avatarCustomization?.colors?.hair || "",
+    skin: u?.avatarCustomization?.colors?.skin || "",
+    lips: u?.avatarCustomization?.colors?.lips || "",
+    nose: u?.avatarCustomization?.colors?.nose || "",
+    earInner: u?.avatarCustomization?.colors?.earInner || "",
+    eyebrow: u?.avatarCustomization?.colors?.eyebrow || "",
+    outfit: u?.avatarCustomization?.colors?.outfit || "",
+    background: u?.avatarCustomization?.colors?.background || "",
+  });
 
-  const [colors, setColors] = useState<AvatarColors>(initialColors);
+  const [colors, setColors] = useState<AvatarColors>(() =>
+    getColorsFromUser(user)
+  );
+
+  useEffect(() => {
+    if (user) {
+      setColors(getColorsFromUser(user));
+    }
+  }, [user]);
+
+  const initialColors = useMemo(() => getColorsFromUser(user), [user]);
 
   const changedColors = useMemo(() => {
     const diff: Partial<AvatarColors> = {};
