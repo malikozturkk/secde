@@ -16,7 +16,6 @@ export interface AvatarCustomization {
     lips: string;
     nose: string;
     earInner: string;
-    neck: string;
     eyebrow: string;
     outfit: string;
     background: string;

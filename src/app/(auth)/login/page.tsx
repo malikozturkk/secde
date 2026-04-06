@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#070F12] flex flex-col">
-      <header className="w-full flex items-center justify-between px-6 py-5 flex-shrink-0">
+      <header className="w-full flex items-center justify-between px-6 py-5 shrink-0">
         <Link
           href="/"
           className="text-2xl text-white hover:opacity-80 transition-opacity select-none"

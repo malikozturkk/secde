@@ -152,22 +152,6 @@ const TabIcons: Record<AvatarColorKey, React.FC<{ color: string }>> = {
       <path d="M10 14c0 1 .5 1.5 1.5 1.5" />
     </svg>
   ),
-  neck: ({ color }) => (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9 8v8c0 2 1.5 3 3 3s3-1 3-3V8" />
-      <path d="M7 19h10" />
-      <path d="M8 8h8" />
-    </svg>
-  ),
   outfit: ({ color }) => (
     <svg
       width="22"
@@ -216,7 +200,6 @@ export default function AvatarSettingsPage() {
     lips: user?.avatarCustomization?.colors?.lips || "",
     nose: user?.avatarCustomization?.colors?.nose || "",
     earInner: user?.avatarCustomization?.colors?.earInner || "",
-    neck: user?.avatarCustomization?.colors?.neck || "",
     eyebrow: user?.avatarCustomization?.colors?.eyebrow || "",
     outfit: user?.avatarCustomization?.colors?.outfit || "",
     background: user?.avatarCustomization?.colors?.background || "",

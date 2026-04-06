@@ -5,6 +5,8 @@ import axios, {
 } from "axios";
 import { useAuthStore } from "../store/auth.store";
 import { AuthTokensWithUser, ApiResponse } from "../types";
+import Cookies from "js-cookie";
+import { AUTH_COOKIE_NAME } from "../constants/routes";
 
 interface RetryableRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -39,8 +41,9 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const { accessToken } = useAuthStore.getState();
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    const token = accessToken ?? Cookies.get(AUTH_COOKIE_NAME) ?? null;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -55,8 +58,9 @@ axiosInstance.interceptors.response.use(
     const is401 = error.response?.status === 401;
     const alreadyRetried = originalRequest?._retry;
     const isRefreshEndpoint = originalRequest?.url?.includes("/auth/refresh");
+    const isLoginEndpoint = originalRequest?.url?.includes("/auth/login");
 
-    if (!is401 || alreadyRetried || isRefreshEndpoint) {
+    if (!is401 || alreadyRetried || isRefreshEndpoint || isLoginEndpoint) {
       return Promise.reject(error);
     }
 

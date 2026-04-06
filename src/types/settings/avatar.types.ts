@@ -6,7 +6,6 @@ export type AvatarColorKey =
   | "lips"
   | "nose"
   | "earInner"
-  | "neck"
   | "eyebrow"
   | "outfit"
   | "background";

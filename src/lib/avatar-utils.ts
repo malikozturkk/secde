@@ -155,24 +155,6 @@ export const COLOR_FIELD_CONFIGS: ColorFieldConfig[] = [
     ],
   },
   {
-    key: "neck",
-    label: "Boyun rengi",
-    palette: [
-      "#8d5524",
-      "#a0522d",
-      "#b5651d",
-      "#c68642",
-      "#d2946b",
-      "#deb887",
-      "#f1c27d",
-      "#f5cba7",
-      "#fad7b0",
-      "#fde7d5",
-      "#fef0e6",
-      "#fff5ee",
-    ],
-  },
-  {
     key: "outfit",
     label: "Kıyafet",
     palette: [

@@ -50,7 +50,7 @@ export default function DefaultAvatar({
         width="60"
         height="44"
         rx="10"
-        fill={config.colors.neck}
+        fill={config.colors.skin}
       />
 
       {/* Kulaklar */}
