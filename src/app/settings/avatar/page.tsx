@@ -274,7 +274,7 @@ export default function AvatarSettingsPage() {
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col gap-6 md:flex-row md:items-start lg:flex-1 lg:items-stretch">
-          <div className="flex w-full shrink-0 flex-col items-center gap-4 md:sticky md:top-6 md:w-1/2 lg:static lg:max-h-full lg:min-h-0 lg:self-stretch lg:justify-between">
+          <div className="flex w-full shrink-0 flex-col items-center gap-4 md:sticky md:top-6 md:w-1/2 md:pb-1.5 lg:static lg:max-h-full lg:min-h-0 lg:self-stretch lg:justify-between">
             <div
               className="flex h-80 w-full min-h-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl md:h-auto md:min-h-[280px] lg:h-auto lg:min-h-0 lg:max-h-full lg:flex-1"
               style={{ backgroundColor: colors.background }}

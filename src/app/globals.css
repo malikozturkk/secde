@@ -151,3 +151,76 @@ input:-webkit-autofill:active {
   background-color: #1a2b2a !important;
   transition: background-color 0s !important;
 }
+
+@keyframes floatBounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1deg);
+  }
+}
+
+@keyframes ringPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.15;
+  }
+}
+
+@keyframes starFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(15deg);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.animate-float-bounce {
+  animation: floatBounce 4s ease-in-out infinite;
+}
+
+.animate-ring-inner {
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+.animate-ring-outer {
+  animation: ringPulse 3s ease-in-out 1s infinite;
+}
+
+.animate-star-1 {
+  animation: starFloat 2.2s ease-in-out infinite;
+}
+.animate-star-2 {
+  animation: starFloat 2.8s ease-in-out 0.3s infinite;
+}
+.animate-star-3 {
+  animation: starFloat 2.5s ease-in-out 0.6s infinite;
+}
+.animate-star-4 {
+  animation: starFloat 3s ease-in-out 0.9s infinite;
+}
+
+.animate-xp-badge {
+  animation: shimmer 3s ease-in-out infinite;
+}

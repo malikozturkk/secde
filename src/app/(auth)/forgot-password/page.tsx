@@ -11,6 +11,7 @@ import {
 } from "@/src/validations/auth.validation";
 import { Button } from "@/src/components/ui/Button";
 import { Input } from "@/src/components/ui/Input";
+import { Info, Mail, MailCheck } from "lucide-react";
 
 export default function ForgotPasswordPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -36,7 +37,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen bg-[#070F12] flex flex-col">
-      <header className="w-full flex items-center justify-between px-6 py-5 flex-shrink-0">
+      <header className="w-full flex items-center justify-between px-6 py-5 shrink-0">
         <Link
           href="/"
           className="text-2xl text-white hover:opacity-80 transition-opacity select-none"
@@ -63,30 +64,7 @@ export default function ForgotPasswordPage() {
                 style={{ animationDuration: "2.5s" }}
               />
               <div className="w-24 h-24 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/40 flex items-center justify-center shadow-lg shadow-[#25B49A]/10">
-                <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                  <rect
-                    x="4"
-                    y="10"
-                    width="36"
-                    height="26"
-                    rx="4"
-                    fill="#1e3533"
-                    stroke="#25B49A"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M4 14L22 27L40 14"
-                    stroke="#25B49A"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M34 8L35 5L36 8L39 9L36 10L35 13L34 10L31 9Z"
-                    fill="#FFD700"
-                    opacity="0.9"
-                  />
-                </svg>
+                <MailCheck width={44} height={44} stroke="#25B49A" />
               </div>
             </div>
 
@@ -104,8 +82,8 @@ export default function ForgotPasswordPage() {
             </div>
 
             <div className="w-full bg-[#25B49A]/10 border border-[#25B49A]/25 rounded-2xl px-4 py-3 flex items-start gap-3">
-              <span className="text-[#25B49A] text-lg flex-shrink-0 mt-0.5">
-                💡
+              <span className="text-[#25B49A] text-lg shrink-0 mt-0.5">
+                <Info />
               </span>
               <p
                 className="text-[rgba(255,255,255,0.55)] text-[13px] leading-relaxed text-left"
@@ -119,32 +97,7 @@ export default function ForgotPasswordPage() {
           <div className="w-full max-w-[400px] flex flex-col gap-6">
             <div className="flex justify-center">
               <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                  <rect
-                    x="2"
-                    y="4"
-                    width="20"
-                    height="16"
-                    rx="3"
-                    fill="#1e3533"
-                    stroke="#25B49A"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M2 8L12 14L22 8"
-                    stroke="#25B49A"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2 20L9 13M22 20L15 13"
-                    stroke="#25B49A"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    opacity="0.5"
-                  />
-                </svg>
+                <Mail stroke="#25B49A" width={28} height={28} />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-center">

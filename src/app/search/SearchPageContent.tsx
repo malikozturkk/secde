@@ -157,10 +157,8 @@ export default function SearchPageContent() {
                 <AllCharacters width={450} height={450} />
               </div>
               <p className="text-base font-extrabold text-white mb-1">
-                Öğrenmek daha eğlenceli!
-              </p>
-              <p className="text-sm font-semibold text-white/40">
-                Arkadaşlarını bul ve birlikte ilerle.
+                Öğrenmek ve arkadaşlarınla birlikte takip etmek artık daha
+                eğlenceli!
               </p>
             </div>
           )}

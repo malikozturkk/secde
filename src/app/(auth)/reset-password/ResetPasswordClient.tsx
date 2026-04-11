@@ -11,6 +11,15 @@ import {
 } from "@/src/validations/auth.validation";
 import { Button } from "@/src/components/ui/Button";
 import { Input } from "@/src/components/ui/Input";
+import {
+  Award,
+  BadgeCheck,
+  CheckCircle,
+  Lock,
+  Medal,
+  ShieldCheck,
+  Trophy,
+} from "lucide-react";
 
 interface ResetPasswordClientProps {
   userId: string;
@@ -66,27 +75,7 @@ export default function ResetPasswordClient({
                 style={{ animationDuration: "2.8s" }}
               />
               <div className="w-24 h-24 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/40 flex items-center justify-center shadow-lg shadow-[#25B49A]/10">
-                <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
-                  <path
-                    d="M23 4L6 11V22C6 31.4 13.4 40.2 23 42C32.6 40.2 40 31.4 40 22V11L23 4Z"
-                    fill="#1e3533"
-                    stroke="#25B49A"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M15 23L20.5 28.5L31 18"
-                    stroke="#25B49A"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M36 7L37 4.5L38 7L40.5 8L38 9L37 11.5L36 9L33.5 8Z"
-                    fill="#FFD700"
-                    opacity="0.9"
-                  />
-                </svg>
+                <ShieldCheck width={46} height={46} stroke="#25B49A" />
               </div>
             </div>
 
@@ -103,7 +92,9 @@ export default function ResetPasswordClient({
             </div>
 
             <div className="w-full bg-[#25B49A]/10 border border-[#25B49A]/25 rounded-2xl px-4 py-3 flex items-center gap-3">
-              <span className="text-2xl flex-shrink-0">🏅</span>
+              <span className="text-2xl flex-shrink-0">
+                <Award stroke="#EAB308" />
+              </span>
               <div className="text-left">
                 <p className="text-[#25B49A] text-[13px] font-extrabold">
                   Hesap Güvenliği Sağlandı
@@ -127,34 +118,7 @@ export default function ResetPasswordClient({
           <div className="w-full max-w-[400px] flex flex-col gap-6">
             <div className="flex justify-center">
               <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                  <rect
-                    x="3"
-                    y="11"
-                    width="18"
-                    height="11"
-                    rx="2"
-                    fill="#1e3533"
-                    stroke="#25B49A"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M7 11V7C7 4.24 9.24 2 12 2C14.76 2 17 4.24 17 7V11"
-                    stroke="#25B49A"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                  <circle cx="12" cy="16.5" r="1.5" fill="#25B49A" />
-                  <line
-                    x1="12"
-                    y1="16.5"
-                    x2="12"
-                    y2="19"
-                    stroke="#25B49A"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <Lock stroke="#25B49A" width={28} height={28} />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-center">

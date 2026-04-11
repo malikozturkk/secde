@@ -7,6 +7,7 @@ import { useOtpResend } from "@/src/hooks/auth/useOtpResend";
 import { useAuthStore } from "@/src/store/auth.store";
 import { Button } from "@/src/components/ui/Button";
 import Link from "next/link";
+import { Mail } from "lucide-react";
 
 const RESEND_COOLDOWN = 180;
 const OTP_LENGTH = 6;
@@ -154,22 +155,7 @@ export default function VerifyOtpPage() {
         <div className="w-full max-w-[400px] flex flex-col gap-6">
           <div className="flex justify-center">
             <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4Z"
-                  stroke="#25B49A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M22 6L12 13L2 6"
-                  stroke="#25B49A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <Mail stroke="#25B49A" width={28} height={28} />
             </div>
           </div>
 
