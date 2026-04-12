@@ -1,6 +1,13 @@
 import { notFound } from "next/navigation";
 import { authService } from "@/src/services/auth.service";
+import { createMetadata } from "@/src/lib/metadata";
 import ResetPasswordClient from "./ResetPasswordClient";
+
+export const metadata = createMetadata({
+  title: "Şifre Sıfırla",
+  description: "NamazGo hesabın için yeni bir şifre belirle.",
+  path: "/reset-password",
+});
 
 interface ResetPasswordPageProps {
   searchParams: Promise<{

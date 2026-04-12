@@ -1,6 +1,14 @@
 import { Suspense } from "react";
+import { createMetadata } from "@/src/lib/metadata";
 import SearchPageContent from "./SearchPageContent";
 import AppLayout from "@/src/components/layout/AppLayout";
+
+export const metadata = createMetadata({
+  title: "Kullanıcı Ara",
+  description:
+    "NamazGo topluluğunda kullanıcı ara, arkadaşlarını bul ve takip et.",
+  path: "/search",
+});
 
 function SearchPageFallback() {
   return (

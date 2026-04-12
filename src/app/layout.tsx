@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { createRootMetadata } from "@/src/lib/metadata";
 import QueryProvider from "../providers/QueryProvider";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "NamazGo — Namaz Yolculuğun Başlasın",
-  description:
-    "Duolingo tarzı oyunlaştırılmış İslami namaz uygulaması. Namaz kıl, abdest öğren, seri tut!",
-};
+export const metadata = createRootMetadata();
 
 export default function RootLayout({
   children,

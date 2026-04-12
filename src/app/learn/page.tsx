@@ -1,3 +1,4 @@
+import { createMetadata } from "@/src/lib/metadata";
 import "@/src/styles/learn.css";
 import AppLayout from "@/src/components/layout/AppLayout";
 import { AmbientBackground } from "@/src/components/learn/AmbientBackground";
@@ -6,6 +7,13 @@ import { NodeRow } from "@/src/components/learn/NodeRow";
 import { LearnNodeCard } from "@/src/components/learn/LearnNodeCard";
 import { FeaturedLearnNode } from "@/src/components/learn/FeaturedLearnNode";
 import { LEARN_NODES } from "./learnNodes";
+
+export const metadata = createMetadata({
+  title: "Öğren",
+  description:
+    "Abdest, gusül abdesti ve namazları adım adım öğren. Oyunlaştırılmış rehberlerle ibadetlerini geliştir.",
+  path: "/learn",
+});
 
 export const revalidate = 3600;
 
