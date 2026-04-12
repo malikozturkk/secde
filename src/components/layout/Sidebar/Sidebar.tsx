@@ -76,11 +76,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       href: `/profile/${user.username}`,
       icon: (
         <div
-          className="rounded-full"
+          className="inline-block h-8 w-8 rounded-full overflow-hidden p-0.5"
           style={{
             background: user.avatarCustomization.colors.background,
-            width: 32,
-            height: 32,
           }}
         >
           <DefaultAvatar
