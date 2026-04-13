@@ -5,6 +5,8 @@ export const PUBLIC_ROUTES = [
   "/forgot-password",
   "/reset-password",
   "/verify-otp",
+  "/terms",
+  "/privacy",
 ];
 export const AUTH_ROUTES = [
   "/login",

@@ -85,9 +85,12 @@ export default function ProfileSettings() {
           <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
             Sosyal hesaplar
           </button>
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
+          <Link
+            className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]"
+            href="/privacy"
+          >
             Gizlilik ayarları
-          </button>
+          </Link>
         </div>
       </div>
 
