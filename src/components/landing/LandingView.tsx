@@ -45,7 +45,7 @@ export const LandingView = () => {
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left order-2 md:order-2 space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Namazı alışkanlığa dönüştürmenin en eğlenceli yolu
+              Namazı alışkanlığa dönüştürmenin en eğlenceli yolu!
             </h1>
           </div>
 
