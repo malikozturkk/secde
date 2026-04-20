@@ -53,6 +53,8 @@ export interface RegisterPayload {
   username: string;
   email: string;
   password: string;
+  termsAccepted: boolean;
+  privacyPolicyAccepted: boolean;
 }
 
 export interface LoginPayload {

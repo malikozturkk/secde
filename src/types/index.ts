@@ -34,3 +34,10 @@ export type {
   GuideCheckQuestionResponse,
   GuideData,
 } from "./learn.types";
+
+export type {
+  ConsentType,
+  ConsentStatusItem,
+  ConsentStatusResponse,
+  AcceptConsentPayload,
+} from "./consent.types";

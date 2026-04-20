@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRegister } from "@/src/hooks/auth/useRegister";
@@ -10,18 +10,33 @@ import {
 } from "@/src/validations/auth.validation";
 import { Button } from "@/src/components/ui/Button";
 import { Input } from "@/src/components/ui/Input";
+import { ConsentCheckbox } from "@/src/components/consent/ConsentCheckbox";
 
 export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     setError,
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+    },
+    mode: "onChange",
   });
 
   const { mutate: registerUser, isPending } = useRegister({ setError });
+
+  const termsAccepted = useWatch({ control, name: "termsAccepted" });
+  const privacyAccepted = useWatch({
+    control,
+    name: "privacyPolicyAccepted",
+  });
+  const consentsMissing = !termsAccepted || !privacyAccepted;
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,13 +110,31 @@ export default function RegisterPage() {
               {...register("password")}
             />
 
+            <div className="mt-2 flex flex-col gap-2">
+              <ConsentCheckbox
+                consentType="TERMS_OF_SERVICE"
+                error={errors.termsAccepted?.message}
+                {...register("termsAccepted")}
+              />
+              <ConsentCheckbox
+                consentType="PRIVACY_POLICY"
+                error={errors.privacyPolicyAccepted?.message}
+                {...register("privacyPolicyAccepted")}
+              />
+            </div>
+
             <div className="mt-2">
               <Button
                 type="submit"
                 variant="primary"
                 size="lg"
                 className="w-full"
-                disabled={isPending}
+                disabled={isPending || consentsMissing}
+                title={
+                  consentsMissing
+                    ? "Devam etmek için yukarıdaki iki kutuyu da işaretlemelisin"
+                    : undefined
+                }
               >
                 {isPending ? "Kaydediliyor..." : "KAYIT OL"}
               </Button>
@@ -130,27 +163,6 @@ export default function RegisterPage() {
             >
               Giriş yap
             </Link>
-          </p>
-
-          <p
-            className="text-center text-[rgba(255,255,255,0.25)] text-[12px] leading-relaxed px-4"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
-          >
-            Kayıt olarak{" "}
-            <Link
-              href="/terms"
-              className="text-[rgba(255,255,255,0.45)] underline hover:text-white transition-colors"
-            >
-              Kullanım Koşullarımızı
-            </Link>{" "}
-            ve{" "}
-            <Link
-              href="/privacy"
-              className="text-[rgba(255,255,255,0.45)] underline hover:text-white transition-colors"
-            >
-              Gizlilik Politikamızı
-            </Link>{" "}
-            kabul etmiş olursun.
           </p>
         </div>
       </main>

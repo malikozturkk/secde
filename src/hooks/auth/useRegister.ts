@@ -4,7 +4,7 @@ import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
 import { authService } from "@/src/services/auth.service";
 import { useAuthStore } from "@/src/store/auth.store";
-import { AuthErrorCode } from "@/src/types/enums";
+import { AuthErrorCode, ConsentErrorCode } from "@/src/types/enums";
 import { RegisterFormValues } from "@/src/validations/auth.validation";
 import { RegisterResponseData, ApiResponse } from "@/src/types";
 
@@ -57,6 +57,16 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
           break;
         case AuthErrorCode.EMAIL_REQUIRED:
           setError("email", { message: "E-posta adresi zorunludur" });
+          break;
+        case ConsentErrorCode.TERMS_NOT_ACCEPTED:
+          setError("termsAccepted", {
+            message: "Kullanım Koşullarını kabul etmelisiniz",
+          });
+          break;
+        case ConsentErrorCode.PRIVACY_POLICY_NOT_ACCEPTED:
+          setError("privacyPolicyAccepted", {
+            message: "Gizlilik Politikasını kabul etmelisiniz",
+          });
           break;
         default:
           setError("root", {

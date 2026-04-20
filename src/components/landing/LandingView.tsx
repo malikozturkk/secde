@@ -70,12 +70,17 @@ export const LandingView = () => {
 
       <footer className="py-8 border-t border-[var(--color-border)]">
         <div className="container mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-text-muted)]">
-          <span>© {new Date().getFullYear()} NamazGo. Tüm hakları saklıdır.</span>
+          <span>
+            © {new Date().getFullYear()} NamazGo. Tüm hakları saklıdır.
+          </span>
           <div className="flex items-center gap-6">
             <Link href="/terms" className="hover:text-white transition-colors">
               Kullanım Şartları
             </Link>
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            <Link
+              href="/privacy"
+              className="hover:text-white transition-colors"
+            >
               Gizlilik Politikası
             </Link>
             <CookiePreferencesLink />

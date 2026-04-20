@@ -18,6 +18,12 @@ export const registerSchema = z.object({
     .string()
     .min(1, "Şifre zorunludur")
     .min(8, "Şifre en az 8 karakter olmalıdır"),
+  termsAccepted: z.boolean().refine((v) => v === true, {
+    message: "Devam etmek için Kullanım Koşullarını kabul etmelisiniz",
+  }),
+  privacyPolicyAccepted: z.boolean().refine((v) => v === true, {
+    message: "Devam etmek için Gizlilik Politikasını kabul etmelisiniz",
+  }),
 });
 
 export const otpSchema = z.object({
