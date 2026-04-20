@@ -1,5 +1,6 @@
 import { createRootMetadata } from "@/src/lib/metadata";
 import QueryProvider from "../providers/QueryProvider";
+import { ConsentGateProvider } from "../providers/ConsentGateProvider";
 import "./globals.css";
 
 export const metadata = createRootMetadata();
@@ -24,7 +25,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <ConsentGateProvider>{children}</ConsentGateProvider>
+        </QueryProvider>
       </body>
     </html>
   );
