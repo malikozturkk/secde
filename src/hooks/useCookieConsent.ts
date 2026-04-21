@@ -5,6 +5,22 @@ const COOKIE_CONSENT_KEY = "namazgo-cookie-consent";
 const COOKIE_CONSENT_VERSION = "1.0";
 const COOKIE_EXPIRY_DAYS = 365;
 
+function applyAnalyticsConsent(granted: boolean): void {
+  if (granted) {
+    // TODO: analytics consent onaylandı, yükle
+  } else {
+    // TODO: analytics consent reddedildi, yükleme
+  }
+}
+
+function applyMarketingConsent(granted: boolean): void {
+  if (granted) {
+    // TODO: marketing consent onaylandı, yükle
+  } else {
+    // TODO: marketing consent reddedildi, yükleme
+  }
+}
+
 export interface CookiePreferences {
   essential: true;
   analytics: boolean;
@@ -79,6 +95,11 @@ export function useCookieConsent(): CookieConsentState {
       setShowBanner(true);
     }
   }, []);
+
+  useEffect(() => {
+    applyAnalyticsConsent(hasConsented && preferences.analytics);
+    applyMarketingConsent(hasConsented && preferences.marketing);
+  }, [hasConsented, preferences.analytics, preferences.marketing]);
 
   const acceptAll = useCallback(() => {
     const allAccepted: CookiePreferences = {

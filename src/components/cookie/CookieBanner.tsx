@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { X, ChevronDown, ChevronUp, Shield } from "lucide-react";
 import { useCookieConsentContext } from "@/src/providers/CookieConsentProvider";
@@ -51,6 +51,10 @@ export default function CookieBanner() {
 
   const [localPrefs, setLocalPrefs] = useState<CookiePreferences>(preferences);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLocalPrefs(preferences);
+  }, [preferences]);
 
   if (!showBanner && !showDetails) return null;
 
