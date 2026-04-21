@@ -38,9 +38,10 @@ const LegalLayout: React.FC<LegalLayoutProps> = ({
       <main className="max-w-4xl mx-auto px-6 py-12">
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">{title}</h1>
-          <p className="text-[var(--color-text-muted)] text-sm">
-            Son güncelleme: {lastUpdated}
-          </p>
+          <div className="flex items-center justify-between text-[var(--color-text-muted)] text-sm">
+            <span>Son güncelleme: {lastUpdated}</span>
+            <span>Version: 1.0</span>
+          </div>
         </div>
 
         <article className="legal-content space-y-8 text-[rgba(255,255,255,0.85)] leading-relaxed text-[15px]">
