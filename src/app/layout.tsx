@@ -1,6 +1,8 @@
 import { createRootMetadata } from "@/src/lib/metadata";
 import QueryProvider from "../providers/QueryProvider";
 import { ConsentGateProvider } from "../providers/ConsentGateProvider";
+import { CookieConsentProvider } from "../providers/CookieConsentProvider";
+import CookieBanner from "../components/cookie/CookieBanner";
 import "./globals.css";
 
 export const metadata = createRootMetadata();
@@ -26,7 +28,10 @@ export default function RootLayout({
       </head>
       <body>
         <QueryProvider>
-          <ConsentGateProvider>{children}</ConsentGateProvider>
+          <CookieConsentProvider>
+            <ConsentGateProvider>{children}</ConsentGateProvider>
+            <CookieBanner />
+          </CookieConsentProvider>
         </QueryProvider>
       </body>
     </html>

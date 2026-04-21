@@ -156,7 +156,7 @@ export default function SearchPageContent() {
               <div>
                 <AllCharacters width={450} height={450} />
               </div>
-              <p className="text-base font-extrabold text-white mb-1">
+              <p className="text-base font-extrabold text-white mb-1 max-w-2xs">
                 Öğrenmek ve arkadaşlarınla birlikte takip etmek artık daha
                 eğlenceli!
               </p>
