@@ -14,7 +14,7 @@ function ColorSwatch({ color, isSelected, onClick }: ColorSwatchProps) {
       type="button"
       onClick={onClick}
       title={color}
-      className="relative w-11 h-11 rounded-xl border-2 transition-all duration-150 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95"
+      className="relative w-28 h-28 rounded-xl border-2 transition-all duration-150 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95"
       style={{
         backgroundColor: color,
         borderColor: isSelected ? ACTIVE_COLOR : "rgba(255,255,255,0.1)",
