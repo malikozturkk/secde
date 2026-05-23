@@ -188,15 +188,10 @@ const WorshipView: React.FC = () => {
     pageState !== WorshipPageState.NoLocation;
 
   return (
-    <AppLayout mainClassName="!max-w-full !px-0 !py-0">
-      <div
-        className="wsh-page"
-        aria-label={TEXTS.pageTitle}
-        style={showRail ? undefined : { gridTemplateColumns: "1fr" }}
-      >
-        <div className="wsh-main">{renderState()}</div>
-
-        {showRail && worship.data && (
+    <AppLayout
+      rightPanel={
+        showRail &&
+        worship.data && (
           <div className="wsh-rail">
             <HijriCard meta={worship.data.meta} />
             <LocationCard
@@ -208,7 +203,11 @@ const WorshipView: React.FC = () => {
               onOpenSettings={handleOpenSettings}
             />
           </div>
-        )}
+        )
+      }
+    >
+      <div aria-label={TEXTS.pageTitle} className="wsh-main">
+        {renderState()}
       </div>
 
       <LocationModal

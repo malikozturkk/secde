@@ -22,7 +22,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({
     >
       <Sidebar />
       <div
-        className="flex w-full max-w-[1056px] gap-4 mx-auto h-screen min-w-0
+        className="flex w-full max-w-[1536px] justify-center gap-4 mx-auto h-screen min-w-0
           max-lg:flex-col max-lg:h-auto max-lg:max-w-full max-lg:px-0 max-lg:py-4"
       >
         <main
@@ -30,7 +30,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({
             "flex-1 h-screen overflow-y-auto overflow-x-hidden bg-transparent",
             "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
             "px-4 py-6 min-w-0",
-            rightPanel ? "max-w-[600px]" : "",
+            rightPanel ? "max-w-[860px]" : "",
             "max-lg:max-w-full max-lg:h-auto max-lg:overflow-visible max-lg:px-4 max-lg:py-0",
             mainClassName ?? "",
           ]
