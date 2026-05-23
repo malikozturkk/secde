@@ -11,6 +11,9 @@ import { GeolocationStatus } from "@/src/types/enums/worship.enums";
 import type { City } from "@/src/types/worship.types";
 import { cn } from "@/src/lib/utils";
 import { PinIcon } from "./icons/ControlIcons";
+import { Button } from "../ui/Button";
+import { X } from "lucide-react";
+import { Input } from "../ui/Input";
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -39,9 +42,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
   const filtered = useMemo(() => {
     const term = normalize(search);
     if (!term) return TURKISH_CITIES;
-    return TURKISH_CITIES.filter((city) =>
-      normalize(city.name).includes(term)
-    );
+    return TURKISH_CITIES.filter((city) => normalize(city.name).includes(term));
   }, [search]);
 
   const isRequestingGeo = geoStatus === GeolocationStatus.Loading;
@@ -63,15 +64,17 @@ export const LocationModal: React.FC<LocationModalProps> = ({
       maxWidth="md"
     >
       <div className="flex flex-col gap-3 px-5 pb-6 pt-4">
-        <button
+        <Button
           type="button"
-          className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl border-0 bg-[var(--color-primary)] px-3.5 py-3 text-xs font-black uppercase leading-none tracking-[0.1em] text-white shadow-[0_5px_0_0_var(--color-primary-dark)] transition-all duration-100 hover:brightness-110 active:translate-y-[3px] active:shadow-[0_2px_0_0_var(--color-primary-dark)] disabled:cursor-not-allowed disabled:opacity-60"
           onClick={onUseGeolocation}
+          variant="primary"
+          size="sm"
+          className="normal-case"
+          icon={<PinIcon width={14} height={14} />}
           disabled={isRequestingGeo || geoUnsupported}
         >
-          <PinIcon width={14} height={14} />
           {isRequestingGeo ? "Konum alınıyor…" : TEXTS.locationModalUseGeo}
-        </button>
+        </Button>
 
         {showGeoError && (
           <div
@@ -83,13 +86,24 @@ export const LocationModal: React.FC<LocationModalProps> = ({
           </div>
         )}
 
-        <input
-          type="search"
-          className="w-full rounded-2xl border-2 border-[#2a3d3b] bg-[#1a2b2a] px-3.5 py-3 text-sm font-bold text-white outline-none transition-colors duration-150 focus:border-[var(--color-primary-light)]"
-          placeholder={TEXTS.locationModalSearchPlaceholder}
+        <Input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
+          placeholder={TEXTS.locationModalSearchPlaceholder}
+          autoComplete="off"
+          className="h-12!"
           aria-label={TEXTS.locationModalSearchPlaceholder}
+          suffix={
+            search ? (
+              <button
+                onClick={() => setSearch("")}
+                aria-label="Temizle"
+                className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/40 hover:text-white transition-all duration-150 cursor-pointer"
+              >
+                <X width={10} height={10} />
+              </button>
+            ) : null
+          }
         />
 
         {filtered.length === 0 ? (
