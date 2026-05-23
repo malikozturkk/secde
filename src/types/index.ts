@@ -41,3 +41,16 @@ export type {
   ConsentStatusResponse,
   AcceptConsentPayload,
 } from "./consent.types";
+
+export type {
+  WorshipMeta,
+  PrayerTime,
+  WorshipTimes,
+  WorshipFasting,
+  WorshipData,
+  WorshipQueryParams,
+  WorshipSettings,
+  Coordinates,
+  City,
+  RamadanInfo,
+} from "./worship.types";

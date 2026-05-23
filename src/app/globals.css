@@ -224,3 +224,20 @@ input:-webkit-autofill:active {
 .animate-xp-badge {
   animation: shimmer 3s ease-in-out infinite;
 }
+
+@keyframes wshBubblePulse {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4),
+      0 0 0 0 rgba(37, 180, 154, 0.5);
+  }
+  50% {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5),
+      0 0 0 8px rgba(37, 180, 154, 0);
+  }
+}
+
+.wsh-bubble-pulse {
+  animation: wshBubblePulse 2.6s ease-in-out infinite;
+}
