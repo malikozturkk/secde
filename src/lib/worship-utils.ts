@@ -5,10 +5,7 @@ import {
   DAYS_LONG_TR,
   TEXTS,
 } from "../constants/worship";
-import {
-  PrayerKey,
-  PrayerState,
-} from "../types/enums/worship.enums";
+import { PrayerKey, PrayerState } from "../types/enums/worship.enums";
 import type {
   PrayerTime,
   WorshipTimes,
@@ -25,7 +22,8 @@ export const padNumber = (value: number): string =>
   String(Math.max(0, Math.floor(value))).padStart(2, "0");
 
 export const splitDuration = (totalSeconds: number): DurationParts => {
-  const safe = Number.isFinite(totalSeconds) && totalSeconds > 0 ? totalSeconds : 0;
+  const safe =
+    Number.isFinite(totalSeconds) && totalSeconds > 0 ? totalSeconds : 0;
   return {
     h: Math.floor(safe / 3600),
     m: Math.floor((safe % 3600) / 60),
@@ -78,7 +76,9 @@ export const formatRelativeDate = (
 
 export const formatLongDate = (yyyyMmDd: string): string => {
   const date = parseLocalDate(yyyyMmDd);
-  return `${date.getDate()} ${MONTHS_TR[date.getMonth()]} ${date.getFullYear()}`;
+  return `${date.getDate()} ${
+    MONTHS_TR[date.getMonth()]
+  } ${date.getFullYear()}`;
 };
 
 export const formatDayName = (input: string | Date): string => {
@@ -91,9 +91,8 @@ export const formatFromNow = (signedSeconds: number): string => {
   const abs = Math.abs(signedSeconds);
   const hours = Math.floor(abs / 3600);
   const minutes = Math.floor((abs % 3600) / 60);
-  const body = hours > 0
-    ? `${hours} sa ${padNumber(minutes)} dk`
-    : `${minutes} dk`;
+  const body =
+    hours > 0 ? `${hours} sa ${padNumber(minutes)} dk` : `${minutes} dk`;
   return signedSeconds < 0
     ? `${body}${TEXTS.passedSuffix}`
     : `${body}${TEXTS.upcomingSuffix}`;
@@ -129,7 +128,9 @@ export const formatCoordinate = (value: number, precision = 4): string =>
 export const getBrowserTimezone = (): string => {
   if (typeof Intl === "undefined") return "Europe/Istanbul";
   try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Istanbul";
+    return (
+      Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Istanbul"
+    );
   } catch {
     return "Europe/Istanbul";
   }
