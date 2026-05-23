@@ -192,7 +192,7 @@ const WorshipView: React.FC = () => {
       rightPanel={
         showRail &&
         worship.data && (
-          <div className="wsh-rail">
+          <div className="flex flex-col gap-4 max-[1280px]:grid max-[1280px]:grid-cols-3 max-[1280px]:gap-3 max-[768px]:grid-cols-1">
             <HijriCard meta={worship.data.meta} />
             <LocationCard
               meta={worship.data.meta}
@@ -206,7 +206,7 @@ const WorshipView: React.FC = () => {
         )
       }
     >
-      <div aria-label="Namaz Vakitleri" className="wsh-main">
+      <div aria-label="Namaz Vakitleri" className="flex min-w-0 flex-col gap-6">
         {renderState()}
       </div>
 

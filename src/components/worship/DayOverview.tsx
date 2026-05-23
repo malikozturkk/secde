@@ -6,11 +6,11 @@ import {
   ARC_WIDTH,
   PRAYER_CONFIG,
   PRAYER_ORDER,
-  TEXTS,
 } from "@/src/constants/worship";
 import { formatHoursMinutes, getPrayerState } from "@/src/lib/worship-utils";
-import { PrayerKey } from "@/src/types/enums/worship.enums";
+import { PrayerKey, PrayerState } from "@/src/types/enums/worship.enums";
 import type { WorshipData } from "@/src/types/worship.types";
+import { cn } from "@/src/lib/utils";
 
 interface DayOverviewProps {
   worship: WorshipData;
@@ -60,20 +60,24 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
   }, [maghribMs, sunriseMs]);
 
   return (
-    <section className="wsh-section">
-      <div className="wsh-section-head">
+    <section className="flex flex-col gap-4">
+      <div className="flex items-end justify-between gap-4">
         <div>
-          <h3 className="wsh-section-title">{TEXTS.dayFlowTitle}</h3>
-          <p className="wsh-section-sub">{TEXTS.dayFlowSubtitle}</p>
+          <h3 className="m-0 text-[22px] font-black tracking-[-0.01em] text-[var(--color-text)]">
+            Gün Akışı
+          </h3>
+          <p className="mt-1 text-[13px] font-bold text-[var(--color-text-muted)]">
+            Güneş&apos;in doğuştan batıma yolculuğu — günün şu anki konumu.
+          </p>
         </div>
-        <span className="wsh-section-meta">
-          {TEXTS.dayLength} · {dayLengthLabel}
+        <span className="text-[11px] font-black uppercase tracking-[0.12em] text-white/35">
+          Gün Uzunluğu · {dayLengthLabel}
         </span>
       </div>
-      <div className="wsh-day-card">
+      <div className="overflow-hidden rounded-[22px] border border-white/[0.06] bg-[#1c2e35] px-6 pb-6 pt-5">
         <svg
           viewBox={`0 0 ${ARC_WIDTH} ${ARC_HEIGHT}`}
-          className="wsh-day-svg"
+          className="block h-auto max-h-[220px] w-full"
           preserveAspectRatio="xMidYMid meet"
           aria-hidden="true"
         >
@@ -185,19 +189,38 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
           )}
         </svg>
 
-        <div className="wsh-day-labels">
+        <div className="mt-3.5 grid grid-cols-2 gap-3 min-[421px]:grid-cols-3 min-[721px]:grid-cols-6">
           {PRAYER_ORDER.map((key) => {
             const m = PRAYER_CONFIG[key];
             const time = times[key];
             const state = getPrayerState(time);
+            const isCurrent = state === PrayerState.Current;
+            const isPassed = state === PrayerState.Passed;
             return (
-              <div key={key} className={`wsh-day-label is-${state}`}>
+              <div
+                key={key}
+                className={cn(
+                  "flex flex-col items-center gap-1 rounded-xl border border-white/[0.04] bg-white/[0.02] p-2 transition-[background,border-color] duration-150",
+                  isCurrent &&
+                    "border-[rgba(245,166,35,0.35)] bg-[rgba(245,166,35,0.1)]",
+                  isPassed && "opacity-[0.55]"
+                )}
+              >
                 <span
-                  className="wsh-day-label-dot"
-                  style={{ background: m.color }}
+                  className="h-2 w-2 rounded-full shadow-[0_0_6px_currentColor]"
+                  style={{ background: m.color, color: m.color }}
                 />
-                <span className="wsh-day-label-name">{m.shortLabel}</span>
-                <span className="wsh-day-label-time">{time.time}</span>
+                <span
+                  className={cn(
+                    "text-[11px] font-black uppercase tracking-[0.08em] text-[var(--color-text-muted)]",
+                    isCurrent && "text-[var(--color-secondary-light)]"
+                  )}
+                >
+                  {m.shortLabel}
+                </span>
+                <span className="font-display text-base tabular-nums text-[var(--color-text)]">
+                  {time.time}
+                </span>
               </div>
             );
           })}
