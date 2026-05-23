@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { GeolocationStatus } from "@/src/types/enums/worship.enums";
 import type { Coordinates } from "@/src/types/worship.types";
+import { roundCoordinate } from "@/src/lib/worship-utils";
+
+const COORD_PRECISION = 6;
 
 interface UseGeolocationOptions {
   onSuccess?: (coords: Coordinates) => void;
@@ -110,10 +113,15 @@ export const useGeolocation = (
       new Promise<Coordinates>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
           (position) =>
-            resolve({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            }),
+            resolve(
+              roundCoordinate(
+                {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                },
+                COORD_PRECISION
+              )
+            ),
           (geoError) => reject(mapBrowserError(geoError)),
           {
             enableHighAccuracy: highAccuracy,
