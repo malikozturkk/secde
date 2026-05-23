@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import AppLayout from "@/src/components/layout/AppLayout";
-import { DEFAULT_CITY, TEXTS } from "@/src/constants/worship";
+import { DEFAULT_CITY } from "@/src/constants/worship";
 import {
   buildLocalDateString,
   formatRelativeDate,
@@ -206,7 +206,7 @@ const WorshipView: React.FC = () => {
         )
       }
     >
-      <div aria-label={TEXTS.pageTitle} className="wsh-main">
+      <div aria-label="Namaz Vakitleri" className="wsh-main">
         {renderState()}
       </div>
 

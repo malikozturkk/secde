@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { TEXTS } from "@/src/constants/worship";
 import { LocationDeniedIcon } from "../icons/ControlIcons";
 import { InfoState } from "./InfoState";
 
@@ -16,11 +15,11 @@ export const NoLocationState: React.FC<NoLocationStateProps> = ({
 }) => (
   <InfoState
     icon={<LocationDeniedIcon width={32} height={32} />}
-    title={TEXTS.noLocationTitle}
-    body={TEXTS.noLocationBody}
-    primaryAction={{ label: TEXTS.noLocationAction, onClick: onManualSelect }}
+    title="Konum bilgisi alınamadı"
+    body="Konum servislerine ulaşamıyoruz. İstanbul varsayılan olarak kullanılabilir ya da konumunu kendin seçebilirsin."
+    primaryAction={{ label: "Konum seç", onClick: onManualSelect }}
     secondaryAction={{
-      label: TEXTS.noLocationSecondary,
+      label: "Varsayılan kullan",
       onClick: onUseDefault,
     }}
   />

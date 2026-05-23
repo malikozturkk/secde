@@ -6,7 +6,6 @@ import { Button } from "@/src/components/ui/Button";
 import {
   CALCULATION_METHOD_LABEL,
   MADHAB_LABEL,
-  TEXTS,
 } from "@/src/constants/worship";
 import { CalculationMethod, Madhab } from "@/src/types/enums/worship.enums";
 import type { WorshipSettings } from "@/src/types/worship.types";
@@ -56,7 +55,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
       <section className="flex flex-col gap-3">
         <header className="flex items-baseline justify-between">
           <h3 className="text-sm font-black uppercase tracking-[0.14em] text-[var(--color-primary-light)]">
-            {TEXTS.methodKeyLabel}
+            Yöntem
           </h3>
           <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/40">
             Hesaplama yöntemi
@@ -101,7 +100,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
       <section className="flex flex-col gap-3">
         <header className="flex items-baseline justify-between">
           <h3 className="text-sm font-black uppercase tracking-[0.14em] text-[var(--color-primary-light)]">
-            {TEXTS.madhabKeyLabel}
+            Mezhep
           </h3>
           <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/40">
             İkindi hesabı
@@ -164,7 +163,7 @@ export const WorshipSettingsModal: React.FC<WorshipSettingsModalProps> = ({
       maxWidth="md"
       header={
         <h2 className="text-lg font-extrabold tracking-wide text-white">
-          {TEXTS.changeSettingsLabel}
+          Ayarları Değiştir
         </h2>
       }
     >

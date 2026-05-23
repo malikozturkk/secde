@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { TEXTS } from "@/src/constants/worship";
 import { PinIcon } from "../icons/ControlIcons";
 import { InfoState } from "./InfoState";
 
@@ -16,11 +15,11 @@ export const GeoDeniedState: React.FC<GeoDeniedStateProps> = ({
 }) => (
   <InfoState
     icon={<PinIcon width={32} height={32} />}
-    title={TEXTS.geoDeniedTitle}
-    body={TEXTS.geoDeniedBody}
-    primaryAction={{ label: TEXTS.geoDeniedAction, onClick: onRetry }}
+    title="Konum izni gerekli"
+    body="Yaşadığın yerin namaz vakitlerini gösterebilmemiz için tarayıcı konum iznini açman gerekiyor."
+    primaryAction={{ label: "Tekrar izin iste", onClick: onRetry }}
     secondaryAction={{
-      label: TEXTS.geoDeniedSecondary,
+      label: "Konumu elle seç",
       onClick: onManualSelect,
     }}
   />

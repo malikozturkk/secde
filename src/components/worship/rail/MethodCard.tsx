@@ -4,7 +4,6 @@ import React, { memo } from "react";
 import {
   CALCULATION_METHOD_LABEL,
   MADHAB_LABEL,
-  TEXTS,
 } from "@/src/constants/worship";
 import type { WorshipMeta } from "@/src/types/worship.types";
 
@@ -44,7 +43,7 @@ const MethodCardComponent: React.FC<MethodCardProps> = ({
         onClick={onOpenSettings}
         disabled={!onOpenSettings}
       >
-        {TEXTS.changeSettingsLabel}
+        Ayarları Değiştir
       </button>
     </div>
   );

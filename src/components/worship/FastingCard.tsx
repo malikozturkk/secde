@@ -1,7 +1,6 @@
 "use client";
 
 import React, { memo } from "react";
-import { TEXTS } from "@/src/constants/worship";
 import {
   clampPercent,
   formatTime,
@@ -25,7 +24,7 @@ const FastingCardComponent: React.FC<FastingCardProps> = ({ fasting }) => {
     return (
       <section
         className="wsh-fasting-card is-inactive"
-        aria-label={TEXTS.fastingTitle}
+        aria-label="Oruç"
       >
         <div className="wsh-fasting-head">
           <div className="wsh-fast-icon is-muted" aria-hidden="true">

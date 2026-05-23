@@ -3,7 +3,6 @@ import {
   PRAYER_ORDER,
   MONTHS_TR,
   DAYS_LONG_TR,
-  TEXTS,
 } from "../constants/worship";
 import { PrayerKey, PrayerState } from "../types/enums/worship.enums";
 import type {
@@ -69,8 +68,8 @@ export const formatRelativeDate = (
     : parseLocalDate(isoOrDateOnly);
   const today = parseLocalDate(todayDateString);
   const tomorrow = new Date(today.getTime() + 86_400_000);
-  if (isSameDay(target, today)) return TEXTS.todayLabel;
-  if (isSameDay(target, tomorrow)) return TEXTS.tomorrowLabel;
+  if (isSameDay(target, today)) return "Bugün";
+  if (isSameDay(target, tomorrow)) return "Yarın";
   return `${target.getDate()} ${MONTHS_TR[target.getMonth()]}`;
 };
 
@@ -93,9 +92,7 @@ export const formatFromNow = (signedSeconds: number): string => {
   const minutes = Math.floor((abs % 3600) / 60);
   const body =
     hours > 0 ? `${hours} sa ${padNumber(minutes)} dk` : `${minutes} dk`;
-  return signedSeconds < 0
-    ? `${body}${TEXTS.passedSuffix}`
-    : `${body}${TEXTS.upcomingSuffix}`;
+  return signedSeconds < 0 ? `${body} önce` : `${body} sonra`;
 };
 
 export const formatHoursMinutes = (totalMs: number): string => {

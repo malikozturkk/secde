@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { TEXTS } from "@/src/constants/worship";
 import { InfoIcon } from "../icons/ControlIcons";
 import { InfoState } from "./InfoState";
 
@@ -17,12 +16,12 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
   <InfoState
     tone="error"
     icon={<InfoIcon width={32} height={32} />}
-    title={TEXTS.errorTitle}
-    body={TEXTS.errorBody}
-    primaryAction={{ label: TEXTS.errorRetry, onClick: onRetry }}
+    title="Vakitler şu an yüklenemiyor"
+    body="Bağlantını kontrol et ve tekrar dene. Sorun devam ederse biraz sonra tekrar baktığında çözülmüş olabilir."
+    primaryAction={{ label: "Tekrar dene", onClick: onRetry }}
     secondaryAction={
       onSecondary
-        ? { label: TEXTS.errorSecondary, onClick: onSecondary }
+        ? { label: "Yardım merkezi", onClick: onSecondary }
         : undefined
     }
   />

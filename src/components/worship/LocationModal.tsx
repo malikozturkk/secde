@@ -4,7 +4,6 @@ import React, { useMemo, useState } from "react";
 import { Dialog } from "@/src/components/ui/Dialog";
 import {
   COORDINATE_PRECISION,
-  TEXTS,
   TURKISH_CITIES,
 } from "@/src/constants/worship";
 import { GeolocationStatus } from "@/src/types/enums/worship.enums";
@@ -58,7 +57,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
       onClose={onClose}
       header={
         <h2 className="text-lg font-extrabold tracking-wide text-white">
-          {TEXTS.locationModalTitle}
+          Konum Seç
         </h2>
       }
       maxWidth="md"
@@ -73,7 +72,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
           icon={<PinIcon width={14} height={14} />}
           disabled={isRequestingGeo || geoUnsupported}
         >
-          {isRequestingGeo ? "Konum alınıyor…" : TEXTS.locationModalUseGeo}
+          {isRequestingGeo ? "Konum alınıyor…" : "Otomatik konum kullan"}
         </Button>
 
         {showGeoError && (
@@ -89,10 +88,10 @@ export const LocationModal: React.FC<LocationModalProps> = ({
         <Input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          placeholder={TEXTS.locationModalSearchPlaceholder}
+          placeholder="Şehir ara…"
           autoComplete="off"
           className="h-12!"
-          aria-label={TEXTS.locationModalSearchPlaceholder}
+          aria-label="Şehir ara…"
           suffix={
             search ? (
               <button
@@ -108,7 +107,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
 
         {filtered.length === 0 ? (
           <div className="px-6 py-6 text-center text-sm font-bold text-[var(--color-text-muted)]">
-            {TEXTS.locationModalEmpty}
+            Sonuç bulunamadı
           </div>
         ) : (
           <ul className="m-0 flex max-h-80 list-none flex-col gap-1.5 overflow-y-auto p-0 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar]:w-1.5">
