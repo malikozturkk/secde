@@ -16,6 +16,7 @@ import {
   Settings,
   Shop,
   Stats,
+  Worship,
 } from "@/src/icons/tsx/sidebar";
 
 interface NavItemConfig {
@@ -45,6 +46,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       label: "Öğren",
       href: "/learn",
       icon: <Learn />,
+      hideOnMobile: false,
+    },
+    {
+      label: "Vakitler",
+      href: "/worship",
+      icon: <Worship />,
       hideOnMobile: false,
     },
     {
