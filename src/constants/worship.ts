@@ -1,8 +1,4 @@
-import {
-  PrayerKey,
-  CalculationMethod,
-  Madhab,
-} from "../types/enums/worship.enums";
+import { PrayerKey, Madhab } from "../types/enums/worship.enums";
 import type { City } from "../types/worship.types";
 
 export interface PrayerConfig {
@@ -723,16 +719,6 @@ export const TURKISH_CITIES: readonly City[] = [
   },
 ] as const;
 
-export const CALCULATION_METHOD_LABEL: Record<string, string> = {
-  [CalculationMethod.Turkey]: "Türkiye (Diyanet)",
-  [CalculationMethod.MuslimWorldLeague]: "Dünya İslam Birliği",
-  [CalculationMethod.Egyptian]: "Mısır",
-  [CalculationMethod.Karachi]: "Karaçi",
-  [CalculationMethod.UmmAlQura]: "Ümmü'l-Kura",
-  [CalculationMethod.Tehran]: "Tahran",
-  [CalculationMethod.Singapore]: "Singapur",
-};
-
 export const MADHAB_LABEL: Record<string, string> = {
   [Madhab.Shafi]: "Şafi",
   [Madhab.Hanafi]: "Hanefi",
@@ -740,11 +726,19 @@ export const MADHAB_LABEL: Record<string, string> = {
 
 export const WORSHIP_QUERY_KEYS = {
   all: ["worship"] as const,
-  times: (params: { lat: number; lng: number; date: string; tz: string }) =>
-    ["worship", "times", params] as const,
+  times: (params: {
+    lat: number;
+    lng: number;
+    date: string;
+    tz: string;
+    method?: string;
+    madhab?: string;
+  }) => ["worship", "times", params] as const,
+  options: () => ["worship", "options"] as const,
 };
 
 export const WORSHIP_STALE_TIME = 60 * 1000;
+export const WORSHIP_OPTIONS_STALE_TIME = 60 * 60 * 1000;
 export const WORSHIP_REFRESH_INTERVAL = 5 * 60 * 1000;
 export const COUNTDOWN_TICK_MS = 1000;
 export const DAY_CHANGE_CHECK_MS = 30 * 1000;

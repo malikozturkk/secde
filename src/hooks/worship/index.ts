@@ -1,4 +1,5 @@
 export { useWorshipTimes } from "./useWorshipTimes";
+export { useWorshipOptions } from "./useWorshipOptions";
 export {
   useCountdownToIso,
   useElapsedSinceIso,

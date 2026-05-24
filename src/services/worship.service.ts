@@ -2,6 +2,7 @@ import { axiosInstance } from "../lib/axios";
 import type {
   ApiResponse,
   WorshipData,
+  WorshipOptionsData,
   WorshipQueryParams,
 } from "../types";
 
@@ -17,4 +18,7 @@ export const worshipService = {
         ...(params.madhab ? { madhab: params.madhab } : {}),
       },
     }),
+
+  getOptions: () =>
+    axiosInstance.get<ApiResponse<WorshipOptionsData>>("/worship/options"),
 };

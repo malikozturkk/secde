@@ -223,7 +223,8 @@ const WorshipView: React.FC = () => {
       <WorshipSettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setSettingsModalOpen(false)}
-        value={settings}
+        activeMethod={settings.method ?? worship.data?.meta.calculationMethod}
+        activeMadhab={settings.madhab ?? worship.data?.meta.madhab}
         onSave={updateSettings}
       />
     </AppLayout>

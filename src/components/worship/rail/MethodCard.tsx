@@ -1,10 +1,7 @@
 "use client";
 
 import React, { memo } from "react";
-import {
-  CALCULATION_METHOD_LABEL,
-  MADHAB_LABEL,
-} from "@/src/constants/worship";
+import { MADHAB_LABEL } from "@/src/constants/worship";
 import type { WorshipMeta } from "@/src/types/worship.types";
 
 interface MethodCardProps {
@@ -16,9 +13,7 @@ const MethodCardComponent: React.FC<MethodCardProps> = ({
   meta,
   onOpenSettings,
 }) => {
-  const methodLabel =
-    CALCULATION_METHOD_LABEL[meta.calculationMethod] ??
-    String(meta.calculationMethod);
+  const methodLabel = String(meta.calculationMethod);
   const madhabLabel = MADHAB_LABEL[meta.madhab] ?? String(meta.madhab);
 
   return (

@@ -1,8 +1,4 @@
-import type {
-  PrayerKey,
-  CalculationMethod,
-  Madhab,
-} from "./enums/worship.enums";
+import type { PrayerKey, Madhab } from "./enums/worship.enums";
 
 export interface WorshipMeta {
   latitude: number;
@@ -11,7 +7,7 @@ export interface WorshipMeta {
   gregorianDate: string;
   hijriDate: string;
   hijriMonthName: string;
-  calculationMethod: CalculationMethod | string;
+  calculationMethod: string;
   madhab: Madhab | string;
 }
 
@@ -56,13 +52,30 @@ export interface WorshipQueryParams {
   lng: number;
   date: string;
   tz: string;
-  method?: CalculationMethod | string;
+  method?: string;
   madhab?: Madhab | string;
 }
 
 export interface WorshipSettings {
-  method?: CalculationMethod | string;
+  method?: string;
   madhab?: Madhab | string;
+}
+
+export interface WorshipOption {
+  key: string;
+  value?: string;
+  isDefault: boolean;
+}
+
+export interface WorshipOptionsDefaults {
+  method: string;
+  madhab: string;
+}
+
+export interface WorshipOptionsData {
+  calculationMethods: WorshipOption[];
+  madhabs: WorshipOption[];
+  defaults: WorshipOptionsDefaults;
 }
 
 export interface Coordinates {

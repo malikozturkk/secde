@@ -3,7 +3,6 @@ export { ConsentErrorCode } from "./consent.enums";
 export {
   PrayerKey,
   PrayerState,
-  CalculationMethod,
   Madhab,
   GeolocationStatus,
   WorshipPageState,

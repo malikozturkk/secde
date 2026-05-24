@@ -13,16 +13,6 @@ export enum PrayerState {
   Upcoming = "upcoming",
 }
 
-export enum CalculationMethod {
-  Turkey = "Turkey",
-  MuslimWorldLeague = "MWL",
-  Egyptian = "Egyptian",
-  Karachi = "Karachi",
-  UmmAlQura = "UmmAlQura",
-  Tehran = "Tehran",
-  Singapore = "Singapore",
-}
-
 export enum Madhab {
   Shafi = "Shafi",
   Hanafi = "Hanafi",
