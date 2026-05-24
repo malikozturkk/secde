@@ -31,7 +31,7 @@ export default function LearnPage() {
       <main className="lg:pt-24 lg:pb-20 lg:px-10 min-h-screen relative overflow-hidden">
         <AmbientBackground />
 
-        <div className="max-w-4xl mx-auto relative">
+        <div className="relative">
           <header className="mb-16 text-center">
             <h1 className="text-4xl font-extrabold tracking-tight text-on-surface mb-2">
               İbadetleri Öğrenelim
