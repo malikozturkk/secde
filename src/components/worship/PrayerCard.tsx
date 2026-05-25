@@ -55,7 +55,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
       aria-label={`${config.label} ${timeLabel}`}
     >
       {state === PrayerState.Current && (
-        <span className="absolute right-3 top-3 z-[2] inline-flex items-center rounded-full border border-[rgba(245,166,35,0.4)] bg-[rgba(245,166,35,0.18)] px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-[var(--color-secondary-light)]">
+        <span className="absolute z-[2] inline-flex items-center rounded-full border border-[rgba(245,166,35,0.4)] bg-[rgba(245,166,35,0.18)] px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-[var(--color-secondary-light)] w-fit">
           ŞU AN
         </span>
       )}
