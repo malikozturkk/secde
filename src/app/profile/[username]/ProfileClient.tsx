@@ -5,6 +5,10 @@ import Link from "next/link";
 import { Pencil } from "lucide-react";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useProfile } from "@/src/hooks/auth/useProfile";
+import { useUserStats } from "@/src/hooks/users/useUserStats";
+import { useSelfStats } from "@/src/hooks/users/useSelfStats";
+import { ProfileStats } from "./components/ProfileStats";
+import { formatJoinedAtTr } from "@/src/lib/relative-time";
 import { useGetFollowers } from "@/src/hooks/auth/useGetFollowers";
 import { useGetFollowing } from "@/src/hooks/auth/useGetFollowing";
 import { Button } from "@/src/components/ui/Button";
@@ -34,6 +38,16 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   const { data: myFollowingData } = useGetFollowing(
     currentUser?.username || ""
   );
+
+  const {
+    data: stats,
+    isLoading: isStatsLoading,
+    isError: isStatsError,
+    refetch: refetchStats,
+  } = useUserStats(username);
+
+  const isOwnProfile = currentUser?.username === username;
+  const { data: selfStats } = useSelfStats({ enabled: isOwnProfile });
 
   const followers = followersData ?? [];
   const following = followingData ?? [];
@@ -153,7 +167,9 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   </span>
                 )}
                 <span className="text-[13px] font-bold text-white/90 leading-none whitespace-nowrap mb-2">
-                  {joinDate} tarihinde katıldı
+                  {stats?.joinedAt
+                    ? formatJoinedAtTr(stats.joinedAt)
+                    : `${joinDate} tarihinde katıldı`}
                 </span>
 
                 <div className="flex gap-4 items-center mb-4">
@@ -217,6 +233,15 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 )}
               </div>
             </div>
+
+            <ProfileStats
+              stats={stats}
+              isLoading={isStatsLoading}
+              isError={isStatsError}
+              onRetry={() => void refetchStats()}
+              selfLevel={isOwnProfile ? selfStats?.level : undefined}
+              selfQuiz={isOwnProfile ? selfStats?.prayers.quiz : undefined}
+            />
           </div>
         )}
       </div>

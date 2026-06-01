@@ -1,5 +1,6 @@
 import { createRootMetadata } from "@/src/lib/metadata";
 import QueryProvider from "../providers/QueryProvider";
+import { ToastProvider } from "../components/ui/Toast";
 import { ConsentGateProvider } from "../providers/ConsentGateProvider";
 import { CookieConsentProvider } from "../providers/CookieConsentProvider";
 import CookieBanner from "../components/cookie/CookieBanner";
@@ -28,10 +29,12 @@ export default function RootLayout({
       </head>
       <body>
         <QueryProvider>
-          <CookieConsentProvider>
-            <ConsentGateProvider>{children}</ConsentGateProvider>
-            <CookieBanner />
-          </CookieConsentProvider>
+          <ToastProvider>
+            <CookieConsentProvider>
+              <ConsentGateProvider>{children}</ConsentGateProvider>
+              <CookieBanner />
+            </CookieConsentProvider>
+          </ToastProvider>
         </QueryProvider>
       </body>
     </html>

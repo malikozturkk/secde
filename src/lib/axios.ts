@@ -55,12 +55,13 @@ axiosInstance.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as RetryableRequestConfig;
 
-    const is401 = error.response?.status === 401;
+    const status = error.response?.status;
+    const isAuthExpired = status === 401 || status === 403;
     const alreadyRetried = originalRequest?._retry;
     const isRefreshEndpoint = originalRequest?.url?.includes("/auth/refresh");
     const isLoginEndpoint = originalRequest?.url?.includes("/auth/login");
 
-    if (!is401 || alreadyRetried || isRefreshEndpoint || isLoginEndpoint) {
+    if (!isAuthExpired || alreadyRetried || isRefreshEndpoint || isLoginEndpoint) {
       return Promise.reject(error);
     }
 

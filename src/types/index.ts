@@ -57,3 +57,37 @@ export type {
   City,
   RamadanInfo,
 } from "./worship.types";
+
+export type {
+  DailyPrayersQuery,
+  PrayerCardDto,
+  DailyPrayersResponse,
+  PrayerQuestionsQuery,
+  QuestionOption,
+  QuizQuestion,
+  PrayerQuestionsResponse,
+  QuizAnswer,
+  GamificationActionRequest,
+  PrayerCompletionResult,
+  StreakFreezeUsageResult,
+  GamificationActionResponse,
+  StreakRiskAssessment,
+  UserXp,
+  PrayerCardViewModel,
+  DailyPrayersViewModel,
+} from "./streak.types";
+
+export type {
+  WeekDay,
+  MonthCell,
+  MonthCalendar,
+  LeaderboardRow,
+} from "./dashboard.types";
+export { WeekDayState, MonthCellKind } from "./dashboard.types";
+
+export type {
+  PrayerBreakdown,
+  PrayerBreakdownKey,
+  PublicStats,
+  SelfStats,
+} from "./user-stats.types";
