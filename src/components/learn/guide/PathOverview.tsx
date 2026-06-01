@@ -1,12 +1,12 @@
 import { Check } from "lucide-react";
 import React from "react";
 
-export interface PathStep {
+interface PathStep {
   number: number;
   label: string;
 }
 
-export interface PathOverviewProps {
+interface PathOverviewProps {
   title?: string;
   steps: PathStep[];
   activeStep: number;

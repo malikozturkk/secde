@@ -4,12 +4,9 @@ import {
   StreakHeroVariant,
 } from "../types/enums/streak.enums";
 import {
-  PRAYER_META,
   STREAK_DAY_COMPLETED_MESSAGE,
   STREAK_FRESH_DAY_MESSAGE,
   STREAK_HERO_CHARACTER_POOL,
-  STREAK_HERO_LEVEL_LABEL_FALLBACK,
-  STREAK_HERO_LEVEL_TITLES,
   STREAK_LOCALE,
   STREAK_MESSAGES,
   STREAK_TIME_FORMAT_OPTIONS,
@@ -24,7 +21,7 @@ import type {
 
 const MS_PER_SECOND = 1000;
 
-export const clampPercent = (value: number): number =>
+const clampPercent = (value: number): number =>
   Math.max(0, Math.min(100, Math.round(value)));
 
 const parseIsoMs = (iso: string): number => {
@@ -32,7 +29,7 @@ const parseIsoMs = (iso: string): number => {
   return Number.isFinite(ms) ? ms : Number.NaN;
 };
 
-export const formatPrayerTime = (iso: string): string => {
+const formatPrayerTime = (iso: string): string => {
   const ms = parseIsoMs(iso);
   if (!Number.isFinite(ms)) return "";
   return new Date(ms).toLocaleTimeString(
@@ -41,12 +38,8 @@ export const formatPrayerTime = (iso: string): string => {
   );
 };
 
-export const formatPrayerDate = (
-  date: Date,
-  options: Intl.DateTimeFormatOptions
-): string => date.toLocaleDateString(STREAK_LOCALE, options);
 
-export const buildPrayerCardViewModel = (
+const buildPrayerCardViewModel = (
   dto: PrayerCardDto,
   nowMs: number
 ): PrayerCardViewModel => {
@@ -183,22 +176,7 @@ export const resolveHeroVariant = ({
   return StreakHeroVariant.Normal;
 };
 
-export const getPrayerMeta = (type: PrayerType) => PRAYER_META[type];
 
-export const resolveLevelTitle = (level: number): string => {
-  const thresholds = Object.keys(STREAK_HERO_LEVEL_TITLES)
-    .map(Number)
-    .filter((n) => Number.isFinite(n))
-    .sort((a, b) => b - a);
-  for (const threshold of thresholds) {
-    if (level >= threshold) {
-      return (
-        STREAK_HERO_LEVEL_TITLES[threshold] ?? STREAK_HERO_LEVEL_LABEL_FALLBACK
-      );
-    }
-  }
-  return STREAK_HERO_LEVEL_LABEL_FALLBACK;
-};
 
 export const formatCountdown = (seconds: number): string => {
   if (!Number.isFinite(seconds) || seconds < 0) return "0 dk";

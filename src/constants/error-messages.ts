@@ -4,7 +4,7 @@ import {
   getHttpStatus,
 } from "@/src/lib/api-error";
 
-export const ERROR_MESSAGES: Record<string, string> = {
+const ERROR_MESSAGES: Record<string, string> = {
   USER_NOT_FOUND: "Kullanıcı bulunamadı.",
   UNAUTHORIZED: "Oturumun süresi doldu. Lütfen tekrar giriş yap.",
   TOKEN_EXPIRED: "Oturumun süresi doldu. Lütfen tekrar giriş yap.",

@@ -101,7 +101,7 @@ export const PRAYER_META: Record<PrayerType, PrayerMeta> = {
   },
 };
 
-export interface StreakMessageRange {
+interface StreakMessageRange {
   min: number;
   text: string;
 }
@@ -173,18 +173,10 @@ export const STREAK_TIME_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
   hour: "2-digit",
   minute: "2-digit",
 };
-export const STREAK_DATE_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-};
 
 export const PRAYER_QUIZ_QUESTION_COUNT = 3;
 export const STREAK_FREEZE_MAX_SLOTS = 3;
 export const ANIMATED_NUMBER_DURATION_MS = 700;
-export const REWARD_CELEBRATION_DURATION_MS = 1500;
-export const ROW_STAGGER_MS = 60;
 export const STREAK_HERO_LEVEL_LABEL_FALLBACK = "Sabır Yolcusu";
 export const STREAK_HERO_LEVEL_TITLES: Record<number, string> = {
   1: "İlk Adım",
@@ -198,6 +190,5 @@ export const STREAK_HERO_LEVEL_TITLES: Record<number, string> = {
   100: "Üç Hane",
 };
 
-export const PRAYER_COMPLETION_REQUEST_PREFIX = "complete-";
 export const STREAK_DEFAULT_METHOD = "Turkey";
 export const STREAK_DEFAULT_MADHAB = "Shafi";

@@ -5,7 +5,7 @@ import { Flame, Snowflake, Trophy, AlertTriangle } from "lucide-react";
 import { Card } from "@/src/components/ui/Card";
 import { Pill } from "@/src/components/ui/Pill";
 import { StatTile } from "@/src/components/ui/StatTile";
-import { useAnimatedNumber } from "@/src/hooks/streak";
+import { useAnimatedNumber } from "@/src/hooks/streak/useAnimatedNumber";
 import { buildLocalDateString } from "@/src/lib/worship-utils";
 import { cn } from "@/src/lib/utils";
 

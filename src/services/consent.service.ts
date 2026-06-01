@@ -1,9 +1,9 @@
 import { axiosInstance } from "../lib/axios";
+import type { ApiResponse } from "@/src/types/api.types";
 import type {
-  ApiResponse,
   ConsentStatusResponse,
   AcceptConsentPayload,
-} from "../types";
+} from "@/src/types/consent.types";
 
 export const consentService = {
   getStatus: () =>

@@ -1,6 +1,6 @@
 import { axiosInstance } from "../lib/axios";
+import type { ApiResponse } from "@/src/types/api.types";
 import type {
-  ApiResponse,
   RegisterPayload,
   RegisterResponseData,
   LoginPayload,
@@ -15,7 +15,7 @@ import type {
   ValidateResetTokenResponseData,
   ResetPasswordPayload,
   LogoutPayload,
-} from "../types";
+} from "@/src/types/auth.types";
 import { AvatarCustomization, ProfileResponseData } from "../types/auth.types";
 
 export const authService = {

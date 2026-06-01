@@ -8,7 +8,7 @@ export const USER_STATS_QUERY_KEYS = {
 export const SELF_STATS_STALE_TIME_MS = 60_000;
 export const USER_STATS_STALE_TIME_MS = 60_000;
 
-export const BADGE_LABELS: Record<string, string> = {
+const BADGE_LABELS: Record<string, string> = {
   beginner: "Yeni Başlayan",
   first_step: "İlk Adım",
   novice: "Acemi",
@@ -41,7 +41,7 @@ export const resolveBadgeLabel = (
   return BADGE_LABELS[badgeKey] ?? humanizeBadgeKey(badgeKey);
 };
 
-export interface PrayerBreakdownMeta {
+interface PrayerBreakdownMeta {
   key: PrayerBreakdownKey;
   label: string;
   short: string;

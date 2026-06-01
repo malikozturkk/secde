@@ -6,7 +6,7 @@ import { LegalLink } from "./LegalLink";
 import { CONSENT_LABELS } from "@/src/constants/consent";
 import { useAcceptConsent } from "@/src/hooks/consent/useAcceptConsent";
 import { useLogout } from "@/src/hooks/auth/useLogout";
-import type { ConsentStatusItem } from "@/src/types";
+import type { ConsentStatusItem } from "@/src/types/consent.types";
 
 interface ConsentGateModalProps {
   items: ConsentStatusItem[];

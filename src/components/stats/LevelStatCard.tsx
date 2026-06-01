@@ -3,7 +3,7 @@
 import React, { memo } from "react";
 import { Card } from "@/src/components/ui/Card";
 import { ProgressBar } from "@/src/components/ui/ProgressBar";
-import { useAnimatedNumber } from "@/src/hooks/streak";
+import { useAnimatedNumber } from "@/src/hooks/streak/useAnimatedNumber";
 import { resolveBadgeLabel } from "@/src/constants/user-stats";
 import { cn } from "@/src/lib/utils";
 

@@ -1,6 +1,6 @@
 import { PrayerType } from "@/src/types/enums/streak.enums";
 
-export interface PrayerColorway {
+interface PrayerColorway {
   nodeBg: string;
   nodeShadow: string;
   nodeHalo: string;
@@ -110,17 +110,8 @@ export const PRAYER_COLORWAY: Record<PrayerType, PrayerColorway> = {
   [PrayerType.Bayram]: BAYRAM,
 };
 
-export const SURFACE_CARD =
-  "rounded-3xl border border-white/[0.06] bg-[#1C2E35]";
-
 export const SURFACE_CARD_GRADIENT_PRIMARY =
   "rounded-3xl border border-[rgba(37,180,154,0.30)] bg-gradient-to-br from-[rgba(37,180,154,0.18)] via-[#1C2E35] to-[#1C2E35] to-70% overflow-hidden";
-
-export const SURFACE_CARD_GRADIENT_VIOLET =
-  "rounded-3xl border border-white/[0.06] bg-[#1C2E35] overflow-hidden relative";
-
-export const SURFACE_CARD_GRADIENT_ICE =
-  "rounded-3xl border border-[rgba(79,195,247,0.30)] bg-gradient-to-br from-[rgba(79,195,247,0.15)] via-[#1C2E35] to-[#1C2E35] to-70% overflow-hidden relative";
 
 export const MONTH_LEVEL_CLASS: Record<0 | 1 | 2 | 3 | 4 | 5, string> = {
   0: "bg-white/[0.04] border border-white/[0.08] text-white/30",

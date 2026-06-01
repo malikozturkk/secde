@@ -1,7 +1,7 @@
 import { PrayerKey, Madhab } from "../types/enums/worship.enums";
 import type { City } from "../types/worship.types";
 
-export interface PrayerConfig {
+interface PrayerConfig {
   key: PrayerKey;
   label: string;
   shortLabel: string;
@@ -11,13 +11,7 @@ export interface PrayerConfig {
   order: number;
 }
 
-export type PrayerIconName =
-  | "fajr"
-  | "sunrise"
-  | "dhuhr"
-  | "asr"
-  | "maghrib"
-  | "isha";
+type PrayerIconName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";
 
 export const PRAYER_ORDER: readonly PrayerKey[] = [
   PrayerKey.Fajr,
@@ -114,31 +108,6 @@ export const DAYS_LONG_TR: readonly string[] = [
   "Perşembe",
   "Cuma",
   "Cumartesi",
-] as const;
-
-export const DAYS_SHORT_TR: readonly string[] = [
-  "Paz",
-  "Pzt",
-  "Sal",
-  "Çar",
-  "Per",
-  "Cum",
-  "Cmt",
-] as const;
-
-export const HIJRI_MONTH_NAMES: readonly string[] = [
-  "Muharrem",
-  "Safer",
-  "Rebiülevvel",
-  "Rebiülahir",
-  "Cemaziyelevvel",
-  "Cemaziyelahir",
-  "Recep",
-  "Şaban",
-  "Ramazan",
-  "Şevval",
-  "Zilkade",
-  "Zilhicce",
 ] as const;
 
 export const DEFAULT_CITY: City = {
@@ -747,4 +716,3 @@ export const COORDINATE_PRECISION = 4;
 export const ARC_RADIUS = 84;
 export const ARC_WIDTH = 620;
 export const ARC_HEIGHT = 200;
-

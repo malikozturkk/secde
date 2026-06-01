@@ -47,7 +47,7 @@ export interface PrayerQuestionsQuery {
   madhab?: string;
 }
 
-export interface QuestionOption {
+interface QuestionOption {
   id: string;
   text: string;
 }
@@ -109,26 +109,6 @@ export interface GamificationActionResponse {
   actionType: GamificationActionType;
   prayerCompletion?: PrayerCompletionResult;
   streakFreezeUsage?: StreakFreezeUsageResult;
-}
-
-export interface StreakRiskAssessment {
-  currentStreak: number;
-  longestStreak: number;
-  streakFreezeCount: number;
-  lastActiveDate: string | null;
-  daysSinceLastActive: number | null;
-  atRisk: boolean;
-  canFreezeNow: boolean;
-  freezeWindowExpired: boolean;
-}
-
-export interface UserXp {
-  xpAwarded: number;
-  xp: number;
-  totalXp: number;
-  level: number;
-  leveledUp: boolean;
-  progressPercent: number;
 }
 
 export interface PrayerCardViewModel {

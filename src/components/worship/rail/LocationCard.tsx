@@ -4,7 +4,7 @@ import React, { memo } from "react";
 import { COORDINATE_PRECISION } from "@/src/constants/worship";
 import { formatCoordinate } from "@/src/lib/worship-utils";
 import type { WorshipMeta } from "@/src/types/worship.types";
-import { GlobeIcon } from "../icons/ControlIcons";
+import { Globe } from "@/src/icons/tsx/worship";
 
 interface LocationCardProps {
   meta: WorshipMeta;
@@ -44,7 +44,7 @@ const LocationCardComponent: React.FC<LocationCardProps> = ({
         </div>
       </div>
       <div className="flex items-center gap-1.5 text-xs font-extrabold text-[var(--color-text-muted)] [&_svg]:text-[var(--color-primary-light)]">
-        <GlobeIcon width={14} height={14} />
+        <Globe width={14} height={14} />
         {meta.timezone}
       </div>
     </div>

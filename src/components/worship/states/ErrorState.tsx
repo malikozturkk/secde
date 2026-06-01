@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { InfoIcon } from "../icons/ControlIcons";
+import { Info } from "@/src/icons/tsx/worship";
 import { InfoState } from "./InfoState";
 
 interface ErrorStateProps {
@@ -15,7 +15,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
 }) => (
   <InfoState
     tone="error"
-    icon={<InfoIcon width={32} height={32} />}
+    icon={<Info width={32} height={32} />}
     title="Vakitler şu an yüklenemiyor"
     body="Bağlantını kontrol et ve tekrar dene. Sorun devam ederse biraz sonra tekrar baktığında çözülmüş olabilir."
     primaryAction={{ label: "Tekrar dene", onClick: onRetry }}

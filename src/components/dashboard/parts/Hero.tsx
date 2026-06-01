@@ -6,7 +6,7 @@ import {
   STREAK_HERO_BUBBLES,
   type StreakCharacterName,
 } from "@/src/constants/streak";
-import { SparkleIcon, TrophyIcon } from "../icons";
+import { Sparkle, Trophy } from "@/src/icons/tsx/dashboard";
 import { CharacterIllustration } from "./CharacterIllustration";
 import { cn } from "@/src/lib/utils";
 
@@ -154,7 +154,7 @@ const HeroComponent: React.FC<HeroProps> = ({
               VARIANT_EYEBROW_CLASS[variant]
             )}
           >
-            <SparkleIcon className="h-[11px] w-[11px]" />
+            <Sparkle className="h-[11px] w-[11px]" />
             GÜNCEL SERİ
           </span>
           <div
@@ -183,7 +183,7 @@ const HeroComponent: React.FC<HeroProps> = ({
               VARIANT_EYEBROW_CLASS[variant]
             )}
           >
-            <TrophyIcon className="h-[10px] w-[10px]" />
+            <Trophy className="h-[10px] w-[10px]" />
             EN UZUN: {longestStreak} GÜN
           </span>
         </div>

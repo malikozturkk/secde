@@ -2,13 +2,13 @@
 import React from "react";
 import { cn } from "@/src/lib/utils";
 
-export type SpeechBubbleTone =
+type SpeechBubbleTone =
   | "primary"
   | "neutral"
   | "accent"
   | "warning"
   | "white";
-export type SpeechBubblePlacement =
+type SpeechBubblePlacement =
   | "top"
   | "bottom"
   | "left"
@@ -17,9 +17,9 @@ export type SpeechBubblePlacement =
   | "top-end"
   | "bottom-start"
   | "bottom-end";
-export type SpeechBubbleSize = "sm" | "md" | "lg";
+type SpeechBubbleSize = "sm" | "md" | "lg";
 
-export interface SpeechBubbleProps
+interface SpeechBubbleProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   title?: React.ReactNode;
   children: React.ReactNode;

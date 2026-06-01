@@ -1,13 +1,13 @@
 import { axiosInstance } from "../lib/axios";
+import type { ApiResponse } from "@/src/types/api.types";
 import type {
-  ApiResponse,
   DailyPrayersQuery,
   DailyPrayersResponse,
   GamificationActionRequest,
   GamificationActionResponse,
   PrayerQuestionsQuery,
   PrayerQuestionsResponse,
-} from "../types";
+} from "@/src/types/streak.types";
 
 export const gamificationService = {
   getDailyPrayers: (params: DailyPrayersQuery) =>

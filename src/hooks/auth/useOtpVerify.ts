@@ -4,9 +4,10 @@ import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
 import { otpService } from "@/src/services/otp.service";
 import { useAuthStore } from "@/src/store/auth.store";
-import { AuthErrorCode } from "@/src/types/enums";
+import { AuthErrorCode } from "@/src/types/enums/auth.enums";
 import { OtpFormValues } from "@/src/validations/auth.validation";
-import { OtpVerifyResponseData, ApiResponse } from "@/src/types";
+import type { OtpVerifyResponseData } from "@/src/types/otp.types";
+import type { ApiResponse } from "@/src/types/api.types";
 
 interface UseOtpVerifyOptions {
   setError: UseFormSetError<OtpFormValues>;

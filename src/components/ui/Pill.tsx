@@ -13,7 +13,7 @@ export type PillTone =
   | "success"
   | "danger";
 
-export type PillSize = "xs" | "sm" | "md";
+type PillSize = "xs" | "sm" | "md";
 
 interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
   tone?: PillTone;

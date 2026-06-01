@@ -23,7 +23,7 @@ import type {
   GamificationActionResponse,
   PrayerQuestionsQuery,
   QuizAnswer,
-} from "@/src/types";
+} from "@/src/types/streak.types";
 
 import { useDailyPrayers } from "./useDailyPrayers";
 import { useSelfStats } from "@/src/hooks/users/useSelfStats";
@@ -38,7 +38,7 @@ interface UseStreakControllerOptions {
   madhab?: string;
 }
 
-export interface CompletePrayerInput {
+interface CompletePrayerInput {
   prayerType: PrayerType;
   quizId: string;
   answers: QuizAnswer[];
@@ -146,5 +146,3 @@ export const useStreakController = (
     error,
   };
 };
-
-export type StreakController = ReturnType<typeof useStreakController>;

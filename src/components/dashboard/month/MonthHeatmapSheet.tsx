@@ -8,7 +8,7 @@ import {
   SHORT_WEEKDAYS_TR,
   buildMonthCalendar,
 } from "@/src/lib/dashboard-utils";
-import { ChevronLeftIcon, ChevronRightIcon, CrossIcon } from "../icons";
+import { ChevronLeft, ChevronRight, Cross } from "@/src/icons/tsx/dashboard";
 import { MonthCell } from "./MonthCell";
 import { cn } from "@/src/lib/utils";
 
@@ -97,18 +97,18 @@ const SheetComponent: React.FC<MonthHeatmapSheetProps> = ({
             <SheetNavButton
               onClick={goPrev}
               aria-label="Önceki ay"
-              icon={<ChevronLeftIcon className="h-3.5 w-3.5" />}
+              icon={<ChevronLeft className="h-3.5 w-3.5" />}
             />
             <SheetNavButton
               onClick={goNext}
               disabled={isCurrentMonth}
               aria-label="Sonraki ay"
-              icon={<ChevronRightIcon className="h-3.5 w-3.5" />}
+              icon={<ChevronRight className="h-3.5 w-3.5" />}
             />
             <SheetNavButton
               onClick={onClose}
               aria-label="Kapat"
-              icon={<CrossIcon className="h-3.5 w-3.5" />}
+              icon={<Cross className="h-3.5 w-3.5" />}
               className="ml-1"
             />
           </div>

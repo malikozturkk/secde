@@ -5,7 +5,7 @@ import { Pill } from "@/src/components/ui/Pill";
 import { CharacterIllustration } from "../parts/CharacterIllustration";
 import { PRAYER_META } from "@/src/constants/streak";
 import type { PrayerType } from "@/src/types/enums/streak.enums";
-import { FireIcon, XpStarIcon } from "../icons";
+import { Fire, XpStar } from "@/src/icons/tsx/dashboard";
 import { ConfettiBurst } from "./ConfettiBurst";
 import { PRAYER_COLORWAY } from "../styles";
 import { cn } from "@/src/lib/utils";
@@ -51,13 +51,13 @@ const SuccessComponent: React.FC<QuizSuccessProps> = ({
         <Pill
           tone="violet"
           size="md"
-          icon={<XpStarIcon className="h-4 w-4" />}
+          icon={<XpStar className="h-4 w-4" />}
           isCounter
         >
           +{xpAwarded} XP
         </Pill>
         {currentStreak > 0 && (
-          <Pill tone="streak" size="md" icon={<FireIcon className="h-4 w-4" />}>
+          <Pill tone="streak" size="md" icon={<Fire className="h-4 w-4" />}>
             {currentStreak} GÜN SERİ
           </Pill>
         )}

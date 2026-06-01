@@ -3,7 +3,7 @@
 import React, { memo } from "react";
 import { cn } from "@/src/lib/utils";
 
-export type QuizOptionStatus =
+type QuizOptionStatus =
   | "idle"
   | "selected"
   | "correct"

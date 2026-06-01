@@ -7,30 +7,29 @@ import {
   resolveHeroVariant,
   resolveStreakMessage,
 } from "@/src/lib/streak-utils";
-import {
-  useLeaderboardPreview,
-  useStreakController,
-  useWeekStrip,
-} from "@/src/hooks/streak";
+import { useLeaderboardPreview } from "@/src/hooks/streak/useLeaderboardPreview";
+import { useStreakController } from "@/src/hooks/streak/useStreakController";
+import { useWeekStrip } from "@/src/hooks/streak/useWeekStrip";
 import { PrayerCardState } from "@/src/types/enums/streak.enums";
-import type { PrayerCardViewModel, PrayerCompletionResult } from "@/src/types";
+import type {
+  PrayerCardViewModel,
+  PrayerCompletionResult,
+} from "@/src/types/streak.types";
 
-import {
-  CharacterIllustration,
-  DashboardError,
-  DashboardSkeleton,
-  DashboardTopBar,
-  DailyGoalCard,
-  FreezeCard,
-  Hero,
-  LeaderboardCard,
-  PrayerList,
-  SectionHead,
-  WeekStrip,
-} from "./parts";
-import { LevelStatCard } from "@/src/components/stats";
-import { PrayerQuizModal } from "./quiz";
-import { MonthHeatmapSheet } from "./month";
+import { CharacterIllustration } from "@/src/components/dashboard/parts/CharacterIllustration";
+import { DashboardError } from "@/src/components/dashboard/parts/ErrorState";
+import { DashboardSkeleton } from "@/src/components/dashboard/parts/Skeleton";
+import { DashboardTopBar } from "@/src/components/dashboard/parts/TopBar";
+import { DailyGoalCard } from "@/src/components/dashboard/parts/DailyGoalCard";
+import { FreezeCard } from "@/src/components/dashboard/parts/FreezeCard";
+import { Hero } from "@/src/components/dashboard/parts/Hero";
+import { LeaderboardCard } from "@/src/components/dashboard/parts/LeaderboardCard";
+import { PrayerList } from "@/src/components/dashboard/parts/PrayerList";
+import { SectionHead } from "@/src/components/dashboard/parts/SectionHead";
+import { WeekStrip } from "@/src/components/dashboard/parts/WeekStrip";
+import { LevelStatCard } from "@/src/components/stats/LevelStatCard";
+import { PrayerQuizModal } from "@/src/components/dashboard/quiz/PrayerQuizModal";
+import { MonthHeatmapSheet } from "@/src/components/dashboard/month/MonthHeatmapSheet";
 
 const TODAY_LABEL_FORMAT: Intl.DateTimeFormatOptions = {
   weekday: "long",

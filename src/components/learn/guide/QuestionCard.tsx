@@ -3,7 +3,7 @@ import { Button } from "../../ui/Button";
 import { Question } from "@/src/icons/tsx/learn";
 import { XCircle } from "lucide-react";
 
-export interface QuestionCardProps {
+interface QuestionCardProps {
   question: string;
   options: string[];
   badgeLabel?: string;

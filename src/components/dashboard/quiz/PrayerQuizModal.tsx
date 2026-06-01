@@ -8,7 +8,7 @@ import { SkeletonBox } from "@/src/components/ui/SkeletonBox";
 import {
   isPrayerQuestionsExpired,
   usePrayerQuestions,
-} from "@/src/hooks/streak";
+} from "@/src/hooks/streak/usePrayerQuestions";
 import {
   PRAYER_META,
   PRAYER_QUIZ_QUESTION_COUNT,
@@ -18,8 +18,8 @@ import type {
   PrayerCompletionResult,
   PrayerQuestionsQuery,
   QuizAnswer,
-} from "@/src/types";
-import { CrossIcon } from "../icons";
+} from "@/src/types/streak.types";
+import { Cross } from "@/src/icons/tsx/dashboard";
 import { PRAYER_COLORWAY } from "../styles";
 import { QuizProgress } from "./QuizProgress";
 import { QuizOption } from "./QuizOption";
@@ -199,7 +199,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
               aria-label="Kapat"
               className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[#1C2E35] text-white/55 active:scale-95"
             >
-              <CrossIcon className="h-4 w-4" />
+              <Cross className="h-4 w-4" />
             </button>
             <QuizProgress
               total={total}
@@ -266,7 +266,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
                 className="mb-3 flex items-center gap-2.5 rounded-2xl border border-[rgba(239,68,68,0.30)] bg-[rgba(239,68,68,0.10)] p-3 text-[13px] font-black text-rose-300"
                 role="alert"
               >
-                <CrossIcon className="h-[22px] w-[22px] shrink-0" />
+                <Cross className="h-[22px] w-[22px] shrink-0" />
                 <span>{errorMessage}</span>
               </div>
             ) : null}

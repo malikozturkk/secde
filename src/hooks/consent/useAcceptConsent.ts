@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { consentService } from "@/src/services/consent.service";
 import { CONSENT_QUERY_KEYS } from "@/src/constants/consent";
-import type { AcceptConsentPayload } from "@/src/types";
+import type { AcceptConsentPayload } from "@/src/types/consent.types";
 
 export const useAcceptConsent = () => {
   const queryClient = useQueryClient();

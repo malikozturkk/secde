@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/src/lib/utils";
 
-export type CardTone = "plain" | "primary" | "ice" | "violet" | "gold" | "rose";
+type CardTone = "plain" | "primary" | "ice" | "violet" | "gold" | "rose";
 
 type CardElement = "section" | "div" | "article";
 

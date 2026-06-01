@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import { PrayerCard } from "./PrayerCard";
-import type { PrayerCardViewModel } from "@/src/types";
+import type { PrayerCardViewModel } from "@/src/types/streak.types";
 import { cn } from "@/src/lib/utils";
 
 interface PrayerListProps {

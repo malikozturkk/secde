@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { worshipService } from "@/src/services/worship.service";
-import type { WorshipOptionsData } from "@/src/types";
+import type { WorshipOptionsData } from "@/src/types/worship.types";
 import {
   WORSHIP_OPTIONS_STALE_TIME,
   WORSHIP_QUERY_KEYS,

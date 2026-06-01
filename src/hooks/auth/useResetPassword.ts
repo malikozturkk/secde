@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
 import { authService } from "@/src/services/auth.service";
-import { AuthErrorCode } from "@/src/types/enums";
+import { AuthErrorCode } from "@/src/types/enums/auth.enums";
 import { ResetPasswordFormValues } from "@/src/validations/auth.validation";
-import type { ApiResponse } from "@/src/types";
+import type { ApiResponse } from "@/src/types/api.types";
 
 interface UseResetPasswordOptions {
   userId: string;

@@ -9,7 +9,7 @@ import {
 } from "@/src/lib/worship-utils";
 import { useCountdownToIso } from "@/src/hooks/worship/useCountdown";
 import type { WorshipFasting } from "@/src/types/worship.types";
-import { MoonIcon } from "./icons/ControlIcons";
+import { Moon } from "@/src/icons/tsx/worship";
 
 interface FastingCardProps {
   fasting: WorshipFasting | null;
@@ -31,7 +31,7 @@ const FastingCardComponent: React.FC<FastingCardProps> = ({ fasting }) => {
             className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[18px] bg-[linear-gradient(160deg,#25445a,#1a2e3b)] text-white/65 shadow-[0_6px_0_0_#0f1d27,inset_0_1px_0_rgba(255,255,255,0.1)] [&_svg]:h-7 [&_svg]:w-7"
             aria-hidden="true"
           >
-            <MoonIcon />
+            <Moon />
           </div>
           <div className="flex flex-1 flex-col gap-0.5">
             <h3 className="m-0 text-lg font-black text-[var(--color-text)]">
@@ -50,7 +50,7 @@ const FastingCardComponent: React.FC<FastingCardProps> = ({ fasting }) => {
             className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-[18px] border border-[rgba(37,180,154,0.22)] bg-[linear-gradient(160deg,rgba(37,180,154,0.18),rgba(37,180,154,0.04))] text-[var(--color-primary-light)] after:pointer-events-none after:absolute after:-inset-1.5 after:rounded-[22px] after:border after:border-dashed after:border-[rgba(37,180,154,0.25)] after:content-[''] after:animate-[wshDecorSpin_14s_linear_infinite]"
             aria-hidden="true"
           >
-            <MoonIcon />
+            <Moon />
           </div>
           <div className="flex min-w-0 flex-col gap-1">
             <span className="text-sm font-black text-[var(--color-text)]">
@@ -81,7 +81,7 @@ const FastingCardComponent: React.FC<FastingCardProps> = ({ fasting }) => {
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[18px] bg-[linear-gradient(160deg,#4338ca,#1e1b4b)] text-white shadow-[0_6px_0_0_#1e1b4b,inset_0_1px_0_rgba(255,255,255,0.18)] [&_svg]:h-7 [&_svg]:w-7"
           aria-hidden="true"
         >
-          <MoonIcon />
+          <Moon />
         </div>
         <div className="flex flex-1 flex-col gap-0.5">
           <h3 className="m-0 text-lg font-black text-[var(--color-text)]">

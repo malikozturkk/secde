@@ -9,7 +9,7 @@ import {
 import type {
   PrayerQuestionsQuery,
   PrayerQuestionsResponse,
-} from "@/src/types";
+} from "@/src/types/streak.types";
 
 export const isPrayerQuestionsExpired = (
   payload: PrayerQuestionsResponse | undefined,

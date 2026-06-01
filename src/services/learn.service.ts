@@ -1,10 +1,10 @@
 import { axiosInstance } from "../lib/axios";
-import {
-  ApiResponse,
+import type { ApiResponse } from "@/src/types/api.types";
+import type {
   GuideCheckQuestionResponse,
   GuideData,
   GuideCheckQuestionPayload,
-} from "../types";
+} from "@/src/types/learn.types";
 
 export const learnService = {
   getWudu: () => axiosInstance.get<ApiResponse<GuideData>>("/guides/wudu"),

@@ -1,9 +1,6 @@
 import { axiosInstance } from "../lib/axios";
-import type {
-  ApiResponse,
-  OtpVerifyPayload,
-  OtpVerifyResponseData,
-} from "../types";
+import type { ApiResponse } from "@/src/types/api.types";
+import type { OtpVerifyPayload, OtpVerifyResponseData } from "@/src/types/otp.types";
 
 export const otpService = {
   verify: (payload: OtpVerifyPayload, tempToken: string) =>

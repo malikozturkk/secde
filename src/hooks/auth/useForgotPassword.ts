@@ -3,7 +3,8 @@ import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
 import { authService } from "@/src/services/auth.service";
 import type { ForgotPasswordFormValues } from "@/src/validations/auth.validation";
-import type { ApiResponse, ForgotPasswordResponseData } from "@/src/types";
+import type { ApiResponse } from "@/src/types/api.types";
+import type { ForgotPasswordResponseData } from "@/src/types/auth.types";
 
 interface UseForgotPasswordOptions {
   setError: UseFormSetError<ForgotPasswordFormValues>;

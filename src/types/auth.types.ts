@@ -40,7 +40,7 @@ export interface UserDetail extends User {
   avatarCustomization: AvatarCustomization;
 }
 
-export interface AuthTokens {
+interface AuthTokens {
   accessToken: string;
   refreshToken: string;
 }

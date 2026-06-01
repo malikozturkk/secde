@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import Cookies from "js-cookie";
-import type { User, AuthTokensWithUser } from "../types";
+import type { User, AuthTokensWithUser } from "@/src/types/auth.types";
 import { AUTH_COOKIE_NAME } from "../constants/routes";
 
 interface AuthState {

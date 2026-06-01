@@ -3,9 +3,9 @@
 import React, { forwardRef, useId } from "react";
 import { Check } from "lucide-react";
 import { LegalLink } from "./LegalLink";
-import type { ConsentType } from "@/src/types";
+import type { ConsentType } from "@/src/types/consent.types";
 
-export interface ConsentCheckboxProps
+interface ConsentCheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
   consentType: ConsentType;
   error?: string;

@@ -10,7 +10,7 @@ import {
 import type {
   DailyPrayersQuery,
   DailyPrayersResponse,
-} from "@/src/types";
+} from "@/src/types/streak.types";
 
 export const useDailyPrayers = (
   params: DailyPrayersQuery | null

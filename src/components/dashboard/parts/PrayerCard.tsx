@@ -1,7 +1,7 @@
 "use client";
 
 import React, { memo, useCallback } from "react";
-import { PrayerIcon } from "@/src/components/worship/icons/PrayerIcon";
+import { PrayerIcon } from "@/src/components/worship/PrayerIcon";
 import { PrayerKey } from "@/src/types/enums/worship.enums";
 import {
   PrayerCardState,
@@ -15,16 +15,16 @@ import { Pill } from "@/src/components/ui/Pill";
 import { CharacterIllustration } from "./CharacterIllustration";
 import { StatusChip } from "./StatusChip";
 import {
-  CheckIcon,
-  ChevronRightIcon,
-  CrossIcon,
-  FireIcon,
-  LockIcon,
-  XpStarIcon,
-} from "../icons";
+  Check,
+  ChevronRight,
+  Cross,
+  Fire,
+  Lock,
+  XpStar,
+} from "@/src/icons/tsx/dashboard";
 import { PRAYER_COLORWAY } from "../styles";
 import { cn } from "@/src/lib/utils";
-import type { PrayerCardViewModel } from "@/src/types";
+import type { PrayerCardViewModel } from "@/src/types/streak.types";
 
 const PRAYER_TYPE_TO_ICON_KEY: Partial<Record<PrayerType, PrayerKey>> = {
   [PrayerType.Fajr]: PrayerKey.Fajr,
@@ -142,11 +142,11 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
           className="pointer-events-none absolute inset-[5px] rounded-full border-2 border-dashed border-white/20"
         />
         {prayer.state === PrayerCardState.Completed ? (
-          <CheckIcon className="h-10 w-10 text-white [filter:drop-shadow(0_3px_0_rgba(0,0,0,0.35))]" />
+          <Check className="h-10 w-10 text-white [filter:drop-shadow(0_3px_0_rgba(0,0,0,0.35))]" />
         ) : prayer.state === PrayerCardState.Missed ? (
-          <CrossIcon className="h-9 w-9 text-white/55" />
+          <Cross className="h-9 w-9 text-white/55" />
         ) : prayer.state === PrayerCardState.Locked ? (
-          <LockIcon className="h-9 w-9 text-white/85" />
+          <Lock className="h-9 w-9 text-white/85" />
         ) : iconKey ? (
           <PrayerIcon
             prayer={iconKey}
@@ -202,7 +202,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
           tone="violet"
           size="sm"
           isCounter
-          icon={<XpStarIcon className="h-[9px] w-[9px]" />}
+          icon={<XpStar className="h-[9px] w-[9px]" />}
         >
           +{prayer.xpReward} XP
         </Pill>
@@ -210,7 +210,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
           <Pill
             tone="streak"
             size="sm"
-            icon={<FireIcon className="h-[9px] w-[9px]" />}
+            icon={<Fire className="h-[9px] w-[9px]" />}
           >
             +1 SERİ
           </Pill>
@@ -248,7 +248,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
             )}
           >
             İŞARETLE
-            <ChevronRightIcon className="h-[11px] w-[11px]" />
+            <ChevronRight className="h-[11px] w-[11px]" />
           </button>
         </div>
       )}
@@ -273,7 +273,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
             )}
           >
             İŞARETLE
-            <ChevronRightIcon className="h-[11px] w-[11px]" />
+            <ChevronRight className="h-[11px] w-[11px]" />
           </button>
         </div>
       )}

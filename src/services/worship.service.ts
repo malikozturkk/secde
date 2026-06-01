@@ -1,10 +1,6 @@
 import { axiosInstance } from "../lib/axios";
-import type {
-  ApiResponse,
-  WorshipData,
-  WorshipOptionsData,
-  WorshipQueryParams,
-} from "../types";
+import type { ApiResponse } from "@/src/types/api.types";
+import type { WorshipData, WorshipOptionsData, WorshipQueryParams } from "@/src/types/worship.types";
 
 export const worshipService = {
   getTimes: (params: WorshipQueryParams) =>

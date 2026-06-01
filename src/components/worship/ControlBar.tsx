@@ -8,12 +8,12 @@ import {
 } from "@/src/lib/worship-utils";
 import { DatePicker, type DateString } from "@/src/components/ui/DatePicker";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronDownIcon,
-  PinIcon,
-  RefreshIcon,
-} from "./icons/ControlIcons";
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  Pin,
+  Refresh,
+} from "@/src/icons/tsx/worship";
 
 interface ControlBarProps {
   locationLabel: string;
@@ -54,13 +54,13 @@ const ControlBarComponent: React.FC<ControlBarProps> = ({
           onClick={onOpenLocation}
           aria-label={`Konum: ${locationLabel}`}
         >
-          <PinIcon
+          <Pin
             className="text-[var(--color-primary-light)]"
             width={14}
             height={14}
           />
           <span>{locationLabel}</span>
-          <ChevronDownIcon width={12} height={12} />
+          <ChevronDown width={12} height={12} />
         </button>
 
         <div className="inline-flex items-center gap-1.5">
@@ -70,7 +70,7 @@ const ControlBarComponent: React.FC<ControlBarProps> = ({
             onClick={onPrevDay}
             aria-label="Önceki gün"
           >
-            <ChevronLeftIcon width={14} height={14} />
+            <ChevronLeft width={14} height={14} />
           </button>
 
           <DatePicker
@@ -90,7 +90,7 @@ const ControlBarComponent: React.FC<ControlBarProps> = ({
             onClick={onNextDay}
             aria-label="Sonraki gün"
           >
-            <ChevronRightIcon width={14} height={14} />
+            <ChevronRight width={14} height={14} />
           </button>
         </div>
       </div>
@@ -101,7 +101,7 @@ const ControlBarComponent: React.FC<ControlBarProps> = ({
         onClick={onRefresh}
         aria-label="Yenile"
       >
-        <RefreshIcon
+        <Refresh
           className="text-[var(--color-primary-light)]"
           width={14}
           height={14}

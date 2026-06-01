@@ -5,7 +5,7 @@ import {
   MonthCell,
   MonthCellKind,
 } from "../types/dashboard.types";
-import { buildLocalDateString, parseLocalDate } from "./worship-utils";
+import { buildLocalDateString } from "./worship-utils";
 
 export const SHORT_WEEKDAYS_TR: readonly string[] = [
   "PZT",
@@ -249,6 +249,3 @@ export const buildMonthCalendar = ({
   };
 };
 
-export const monthNameTR = (month: number): string =>
-  MONTHS_TR_FULL[month] ?? "";
-export const parseIsoLocal = (iso: string): Date => parseLocalDate(iso);

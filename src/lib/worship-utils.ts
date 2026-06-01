@@ -1,17 +1,14 @@
 import {
-  PRAYER_CONFIG,
-  PRAYER_ORDER,
   MONTHS_TR,
   DAYS_LONG_TR,
 } from "../constants/worship";
-import { PrayerKey, PrayerState } from "../types/enums/worship.enums";
+import { PrayerState } from "../types/enums/worship.enums";
 import type {
   PrayerTime,
-  WorshipTimes,
   Coordinates,
 } from "../types/worship.types";
 
-export interface DurationParts {
+interface DurationParts {
   h: number;
   m: number;
   s: number;
@@ -54,7 +51,7 @@ export const addDays = (yyyyMmDd: string, delta: number): string => {
   return buildLocalDateString(date);
 };
 
-export const isSameDay = (a: Date, b: Date): boolean =>
+const isSameDay = (a: Date, b: Date): boolean =>
   a.getFullYear() === b.getFullYear() &&
   a.getMonth() === b.getMonth() &&
   a.getDate() === b.getDate();
@@ -109,12 +106,7 @@ export const getPrayerState = (time: PrayerTime | undefined): PrayerState => {
   return PrayerState.Upcoming;
 };
 
-export const getOrderedPrayers = (
-  times: WorshipTimes
-): Array<{ key: PrayerKey; time: PrayerTime }> =>
-  PRAYER_ORDER.map((key) => ({ key, time: times[key] }));
 
-export const getPrayerConfig = (key: PrayerKey) => PRAYER_CONFIG[key];
 
 export const stripHijriPrefix = (hijri: string): string =>
   hijri.replace(/^Hicri\s+/i, "").trim();

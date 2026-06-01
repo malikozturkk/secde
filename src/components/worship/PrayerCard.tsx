@@ -14,7 +14,7 @@ import {
 import { PrayerKey, PrayerState } from "@/src/types/enums/worship.enums";
 import type { PrayerTime } from "@/src/types/worship.types";
 import { cn } from "@/src/lib/utils";
-import { PrayerIcon } from "./icons/PrayerIcon";
+import { PrayerIcon } from "./PrayerIcon";
 
 interface PrayerCardProps {
   prayerKey: PrayerKey;

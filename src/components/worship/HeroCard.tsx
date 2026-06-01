@@ -13,7 +13,7 @@ import { useCountdownToIso } from "@/src/hooks/worship/useCountdown";
 import type { WorshipData } from "@/src/types/worship.types";
 import { NuraSitting } from "@/src/icons/tsx/characters/nura";
 import { SpeechBubble } from "@/src/components/ui/SpeechBubble";
-import { PrayerIcon } from "./icons/PrayerIcon";
+import { PrayerIcon } from "./PrayerIcon";
 
 interface HeroCardProps {
   worship: WorshipData;

@@ -4,9 +4,11 @@ import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
 import { authService } from "@/src/services/auth.service";
 import { useAuthStore } from "@/src/store/auth.store";
-import { AuthErrorCode, ConsentErrorCode } from "@/src/types/enums";
+import { AuthErrorCode } from "@/src/types/enums/auth.enums";
+import { ConsentErrorCode } from "@/src/types/enums/consent.enums";
 import { RegisterFormValues } from "@/src/validations/auth.validation";
-import { RegisterResponseData, ApiResponse } from "@/src/types";
+import type { RegisterResponseData } from "@/src/types/auth.types";
+import type { ApiResponse } from "@/src/types/api.types";
 
 interface UseRegisterOptions {
   setError: UseFormSetError<RegisterFormValues>;

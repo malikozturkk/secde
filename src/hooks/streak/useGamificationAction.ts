@@ -12,7 +12,7 @@ import { GamificationActionType } from "@/src/types/enums/streak.enums";
 import type {
   GamificationActionRequest,
   GamificationActionResponse,
-} from "@/src/types";
+} from "@/src/types/streak.types";
 
 type ActionMutation = UseMutationResult<
   GamificationActionResponse,

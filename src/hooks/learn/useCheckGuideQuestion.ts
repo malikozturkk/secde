@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { learnService } from "@/src/services/learn.service";
-import { GuideCheckQuestionPayload } from "@/src/types";
+import type { GuideCheckQuestionPayload } from "@/src/types/learn.types";
 
 export const useCheckGuideQuestion = () => {
   return useMutation({

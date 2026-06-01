@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { PinIcon } from "../icons/ControlIcons";
+import { Pin } from "@/src/icons/tsx/worship";
 import { InfoState } from "./InfoState";
 
 interface GeoDeniedStateProps {
@@ -14,7 +14,7 @@ export const GeoDeniedState: React.FC<GeoDeniedStateProps> = ({
   onManualSelect,
 }) => (
   <InfoState
-    icon={<PinIcon width={32} height={32} />}
+    icon={<Pin width={32} height={32} />}
     title="Konum izni gerekli"
     body="Yaşadığın yerin namaz vakitlerini gösterebilmemiz için tarayıcı konum iznini açman gerekiyor."
     primaryAction={{ label: "Tekrar izin iste", onClick: onRetry }}

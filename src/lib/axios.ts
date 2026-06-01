@@ -4,7 +4,8 @@ import axios, {
   AxiosResponse,
 } from "axios";
 import { useAuthStore } from "../store/auth.store";
-import { AuthTokensWithUser, ApiResponse } from "../types";
+import type { AuthTokensWithUser } from "@/src/types/auth.types";
+import type { ApiResponse } from "@/src/types/api.types";
 import Cookies from "js-cookie";
 import { AUTH_COOKIE_NAME } from "../constants/routes";
 
@@ -61,7 +62,12 @@ axiosInstance.interceptors.response.use(
     const isRefreshEndpoint = originalRequest?.url?.includes("/auth/refresh");
     const isLoginEndpoint = originalRequest?.url?.includes("/auth/login");
 
-    if (!isAuthExpired || alreadyRetried || isRefreshEndpoint || isLoginEndpoint) {
+    if (
+      !isAuthExpired ||
+      alreadyRetried ||
+      isRefreshEndpoint ||
+      isLoginEndpoint
+    ) {
       return Promise.reject(error);
     }
 

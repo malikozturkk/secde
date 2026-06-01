@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { CONSENT_LABELS, CONSENT_PATHS } from "@/src/constants/consent";
-import type { ConsentType } from "@/src/types";
+import type { ConsentType } from "@/src/types/consent.types";
 
 interface LegalLinkProps {
   type: ConsentType;

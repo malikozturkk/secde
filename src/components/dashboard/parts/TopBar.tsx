@@ -3,10 +3,10 @@
 import React, { memo } from "react";
 import { Settings } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAnimatedNumber } from "@/src/hooks/streak";
+import { useAnimatedNumber } from "@/src/hooks/streak/useAnimatedNumber";
 import { STREAK_LOCALE } from "@/src/constants/streak";
 import { cn } from "@/src/lib/utils";
-import { FireIcon, SnowflakeIcon, XpStarIcon } from "../icons";
+import { Fire, Snowflake, XpStar } from "@/src/icons/tsx/dashboard";
 
 type ChipTone = "fire" | "xp" | "ice";
 
@@ -107,7 +107,7 @@ const TopBarComponent: React.FC<DashboardTopBarProps> = ({
         tone="fire"
         value={currentStreak}
         ariaLabel="Güncel seri"
-        icon={<FireIcon className="h-4 w-4" />}
+        icon={<Fire className="h-4 w-4" />}
       />
       <TopBarChip
         tone="xp"
@@ -115,13 +115,13 @@ const TopBarComponent: React.FC<DashboardTopBarProps> = ({
         ariaLabel="Toplam XP"
         withSeparators
         burst={xpBurst}
-        icon={<XpStarIcon className="h-[14px] w-[14px]" />}
+        icon={<XpStar className="h-[14px] w-[14px]" />}
       />
       <TopBarChip
         tone="ice"
         value={streakFreezeCount}
         ariaLabel="Seri dondurma"
-        icon={<SnowflakeIcon className="h-[14px] w-[14px]" />}
+        icon={<Snowflake className="h-[14px] w-[14px]" />}
       />
       <div className="flex-1" />
       {onOpenSettings && (

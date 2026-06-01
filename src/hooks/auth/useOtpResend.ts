@@ -2,8 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { otpService } from "@/src/services/otp.service";
 import { useAuthStore } from "@/src/store/auth.store";
-import { AuthErrorCode } from "@/src/types/enums";
-import type { ApiResponse } from "@/src/types";
+import { AuthErrorCode } from "@/src/types/enums/auth.enums";
+import type { ApiResponse } from "@/src/types/api.types";
 
 interface UseOtpResendOptions {
   onSuccess?: () => void;

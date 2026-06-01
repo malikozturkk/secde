@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
+import { LevelStatCard } from "@/src/components/stats/LevelStatCard";
+import { StreakStatCard } from "@/src/components/stats/StreakStatCard";
+import { PrayerBreakdownCard } from "@/src/components/stats/PrayerBreakdownCard";
+import { QuizAccuracyCard } from "@/src/components/stats/QuizAccuracyCard";
 import {
-  LevelStatCard,
-  StreakStatCard,
-  PrayerBreakdownCard,
-  QuizAccuracyCard,
   StatsError,
   StatsGridSkeleton,
-} from "@/src/components/stats";
-import { SectionHead } from "@/src/components/dashboard/parts";
+} from "@/src/components/stats/StatsStates";
+import { SectionHead } from "@/src/components/dashboard/parts/SectionHead";
 import type { PublicStats, SelfStats } from "@/src/types/user-stats.types";
 
 interface ProfileStatsProps {

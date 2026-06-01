@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import { Dialog } from "@/src/components/ui/Dialog";
 import { Button } from "@/src/components/ui/Button";
 import { Radio, RadioGroup } from "@/src/components/ui/Radio";
-import { useWorshipOptions } from "@/src/hooks/worship";
+import { useWorshipOptions } from "@/src/hooks/worship/useWorshipOptions";
 import type {
   WorshipOption,
   WorshipOptionsData,
   WorshipSettings,
-} from "@/src/types";
+} from "@/src/types/worship.types";
 
 interface WorshipSettingsModalProps {
   isOpen: boolean;

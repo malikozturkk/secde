@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Sidebar.module.css";
 
-export interface NavItemProps {
+interface NavItemProps {
   href: string;
   label: string;
   icon: React.ReactNode;

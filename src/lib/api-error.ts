@@ -1,15 +1,9 @@
 import { AxiosError, isAxiosError } from "axios";
-import type { ApiResponse } from "@/src/types";
+import type { ApiResponse } from "@/src/types/api.types";
 
 export const getHttpStatus = (error: unknown): number | undefined => {
   if (isAxiosError(error)) return error.response?.status;
   return undefined;
-};
-
-export const getApiErrorCode = (error: unknown): number | undefined => {
-  if (!isAxiosError(error)) return undefined;
-  const data = (error as AxiosError<ApiResponse<unknown>>).response?.data;
-  return data?.error?.code ?? undefined;
 };
 
 export const getApiErrorMessage = (error: unknown): string | undefined => {
@@ -18,15 +12,7 @@ export const getApiErrorMessage = (error: unknown): string | undefined => {
   return data?.error?.message ?? undefined;
 };
 
-export const isNotFound = (error: unknown): boolean =>
-  getHttpStatus(error) === 404;
-
-export const isUnauthorized = (error: unknown): boolean => {
-  const status = getHttpStatus(error);
-  return status === 401 || status === 403;
-};
-
-export const isServerError = (error: unknown): boolean => {
+const isServerError = (error: unknown): boolean => {
   const status = getHttpStatus(error);
   return status !== undefined && status >= 500;
 };

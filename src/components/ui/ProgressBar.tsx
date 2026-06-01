@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/src/lib/utils";
 
-export type ProgressTone =
+type ProgressTone =
   | "primary"
   | "secondary"
   | "streak"

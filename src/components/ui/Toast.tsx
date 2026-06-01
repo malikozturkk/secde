@@ -12,9 +12,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, Info, XCircle, AlertTriangle, X } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 
-export type ToastTone = "success" | "error" | "info" | "warning";
+type ToastTone = "success" | "error" | "info" | "warning";
 
-export interface ToastOptions {
+interface ToastOptions {
   tone?: ToastTone;
   title?: string;
   message: string;

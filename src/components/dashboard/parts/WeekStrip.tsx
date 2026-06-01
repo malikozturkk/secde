@@ -3,7 +3,7 @@
 import React, { memo } from "react";
 import { motion } from "framer-motion";
 import { WeekDayState, type WeekDay } from "@/src/types/dashboard.types";
-import { CheckIcon, FireIcon, SnowflakeIcon } from "../icons";
+import { Check, Fire, Snowflake } from "@/src/icons/tsx/dashboard";
 import { cn } from "@/src/lib/utils";
 
 interface WeekStripProps {
@@ -87,9 +87,9 @@ const WeekStripComponent: React.FC<WeekStripProps> = ({
               animate={celebrating ? { scale: [1, 1.2, 1] } : undefined}
               transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
             >
-              {showCheck && <CheckIcon className="h-[14px] w-[14px]" />}
-              {showFire && <FireIcon className="h-[14px] w-[14px]" />}
-              {showFrozen && <SnowflakeIcon className="h-[13px] w-[13px]" />}
+              {showCheck && <Check className="h-[14px] w-[14px]" />}
+              {showFire && <Fire className="h-[14px] w-[14px]" />}
+              {showFrozen && <Snowflake className="h-[13px] w-[13px]" />}
               {showMiss && (
                 <span className="text-[11px] font-black" aria-hidden="true">
                   —

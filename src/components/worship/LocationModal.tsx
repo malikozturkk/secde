@@ -2,14 +2,11 @@
 
 import React, { useMemo, useState } from "react";
 import { Dialog } from "@/src/components/ui/Dialog";
-import {
-  COORDINATE_PRECISION,
-  TURKISH_CITIES,
-} from "@/src/constants/worship";
+import { COORDINATE_PRECISION, TURKISH_CITIES } from "@/src/constants/worship";
 import { GeolocationStatus } from "@/src/types/enums/worship.enums";
 import type { City } from "@/src/types/worship.types";
 import { cn } from "@/src/lib/utils";
-import { PinIcon } from "./icons/ControlIcons";
+import { Pin } from "@/src/icons/tsx/worship";
 import { Button } from "../ui/Button";
 import { X } from "lucide-react";
 import { Input } from "../ui/Input";
@@ -69,7 +66,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({
           variant="primary"
           size="sm"
           className="normal-case"
-          icon={<PinIcon width={14} height={14} />}
+          icon={<Pin width={14} height={14} />}
           disabled={isRequestingGeo || geoUnsupported}
         >
           {isRequestingGeo ? "Konum alınıyor…" : "Otomatik konum kullan"}

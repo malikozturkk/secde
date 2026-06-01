@@ -23,7 +23,7 @@ import {
   WashingTheMouth,
   WashingTheNose,
   WashingThePrivate,
-} from "../icons/tsx/learn/guide";
+} from "@/src/icons/tsx/learn/guide";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

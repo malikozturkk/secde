@@ -11,8 +11,8 @@ import React, {
 } from "react";
 import { cn } from "@/src/lib/utils";
 
-export type RadioVariant = "card" | "outline" | "solid";
-export type RadioSize = "sm" | "md" | "lg";
+type RadioVariant = "card" | "outline" | "solid";
+type RadioSize = "sm" | "md" | "lg";
 
 interface RadioGroupContextValue {
   name: string;
@@ -25,7 +25,7 @@ interface RadioGroupContextValue {
 
 const RadioGroupContext = createContext<RadioGroupContextValue | null>(null);
 
-export interface RadioGroupProps {
+interface RadioGroupProps {
   name?: string;
   value?: string;
   defaultValue?: string;
@@ -119,7 +119,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
 
 RadioGroup.displayName = "RadioGroup";
 
-export interface RadioProps {
+interface RadioProps {
   value: string;
   name?: string;
   checked?: boolean;

@@ -17,17 +17,15 @@ import { cn } from "@/src/lib/utils";
 
 export type DateString = string;
 
-export interface DateRange {
+interface DateRange {
   from: DateString;
   to: DateString;
 }
 
-export type DatePickerMode = "single" | "range";
+type DatePickerVariant = "default" | "ghost" | "outline" | "minimal";
 
-export type DatePickerVariant = "default" | "ghost" | "outline" | "minimal";
-
-export type DatePickerSize = "sm" | "md" | "lg";
-export type DatePickerProps =
+type DatePickerSize = "sm" | "md" | "lg";
+type DatePickerProps =
   | (DatePickerCommonProps & {
       mode?: "single";
       value: DateString | null;
@@ -39,7 +37,7 @@ export type DatePickerProps =
       onChange: (value: DateRange) => void;
     });
 
-export interface DatePickerCommonProps {
+interface DatePickerCommonProps {
   variant?: DatePickerVariant;
   size?: DatePickerSize;
   minDate?: DateString;

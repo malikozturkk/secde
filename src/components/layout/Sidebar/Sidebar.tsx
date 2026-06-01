@@ -8,16 +8,7 @@ import { NavItem, MobileNavItem } from "./NavItem";
 import styles from "./Sidebar.module.css";
 import { useAuthStore } from "@/src/store/auth.store";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
-import {
-  Leaderboard,
-  Learn,
-  Quests,
-  Series,
-  Settings,
-  Shop,
-  Stats,
-  Worship,
-} from "@/src/icons/tsx/sidebar";
+import { Learn, Series, Settings, Worship } from "@/src/icons/tsx/sidebar";
 
 interface NavItemConfig {
   label: string;
@@ -25,7 +16,7 @@ interface NavItemConfig {
   icon: React.ReactNode;
   hideOnMobile: boolean;
 }
-export interface SidebarProps {
+interface SidebarProps {
   className?: string;
 }
 

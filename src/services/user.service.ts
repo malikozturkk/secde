@@ -1,5 +1,5 @@
 import { axiosInstance } from "../lib/axios";
-import type { ApiResponse } from "../types";
+import type { ApiResponse } from "@/src/types/api.types";
 import type {
   SearchUsersParams,
   SearchUsersResponse,
