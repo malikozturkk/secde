@@ -2,10 +2,7 @@
 
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { gamificationService } from "@/src/services/gamification.service";
-import {
-  GAMIFICATION_QUERY_KEYS,
-  PRAYER_QUESTIONS_STALE_TIME_MS,
-} from "@/src/constants/streak";
+import { GAMIFICATION_QUERY_KEYS } from "@/src/constants/streak";
 import type {
   PrayerQuestionsQuery,
   PrayerQuestionsResponse,
@@ -37,8 +34,9 @@ export const usePrayerQuestions = (
       return payload;
     },
     enabled: params !== null,
-    staleTime: PRAYER_QUESTIONS_STALE_TIME_MS,
+    staleTime: 0,
+    gcTime: 0,
     refetchOnWindowFocus: false,
-    retry: 1,
+    retry: false,
   });
 };

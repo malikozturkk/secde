@@ -151,7 +151,6 @@ export const GAMIFICATION_QUERY_KEYS = {
 } as const;
 
 export const DAILY_PRAYERS_STALE_TIME_MS = 60 * 1000;
-export const PRAYER_QUESTIONS_STALE_TIME_MS = 5 * 60 * 1000;
 
 export const DAILY_PRAYERS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 export const STREAK_TICK_INTERVAL_MS = 1000;

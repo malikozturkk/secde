@@ -1,7 +1,10 @@
 import type {
   GamificationActionType,
+  PrayerAnswerResult,
   PrayerCardState,
   PrayerCategory,
+  PrayerQuestionStatus,
+  PrayerQuizStatus,
   PrayerType,
 } from "./enums/streak.enums";
 
@@ -22,6 +25,7 @@ export interface PrayerCardDto {
   completedAt: string | null;
   streakContribution: boolean;
   pendingQuizId: string | null;
+  isLocked: boolean;
 }
 
 export interface DailyPrayersResponse {
@@ -46,24 +50,48 @@ export interface QuizQuestion {
   id: string;
   prompt: string;
   options: QuestionOption[];
+  orderIndex: number;
+  timeLimitSeconds: number;
+  status: PrayerQuestionStatus;
+  shownAt: string | null;
+  deadlineAt: string | null;
+  answeredAt: string | null;
+  selectedOptionId: string | null;
+  isCorrect: boolean | null;
+  isAnswerable: boolean;
+  canBeAnsweredAgain: boolean;
+  isExpired: boolean;
 }
 
 export interface PrayerQuestionsResponse {
   quizId: string;
   expiresAt: string;
+  quizStatus: PrayerQuizStatus;
+  isLocked: boolean;
   questions: QuizQuestion[];
 }
 
-export interface QuizAnswer {
-  questionId: string;
+export interface StartPrayerQuestionResponse {
+  quizId: string;
+  quizStatus: PrayerQuizStatus;
+  question: QuizQuestion;
+}
+
+export interface AnswerPrayerQuestionRequest {
   optionId: string;
+}
+
+export interface AnswerPrayerQuestionResponse {
+  quizId: string;
+  quizStatus: PrayerQuizStatus;
+  result: PrayerAnswerResult;
+  isLocked: boolean;
+  question: QuizQuestion;
+  prayerCompletion?: PrayerCompletionResult;
 }
 
 export interface GamificationActionRequest {
   actionType: GamificationActionType;
-  quizId?: string;
-  prayerType?: PrayerType;
-  answers?: QuizAnswer[];
   clientRequestId?: string;
 }
 
@@ -92,7 +120,6 @@ export interface StreakFreezeUsageResult {
 
 export interface GamificationActionResponse {
   actionType: GamificationActionType;
-  prayerCompletion?: PrayerCompletionResult;
   streakFreezeUsage?: StreakFreezeUsageResult;
 }
 
@@ -111,6 +138,7 @@ export interface PrayerCardViewModel {
   completedAtLabel: string | null;
   streakContribution: boolean;
   pendingQuizId: string | null;
+  isLocked: boolean;
   state: PrayerCardState;
   secondsUntilOpens: number;
   secondsUntilCloses: number;

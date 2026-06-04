@@ -17,7 +17,6 @@ export enum PrayerCategory {
 }
 
 export enum GamificationActionType {
-  PrayerCompletion = "PRAYER_COMPLETION",
   StreakFreeze = "STREAK_FREEZE",
 }
 
@@ -27,6 +26,29 @@ export enum PrayerCardState {
   Current = "current",
   Completed = "completed",
   Missed = "missed",
+  MarkingLocked = "marking-locked",
+}
+
+export enum PrayerQuizStatus {
+  Pending = "PENDING",
+  Passed = "PASSED",
+  Failed = "FAILED",
+  Expired = "EXPIRED",
+}
+
+export enum PrayerQuestionStatus {
+  Pending = "PENDING",
+  Shown = "SHOWN",
+  Correct = "CORRECT",
+  Incorrect = "INCORRECT",
+  Expired = "EXPIRED",
+  Locked = "LOCKED",
+}
+
+export enum PrayerAnswerResult {
+  Correct = "CORRECT",
+  Incorrect = "INCORRECT",
+  Expired = "EXPIRED",
 }
 
 export enum StreakHeroVariant {

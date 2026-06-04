@@ -69,14 +69,9 @@ export const DashboardView: React.FC = () => {
     setQuizPrayer(null);
   }, []);
 
-  const handleQuizSubmit = useCallback(
-    async (input: {
-      prayerType: PrayerCardViewModel["type"];
-      quizId: string;
-      answers: { questionId: string; optionId: string }[];
-    }): Promise<PrayerCompletionResult | undefined> => {
-      const response = await controller.completePrayer(input);
-      return response.prayerCompletion;
+  const handleQuizCompletion = useCallback(
+    (completion: PrayerCompletionResult) => {
+      controller.setCelebration(completion);
     },
     [controller]
   );
@@ -268,7 +263,7 @@ export const DashboardView: React.FC = () => {
         prayerType={quizPrayer?.type ?? null}
         quizQueryParams={quizQueryParams}
         onClose={handleQuizClose}
-        onSubmit={handleQuizSubmit}
+        onCompletion={handleQuizCompletion}
       />
 
       <MonthHeatmapSheet

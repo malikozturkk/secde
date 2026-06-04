@@ -1,7 +1,14 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { resolveApiErrorMessage } from "@/src/constants/error-messages";
+import { getDomainErrorCode } from "@/src/lib/api-error";
 import { Sheet } from "@/src/components/ui/Sheet";
 import { Button } from "@/src/components/ui/Button";
 import { SkeletonBox } from "@/src/components/ui/SkeletonBox";
@@ -9,21 +16,29 @@ import {
   isPrayerQuestionsExpired,
   usePrayerQuestions,
 } from "@/src/hooks/streak/usePrayerQuestions";
+import { useStartPrayerQuestion } from "@/src/hooks/streak/useStartPrayerQuestion";
+import { useAnswerPrayerQuestion } from "@/src/hooks/streak/useAnswerPrayerQuestion";
 import {
   PRAYER_META,
   PRAYER_QUIZ_QUESTION_COUNT,
 } from "@/src/constants/streak";
-import { PrayerType } from "@/src/types/enums/streak.enums";
+import {
+  PrayerAnswerResult,
+  PrayerQuestionStatus,
+  PrayerQuizStatus,
+  PrayerType,
+} from "@/src/types/enums/streak.enums";
 import type {
   PrayerCompletionResult,
   PrayerQuestionsQuery,
-  QuizAnswer,
+  QuizQuestion,
 } from "@/src/types/streak.types";
-import { Cross } from "@/src/icons/tsx/dashboard";
+import { Cross, Lock } from "@/src/icons/tsx/dashboard";
 import { PRAYER_COLORWAY } from "../styles";
 import { QuizProgress } from "./QuizProgress";
 import { QuizOption } from "./QuizOption";
 import { QuizSuccess } from "./QuizSuccess";
+import { useNowMs } from "@/src/hooks/streak/useNowTicker";
 import { cn } from "@/src/lib/utils";
 
 interface PrayerQuizModalProps {
@@ -31,137 +46,277 @@ interface PrayerQuizModalProps {
   prayerType: PrayerType | null;
   quizQueryParams: PrayerQuestionsQuery | null;
   onClose: () => void;
-  onSubmit: (input: {
-    prayerType: PrayerType;
-    quizId: string;
-    answers: QuizAnswer[];
-  }) => Promise<PrayerCompletionResult | undefined>;
+  onCompletion?: (completion: PrayerCompletionResult) => void;
 }
-
-type Phase = "quiz" | "submitting" | "success" | "error";
 
 const OPTION_LETTER = (idx: number): string => String.fromCharCode(65 + idx);
 
-const RESET_ANSWERS: QuizAnswer[] = [];
+const isQuizLocked = (
+  status: PrayerQuizStatus | undefined,
+  isLocked: boolean | undefined
+): boolean => {
+  if (isLocked) return true;
+  if (!status) return false;
+  return (
+    status === PrayerQuizStatus.Failed || status === PrayerQuizStatus.Expired
+  );
+};
+
+interface LockedReason {
+  title: string;
+  description: string;
+}
+
+const LOCK_REASON_WRONG: LockedReason = {
+  title: "Cevap yanlış",
+  description:
+    "Bu vakit için işaretleme kapatıldı. Bir sonraki güne kadar tekrar açılmayacak.",
+};
+
+const LOCK_REASON_EXPIRED: LockedReason = {
+  title: "Süre doldu",
+  description:
+    "Bu vakit için işaretleme kapatıldı. Bir sonraki güne kadar tekrar açılmayacak.",
+};
+
+const LOCK_REASON_DEFAULT: LockedReason = {
+  title: "İşaretleme kapatıldı",
+  description:
+    "Bu vakit için işaretleme kapatıldı. Bir sonraki güne kadar tekrar açılmayacak.",
+};
 
 export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
   isOpen,
   prayerType,
   quizQueryParams,
   onClose,
-  onSubmit,
+  onCompletion,
 }) => {
   const questionsQuery = usePrayerQuestions(isOpen ? quizQueryParams : null);
+  const startMutation = useStartPrayerQuestion();
+  const answerMutation = useAnswerPrayerQuestion();
+  const nowMs = useNowMs();
 
-  const [phase, setPhase] = useState<Phase>("quiz");
-  const [step, setStep] = useState(0);
-  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-  const [answers, setAnswers] = useState<QuizAnswer[]>(RESET_ANSWERS);
+  const [selections, setSelections] = useState<Record<string, string>>({});
   const [completionResult, setCompletionResult] =
     useState<PrayerCompletionResult | null>(null);
+  const [mutationLockReason, setMutationLockReason] =
+    useState<LockedReason | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const startedQuestionIdsRef = useRef<Set<string>>(new Set());
 
   const data = questionsQuery.data;
-  const total = data?.questions.length ?? PRAYER_QUIZ_QUESTION_COUNT;
-  const currentQuestion = data?.questions[step];
+  const queryError = questionsQuery.error;
+  const queryErrorCode = getDomainErrorCode(queryError);
+  const queryLocked = queryErrorCode === "PRAYER_MARKING_LOCKED";
 
-  useEffect(() => {
-    if (isOpen) return;
-    setPhase("quiz");
-    setStep(0);
-    setSelectedOptionId(null);
-    setAnswers(RESET_ANSWERS);
-    setCompletionResult(null);
-    setErrorMessage(null);
-  }, [isOpen]);
+  const orderedQuestions = useMemo(() => {
+    if (!data) return [];
+    return [...data.questions].sort((a, b) => a.orderIndex - b.orderIndex);
+  }, [data]);
+
+  const total = orderedQuestions.length || PRAYER_QUIZ_QUESTION_COUNT;
+
+  const currentQuestion: QuizQuestion | undefined = useMemo(() => {
+    return orderedQuestions.find(
+      (q) =>
+        q.status === PrayerQuestionStatus.Pending ||
+        q.status === PrayerQuestionStatus.Shown
+    );
+  }, [orderedQuestions]);
+
+  const currentIndex = useMemo(() => {
+    if (!currentQuestion) return total;
+    const idx = orderedQuestions.findIndex((q) => q.id === currentQuestion.id);
+    return idx >= 0 ? idx : 0;
+  }, [currentQuestion, orderedQuestions, total]);
+
+  const dataLocked = isQuizLocked(data?.quizStatus, data?.isLocked);
+  const quizSessionExpired = isPrayerQuestionsExpired(data, nowMs);
 
   useEffect(() => {
     if (!isOpen) return;
-    if (questionsQuery.isFetching) return;
-    if (isPrayerQuestionsExpired(data)) {
-      void questionsQuery.refetch();
-    }
-  }, [isOpen, data, questionsQuery]);
+    if (!currentQuestion) return;
+    if (currentQuestion.status !== PrayerQuestionStatus.Pending) return;
+    if (!data) return;
+    if (mutationLockReason) return;
+    if (dataLocked || queryLocked || quizSessionExpired) return;
+    if (startMutation.isPending) return;
+    if (startedQuestionIdsRef.current.has(currentQuestion.id)) return;
 
-  const handleSelect = useCallback((optionId: string) => {
-    setSelectedOptionId(optionId);
-  }, []);
+    const effectivePrayerType = quizQueryParams?.prayerType ?? prayerType;
+    if (!effectivePrayerType) return;
 
-  const handleSubmit = useCallback(
-    async (finalAnswers: QuizAnswer[]) => {
-      if (!prayerType || !data) return;
-
-      if (finalAnswers.length !== total) {
-        setErrorMessage("Bütün sorulara cevap verilmedi.");
-        setPhase("error");
-        return;
+    startedQuestionIdsRef.current.add(currentQuestion.id);
+    startMutation.mutate(
+      {
+        prayerType: effectivePrayerType,
+        quizId: data.quizId,
+        questionId: currentQuestion.id,
+      },
+      {
+        onError: (err) => {
+          startedQuestionIdsRef.current.delete(currentQuestion.id);
+          const code = getDomainErrorCode(err);
+          if (
+            code === "PRAYER_MARKING_LOCKED" ||
+            code === "QUIZ_QUESTION_NOT_STARTABLE" ||
+            code === "QUIZ_EXPIRED" ||
+            code === "PRAYER_WINDOW_CLOSED"
+          ) {
+            setMutationLockReason(LOCK_REASON_DEFAULT);
+          } else {
+            setErrorMessage(resolveApiErrorMessage(err));
+          }
+          void questionsQuery.refetch();
+        },
       }
-      if (isPrayerQuestionsExpired(data)) {
-        setErrorMessage(
-          "Sorular zaman aşımına uğradı — yeni sorular yükleniyor."
-        );
-        setPhase("error");
-        void questionsQuery.refetch();
-        return;
-      }
+    );
+  }, [
+    isOpen,
+    currentQuestion,
+    startMutation,
+    data,
+    dataLocked,
+    queryLocked,
+    quizSessionExpired,
+    mutationLockReason,
+    questionsQuery,
+    prayerType,
+    quizQueryParams,
+  ]);
 
-      try {
-        setPhase("submitting");
-        setErrorMessage(null);
-        const result = await onSubmit({
-          prayerType,
-          quizId: data.quizId,
-          answers: finalAnswers,
-        });
-        setCompletionResult(result ?? null);
-        setPhase("success");
-      } catch (err) {
-        setErrorMessage(
-          resolveApiErrorMessage(
-            err,
-            "Vakit kaydedilemedi — biraz sonra tekrar deneyelim."
-          )
-        );
-        setPhase("error");
-      }
+  const deadlineAt = currentQuestion?.deadlineAt ?? null;
+  const parsedDeadlineMs = deadlineAt ? Date.parse(deadlineAt) : NaN;
+  const deadlineMs = Number.isFinite(parsedDeadlineMs)
+    ? parsedDeadlineMs
+    : null;
+
+  const timeLimitMs = currentQuestion
+    ? currentQuestion.timeLimitSeconds * 1000
+    : 0;
+
+  const remainingMs =
+    deadlineMs != null ? Math.max(0, deadlineMs - nowMs) : null;
+  const remainingSeconds =
+    remainingMs != null ? Math.ceil(remainingMs / 1000) : null;
+  const elapsedPercent =
+    deadlineMs != null && timeLimitMs > 0 && remainingMs != null
+      ? Math.max(0, Math.min(100, 100 - (remainingMs / timeLimitMs) * 100))
+      : undefined;
+  const timeExpired =
+    currentQuestion?.status === PrayerQuestionStatus.Shown &&
+    remainingMs != null &&
+    remainingMs <= 0;
+
+  const refetchedOnExpiryRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!timeExpired) return;
+    if (!currentQuestion) return;
+    if (refetchedOnExpiryRef.current === currentQuestion.id) return;
+    refetchedOnExpiryRef.current = currentQuestion.id;
+    void questionsQuery.refetch();
+  }, [timeExpired, currentQuestion, questionsQuery]);
+
+  const selectedOptionId = currentQuestion
+    ? selections[currentQuestion.id] ?? null
+    : null;
+
+  const handleSelect = useCallback(
+    (optionId: string) => {
+      if (!currentQuestion) return;
+      const qid = currentQuestion.id;
+      setSelections((prev) => ({ ...prev, [qid]: optionId }));
     },
-    [data, onSubmit, prayerType, questionsQuery, total]
+    [currentQuestion]
   );
 
-  const handleAdvance = useCallback(() => {
-    if (!data || !currentQuestion || !selectedOptionId) return;
-
-    const nextAnswers = [...answers];
-    nextAnswers[step] = {
-      questionId: currentQuestion.id,
-      optionId: selectedOptionId,
-    };
-    setAnswers(nextAnswers);
-
-    const isLast = step === total - 1;
-    if (!isLast) {
-      setStep((s) => s + 1);
-      setSelectedOptionId(null);
-      return;
-    }
-
-    void handleSubmit(nextAnswers);
+  const handleAnswer = useCallback(() => {
+    if (!currentQuestion || !data || !selectedOptionId) return;
+    if (answerMutation.isPending) return;
+    const effectivePrayerType = quizQueryParams?.prayerType ?? prayerType;
+    if (!effectivePrayerType) return;
+    setErrorMessage(null);
+    answerMutation.mutate(
+      {
+        prayerType: effectivePrayerType,
+        quizId: data.quizId,
+        questionId: currentQuestion.id,
+        optionId: selectedOptionId,
+      },
+      {
+        onSuccess: (response) => {
+          if (response.result === PrayerAnswerResult.Correct) {
+            if (response.prayerCompletion) {
+              setCompletionResult(response.prayerCompletion);
+              onCompletion?.(response.prayerCompletion);
+            }
+            return;
+          }
+          if (response.result === PrayerAnswerResult.Incorrect) {
+            setMutationLockReason(LOCK_REASON_WRONG);
+            return;
+          }
+          if (response.result === PrayerAnswerResult.Expired) {
+            setMutationLockReason(LOCK_REASON_EXPIRED);
+            return;
+          }
+        },
+        onError: (err) => {
+          const code = getDomainErrorCode(err);
+          if (
+            code === "PRAYER_MARKING_LOCKED" ||
+            code === "QUIZ_EXPIRED" ||
+            code === "PRAYER_WINDOW_CLOSED"
+          ) {
+            setMutationLockReason(LOCK_REASON_DEFAULT);
+            void questionsQuery.refetch();
+            return;
+          }
+          if (code === "QUIZ_QUESTION_ALREADY_ANSWERED") {
+            void questionsQuery.refetch();
+            return;
+          }
+          setErrorMessage(resolveApiErrorMessage(err));
+        },
+      }
+    );
   }, [
-    answers,
+    answerMutation,
     currentQuestion,
     data,
-    handleSubmit,
+    onCompletion,
+    prayerType,
+    questionsQuery,
+    quizQueryParams,
     selectedOptionId,
-    step,
-    total,
   ]);
 
   if (!prayerType) return null;
   const meta = PRAYER_META[prayerType];
   const colorway = PRAYER_COLORWAY[prayerType];
 
-  const isSubmitting = phase === "submitting";
-  const isLastStep = step === total - 1;
+  const showSuccess = !!completionResult;
+  const dataLockReason =
+    queryLocked || dataLocked || quizSessionExpired
+      ? LOCK_REASON_DEFAULT
+      : null;
+  const lockedView = !showSuccess ? mutationLockReason ?? dataLockReason : null;
+  const effectiveLock = !!lockedView;
+
+  const headerCount = `${Math.min(currentIndex + 1, total)} / ${total}`;
+  const showTimerLabel =
+    !effectiveLock &&
+    !showSuccess &&
+    currentQuestion?.status === PrayerQuestionStatus.Shown &&
+    remainingSeconds != null;
+  const optionsDisabled =
+    effectiveLock ||
+    showSuccess ||
+    !currentQuestion ||
+    currentQuestion.status !== PrayerQuestionStatus.Shown ||
+    answerMutation.isPending ||
+    timeExpired;
 
   return (
     <Sheet
@@ -170,7 +325,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
       aria-label={`${meta.label} bilgi testi`}
       withGrip
     >
-      {phase === "success" && completionResult ? (
+      {showSuccess && completionResult ? (
         <>
           <QuizSuccess
             prayerType={prayerType}
@@ -190,6 +345,20 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
             </Button>
           </div>
         </>
+      ) : effectiveLock && lockedView ? (
+        <>
+          <QuizLockedView reason={lockedView} prayerLabel={meta.label} />
+          <div className="border-t border-white/[0.06] bg-[var(--color-bg)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={onClose}
+              className="w-full"
+            >
+              Kapat
+            </Button>
+          </div>
+        </>
       ) : (
         <>
           <header className="flex items-center gap-3 border-b border-white/[0.06] p-4">
@@ -203,65 +372,90 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
             </button>
             <QuizProgress
               total={total}
-              current={step}
+              current={currentIndex}
               answered={!!selectedOptionId}
+              activePercent={elapsedPercent}
             />
             <div
               className={cn(
                 "grid w-9 place-items-center font-display text-base font-black tabular-nums",
                 colorway.textAccent
               )}
-              aria-label={`${step + 1} / ${total}`}
+              aria-label={headerCount}
             >
-              {step + 1}
+              {Math.min(currentIndex + 1, total)}
               <span className="text-white/50">/{total}</span>
             </div>
           </header>
 
           <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-5">
-            {questionsQuery.isPending ? (
+            {questionsQuery.isPending || startMutation.isPending ? (
               <QuizLoadingSkeleton />
-            ) : questionsQuery.isError || !data ? (
+            ) : questionsQuery.isError && !queryLocked ? (
               <QuizLoadError
                 onRetry={() => {
                   setErrorMessage(null);
                   void questionsQuery.refetch();
                 }}
               />
-            ) : (
+            ) : currentQuestion ? (
               <>
-                <div>
-                  <div
-                    className={cn(
-                      "text-[10px] font-black uppercase tracking-[0.16em]",
-                      colorway.textAccent
-                    )}
-                  >
-                    {meta.label.toUpperCase()} · BİLGİ TESTİ
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div
+                      className={cn(
+                        "text-[10px] font-black uppercase tracking-[0.16em]",
+                        colorway.textAccent
+                      )}
+                    >
+                      {meta.label.toUpperCase()} · BİLGİ TESTİ
+                    </div>
+                    <h2 className="mt-1.5 text-[22px] font-black leading-tight tracking-[-0.01em] text-white">
+                      {currentQuestion.prompt}
+                    </h2>
                   </div>
-                  <h2 className="mt-1.5 text-[22px] font-black leading-tight tracking-[-0.01em] text-white">
-                    {currentQuestion?.prompt}
-                  </h2>
+                  {showTimerLabel && (
+                    <div
+                      className={cn(
+                        "shrink-0 rounded-full border px-3 py-1 text-[13px] font-black tabular-nums",
+                        timeExpired
+                          ? "border-rose-500/60 bg-rose-500/10 text-rose-300"
+                          : remainingSeconds! <= 5
+                          ? "border-rose-500/60 bg-rose-500/10 text-rose-300 animate-[pulse-ring_1.2s_ease-in-out_infinite]"
+                          : "border-white/15 bg-white/[0.06] text-white/85"
+                      )}
+                      aria-live="polite"
+                    >
+                      {Math.max(0, remainingSeconds ?? 0)} sn
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col gap-2.5">
-                  {currentQuestion?.options.map((opt, idx) => (
+                  {currentQuestion.options.map((opt, idx) => (
                     <QuizOption
                       key={opt.id}
                       optionId={opt.id}
                       letter={OPTION_LETTER(idx)}
                       label={opt.text}
                       status={selectedOptionId === opt.id ? "selected" : "idle"}
-                      disabled={isSubmitting}
+                      disabled={optionsDisabled}
                       onSelect={handleSelect}
                     />
                   ))}
                 </div>
+                {timeExpired && (
+                  <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-[12px] font-bold text-rose-200">
+                    Süre doldu. Sonucu görmek için kapatabilirsin.
+                  </div>
+                )}
               </>
+            ) : (
+              <QuizLoadingSkeleton />
             )}
           </div>
 
           <div className="border-t border-white/[0.06] bg-[var(--color-bg)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-            {phase === "error" && errorMessage ? (
+            {errorMessage ? (
               <div
                 className="mb-3 flex items-center gap-2.5 rounded-2xl border border-[rgba(239,68,68,0.30)] bg-[rgba(239,68,68,0.10)] p-3 text-[13px] font-black text-rose-300"
                 role="alert"
@@ -271,37 +465,22 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
               </div>
             ) : null}
 
-            {phase === "error" ? (
-              <Button
-                variant="primary"
-                size="lg"
-                className="w-full"
-                onClick={() => {
-                  setPhase("quiz");
-                  setErrorMessage(null);
-                }}
-              >
-                Tekrar dene
-              </Button>
-            ) : (
-              <Button
-                variant="primary"
-                size="lg"
-                className="w-full"
-                disabled={
-                  selectedOptionId == null ||
-                  questionsQuery.isPending ||
-                  isSubmitting
-                }
-                onClick={handleAdvance}
-              >
-                {isSubmitting
-                  ? "Kaydediliyor…"
-                  : isLastStep
-                  ? "Bitir & İşaretle"
-                  : "Devam"}
-              </Button>
-            )}
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-full"
+              disabled={
+                selectedOptionId == null ||
+                answerMutation.isPending ||
+                startMutation.isPending ||
+                !currentQuestion ||
+                currentQuestion.status !== PrayerQuestionStatus.Shown ||
+                timeExpired
+              }
+              onClick={handleAnswer}
+            >
+              {answerMutation.isPending ? "Gönderiliyor…" : "Cevabı gönder"}
+            </Button>
           </div>
         </>
       )}
@@ -328,5 +507,30 @@ const QuizLoadError: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
     <Button variant="primary" size="sm" onClick={onRetry}>
       Tekrar dene
     </Button>
+  </div>
+);
+
+interface QuizLockedViewProps {
+  reason: LockedReason;
+  prayerLabel: string;
+}
+
+const QuizLockedView: React.FC<QuizLockedViewProps> = ({
+  reason,
+  prayerLabel,
+}) => (
+  <div className="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center">
+    <div className="grid h-20 w-20 place-items-center rounded-full border border-rose-500/40 bg-rose-500/10">
+      <Lock className="h-10 w-10 text-rose-300" />
+    </div>
+    <div className="text-[10px] font-black uppercase tracking-[0.16em] text-rose-300">
+      {prayerLabel.toUpperCase()} · KİLİTLİ
+    </div>
+    <h2 className="text-[22px] font-black leading-tight tracking-[-0.01em] text-white">
+      {reason.title}
+    </h2>
+    <p className="max-w-[280px] text-sm font-bold text-white/55">
+      {reason.description}
+    </p>
   </div>
 );

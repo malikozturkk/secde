@@ -23,6 +23,7 @@ const STATE_DESCRIPTOR: Record<PrayerCardState, ChipDescriptor> = {
   [PrayerCardState.Eligible]: { tone: "secondary", label: "İşaretlenebilir" },
   [PrayerCardState.Missed]: { tone: "danger", label: "Kaçırıldı" },
   [PrayerCardState.Locked]: { tone: "neutral", label: "Sırada" },
+  [PrayerCardState.MarkingLocked]: { tone: "danger", label: "Kilitli" },
 };
 
 const CATEGORY_DESCRIPTOR: Partial<Record<PrayerCategory, ChipDescriptor>> = {

@@ -1,6 +1,5 @@
 import {
   PrayerCardState,
-  PrayerType,
   StreakHeroVariant,
 } from "../types/enums/streak.enums";
 import {
@@ -64,6 +63,8 @@ const buildPrayerCardViewModel = (
   let state: PrayerCardState;
   if (dto.isCompleted) {
     state = PrayerCardState.Completed;
+  } else if (dto.isLocked) {
+    state = PrayerCardState.MarkingLocked;
   } else if (!hasWindow || nowMs < startMs) {
     state = PrayerCardState.Locked;
   } else if (nowMs >= startMs && nowMs <= endMs) {
@@ -93,6 +94,7 @@ const buildPrayerCardViewModel = (
       : null,
     streakContribution: dto.streakContribution,
     pendingQuizId: dto.pendingQuizId,
+    isLocked: dto.isLocked,
     state,
     secondsUntilOpens,
     secondsUntilCloses,
@@ -188,10 +190,3 @@ export const formatCountdown = (seconds: number): string => {
   return `${hours} sa ${String(minutes).padStart(2, "0")} dk`;
 };
 
-export const buildPrayerCompletionRequestId = (
-  prayerType: PrayerType,
-  date: string
-): string =>
-  `complete-${prayerType.toLowerCase()}-${date}-${Math.random()
-    .toString(36)
-    .slice(2, 10)}`;

@@ -25,12 +25,23 @@ const ERROR_MESSAGES: Record<string, string> = {
   QUIZ_SESSION_EXPIRED: "Soruların süresi doldu. Yeni sorular yükleniyor.",
   QUIZ_NOT_FOUND: "Sorular bulunamadı. Yeni sorular yükleniyor.",
   INVALID_QUIZ_ANSWERS: "Cevaplar geçersiz. Lütfen tekrar dene.",
+  QUIZ_QUESTION_NOT_FOUND: "Soru bulunamadı.",
+  QUIZ_QUESTION_NOT_STARTABLE:
+    "Bu soru artık başlatılamıyor. Lütfen tekrar dene.",
+  QUIZ_QUESTION_NOT_STARTED: "Soru henüz başlatılmadı. Lütfen tekrar dene.",
+  QUIZ_QUESTION_ALREADY_ANSWERED: "Bu soru zaten cevaplandı.",
+  QUIZ_OPTION_INVALID: "Geçersiz seçenek.",
+  INSUFFICIENT_PRAYER_QUESTIONS:
+    "Yeterli soru havuzu yok. Lütfen daha sonra tekrar dene.",
 
   PRAYER_ALREADY_COMPLETED: "Bu vakit zaten işaretlenmiş.",
   ALREADY_COMPLETED: "Bu vakit zaten işaretlenmiş.",
   PRAYER_WINDOW_CLOSED: "Bu vaktin işaretleme süresi kapandı.",
   PRAYER_NOT_IN_WINDOW: "Bu vakit şu an işaretlenemez.",
   PRAYER_WINDOW_NOT_OPEN: "Bu vaktin işaretleme süresi henüz açılmadı.",
+  PRAYER_WINDOW_NOT_OPEN_YET: "Bu vaktin işaretleme süresi henüz açılmadı.",
+  PRAYER_MARKING_LOCKED:
+    "Bu vakit için işaretleme kapatıldı. Bir sonraki güne kadar tekrar açılmayacak.",
   TOO_EARLY: "Bu vakit için henüz erken.",
 
   STREAK_FREEZE_NOT_AVAILABLE: "Kullanılabilir seri dondurma hakkın yok.",

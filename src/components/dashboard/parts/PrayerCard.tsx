@@ -55,6 +55,8 @@ const ROW_BG_BY_STATE: Record<PrayerCardState, string> = {
   [PrayerCardState.Eligible]:
     "border-[rgba(255,202,107,0.40)] bg-gradient-to-b from-[rgba(245,166,35,0.08)] to-[#1C2E35] to-60%",
   [PrayerCardState.Locked]: "border-white/[0.06] bg-[#1C2E35] opacity-70",
+  [PrayerCardState.MarkingLocked]:
+    "border-[rgba(239,68,68,0.35)] bg-gradient-to-b from-[rgba(239,68,68,0.12)] to-[#1C2E35] to-60% opacity-90",
 };
 
 const ROW_TIME_BY_STATE: Record<PrayerCardState, string> = {
@@ -63,6 +65,7 @@ const ROW_TIME_BY_STATE: Record<PrayerCardState, string> = {
   [PrayerCardState.Current]: "text-[#FF6B35]",
   [PrayerCardState.Eligible]: "text-amber-300",
   [PrayerCardState.Locked]: "text-white",
+  [PrayerCardState.MarkingLocked]: "text-rose-300",
 };
 
 interface PrayerCardProps {
@@ -126,6 +129,8 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
             "active:translate-y-1 active:shadow-[0_3px_0_0_currentColor]",
           prayer.state === PrayerCardState.Locked &&
             "cursor-not-allowed opacity-90",
+          prayer.state === PrayerCardState.MarkingLocked &&
+            "cursor-not-allowed opacity-90 grayscale-[0.4]",
           prayer.state === PrayerCardState.Missed && "opacity-80",
           prayer.state === PrayerCardState.Current &&
             "before:absolute before:-inset-2.5 before:rounded-full before:border-[2.5px] before:opacity-55 before:animate-[pulse-ring_2.2s_ease-in-out_infinite] before:content-['']",
@@ -147,6 +152,8 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
           <Cross className="h-9 w-9 text-white/55" />
         ) : prayer.state === PrayerCardState.Locked ? (
           <Lock className="h-9 w-9 text-white/85" />
+        ) : prayer.state === PrayerCardState.MarkingLocked ? (
+          <Lock className="h-9 w-9 text-rose-300" />
         ) : iconKey ? (
           <PrayerIcon
             prayer={iconKey}
@@ -293,6 +300,12 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
         </div>
       )}
 
+      {prayer.state === PrayerCardState.MarkingLocked && (
+        <div className="mt-1.5 text-[11px] font-bold text-rose-300/70">
+          İşaretleme bu vakit için kapatıldı
+        </div>
+      )}
+
       {prayer.state === PrayerCardState.Completed &&
         prayer.completedAtLabel && (
           <div className="mt-1.5 text-[11px] font-bold text-white/35">
@@ -342,6 +355,7 @@ const arePropsEqual = (
     a.type === b.type &&
     a.state === b.state &&
     a.isCompleted === b.isCompleted &&
+    a.isLocked === b.isLocked &&
     a.canMarkAsCompleted === b.canMarkAsCompleted &&
     a.secondsUntilOpens === b.secondsUntilOpens &&
     a.secondsUntilCloses === b.secondsUntilCloses &&
