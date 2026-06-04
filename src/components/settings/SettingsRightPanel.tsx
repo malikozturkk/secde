@@ -1,0 +1,98 @@
+"use client";
+
+import Link from "next/link";
+import { useLogout } from "@/src/hooks/auth/useLogout";
+
+type SettingsNavKey =
+  | "preferences"
+  | "profile"
+  | "notifications"
+  | "social"
+  | "privacy";
+
+interface SettingsRightPanelProps {
+  active: SettingsNavKey;
+}
+
+const ACCOUNT_LINKS: ReadonlyArray<{
+  key: SettingsNavKey;
+  label: string;
+  href?: string;
+}> = [
+  { key: "preferences", label: "Tercihler", href: "/settings/account" },
+  { key: "profile", label: "Profil", href: "/settings/profile" },
+  { key: "notifications", label: "Bildirimler" },
+  { key: "social", label: "Sosyal hesaplar" },
+  { key: "privacy", label: "Gizlilik ayarları", href: "/privacy" },
+];
+
+const baseItemClass =
+  "py-3 px-6 text-[15px] font-bold cursor-pointer block no-underline transition-all text-left hover:bg-[#1a2b2a]";
+
+const activeClass = "text-white bg-white/5 border-none";
+const inactiveClass =
+  "text-[rgba(255,255,255,0.55)] bg-transparent border-none";
+
+export default function SettingsRightPanel({ active }: SettingsRightPanelProps) {
+  const { mutate: logout } = useLogout();
+
+  return (
+    <div className="flex flex-col gap-4 w-full">
+      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
+        <div className="py-2 px-6 text-xl font-extrabold text-white">Hesap</div>
+        <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
+          {ACCOUNT_LINKS.map((item) => {
+            const isActive = item.key === active;
+            const className = `${baseItemClass} ${
+              isActive ? activeClass : inactiveClass
+            }`;
+
+            if (item.href) {
+              return (
+                <Link key={item.key} href={item.href} className={className}>
+                  {item.label}
+                </Link>
+              );
+            }
+
+            return (
+              <button key={item.key} type="button" className={className}>
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
+        <div className="py-2 px-6 text-xl font-extrabold text-white">
+          Abonelik
+        </div>
+        <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
+          <button type="button" className={`${baseItemClass} ${inactiveClass}`}>
+            Bir plan seç
+          </button>
+        </div>
+      </div>
+
+      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
+        <div className="py-2 px-6 text-xl font-extrabold text-white">
+          Destek
+        </div>
+        <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
+          <button type="button" className={`${baseItemClass} ${inactiveClass}`}>
+            Yardım Merkezi
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className="w-full py-4 bg-transparent text-[#4fc3f7] font-extrabold text-sm border-2 border-[rgba(255,255,255,0.15)] rounded-2xl cursor-pointer uppercase tracking-wide transition-colors hover:bg-[#1a2b2a]"
+        onClick={() => logout()}
+      >
+        OTURUMU KAPAT
+      </button>
+    </div>
+  );
+}

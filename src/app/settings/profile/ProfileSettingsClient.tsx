@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useUpdateProfile } from "@/src/hooks/auth/useUpdateProfile";
@@ -11,21 +11,14 @@ import {
 } from "@/src/validations/auth.validation";
 import AppLayout from "@/src/components/layout/AppLayout";
 import { Input } from "@/src/components/ui/Input";
-import { Select } from "@/src/components/ui/Select";
 import { Button } from "@/src/components/ui/Button";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
-import { useLogout } from "@/src/hooks/auth/useLogout";
-import {
-  DEFAULT_LANGUAGE,
-  LANGUAGE_OPTIONS,
-  MADHAB_OPTIONS,
-} from "@/src/constants/registration";
+import SettingsRightPanel from "@/src/components/settings/SettingsRightPanel";
 import { Pencil, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfileSettings() {
   const { user } = useAuthStore();
-  const { mutate: logout } = useLogout();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -34,7 +27,6 @@ export default function ProfileSettings() {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isDirty },
     setError,
     reset,
@@ -45,7 +37,6 @@ export default function ProfileSettings() {
       avatar: user?.avatar ?? "",
       currentPassword: "",
       newPassword: "",
-      language: user?.language ?? DEFAULT_LANGUAGE,
     },
   });
 
@@ -55,7 +46,6 @@ export default function ProfileSettings() {
       avatar: user?.avatar ?? "",
       currentPassword: "",
       newPassword: "",
-      language: user?.language ?? DEFAULT_LANGUAGE,
     });
   }, [user, reset]);
 
@@ -77,71 +67,8 @@ export default function ProfileSettings() {
     updateProfile(data);
   };
 
-  const countryLabel = user?.country ?? "-";
-  const cityLabel = user?.city ?? "—";
-  const madhabLabel =
-    MADHAB_OPTIONS.find((option) => option.value === user?.madhab)?.label ??
-    "—";
-
-  const rightPanelContent = (
-    <div className="flex flex-col gap-4 w-full">
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
-        <div className="py-2 px-6 text-xl font-extrabold text-white">Hesap</div>
-        <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            Tercihler
-          </button>
-          <button className="py-3 px-6 text-[15px] font-bold text-white bg-white/5 cursor-pointer block no-underline transition-all border-none text-left hover:bg-[#1a2b2a]">
-            Profil
-          </button>
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            Bildirimler
-          </button>
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            Sosyal hesaplar
-          </button>
-          <Link
-            className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]"
-            href="/privacy"
-          >
-            Gizlilik ayarları
-          </Link>
-        </div>
-      </div>
-
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
-        <div className="py-2 px-6 text-xl font-extrabold text-white">
-          Abonelik
-        </div>
-        <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            Bir plan seç
-          </button>
-        </div>
-      </div>
-
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
-        <div className="py-2 px-6 text-xl font-extrabold text-white">
-          Destek
-        </div>
-        <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
-          <button className="py-3 px-6 text-[15px] font-bold text-[rgba(255,255,255,0.55)] cursor-pointer block no-underline transition-all bg-transparent border-none text-left hover:bg-[#1a2b2a]">
-            Yardım Merkezi
-          </button>
-        </div>
-      </div>
-
-      <button
-        className="w-full py-4 bg-transparent text-[#4fc3f7] font-extrabold text-sm border-2 border-[rgba(255,255,255,0.15)] rounded-2xl cursor-pointer uppercase tracking-wide transition-colors hover:bg-[#1a2b2a]"
-        onClick={() => logout()}
-      >
-        OTURUMU KAPAT
-      </button>
-    </div>
-  );
-
   return (
-    <AppLayout rightPanel={rightPanelContent}>
+    <AppLayout rightPanel={<SettingsRightPanel active="profile" />}>
       <h1 className="text-2xl font-extrabold text-white mb-6 font-sans">
         Profil
       </h1>
@@ -167,7 +94,6 @@ export default function ProfileSettings() {
           <Link
             className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#4fc3f7] flex items-center justify-center border-2 border-[#070F12] text-white"
             aria-label="Edit Avatar"
-            type="button"
             href="/settings/avatar"
           >
             <Pencil size={14} strokeWidth={2.5} />
@@ -236,54 +162,6 @@ export default function ProfileSettings() {
             }
             {...register("newPassword")}
           />
-        </div>
-
-        <div className="flex flex-col gap-4 mb-6">
-          <div className="text-base font-extrabold text-white font-sans">
-            Konum &amp; Tercihler
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              id="country"
-              label="Ülke"
-              type="text"
-              disabled
-              defaultValue={countryLabel}
-            />
-            <Input
-              id="city"
-              label="Şehir"
-              type="text"
-              disabled
-              defaultValue={cityLabel}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              id="madhab"
-              label="Mezhep"
-              type="text"
-              disabled
-              defaultValue={madhabLabel}
-            />
-            <Controller
-              control={control}
-              name="language"
-              render={({ field }) => (
-                <Select
-                  label="Dil"
-                  placeholder="Dil seçiniz"
-                  value={field.value ?? DEFAULT_LANGUAGE}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                  options={LANGUAGE_OPTIONS}
-                  error={errors.language?.message}
-                />
-              )}
-            />
-          </div>
         </div>
 
         {errors.root && (
