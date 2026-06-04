@@ -6,13 +6,9 @@ import type { WorshipMeta } from "@/src/types/worship.types";
 
 interface MethodCardProps {
   meta: WorshipMeta;
-  onOpenSettings?: () => void;
 }
 
-const MethodCardComponent: React.FC<MethodCardProps> = ({
-  meta,
-  onOpenSettings,
-}) => {
+const MethodCardComponent: React.FC<MethodCardProps> = ({ meta }) => {
   const methodLabel = String(meta.calculationMethod);
   const madhabLabel = MADHAB_LABEL[meta.madhab] ?? String(meta.madhab);
 
@@ -41,14 +37,6 @@ const MethodCardComponent: React.FC<MethodCardProps> = ({
           {madhabLabel}
         </span>
       </div>
-      <button
-        type="button"
-        className="mt-2 cursor-pointer rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 text-[11px] font-extrabold uppercase tracking-[0.1em] text-white transition-colors duration-100 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-[var(--color-primary-light)] focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
-        onClick={onOpenSettings}
-        disabled={!onOpenSettings}
-      >
-        Ayarları Değiştir
-      </button>
     </div>
   );
 };

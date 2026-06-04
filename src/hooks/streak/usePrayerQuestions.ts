@@ -27,11 +27,6 @@ export const usePrayerQuestions = (
     queryKey: params
       ? GAMIFICATION_QUERY_KEYS.prayerQuestions({
           prayerType: params.prayerType,
-          lat: params.lat,
-          lng: params.lng,
-          tz: params.tz,
-          method: params.method,
-          madhab: params.madhab,
         })
       : ["gamification", "prayer-questions", "disabled"],
     queryFn: async () => {

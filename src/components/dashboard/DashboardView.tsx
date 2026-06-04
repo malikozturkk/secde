@@ -9,6 +9,8 @@ import {
 } from "@/src/lib/streak-utils";
 import { useLeaderboardPreview } from "@/src/hooks/streak/useLeaderboardPreview";
 import { useStreakController } from "@/src/hooks/streak/useStreakController";
+import { getDomainErrorCode } from "@/src/lib/api-error";
+import { LocationNotSetDialog } from "@/src/components/common/LocationNotSetDialog";
 import { useWeekStrip } from "@/src/hooks/streak/useWeekStrip";
 import { PrayerCardState } from "@/src/types/enums/streak.enums";
 import type {
@@ -43,6 +45,10 @@ export const DashboardView: React.FC = () => {
   const { viewModel, stats, celebration, isLoading, error, action } =
     controller;
   const leaderboard = useLeaderboardPreview();
+  const locationNotSet =
+    !!error && getDomainErrorCode(error) === "USER_LOCATION_NOT_SET";
+  const [locationDialogDismissed, setLocationDialogDismissed] =
+    useState(false);
   const [quizPrayer, setQuizPrayer] = useState<PrayerCardViewModel | null>(
     null
   );
@@ -114,6 +120,21 @@ export const DashboardView: React.FC = () => {
     return (
       <AppLayout rightPanel={<RightRailSkeleton />} mainClassName="px-4 py-6">
         <DashboardSkeleton />
+      </AppLayout>
+    );
+  }
+
+  if (locationNotSet) {
+    return (
+      <AppLayout mainClassName="px-4 py-6">
+        <DashboardError
+          message="Konumun ayarlı değil. Namaz görevlerini görmek için ayarlardan konumunu belirle."
+          onRetry={controller.refresh}
+        />
+        <LocationNotSetDialog
+          isOpen={!locationDialogDismissed}
+          onClose={() => setLocationDialogDismissed(true)}
+        />
       </AppLayout>
     );
   }

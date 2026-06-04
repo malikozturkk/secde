@@ -44,6 +44,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   VALIDATION_ERROR: "Gönderilen bilgilerde bir hata var.",
   BAD_REQUEST: "Gönderilen bilgilerde bir hata var.",
   LOCATION_REQUIRED: "Konum bilgisi gerekli.",
+  USER_LOCATION_NOT_SET:
+    "Konumun ayarlı değil. Namaz vakitleri için ayarlardan konumunu belirle.",
   INVALID_COORDINATES: "Konum bilgisi geçersiz.",
   RATE_LIMITED: "Çok fazla deneme yaptın. Lütfen biraz bekle.",
   TOO_MANY_REQUESTS: "Çok fazla deneme yaptın. Lütfen biraz bekle.",

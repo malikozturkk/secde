@@ -144,22 +144,10 @@ export const STREAK_HERO_CHARACTER_POOL: readonly StreakCharacterName[] = [
 
 export const GAMIFICATION_QUERY_KEYS = {
   all: ["gamification"] as const,
-  dailyPrayers: (params: {
-    lat: number;
-    lng: number;
-    date: string;
-    tz: string;
-    method?: string;
-    madhab?: string;
-  }) => ["gamification", "daily-prayers", params] as const,
-  prayerQuestions: (params: {
-    prayerType: string;
-    lat: number;
-    lng: number;
-    tz: string;
-    method?: string;
-    madhab?: string;
-  }) => ["gamification", "prayer-questions", params] as const,
+  dailyPrayers: (params: { date: string }) =>
+    ["gamification", "daily-prayers", params] as const,
+  prayerQuestions: (params: { prayerType: string }) =>
+    ["gamification", "prayer-questions", params] as const,
 } as const;
 
 export const DAILY_PRAYERS_STALE_TIME_MS = 60 * 1000;
@@ -189,6 +177,3 @@ export const STREAK_HERO_LEVEL_TITLES: Record<number, string> = {
   75: "İçten",
   100: "Üç Hane",
 };
-
-export const STREAK_DEFAULT_METHOD = "Turkey";
-export const STREAK_DEFAULT_MADHAB = "Shafi";

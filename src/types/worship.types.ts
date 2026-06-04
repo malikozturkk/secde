@@ -48,17 +48,7 @@ export interface WorshipData {
 }
 
 export interface WorshipQueryParams {
-  lat: number;
-  lng: number;
   date: string;
-  tz: string;
-  method?: string;
-  madhab?: Madhab | string;
-}
-
-export interface WorshipSettings {
-  method?: string;
-  madhab?: Madhab | string;
 }
 
 export interface WorshipOption {

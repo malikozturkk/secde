@@ -27,6 +27,27 @@ const UPPER_SNAKE = /^[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*$/;
 const looksLikeCode = (value: unknown): value is string =>
   typeof value === "string" && value.length >= 3 && UPPER_SNAKE.test(value);
 
+export const getValidationCodes = (error: unknown): string[] => {
+  if (!isAxiosError(error)) return [];
+  const attachment = (error as AxiosError<ApiResponse<unknown>>).response?.data
+    ?.error?.attachment;
+
+  const raw: string[] = [];
+  const pushFrom = (value: unknown): void => {
+    if (typeof value === "string") {
+      raw.push(...value.split(/[;,]/));
+    } else if (value && typeof value === "object" && "code" in value) {
+      const code = (value as { code?: unknown }).code;
+      if (typeof code === "string") raw.push(code);
+    }
+  };
+
+  if (Array.isArray(attachment)) attachment.forEach(pushFrom);
+  else pushFrom(attachment);
+
+  return raw.map((code) => code.trim().toUpperCase()).filter(Boolean);
+};
+
 export const getDomainErrorCode = (error: unknown): string | undefined => {
   let candidates: unknown[] = [];
 

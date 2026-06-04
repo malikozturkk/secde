@@ -15,28 +15,14 @@ export const gamificationService = {
       "/gamification/daily-prayers",
       {
         params: {
-          lat: params.lat,
-          lng: params.lng,
           date: params.date,
-          tz: params.tz,
-          ...(params.method ? { method: params.method } : {}),
-          ...(params.madhab ? { madhab: params.madhab } : {}),
         },
       }
     ),
 
   getPrayerQuestions: (params: PrayerQuestionsQuery) =>
     axiosInstance.get<ApiResponse<PrayerQuestionsResponse>>(
-      `/gamification/prayer-questions/${encodeURIComponent(params.prayerType)}`,
-      {
-        params: {
-          lat: params.lat,
-          lng: params.lng,
-          tz: params.tz,
-          ...(params.method ? { method: params.method } : {}),
-          ...(params.madhab ? { madhab: params.madhab } : {}),
-        },
-      }
+      `/gamification/prayer-questions/${encodeURIComponent(params.prayerType)}`
     ),
 
   postAction: (payload: GamificationActionRequest) =>

@@ -4,6 +4,10 @@ export interface User {
   email: string;
   avatar: string | null;
   avatarCustomization: AvatarCustomization;
+  country: string;
+  city: string;
+  madhab: "SHAFI" | "HANAFI";
+  language: string;
 }
 
 export interface AvatarCustomization {
@@ -53,6 +57,13 @@ export interface RegisterPayload {
   username: string;
   email: string;
   password: string;
+  gender: "MALE" | "FEMALE";
+  country: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  madhab: "SHAFI" | "HANAFI";
+  language: string;
   termsAccepted: boolean;
   privacyPolicyAccepted: boolean;
 }
@@ -71,6 +82,7 @@ export interface UpdateProfilePayload {
   avatar?: string;
   currentPassword?: string;
   newPassword?: string;
+  language?: string;
 }
 
 export interface ForgotPasswordPayload {

@@ -6,12 +6,7 @@ import type {
 } from "./enums/streak.enums";
 
 export interface DailyPrayersQuery {
-  lat: number;
-  lng: number;
   date: string;
-  tz: string;
-  method?: string;
-  madhab?: string;
 }
 
 export interface PrayerCardDto {
@@ -40,11 +35,6 @@ export interface DailyPrayersResponse {
 
 export interface PrayerQuestionsQuery {
   prayerType: PrayerType;
-  lat: number;
-  lng: number;
-  tz: string;
-  method?: string;
-  madhab?: string;
 }
 
 interface QuestionOption {
@@ -71,11 +61,6 @@ export interface QuizAnswer {
 
 export interface GamificationActionRequest {
   actionType: GamificationActionType;
-  lat: number;
-  lng: number;
-  tz: string;
-  method?: string;
-  madhab?: string;
   quizId?: string;
   prayerType?: PrayerType;
   answers?: QuizAnswer[];

@@ -1,15 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { DEFAULT_CITY } from "@/src/constants/worship";
-import {
-  STREAK_DEFAULT_MADHAB,
-  STREAK_DEFAULT_METHOD,
-} from "@/src/constants/streak";
-import {
-  buildLocalDateString,
-  getBrowserTimezone,
-} from "@/src/lib/worship-utils";
+import { buildLocalDateString } from "@/src/lib/worship-utils";
 import {
   buildDailyPrayersViewModel,
   buildPrayerCompletionRequestId,
@@ -30,34 +22,18 @@ import { useSelfStats } from "@/src/hooks/users/useSelfStats";
 import { useGamificationAction } from "./useGamificationAction";
 import { useNowMs } from "./useNowTicker";
 
-interface UseStreakControllerOptions {
-  lat?: number;
-  lng?: number;
-  tz?: string;
-  method?: string;
-  madhab?: string;
-}
-
 interface CompletePrayerInput {
   prayerType: PrayerType;
   quizId: string;
   answers: QuizAnswer[];
 }
 
-export const useStreakController = (
-  options: UseStreakControllerOptions = {}
-) => {
-  const lat = options.lat ?? DEFAULT_CITY.lat;
-  const lng = options.lng ?? DEFAULT_CITY.lng;
-  const tz = options.tz ?? DEFAULT_CITY.timezone ?? getBrowserTimezone();
-  const method = options.method ?? STREAK_DEFAULT_METHOD;
-  const madhab = options.madhab ?? STREAK_DEFAULT_MADHAB;
-
+export const useStreakController = () => {
   const todayDate = useMemo(() => buildLocalDateString(new Date()), []);
 
   const dailyParams = useMemo<DailyPrayersQuery>(
-    () => ({ lat, lng, date: todayDate, tz, method, madhab }),
-    [lat, lng, todayDate, tz, method, madhab]
+    () => ({ date: todayDate }),
+    [todayDate]
   );
 
   const dailyPrayersQuery = useDailyPrayers(dailyParams);
@@ -69,17 +45,9 @@ export const useStreakController = (
     return buildDailyPrayersViewModel(dailyPrayersQuery.data, nowMs);
   }, [dailyPrayersQuery.data, nowMs]);
 
-  const buildQuizParams = useCallback(
-    (prayerType: PrayerType): PrayerQuestionsQuery => ({
-      prayerType,
-      lat,
-      lng,
-      tz,
-      method,
-      madhab,
-    }),
-    [lat, lng, tz, method, madhab]
-  );
+  const buildQuizParams = (prayerType: PrayerType): PrayerQuestionsQuery => ({
+    prayerType,
+  });
 
   const actionMutation = useGamificationAction();
   const [celebration, setCelebration] = useState<
@@ -100,11 +68,6 @@ export const useStreakController = (
       );
       const response = await actionMutation.mutateAsync({
         actionType: GamificationActionType.PrayerCompletion,
-        lat,
-        lng,
-        tz,
-        method,
-        madhab,
         prayerType: input.prayerType,
         quizId: input.quizId,
         answers: input.answers,
@@ -115,7 +78,7 @@ export const useStreakController = (
       }
       return response;
     },
-    [actionMutation, lat, lng, tz, method, madhab, todayDate]
+    [actionMutation, todayDate]
   );
 
   const refresh = useCallback((): void => {
@@ -131,7 +94,7 @@ export const useStreakController = (
     null;
 
   return {
-    settings: { lat, lng, tz, method, madhab, date: todayDate },
+    settings: { date: todayDate },
     viewModel,
     daily: dailyPrayersQuery,
     stats: statsQuery,

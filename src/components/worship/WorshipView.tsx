@@ -1,35 +1,25 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
+import { MapPin } from "lucide-react";
 import AppLayout from "@/src/components/layout/AppLayout";
-import { DEFAULT_CITY } from "@/src/constants/worship";
-import {
-  buildLocalDateString,
-  formatRelativeDate,
-  formatLongDate,
-} from "@/src/lib/worship-utils";
+import { getDomainErrorCode } from "@/src/lib/api-error";
+import { nearestTrCity } from "@/src/lib/geocode";
 import { useWorshipController } from "@/src/hooks/worship/useWorshipController";
-import {
-  GeolocationStatus,
-  WorshipPageState,
-} from "@/src/types/enums/worship.enums";
-import type { City } from "@/src/types/worship.types";
+import { LocationNotSetDialog } from "@/src/components/common/LocationNotSetDialog";
 import { ControlBar } from "./ControlBar";
 import { DayOverview } from "./DayOverview";
 import { FastingCard } from "./FastingCard";
 import { HeroCard } from "./HeroCard";
-import { LocationModal } from "./LocationModal";
 import { PageHead } from "./PageHead";
 import { PrayerList } from "./PrayerList";
 import { HijriCard } from "./rail/HijriCard";
 import { LocationCard } from "./rail/LocationCard";
 import { MethodCard } from "./rail/MethodCard";
-import { WorshipSettingsModal } from "./WorshipSettingsModal";
 import { EmptyState } from "./states/EmptyState";
 import { ErrorState } from "./states/ErrorState";
-import { GeoDeniedState } from "./states/GeoDeniedState";
+import { InfoState } from "./states/InfoState";
 import { LoadingState } from "./states/LoadingState";
-import { NoLocationState } from "./states/NoLocationState";
 
 const WorshipView: React.FC = () => {
   const {
@@ -38,110 +28,39 @@ const WorshipView: React.FC = () => {
     goToPrevDay,
     goToNextDay,
     goToToday,
-    city,
-    setCity,
-    geoStatus,
-    geoError,
-    requestGeolocation,
-    resetGeolocation,
-    settings,
-    updateSettings,
     worship,
     refresh,
-    pageState,
-    setPageState,
   } = useWorshipController();
+  const locationNotSet =
+    worship.isError &&
+    getDomainErrorCode(worship.error) === "USER_LOCATION_NOT_SET";
 
-  const [isLocationModalOpen, setLocationModalOpen] = useState(false);
-  const [isSettingsModalOpen, setSettingsModalOpen] = useState(false);
-  const [hasUserChosenCity, setHasUserChosenCity] = useState(false);
-
-  useEffect(() => {
-    const hasUsableCity = hasUserChosenCity || city.id !== DEFAULT_CITY.id;
-    if (geoStatus === GeolocationStatus.Denied) {
-      if (!hasUsableCity) setPageState(WorshipPageState.GeoDenied);
-    } else if (
-      geoStatus === GeolocationStatus.Failed ||
-      geoStatus === GeolocationStatus.Unsupported
-    ) {
-      if (!hasUsableCity) setPageState(WorshipPageState.NoLocation);
-    } else if (
-      pageState === WorshipPageState.GeoDenied ||
-      pageState === WorshipPageState.NoLocation
-    ) {
-      if (
-        geoStatus === GeolocationStatus.Granted ||
-        hasUsableCity ||
-        geoStatus === GeolocationStatus.Idle
-      ) {
-        setPageState(WorshipPageState.Normal);
-      }
-    }
-  }, [geoStatus, pageState, setPageState, city.id, hasUserChosenCity]);
-
-  const locationLabel = useMemo(() => city.name, [city.name]);
-
-  const dateLabel = useMemo(() => {
-    const todayIso = buildLocalDateString(new Date());
-    const relative = formatRelativeDate(selectedDate, todayIso);
-    const long = formatLongDate(selectedDate);
-    return `${relative} · ${long.replace(/\s\d{4}$/, "")}`;
-  }, [selectedDate]);
+  const [locationDialogDismissed, setLocationDialogDismissed] = useState(false);
 
   const handleDateChange = useCallback(
     (next: string) => setSelectedDate(next),
     [setSelectedDate]
   );
 
-  const handleOpenLocation = useCallback(() => setLocationModalOpen(true), []);
-  const handleCloseLocation = useCallback(
-    () => setLocationModalOpen(false),
-    []
-  );
-
-  const handleCitySelect = useCallback(
-    (selected: City) => {
-      setCity(selected);
-      setHasUserChosenCity(true);
-      setLocationModalOpen(false);
-      resetGeolocation();
-      setPageState(WorshipPageState.Normal);
-    },
-    [resetGeolocation, setCity, setPageState]
-  );
-
-  const handleGeoRequest = useCallback(() => {
-    requestGeolocation();
-  }, [requestGeolocation]);
-
-  const handleUseDefault = useCallback(() => {
-    setCity(DEFAULT_CITY);
-    setHasUserChosenCity(true);
-    setPageState(WorshipPageState.Normal);
-  }, [setCity, setPageState]);
-
-  const handleOpenSettings = useCallback(() => setSettingsModalOpen(true), []);
+  const locationName = useMemo(() => {
+    if (!worship.data) return "";
+    return nearestTrCity(
+      worship.data.meta.latitude,
+      worship.data.meta.longitude
+    ).city.city;
+  }, [worship.data]);
 
   const renderState = () => {
-    if (pageState === WorshipPageState.GeoDenied) {
+    if (locationNotSet) {
       return (
-        <GeoDeniedState
-          onRetry={handleGeoRequest}
-          onManualSelect={() => {
-            setPageState(WorshipPageState.Normal);
-            setLocationModalOpen(true);
+        <InfoState
+          icon={<MapPin size={32} />}
+          title="Konumun ayarlı değil"
+          body="Namaz vakitlerini gösterebilmemiz için hesabında bir konum kayıtlı olmalı. Ayarlardan konumunu belirleyebilirsin."
+          primaryAction={{
+            label: "Ayarlara git",
+            onClick: () => setLocationDialogDismissed(false),
           }}
-        />
-      );
-    }
-    if (pageState === WorshipPageState.NoLocation) {
-      return (
-        <NoLocationState
-          onManualSelect={() => {
-            setPageState(WorshipPageState.Normal);
-            setLocationModalOpen(true);
-          }}
-          onUseDefault={handleUseDefault}
         />
       );
     }
@@ -149,12 +68,7 @@ const WorshipView: React.FC = () => {
       return <LoadingState />;
     }
     if (worship.isError) {
-      return (
-        <ErrorState
-          onRetry={() => worship.refetch()}
-          onSecondary={handleOpenLocation}
-        />
-      );
+      return <ErrorState onRetry={() => worship.refetch()} />;
     }
     if (!worship.data) {
       return <EmptyState onChangeDate={goToToday} />;
@@ -163,14 +77,11 @@ const WorshipView: React.FC = () => {
     return (
       <>
         <ControlBar
-          locationLabel={locationLabel}
-          dateLabel={dateLabel}
           selectedDate={selectedDate}
           onDateChange={handleDateChange}
           onPrevDay={goToPrevDay}
           onNextDay={goToNextDay}
           onToday={goToToday}
-          onOpenLocation={handleOpenLocation}
           onRefresh={refresh}
         />
         <PageHead meta={data.meta} />
@@ -182,26 +93,20 @@ const WorshipView: React.FC = () => {
     );
   };
 
-  const showRail =
-    !!worship.data &&
-    pageState !== WorshipPageState.GeoDenied &&
-    pageState !== WorshipPageState.NoLocation;
+  const showRail = !!worship.data && !locationNotSet;
 
   return (
     <AppLayout
       rightPanel={
         showRail &&
         worship.data && (
-          <div className="flex flex-col gap-4 max-[1280px]:grid max-[1280px]:grid-cols-3 max-[1280px]:gap-3 max-[768px]:grid-cols-1">
+          <div className="flex flex-col gap-4 max-[1280px]:grid  max-[1280px]:gap-3 grid-cols-1">
             <HijriCard meta={worship.data.meta} />
             <LocationCard
               meta={worship.data.meta}
-              locationName={locationLabel}
+              locationName={locationName}
             />
-            <MethodCard
-              meta={worship.data.meta}
-              onOpenSettings={handleOpenSettings}
-            />
+            <MethodCard meta={worship.data.meta} />
           </div>
         )
       }
@@ -210,22 +115,9 @@ const WorshipView: React.FC = () => {
         {renderState()}
       </div>
 
-      <LocationModal
-        isOpen={isLocationModalOpen}
-        onClose={handleCloseLocation}
-        activeCityId={city.id}
-        onSelect={handleCitySelect}
-        onUseGeolocation={handleGeoRequest}
-        geoStatus={geoStatus}
-        geoError={geoError}
-      />
-
-      <WorshipSettingsModal
-        isOpen={isSettingsModalOpen}
-        onClose={() => setSettingsModalOpen(false)}
-        activeMethod={settings.method ?? worship.data?.meta.calculationMethod}
-        activeMadhab={settings.madhab ?? worship.data?.meta.madhab}
-        onSave={updateSettings}
+      <LocationNotSetDialog
+        isOpen={locationNotSet && !locationDialogDismissed}
+        onClose={() => setLocationDialogDismissed(true)}
       />
     </AppLayout>
   );

@@ -18,6 +18,24 @@ export const registerSchema = z.object({
     .string()
     .min(1, "Şifre zorunludur")
     .min(8, "Şifre en az 8 karakter olmalıdır"),
+  gender: z.enum(["MALE", "FEMALE"], { error: "Lütfen cinsiyet seçiniz" }),
+  country: z
+    .string()
+    .min(1, "Ülke seçiniz")
+    .refine((v) => ["Türkiye"].includes(v), {
+      message: "Şu an yalnızca Türkiye destekleniyor",
+    }),
+  city: z.string().min(1, "Şehir seçiniz"),
+  latitude: z
+    .number({ error: "Lütfen bir konum belirleyin" })
+    .min(-90, "Geçersiz konum")
+    .max(90, "Geçersiz konum"),
+  longitude: z
+    .number({ error: "Lütfen bir konum belirleyin" })
+    .min(-180, "Geçersiz konum")
+    .max(180, "Geçersiz konum"),
+  madhab: z.enum(["SHAFI", "HANAFI"], { error: "Lütfen mezhep seçiniz" }),
+  language: z.literal("tr", { error: "Lütfen dil seçiniz" }),
   termsAccepted: z.boolean().refine((v) => v === true, {
     message: "Devam etmek için Kullanım Koşullarını kabul etmelisiniz",
   }),
@@ -80,6 +98,7 @@ export const updateProfileSchema = z
       .min(8, "Şifre en az 8 karakter olmalıdır")
       .optional()
       .or(z.literal("")),
+    language: z.string().optional(),
   })
   .refine(
     (data) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useUpdateProfile } from "@/src/hooks/auth/useUpdateProfile";
@@ -11,9 +11,15 @@ import {
 } from "@/src/validations/auth.validation";
 import AppLayout from "@/src/components/layout/AppLayout";
 import { Input } from "@/src/components/ui/Input";
+import { Select } from "@/src/components/ui/Select";
 import { Button } from "@/src/components/ui/Button";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
 import { useLogout } from "@/src/hooks/auth/useLogout";
+import {
+  DEFAULT_LANGUAGE,
+  LANGUAGE_OPTIONS,
+  MADHAB_OPTIONS,
+} from "@/src/constants/registration";
 import { Pencil, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
@@ -28,6 +34,7 @@ export default function ProfileSettings() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isDirty },
     setError,
     reset,
@@ -38,6 +45,7 @@ export default function ProfileSettings() {
       avatar: user?.avatar ?? "",
       currentPassword: "",
       newPassword: "",
+      language: user?.language ?? DEFAULT_LANGUAGE,
     },
   });
 
@@ -47,6 +55,7 @@ export default function ProfileSettings() {
       avatar: user?.avatar ?? "",
       currentPassword: "",
       newPassword: "",
+      language: user?.language ?? DEFAULT_LANGUAGE,
     });
   }, [user, reset]);
 
@@ -67,6 +76,12 @@ export default function ProfileSettings() {
     setSuccessMessage(null);
     updateProfile(data);
   };
+
+  const countryLabel = user?.country ?? "-";
+  const cityLabel = user?.city ?? "—";
+  const madhabLabel =
+    MADHAB_OPTIONS.find((option) => option.value === user?.madhab)?.label ??
+    "—";
 
   const rightPanelContent = (
     <div className="flex flex-col gap-4 w-full">
@@ -221,6 +236,54 @@ export default function ProfileSettings() {
             }
             {...register("newPassword")}
           />
+        </div>
+
+        <div className="flex flex-col gap-4 mb-6">
+          <div className="text-base font-extrabold text-white font-sans">
+            Konum &amp; Tercihler
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              id="country"
+              label="Ülke"
+              type="text"
+              disabled
+              defaultValue={countryLabel}
+            />
+            <Input
+              id="city"
+              label="Şehir"
+              type="text"
+              disabled
+              defaultValue={cityLabel}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              id="madhab"
+              label="Mezhep"
+              type="text"
+              disabled
+              defaultValue={madhabLabel}
+            />
+            <Controller
+              control={control}
+              name="language"
+              render={({ field }) => (
+                <Select
+                  label="Dil"
+                  placeholder="Dil seçiniz"
+                  value={field.value ?? DEFAULT_LANGUAGE}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  options={LANGUAGE_OPTIONS}
+                  error={errors.language?.message}
+                />
+              )}
+            />
+          </div>
         </div>
 
         {errors.root && (

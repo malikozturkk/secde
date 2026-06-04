@@ -15,7 +15,7 @@ interface UseOtpVerifyOptions {
 
 export const useOtpVerify = ({ setError }: UseOtpVerifyOptions) => {
   const router = useRouter();
-  const { tempToken, setAuth } = useAuthStore();
+  const { tempToken, setAuth, clearTempToken } = useAuthStore();
 
   return useMutation({
     mutationFn: (payload: OtpFormValues) => {
@@ -52,6 +52,8 @@ export const useOtpVerify = ({ setError }: UseOtpVerifyOptions) => {
           setError("root", {
             message: "Kayıt süreniz dolmuş. Lütfen tekrar kayıt olun.",
           });
+          clearTempToken();
+          router.replace("/register");
           break;
         case AuthErrorCode.USER_ALREADY_EXISTS:
           setError("root", {
@@ -62,6 +64,8 @@ export const useOtpVerify = ({ setError }: UseOtpVerifyOptions) => {
           setError("root", {
             message: "Oturumunuz geçersiz. Lütfen tekrar kayıt olun.",
           });
+          clearTempToken();
+          router.replace("/register");
           break;
         default:
           setError("root", {

@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import { otpService } from "@/src/services/otp.service";
 import { useAuthStore } from "@/src/store/auth.store";
@@ -14,7 +15,8 @@ export const useOtpResend = ({
   onSuccess,
   onError,
 }: UseOtpResendOptions = {}) => {
-  const { tempToken } = useAuthStore();
+  const router = useRouter();
+  const { tempToken, clearTempToken } = useAuthStore();
 
   return useMutation({
     mutationFn: () => {
@@ -42,9 +44,18 @@ export const useOtpResend = ({
           onError?.(
             "Aktif bir kayıt işlemi bulunamadı. Lütfen tekrar kayıt olun."
           );
+          clearTempToken();
+          router.replace("/register");
           break;
         case AuthErrorCode.REGISTRATION_EXPIRED:
           onError?.("Kayıt süreniz dolmuş. Lütfen tekrar kayıt olun.");
+          clearTempToken();
+          router.replace("/register");
+          break;
+        case AuthErrorCode.INVALID_OR_EXPIRED_TOKEN:
+          onError?.("Oturumunuz geçersiz. Lütfen tekrar kayıt olun.");
+          clearTempToken();
+          router.replace("/register");
           break;
         default:
           onError?.("Kod gönderilemedi. Lütfen tekrar deneyin.");
