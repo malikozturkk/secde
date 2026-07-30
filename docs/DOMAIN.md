@@ -1,0 +1,228 @@
+# Alan (domain) sözlüğü ve kuralları
+
+Kod tabanı Türkçe bir dini ibadet alanını modeller; tip ve enum adları İngilizce, kullanıcıya
+görünen metinler Türkçedir. Bu doküman iki dili eşler ve alanın kurallarını özetler.
+
+---
+
+## 1. Terim sözlüğü
+
+| Kod (EN) | Türkçe | Anlam |
+|---|---|---|
+| `prayer` / `salah` | namaz | Günlük ibadet |
+| `PrayerType` / `PrayerKey` | vakit | Namaz vakti (Sabah, Öğle, ...) |
+| `wudu` | abdest | Namaz öncesi arınma |
+| `ghusl` | gusül abdesti | Tam boy arınma |
+| `fajr` | sabah / imsak | Gün doğumu öncesi vakit |
+| `sunrise` | güneş | Vakit değil, sınır göstergesi |
+| `dhuhr` | öğle | — |
+| `asr` | ikindi | — |
+| `maghrib` | akşam | İftar vakti ile aynı an |
+| `isha` | yatsı | — |
+| `jumuah` | cuma | Cuma namazı |
+| `teravih` / `tarawih` | teravih | Ramazan gecesi namazı |
+| `bayram` / `eid` | bayram | Bayram namazı |
+| `khutbah` | hutbe | Cuma vaazı |
+| `rekat` | rekât | Namaz birimi |
+| `fard` (`isFard`) | farz | Zorunlu adım |
+| `recitation` | okunuş | Adımda okunacak metin |
+| `madhab` | mezhep | `SHAFI` (Şafi) / `HANAFI` (Hanefi) |
+| `hijri` | hicri | İslami takvim |
+| `ramadan` | ramazan | — |
+| `fasting` | oruç | — |
+| `suhoor` / `iftar` | sahur / iftar | Oruç başı ve sonu |
+| `streak` | seri | Kesintisiz gün sayısı |
+| `streak freeze` | seri dondurma | Seriyi bir gün koruma hakkı |
+| `xp` / `level` | XP / seviye | Oyunlaştırma |
+| `badge` | rozet | Seviye ünvanı |
+
+**Yazım tuzağı:** Bu vakit için kodda iki farklı yazım vardır —
+`PrayerType.Teravih = "TERAVIH"` (gamification) ve `PrayerBreakdown.tarawih` (istatistikler).
+İkisi aynı ibadeti gösterir; birini diğeriyle karıştırma.
+
+---
+
+## 2. İki farklı "vakit" enum'u vardır
+
+| Enum | Değerler | Nerede |
+|---|---|---|
+| `PrayerKey` (`worship.enums.ts`) | `fajr, sunrise, dhuhr, asr, maghrib, isha` — **küçük harf** | `/worship` sayfası, namaz vakitleri tablosu |
+| `PrayerType` (`streak.enums.ts`) | `FAJR, DHUHR, ASR, MAGHRIB, ISHA, JUMUAH, TERAVIH, BAYRAM` — **BÜYÜK harf** | Seri/quiz/gamification |
+
+Farklar önemlidir:
+- `PrayerKey` **`sunrise`** içerir (kılınan bir namaz değil, vakit sınırı) ve cuma/teravih/bayram
+  **içermez**.
+- `PrayerType` `sunrise` içermez ama farz dışı vakitleri (cuma, teravih, bayram) içerir.
+
+Yeni kod yazarken hangi bağlamda olduğunu belirle ve doğru enum'u kullan; ikisi arasında
+otomatik dönüşüm yoktur.
+
+---
+
+## 3. Namaz vakitleri (`/worship`)
+
+- Kaynak: `GET /worship?date=YYYY-MM-DD` → `WorshipData`.
+- Sıra `PRAYER_ORDER`, görsel yapılandırma `PRAYER_CONFIG` (etiket, ikon adı, renk, gölge).
+- Etiketler: `fajr → "İmsak"`, `sunrise → "Güneş"`, `dhuhr → "Öğle"`, `asr → "İkindi"`,
+  `maghrib → "Akşam"`, `isha → "Yatsı"`.
+- Vakit durumu `PrayerState`: `passed` (Geçti) / `current` (Şu an) / `upcoming` (Bekliyor)
+  — etiketler `PRAYER_STATE_LABEL`.
+- Durum ekranları `components/worship/states/` altındadır: `LoadingState`, `ErrorState`,
+  `EmptyState`, `InfoState`.
+  **Not:** `WorshipPageState` enum'u (`normal`, `loading`, `error`, `empty`, `geo-denied`,
+  `no-location`) tanımlıdır ancak şu an kod tabanında **hiçbir yerde kullanılmıyor** —
+  ölü koddur; ona göre karar ver.
+- Yenileme: `WORSHIP_STALE_TIME` 60 sn, `WORSHIP_REFRESH_INTERVAL` 5 dk,
+  geri sayım tiki `COUNTDOWN_TICK_MS` 1 sn, gün değişimi kontrolü `DAY_CHANGE_CHECK_MS` 30 sn.
+- Gün değişince (`useDayChange`) seçili tarih bugüne çekilir — kullanıcı başka bir güne
+  bakıyorsa müdahale edilmez.
+
+### Konum ve şehirler
+
+- `TURKISH_CITIES` (`constants/worship.ts`) ve `TR_CITIES` (`constants/registration.ts`)
+  Türkiye illerini koordinatlarıyla listeler; varsayılan `DEFAULT_CITY` **İstanbul**.
+- Tüm şehirlerde `timezone: "Europe/Istanbul"`.
+- Kayıt formu `country` alanını `"Türkiye"` ile sınırlar (`COUNTRY_OPTIONS`,
+  zod `refine`) — **şu an yalnızca Türkiye desteklenmektedir**.
+- Dil seçeneği tek: `tr` (`LANGUAGE_OPTIONS`).
+- Tarayıcı konumu `useGeolocation` ile alınır, `lib/geocode.ts` en yakın ile eşler.
+
+### Hicri / oruç
+
+`WorshipData.meta` hicri tarihi ve ay adını, `WorshipData.fasting` oruç bilgisini taşır
+(`isRamadan`, `isFastingTime`, `fastingStart`, `fastingEnd`, `progressPercent`,
+`ramadan: { day, totalDays }`). Ramazan dışında `fasting` `null` olabilir.
+
+---
+
+## 4. Seri (streak) ve günlük vakitler
+
+Kaynak: `GET /gamification/daily-prayers?date=...` → `DailyPrayersResponse`.
+Görünüm modeli: `buildDailyPrayersViewModel` (`src/lib/streak-utils.ts`).
+
+### Vakit kartı durumu — `PrayerCardState`
+
+Durum **istemcide**, DTO + o anki zamandan türetilir (`buildPrayerCardViewModel`):
+
+| Öncelik | Koşul | Durum |
+|---|---|---|
+| 1 | `isCompleted` | `completed` — tamamlandı |
+| 2 | `isLocked` | `marking-locked` — işaretleme kilitli (quiz başarısız/süre doldu) |
+| 3 | Pencere yok **veya** `now < windowStartsAt` | `locked` — henüz açılmadı |
+| 4 | Pencere içinde + `canMarkAsCompleted` + `now >= scheduledAt` | `current` — şu an işaretlenebilir |
+| 5 | Pencere içinde + `canMarkAsCompleted` + `now < scheduledAt` | `eligible` — uygun |
+| 6 | Pencere içinde + `!canMarkAsCompleted` | `locked` |
+| 7 | Pencere geçti | `missed` — kaçırıldı |
+
+Ayrıca `secondsUntilOpens`, `secondsUntilCloses` ve `windowProgressPercent` (0–100 arası
+kırpılmış) hesaplanır. Saat biçimlendirme `tr-TR`, `{hour: "2-digit", minute: "2-digit"}`.
+
+### Metinler ve karakterler
+
+- Seri uzunluğuna göre mesaj: `STREAK_MESSAGES` (eşikler: 100, 30, 7, 1, 0).
+- Özel durum mesajları: `STREAK_FRESH_DAY_MESSAGE`, `STREAK_DAY_COMPLETED_MESSAGE`.
+- Kahraman balon metinleri: `STREAK_HERO_BUBBLES`; karakter havuzu
+  `STREAK_HERO_CHARACTER_POOL` (`ataman`, `zeyd`, `nura`, `ay`, `nura_sitting`).
+- Her vakit için görsel kimlik `PRAYER_META`: etiket, üst-etiket, renk, gölge, tint,
+  karakter, ipucu metni.
+- Kahraman varyantı `StreakHeroVariant`: `normal`, `cuma`, `ramazan`, `bayram`.
+
+### Seri dondurma
+
+`POST /gamification/action` `{ actionType: "STREAK_FREEZE" }`. İstemci en fazla
+`STREAK_FREEZE_MAX_SLOTS = 3` slot gösterir. Yanıt `streakFreezeUsage` ile kalan hak,
+korunan tarihler ve `alreadyApplied` bilgisini döner.
+
+### Yenileme aralıkları
+
+`DAILY_PRAYERS_STALE_TIME_MS` 60 sn · `DAILY_PRAYERS_REFRESH_INTERVAL_MS` 5 dk ·
+`STREAK_TICK_INTERVAL_MS` 1 sn (canlı geri sayım).
+
+---
+
+## 5. Vakit quizi
+
+Bir vakti işaretlemek quiz akışından geçer:
+
+```
+1. GET  /gamification/prayer-questions/{PRAYER_TYPE}
+       → quizId, expiresAt, quizStatus, isLocked, questions[]
+2. POST .../{quizId}/questions/{questionId}/start     ← soru gösterilir, süre başlar
+3. POST .../{quizId}/questions/{questionId}/answer    ← { optionId }
+       → yanıtta prayerCompletion varsa vakit işaretlenmiştir
+```
+
+- İstemci sabiti: `PRAYER_QUIZ_QUESTION_COUNT = 3`.
+- Her sorunun kendi `timeLimitSeconds` ve `deadlineAt` değeri vardır.
+- Durum enum'ları: `PrayerQuizStatus` (`PENDING/PASSED/FAILED/EXPIRED`),
+  `PrayerQuestionStatus` (`PENDING/SHOWN/CORRECT/INCORRECT/EXPIRED/LOCKED`),
+  `PrayerAnswerResult` (`CORRECT/INCORRECT/EXPIRED`).
+- Yanlış cevap durumunda kullanıcıya gösterilen metin
+  (`constants/error-messages.ts`): *"Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar
+  deneyebilirsin."* — yani **quiz geçilmeden vakit işaretlenmez**.
+- `isLocked` olduğunda o vakit için işaretleme kilitlenir (`marking-locked` kart durumu).
+- Kutlama animasyonu `useStreakController` içinde `celebration` state'i ile 1.5 sn gösterilir.
+
+UI: `components/dashboard/quiz/` (`PrayerQuizModal`, `QuizOption`, `QuizProgress`,
+`QuizSuccess`, `ConfettiBurst`).
+
+---
+
+## 6. Öğrenme rehberleri (`/learn`)
+
+- Yol haritası **statik** olarak `src/app/learn/learnNodes.tsx` içindeki `LEARN_NODES`
+  dizisinden render edilir (sayfa `revalidate = 3600`).
+- Düğüm sırası: abdest (`wudu`), gusül (`ghusl`), sabah, öğle, ikindi, akşam, yatsı ve
+  öne çıkarılmış cuma düğümü (`isFeatured`).
+- Rehber içeriği `/learn/[id]` sayfasında `useGuide(id)` ile backend'den çekilir
+  (`GET /guides/{id}`).
+- Her adım (`GuideStep`) bir `StepType` taşır; bu tip `stepIconMap` (SVG bileşeni) ve
+  `stepImageMap` (`/public/learn/*.png` görseli) üzerinden görselleştirilir.
+- Adım alanları: `name`, `shortDescription`, `description`, opsiyonel `recitation` (okunuş),
+  `tips`, `rekat`, `bodyPart`, `repeat`, `isFard`, ve opsiyonel `randomQuestion`.
+- Rehber içi soru kontrolü: `POST /question/guide/check` (`useCheckGuideQuestion`).
+- Akış bileşenleri: `components/learn/guide/` — `PathOverview`, `StepProgressCard`,
+  `QuestionCard`, `CelebrationPhase`, `SummaryPhase`, `CompletionScreen`.
+
+---
+
+## 7. Seviye, XP ve rozetler
+
+- `SelfStats.level`: `level`, `badgeKey`, `progressPercent`, `xp`, `totalXp`,
+  `currentLevelXp`, `xpToNextLevel`, `totalXpForNextLevel`.
+- Rozet anahtarı → Türkçe etiket eşlemesi `resolveBadgeLabel` (`constants/user-stats.ts`).
+  Bilinmeyen anahtar `humanizeBadgeKey` ile okunabilir hale getirilir (kırılmaz).
+  Bilinen anahtarlar: `beginner, first_step, novice, rookie, explorer, traveler, committed,
+  consistent, steadfast, early_bird, night_owl, disciplined, devoted, dedicated, master,
+  champion, legend`.
+- Dashboard kahramanı için ayrı bir seviye ünvanı tablosu vardır:
+  `STREAK_HERO_LEVEL_TITLES` (1, 5, 10, 15, 20, 30, 50, 75, 100) + fallback
+  `STREAK_HERO_LEVEL_LABEL_FALLBACK = "Sabır Yolcusu"`.
+- Vakit dağılımı `PRAYER_BREAKDOWN_META` ile renk/etiket alır
+  (`fajr, dhuhr, asr, maghrib, isha, jumuah, tarawih, eidFitr, eidAdha`).
+- XP yalnızca `prayerCompletion` yanıtıyla değişir (`xpAwarded`, `xpAfter`, `leveledUp`).
+
+---
+
+## 8. Sosyal
+
+- Takip **toggle**'dır: `POST /auth/{username}/follow` → `{ following: boolean }`.
+- Takipçi/takip listeleri ayrı uçlardan gelir ve `FollowListDialog` ile gösterilir.
+- `mutualFollowers` (ortak takipçiler) hem arama sonucunda hem profilde döner; önizleme
+  listesi avatar göstermek içindir.
+- Kullanıcı arama cursor tabanlıdır (`nextCursor`); arama girişi `useDebouncedValue(value, 350)`
+  ile 350 ms geciktirilir (`app/search/SearchPageContent.tsx`).
+- Avatarlar sunucuda görsel olarak tutulmaz; `avatarCustomization` renk konfigürasyonundan
+  `DefaultAvatar` bileşeniyle çizilir (`src/lib/avatar-utils.ts`).
+
+---
+
+## 9. Tarih ve yerelleştirme
+
+- Tarihler API'ye **yerel** `YYYY-MM-DD` biçiminde gönderilir — `buildLocalDateString`
+  (`src/lib/worship-utils.ts`). `toISOString()` kullanma; UTC kaymasına yol açar.
+- Gün gezinmesi `addDays` ile yapılır.
+- Saat biçimi `tr-TR` locale ve 2 haneli saat/dakika.
+- Ay ve gün adları `MONTHS_TR`, `DAYS_LONG_TR` (`constants/worship.ts`) — `Intl` yerine
+  bu sabitler kullanılır.
+- Göreli zaman ("2 gün önce") `src/lib/relative-time.ts` içinde Türkçe üretilir.

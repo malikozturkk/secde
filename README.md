@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NamazGo
 
-## Getting Started
+Oyunlaştırılmış namaz takip ve öğrenme uygulaması — Next.js 16 App Router ile geliştirilmiş
+web istemcisi.
 
-First, run the development server:
+Kullanıcı; günlük namaz vakitlerini konumuna göre görür, kıldığı vakitleri kısa quizlerle
+işaretleyip **seri (streak)** tutar, seviye/XP kazanır ve abdest, gusül abdesti ile beş vakit
+namazın rehberlerini adım adım öğrenir.
+
+> Repo dizin adı `secde`, ürün adı **NamazGo**'dur.
+
+---
+
+## Hızlı başlangıç
+
+Gereksinim: Node.js 20+ ve `yarn`.
 
 ```bash
-npm run dev
-# or
+yarn install
+cp .env.example .env.local   # değerleri kendi ortamına göre doldur
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Uygulama <http://localhost:3000> adresinde açılır.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Bu repo **yalnızca frontend**tir. Veri çeken tüm ekranlar için ayrı bir REST backend'in
+`NEXT_PUBLIC_API_URL` adresinde çalışıyor olması gerekir; backend olmadan uygulama açılır
+fakat veri gerektiren ekranlar hata/boş durum gösterir.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Ortam değişkenleri
 
-## Learn More
+| Değişken | Zorunlu | Açıklama |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | Evet | Backend REST API kök adresi. axios `baseURL` olarak kullanılır. Sonunda `/` olmamalı. |
+| `NEXT_PUBLIC_SITE_URL` | Hayır | Uygulamanın herkese açık kök adresi (canonical + Open Graph). Varsayılan: `https://namazgo.com/` |
 
-To learn more about Next.js, take a look at the following resources:
+`NEXT_PUBLIC_` öneki olan değişkenler tarayıcıya gönderilir — gizli anahtar koyma.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Komutlar
 
-## Deploy on Vercel
+| Komut | Açıklama |
+|---|---|
+| `yarn dev` | Geliştirme sunucusu |
+| `yarn build` | Production build |
+| `yarn start` | Production sunucu |
+| `yarn lint` | ESLint (flat config) |
+| `yarn build:icons` | `src/icons/**.svg` dosyalarından `src/icons/tsx/**` React bileşenlerini üretir (svgr) |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Not: `yarn lint` şu anda mevcut teknik borç nedeniyle hatayla sonuçlanıyor
+> (7 error / 10 warning). Ayrıntı ve kural listesi için [CLAUDE.md](CLAUDE.md#3-komutlar).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Teknoloji
+
+| Konu | Seçim |
+|---|---|
+| Framework | Next.js 16.1.6 (App Router) |
+| UI | React 19.2.3 |
+| Dil | TypeScript 5 (`strict`) |
+| Stil | Tailwind CSS v4 (CSS-first, `@theme inline`) |
+| Server state | TanStack Query v5 |
+| Client state | Zustand v5 (`persist`) |
+| HTTP | axios (interceptor'lı tek instance) |
+| Form / doğrulama | react-hook-form + zod v4 |
+| Animasyon | framer-motion + CSS keyframes |
+| İkonlar | Yerel SVG → svgr ile üretilen TSX, ayrıca lucide-react |
+
+Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
+
+---
+
+## Sayfalar
+
+| Route | Erişim | Açıklama |
+|---|---|---|
+| `/` | Herkese açık | Oturum varsa Dashboard (seri/günlük vakitler), yoksa Landing |
+| `/login`, `/register`, `/forgot-password`, `/reset-password`, `/verify-otp` | Herkese açık | Kimlik doğrulama akışı |
+| `/learn` | Korumalı | Rehber yol haritası (abdest, gusül, beş vakit, cuma) |
+| `/learn/[id]` | Korumalı | Adım adım interaktif rehber |
+| `/worship` | Korumalı | Günün namaz vakitleri, geri sayım, hicri tarih, oruç bilgisi |
+| `/profile/[username]` | Korumalı | Profil, istatistikler, takip/takipçi |
+| `/search` | Korumalı | Kullanıcı arama |
+| `/settings/profile`, `/settings/account`, `/settings/avatar` | Korumalı | Ayarlar |
+| `/terms`, `/privacy` | Herkese açık | Yasal metinler |
+
+Erişim kontrolü `src/middleware.ts` içinde `auth-token` cookie'sinin varlığına göre yapılır.
+
+---
+
+## Proje yapısı
+
+```
+src/
+├── app/          # App Router route'ları, root layout, globals.css
+├── components/   # ui/ (primitive'ler) + domain klasörleri
+├── config/       # site konfigürasyonu
+├── constants/    # sabitler, query key fabrikaları, hata mesajları
+├── hooks/        # React Query ve UI hook'ları
+├── icons/        # ham SVG + svgr ile üretilmiş TSX bileşenler
+├── lib/          # axios, hata yardımcıları, cn(), metadata, domain util'leri
+├── providers/    # Query, çerez onayı, yasal onay sağlayıcıları
+├── services/     # API endpoint katmanı
+├── store/        # Zustand auth store
+├── styles/       # sayfa-özel CSS
+├── types/        # tipler ve enum'lar
+└── validations/  # zod şemaları
+```
+
+Import alias'ı repo köküne işaret eder: `import { cn } from "@/src/lib/utils"`.
+
+---
+
+## Dokümantasyon
+
+| Dosya | Amaç |
+|---|---|
+| [CLAUDE.md](CLAUDE.md) | Yapay zekâ agentları ve yeni geliştiriciler için ana referans: zorunlu kurallar (§0), kalıplar, kritik davranışlar |
+| [AGENTS.md](AGENTS.md) | Claude dışı agentlar (Cursor, ChatGPT, Gemini) için giriş noktası |
+| [docs/AGENT_WORKFLOW.md](docs/AGENT_WORKFLOW.md) | Agent çalışma protokolü: görev döngüsü, doküman senkronizasyon matrisi, kırmızı çizgiler, kontrol listesi |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Katmanlar, veri akışı, auth ve consent mekanizmaları |
+| [docs/API.md](docs/API.md) | Frontend'in tükettiği backend endpoint sözleşmesi |
+| [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) | Tasarım token'ları, tipografi, bileşen ve animasyon kuralları |
+| [docs/DOMAIN.md](docs/DOMAIN.md) | Alan terimleri sözlüğü (TR/EN), seri ve quiz kuralları |
+
+---
+
+## Katkı notları
+
+- Veri çekme zinciri her zaman **service → hook → component** olmalı; bileşende doğrudan
+  axios/fetch veya `useEffect` ile veri çekme yok.
+- `src/icons/tsx/**` üretilmiş koddur; kaynak SVG'yi düzenleyip `yarn build:icons` çalıştır.
+- Kullanıcıya görünen tüm metinler Türkçe'dir.
+- Renk, radius ve gölge değerleri `src/app/globals.css` içindeki CSS değişkenlerinden gelir.
