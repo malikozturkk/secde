@@ -25,13 +25,13 @@ const FreezeConfirmDialogComponent: React.FC<FreezeConfirmDialogProps> = ({
   errorMessage,
 }) => (
   <Dialog isOpen={isOpen} onClose={onClose} maxWidth="sm">
-    <div className="flex flex-col items-center gap-3 px-1 pb-1 text-center">
+    <div className="flex flex-col items-center gap-3 text-center p-8">
       <div className="h-[128px] w-[104px] animate-[floatBounce_3.2s_ease-in-out_infinite]">
         <CharacterIllustration character="ay" shadow="none" />
       </div>
 
       <h2 className="m-0 text-xl font-black tracking-[-0.01em] text-white">
-        Seriyi dondur?
+        Seriyi dondur
       </h2>
 
       <p className="m-0 max-w-[36ch] text-[13px] font-bold leading-snug text-white/55">
@@ -55,10 +55,10 @@ const FreezeConfirmDialogComponent: React.FC<FreezeConfirmDialogProps> = ({
         </div>
       )}
 
-      <div className="mt-2 flex w-full flex-col gap-2">
+      <div className="mt-2 flex w-full flex-col gap-4">
         <Button
           variant="primary"
-          size="lg"
+          size="md"
           className="w-full"
           onClick={onConfirm}
           disabled={isPending || freezesRemaining <= 0}
@@ -67,7 +67,7 @@ const FreezeConfirmDialogComponent: React.FC<FreezeConfirmDialogProps> = ({
         </Button>
         <Button
           variant="ghost"
-          size="lg"
+          size="md"
           className="w-full"
           onClick={onClose}
           disabled={isPending}
