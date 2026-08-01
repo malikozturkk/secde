@@ -3,6 +3,7 @@ import type {
   PrayerAnswerResult,
   PrayerCardState,
   PrayerCategory,
+  PrayerCompletionStatus,
   PrayerQuestionStatus,
   PrayerQuizStatus,
   PrayerType,
@@ -19,9 +20,13 @@ export interface PrayerCardDto {
   scheduledAt: string;
   windowStartsAt: string;
   windowEndsAt: string;
+  markWindowEndsAt: string;
   xpReward: number;
+  lateXpReward: number;
   isCompleted: boolean;
   canMarkAsCompleted: boolean;
+  isLateWindow: boolean;
+  completionStatus: PrayerCompletionStatus | null;
   completedAt: string | null;
   streakContribution: boolean;
   pendingQuizId: string | null;
@@ -35,6 +40,26 @@ export interface DailyPrayersResponse {
   isRamadan: boolean;
   isEidDay: boolean;
   prayers: PrayerCardDto[];
+}
+
+export interface PrayerHistoryQuery {
+  from: string;
+  to: string;
+}
+
+export interface PrayerHistoryDay {
+  date: string;
+  completedCount: number;
+  totalCount: number;
+  isComplete: boolean;
+  isFrozen: boolean;
+}
+
+export interface PrayerHistoryResponse {
+  from: string;
+  to: string;
+  timezone: string;
+  days: PrayerHistoryDay[];
 }
 
 export interface PrayerQuestionsQuery {
@@ -100,7 +125,9 @@ export interface PrayerCompletionResult {
   prayerType: PrayerType;
   prayerDate: string;
   completedAt: string;
+  status: PrayerCompletionStatus;
   xpAwarded: number;
+  xpBeforePenalty: number;
   xpAfter: number;
   level: number;
   leveledUp: boolean;
@@ -131,9 +158,14 @@ export interface PrayerCardViewModel {
   scheduledTimeLabel: string;
   windowStartsAt: string;
   windowEndsAt: string;
+  markWindowEndsAt: string;
   xpReward: number;
+  lateXpReward: number;
+  effectiveXpReward: number;
   isCompleted: boolean;
   canMarkAsCompleted: boolean;
+  isLateWindow: boolean;
+  completionStatus: PrayerCompletionStatus | null;
   completedAt: string | null;
   completedAtLabel: string | null;
   streakContribution: boolean;
@@ -142,6 +174,7 @@ export interface PrayerCardViewModel {
   state: PrayerCardState;
   secondsUntilOpens: number;
   secondsUntilCloses: number;
+  secondsUntilMarkCloses: number;
   windowProgressPercent: number;
 }
 

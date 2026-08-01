@@ -9,7 +9,7 @@ export const SELF_STATS_STALE_TIME_MS = 60_000;
 export const USER_STATS_STALE_TIME_MS = 60_000;
 
 const BADGE_LABELS: Record<string, string> = {
-  beginner: "Yeni Başlayan",
+  steadfast_beginner: "Yeni Başlayan",
   first_step: "İlk Adım",
   novice: "Acemi",
   rookie: "Çaylak",

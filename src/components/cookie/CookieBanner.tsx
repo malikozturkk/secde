@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { X, ChevronDown, ChevronUp, Shield } from "lucide-react";
 import { useCookieConsentContext } from "@/src/providers/CookieConsentProvider";
@@ -51,6 +51,25 @@ export default function CookieBanner() {
 
   const [localPrefs, setLocalPrefs] = useState<CookiePreferences>(preferences);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const barRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const el = barRef.current;
+    if (!el) {
+      root.style.removeProperty("--cookie-banner-offset");
+      return;
+    }
+    const sync = () =>
+      root.style.setProperty("--cookie-banner-offset", `${el.offsetHeight}px`);
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      root.style.removeProperty("--cookie-banner-offset");
+    };
+  });
 
   useEffect(() => {
     setLocalPrefs(preferences);
@@ -69,7 +88,7 @@ export default function CookieBanner() {
 
   if (showDetails) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center">
+      <div className="fixed inset-0 z-[var(--z-modal)] flex items-end sm:items-center justify-center">
         <div
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           onClick={closeDetails}
@@ -189,7 +208,10 @@ export default function CookieBanner() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[9998] p-4 sm:p-6">
+    <div
+      ref={barRef}
+      className="fixed bottom-0 left-0 right-0 z-[var(--z-cookie-banner)] p-4 sm:p-6"
+    >
       <div className="max-w-2xl mx-auto bg-[#0d1b1e] border border-[var(--color-border)] rounded-2xl shadow-2xl overflow-hidden">
         <div className="px-5 py-4 sm:px-6 sm:py-5">
           <div className="flex items-start gap-3 mb-4">

@@ -7,52 +7,64 @@ görünen metinler Türkçedir. Bu doküman iki dili eşler ve alanın kurallar�
 
 ## 1. Terim sözlüğü
 
-| Kod (EN) | Türkçe | Anlam |
-|---|---|---|
-| `prayer` / `salah` | namaz | Günlük ibadet |
-| `PrayerType` / `PrayerKey` | vakit | Namaz vakti (Sabah, Öğle, ...) |
-| `wudu` | abdest | Namaz öncesi arınma |
-| `ghusl` | gusül abdesti | Tam boy arınma |
-| `fajr` | sabah / imsak | Gün doğumu öncesi vakit |
-| `sunrise` | güneş | Vakit değil, sınır göstergesi |
-| `dhuhr` | öğle | — |
-| `asr` | ikindi | — |
-| `maghrib` | akşam | İftar vakti ile aynı an |
-| `isha` | yatsı | — |
-| `jumuah` | cuma | Cuma namazı |
-| `teravih` / `tarawih` | teravih | Ramazan gecesi namazı |
-| `bayram` / `eid` | bayram | Bayram namazı |
-| `khutbah` | hutbe | Cuma vaazı |
-| `rekat` | rekât | Namaz birimi |
-| `fard` (`isFard`) | farz | Zorunlu adım |
-| `recitation` | okunuş | Adımda okunacak metin |
-| `madhab` | mezhep | `SHAFI` (Şafi) / `HANAFI` (Hanefi) |
-| `hijri` | hicri | İslami takvim |
-| `ramadan` | ramazan | — |
-| `fasting` | oruç | — |
-| `suhoor` / `iftar` | sahur / iftar | Oruç başı ve sonu |
-| `streak` | seri | Kesintisiz gün sayısı |
-| `streak freeze` | seri dondurma | Seriyi bir gün koruma hakkı |
-| `xp` / `level` | XP / seviye | Oyunlaştırma |
-| `badge` | rozet | Seviye ünvanı |
+| Kod (EN)                   | Türkçe        | Anlam                              |
+| -------------------------- | ------------- | ---------------------------------- |
+| `prayer` / `salah`         | namaz         | Günlük ibadet                      |
+| `PrayerType` / `PrayerKey` | vakit         | Namaz vakti (Sabah, Öğle, ...)     |
+| `wudu`                     | abdest        | Namaz öncesi arınma                |
+| `ghusl`                    | gusül abdesti | Tam boy arınma                     |
+| `fajr`                     | sabah / imsak | Gün doğumu öncesi vakit            |
+| `sunrise`                  | güneş         | Vakit değil, sınır göstergesi      |
+| `dhuhr`                    | öğle          | —                                  |
+| `asr`                      | ikindi        | —                                  |
+| `maghrib`                  | akşam         | İftar vakti ile aynı an            |
+| `isha`                     | yatsı         | —                                  |
+| `jumuah`                   | cuma          | Cuma namazı                        |
+| `teravih` / `tarawih`      | teravih       | Ramazan gecesi namazı              |
+| `bayram` / `eid`           | bayram        | Bayram namazı                      |
+| `khutbah`                  | hutbe         | Cuma vaazı                         |
+| `rekat`                    | rekât         | Namaz birimi                       |
+| `fard` (`isFard`)          | farz          | Zorunlu adım                       |
+| `recitation`               | okunuş        | Adımda okunacak metin              |
+| `madhab`                   | mezhep        | `SHAFI` (Şafi) / `HANAFI` (Hanefi) |
+| `hijri`                    | hicri         | İslami takvim                      |
+| `ramadan`                  | ramazan       | —                                  |
+| `fasting`                  | oruç          | —                                  |
+| `suhoor` / `iftar`         | sahur / iftar | Oruç başı ve sonu                  |
+| `streak`                   | seri          | Kesintisiz gün sayısı              |
+| `streak freeze`            | seri dondurma | Seriyi bir gün koruma hakkı        |
+| `xp` / `level`             | XP / seviye   | Oyunlaştırma                       |
+| `badge`                    | rozet         | Seviye ünvanı                      |
 
-**Yazım tuzağı:** Bu vakit için kodda iki farklı yazım vardır —
-`PrayerType.Teravih = "TERAVIH"` (gamification) ve `PrayerBreakdown.tarawih` (istatistikler).
-İkisi aynı ibadeti gösterir; birini diğeriyle karıştırma.
+**Yazım:** `PrayerType.Tarawih = "TARAWIH"` (gamification) ve `PrayerBreakdown.tarawih`
+(istatistikler) aynı ibadeti gösterir; ikincisi birincinin camelCase karşılığıdır. Aynı ilişki
+bayram için de geçerlidir: `EID_FITR` → `eidFitr`, `EID_ADHA` → `eidAdha`.
 
 ---
 
 ## 2. İki farklı "vakit" enum'u vardır
 
-| Enum | Değerler | Nerede |
-|---|---|---|
-| `PrayerKey` (`worship.enums.ts`) | `fajr, sunrise, dhuhr, asr, maghrib, isha` — **küçük harf** | `/worship` sayfası, namaz vakitleri tablosu |
-| `PrayerType` (`streak.enums.ts`) | `FAJR, DHUHR, ASR, MAGHRIB, ISHA, JUMUAH, TERAVIH, BAYRAM` — **BÜYÜK harf** | Seri/quiz/gamification |
+| Enum                             | Değerler                                                                                | Nerede                                      |
+| -------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `PrayerKey` (`worship.enums.ts`) | `fajr, sunrise, dhuhr, asr, maghrib, isha` — **küçük harf**                             | `/worship` sayfası, namaz vakitleri tablosu |
+| `PrayerType` (`streak.enums.ts`) | `FAJR, DHUHR, ASR, MAGHRIB, ISHA, JUMUAH, TARAWIH, EID_FITR, EID_ADHA` — **BÜYÜK harf** | Seri/quiz/gamification                      |
+
+`PrayerCategory` (`streak.enums.ts`): `DAILY` (beş vakit), `WEEKLY` (yalnız cuma), `RAMADAN`
+(yalnız teravih), `EID` (bayram namazları). `StatusChip` bunu **durumun yanında** ikinci bir çip
+olarak gösterir — durumu (Tamamlandı/Şimdi/Kaçırıldı) ezmez. `DAILY` için kategori çipi çıkmaz.
+
+`PrayerType` ve `PrayerCategory`, backend'deki Prisma enum'larının (`kible/prisma/schema.prisma`)
+**birebir** kopyasıdır. Değer eklerken/değiştirirken önce şemayı kontrol et: sapma olduğunda
+`PRAYER_META` / `PRAYER_COLORWAY` eşleşmez ve kart fallback'e düşer, quiz parametresi de backend'in
+`ParseEnumPipe` guard'ına takılır.
 
 Farklar önemlidir:
+
 - `PrayerKey` **`sunrise`** içerir (kılınan bir namaz değil, vakit sınırı) ve cuma/teravih/bayram
   **içermez**.
 - `PrayerType` `sunrise` içermez ama farz dışı vakitleri (cuma, teravih, bayram) içerir.
+- `PRAYER_TYPE_TO_ICON_KEY` (`PrayerCard.tsx`) ikisi arasında köprü kurar: cuma → `dhuhr`,
+  teravih → `isha`, bayram → `sunrise` ikonu.
 
 Yeni kod yazarken hangi bağlamda olduğunu belirle ve doğru enum'u kullan; ikisi arasında
 otomatik dönüşüm yoktur.
@@ -104,18 +116,37 @@ Görünüm modeli: `buildDailyPrayersViewModel` (`src/lib/streak-utils.ts`).
 
 Durum **istemcide**, DTO + o anki zamandan türetilir (`buildPrayerCardViewModel`):
 
-| Öncelik | Koşul | Durum |
-|---|---|---|
-| 1 | `isCompleted` | `completed` — tamamlandı |
-| 2 | `isLocked` | `marking-locked` — işaretleme kilitli (quiz başarısız/süre doldu) |
-| 3 | Pencere yok **veya** `now < windowStartsAt` | `locked` — henüz açılmadı |
-| 4 | Pencere içinde + `canMarkAsCompleted` + `now >= scheduledAt` | `current` — şu an işaretlenebilir |
-| 5 | Pencere içinde + `canMarkAsCompleted` + `now < scheduledAt` | `eligible` — uygun |
-| 6 | Pencere içinde + `!canMarkAsCompleted` | `locked` |
-| 7 | Pencere geçti | `missed` — kaçırıldı |
+| Öncelik | Koşul                                                                          | Durum                                                             |
+| ------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| 1       | `isCompleted`                                                                  | `completed` — tamamlandı                                          |
+| 2       | `isLocked`                                                                     | `marking-locked` — işaretleme kilitli (quiz başarısız/süre doldu) |
+| 3       | Pencere yok **veya** `now < windowStartsAt`                                    | `locked` — henüz açılmadı                                         |
+| 4       | Kendi vaktinde + `canMarkAsCompleted` + `now >= scheduledAt`                   | `current` — şu an işaretlenebilir                                 |
+| 5       | Kendi vaktinde + `canMarkAsCompleted` + `now < scheduledAt`                    | `eligible` — uygun                                                |
+| 6       | Kendi vaktinde + `!canMarkAsCompleted`                                         | `locked`                                                          |
+| 7       | Kaza penceresinde (`windowEndsAt` … `markWindowEndsAt`) + `canMarkAsCompleted` | `late` — kaza olarak işaretlenebilir                              |
+| 8       | Kaza penceresinde + `!canMarkAsCompleted`                                      | `missed`                                                          |
+| 9       | `markWindowEndsAt` geçti                                                       | `missed` — kaçırıldı                                              |
 
-Ayrıca `secondsUntilOpens`, `secondsUntilCloses` ve `windowProgressPercent` (0–100 arası
-kırpılmış) hesaplanır. Saat biçimlendirme `tr-TR`, `{hour: "2-digit", minute: "2-digit"}`.
+Ayrıca `secondsUntilOpens` (açılışa kalan), `secondsUntilCloses` (**kendi vaktinin**
+kapanışına kalan), `secondsUntilMarkCloses` (işaretlemenin tamamen kapanmasına kalan) ve
+`windowProgressPercent` (0–100 arası kırpılmış) hesaplanır. İlerleme çubuğu **aktif dilimi**
+gösterir: kendi vaktindeyken `[windowStartsAt, windowEndsAt]`, kaza penceresindeyken
+`[windowEndsAt, markWindowEndsAt]`. Saat biçimlendirme `tr-TR`,
+`{hour: "2-digit", minute: "2-digit"}`.
+
+### Vaktinde / Geç (Kaza) işaretleme
+
+Bir namaz, **bir sonraki günlük vakit başlayana kadar** işaretlenebilir:
+
+- Kendi vakti içinde işaretlenirse `completionStatus = ON_TIME` → çip **"Vaktinde"**.
+- Vakti çıkmış ama sonraki vakit girmemişse `completionStatus = LATE` → çip **"Geç (Kaza)"**,
+  ve XP'nin yarısı kazanılır (`lateXpReward`). Günün ilk namaz bonusu cezalandırılmaz.
+- Sonraki vakit girince artık işaretlenemez (`missed`).
+
+Kart bu durumu üç yerde gösterir: `StatusChip` (çip metni), `PrayerCard` (kaza penceresinde
+"KAZA ET" butonu + üstü çizili tam XP) ve `QuizSuccess` (kazanılan XP + "vaktinde kılamadın"
+açıklaması). **Seri her iki durumda da aynı şekilde ilerler** — fark yalnızca XP'dedir.
 
 ### Metinler ve karakterler
 
@@ -132,6 +163,16 @@ kırpılmış) hesaplanır. Saat biçimlendirme `tr-TR`, `{hour: "2-digit", minu
 `POST /gamification/action` `{ actionType: "STREAK_FREEZE" }`. İstemci en fazla
 `STREAK_FREEZE_MAX_SLOTS = 3` slot gösterir. Yanıt `streakFreezeUsage` ile kalan hak,
 korunan tarihler ve `alreadyApplied` bilgisini döner.
+
+Akış: `FreezeCard` → **SERİYİ DONDUR** → `FreezeConfirmDialog` (onay) →
+`useGamificationAction().mutate` → başarıda `controller.refresh()`. Buton yalnızca hak varsa
+ve dondurma penceresi açıkken etkindir; hata mesajı modalın içinde gösterilir.
+
+> Bu akış bir süre **erişilemezdi**: `FreezeCard`'ın tek butonu hiç geçilmeyen bir prop'a
+> bağlıydı ve `action.mutate` hiçbir yerden çağrılmıyordu. Backend tarafı ise çalışıyordu.
+> Hak **kazanma** mekanizması hâlâ yok: `streakFreezeCount` backend'de hiçbir yerde
+> artmıyor, dolayısıyla buton pratikte devre dışı kalır. Planlanan yol ücretli mağaza;
+> otomatik kilometre taşı ödülü bilinçli olarak eklenmedi.
 
 ### Yenileme aralıkları
 
@@ -158,8 +199,8 @@ Bir vakti işaretlemek quiz akışından geçer:
   `PrayerQuestionStatus` (`PENDING/SHOWN/CORRECT/INCORRECT/EXPIRED/LOCKED`),
   `PrayerAnswerResult` (`CORRECT/INCORRECT/EXPIRED`).
 - Yanlış cevap durumunda kullanıcıya gösterilen metin
-  (`constants/error-messages.ts`): *"Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar
-  deneyebilirsin."* — yani **quiz geçilmeden vakit işaretlenmez**.
+  (`constants/error-messages.ts`): _"Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar
+  deneyebilirsin."_ — yani **quiz geçilmeden vakit işaretlenmez**.
 - `isLocked` olduğunda o vakit için işaretleme kilitlenir (`marking-locked` kart durumu).
 - Kutlama animasyonu `useStreakController` içinde `celebration` state'i ile 1.5 sn gösterilir.
 
@@ -193,14 +234,19 @@ UI: `components/dashboard/quiz/` (`PrayerQuizModal`, `QuizOption`, `QuizProgress
 - Rozet anahtarı → Türkçe etiket eşlemesi `resolveBadgeLabel` (`constants/user-stats.ts`).
   Bilinmeyen anahtar `humanizeBadgeKey` ile okunabilir hale getirilir (kırılmaz).
   Bilinen anahtarlar: `beginner, first_step, novice, rookie, explorer, traveler, committed,
-  consistent, steadfast, early_bird, night_owl, disciplined, devoted, dedicated, master,
-  champion, legend`.
+consistent, steadfast, early_bird, night_owl, disciplined, devoted, dedicated, master,
+champion, legend`.
 - Dashboard kahramanı için ayrı bir seviye ünvanı tablosu vardır:
   `STREAK_HERO_LEVEL_TITLES` (1, 5, 10, 15, 20, 30, 50, 75, 100) + fallback
   `STREAK_HERO_LEVEL_LABEL_FALLBACK = "Sabır Yolcusu"`.
 - Vakit dağılımı `PRAYER_BREAKDOWN_META` ile renk/etiket alır
   (`fajr, dhuhr, asr, maghrib, isha, jumuah, tarawih, eidFitr, eidAdha`).
-- XP yalnızca `prayerCompletion` yanıtıyla değişir (`xpAwarded`, `xpAfter`, `leveledUp`).
+- **Vaktinde kılınan namaz oranı** `prayers.punctuality` alanından gelir ve
+  `PunctualityCard` (`components/stats/PunctualityCard.tsx`) ile profil ekranında
+  gösterilir. Halka rengi `QuizAccuracyCard` ile aynı eşikleri kullanır (≥70 primary,
+  ≥40 secondary, altı kırmızı).
+- XP yalnızca `prayerCompletion` yanıtıyla değişir (`xpAwarded`, `xpAfter`, `leveledUp`);
+  `status === "LATE"` ise `xpBeforePenalty` tam XP'yi taşır ve fark kullanıcıya gösterilir.
 
 ---
 

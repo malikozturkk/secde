@@ -79,8 +79,8 @@ export const PRAYER_META: Record<PrayerType, PrayerMeta> = {
     character: "zeyd",
     hint: "Toplanma vakti",
   },
-  [PrayerType.Teravih]: {
-    type: PrayerType.Teravih,
+  [PrayerType.Tarawih]: {
+    type: PrayerType.Tarawih,
     label: "Teravih",
     eyebrow: "TERAVİH",
     color: "#7C3AED",
@@ -89,9 +89,19 @@ export const PRAYER_META: Record<PrayerType, PrayerMeta> = {
     character: "nura_sitting",
     hint: "Ramazan gecesi",
   },
-  [PrayerType.Bayram]: {
-    type: PrayerType.Bayram,
-    label: "Bayram",
+  [PrayerType.EidFitr]: {
+    type: PrayerType.EidFitr,
+    label: "Ramazan Bayramı",
+    eyebrow: "BAYRAM",
+    color: "#EAB308",
+    shadow: "#713F12",
+    tint: "#FDE047",
+    character: "ataman",
+    hint: "Bayram namazı",
+  },
+  [PrayerType.EidAdha]: {
+    type: PrayerType.EidAdha,
+    label: "Kurban Bayramı",
     eyebrow: "BAYRAM",
     color: "#EAB308",
     shadow: "#713F12",
@@ -146,11 +156,15 @@ export const GAMIFICATION_QUERY_KEYS = {
   all: ["gamification"] as const,
   dailyPrayers: (params: { date: string }) =>
     ["gamification", "daily-prayers", params] as const,
+  prayerHistory: (params: { from: string; to: string }) =>
+    ["gamification", "prayer-history", params] as const,
   prayerQuestions: (params: { prayerType: string }) =>
     ["gamification", "prayer-questions", params] as const,
 } as const;
 
 export const DAILY_PRAYERS_STALE_TIME_MS = 60 * 1000;
+export const PRAYER_HISTORY_STALE_TIME_MS = 5 * 60 * 1000;
+export const PRAYER_HISTORY_MAX_RANGE_DAYS = 62;
 
 export const DAILY_PRAYERS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 export const STREAK_TICK_INTERVAL_MS = 1000;

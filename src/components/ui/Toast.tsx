@@ -141,7 +141,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     <ToastContext.Provider value={api}>
       {children}
       <div
-        className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-[min(360px,calc(100vw-2rem))] flex-col gap-2.5 max-lg:left-4 max-lg:right-4 max-lg:w-auto"
+        className="pointer-events-none fixed bottom-4 right-4 z-[var(--z-toast)] flex w-[min(360px,calc(100vw-2rem))] flex-col gap-2.5 max-lg:left-4 max-lg:right-4 max-lg:w-auto"
         aria-live="polite"
         aria-atomic="false"
       >

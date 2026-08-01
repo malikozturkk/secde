@@ -44,10 +44,13 @@ const buildPrayerCardViewModel = (
 ): PrayerCardViewModel => {
   const startMs = parseIsoMs(dto.windowStartsAt);
   const endMs = parseIsoMs(dto.windowEndsAt);
+  const markEndMs = parseIsoMs(dto.markWindowEndsAt);
   const scheduledMs = parseIsoMs(dto.scheduledAt);
 
   const hasWindow =
     Number.isFinite(startMs) && Number.isFinite(endMs) && endMs > startMs;
+  const hasMarkWindow = hasWindow && Number.isFinite(markEndMs);
+  const effectiveMarkEndMs = hasMarkWindow ? Math.max(markEndMs, endMs) : endMs;
 
   const secondsUntilOpens = hasWindow
     ? Math.max(0, Math.floor((startMs - nowMs) / MS_PER_SECOND))
@@ -55,10 +58,22 @@ const buildPrayerCardViewModel = (
   const secondsUntilCloses = hasWindow
     ? Math.max(0, Math.floor((endMs - nowMs) / MS_PER_SECOND))
     : 0;
-
-  const windowProgressPercent = hasWindow
-    ? clampPercent(((nowMs - startMs) / (endMs - startMs)) * 100)
+  const secondsUntilMarkCloses = hasWindow
+    ? Math.max(0, Math.floor((effectiveMarkEndMs - nowMs) / MS_PER_SECOND))
     : 0;
+
+  const inOwnWindow = hasWindow && nowMs >= startMs && nowMs < endMs;
+  const inLateWindow =
+    hasWindow && nowMs >= endMs && nowMs < effectiveMarkEndMs;
+
+  const progressFromMs = inLateWindow ? endMs : startMs;
+  const progressToMs = inLateWindow ? effectiveMarkEndMs : endMs;
+  const windowProgressPercent =
+    hasWindow && progressToMs > progressFromMs
+      ? clampPercent(
+          ((nowMs - progressFromMs) / (progressToMs - progressFromMs)) * 100
+        )
+      : 0;
 
   let state: PrayerCardState;
   if (dto.isCompleted) {
@@ -67,12 +82,16 @@ const buildPrayerCardViewModel = (
     state = PrayerCardState.MarkingLocked;
   } else if (!hasWindow || nowMs < startMs) {
     state = PrayerCardState.Locked;
-  } else if (nowMs >= startMs && nowMs <= endMs) {
+  } else if (inOwnWindow) {
     state = dto.canMarkAsCompleted
       ? nowMs >= scheduledMs
         ? PrayerCardState.Current
         : PrayerCardState.Eligible
       : PrayerCardState.Locked;
+  } else if (inLateWindow) {
+    state = dto.canMarkAsCompleted
+      ? PrayerCardState.Late
+      : PrayerCardState.Missed;
   } else {
     state = PrayerCardState.Missed;
   }
@@ -85,9 +104,14 @@ const buildPrayerCardViewModel = (
     scheduledTimeLabel: formatPrayerTime(dto.scheduledAt),
     windowStartsAt: dto.windowStartsAt,
     windowEndsAt: dto.windowEndsAt,
+    markWindowEndsAt: dto.markWindowEndsAt,
     xpReward: dto.xpReward,
+    lateXpReward: dto.lateXpReward,
+    effectiveXpReward: inLateWindow ? dto.lateXpReward : dto.xpReward,
     isCompleted: dto.isCompleted,
     canMarkAsCompleted: dto.canMarkAsCompleted,
+    isLateWindow: inLateWindow,
+    completionStatus: dto.completionStatus,
     completedAt: dto.completedAt,
     completedAtLabel: dto.completedAt
       ? formatPrayerTime(dto.completedAt)
@@ -98,6 +122,7 @@ const buildPrayerCardViewModel = (
     state,
     secondsUntilOpens,
     secondsUntilCloses,
+    secondsUntilMarkCloses,
     windowProgressPercent,
   };
 };
@@ -119,7 +144,8 @@ export const buildDailyPrayersViewModel = (
     prayers.find(
       (p) =>
         p.state === PrayerCardState.Current ||
-        p.state === PrayerCardState.Eligible
+        p.state === PrayerCardState.Eligible ||
+        p.state === PrayerCardState.Late
     ) ?? null;
 
   return {

@@ -58,7 +58,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[var(--z-consent-gate)] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="consent-gate-title"

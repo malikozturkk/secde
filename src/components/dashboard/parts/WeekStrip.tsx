@@ -16,6 +16,8 @@ const DISC_STATE_CLASS: Record<WeekDayState, string> = {
   [WeekDayState.Done]: "bg-[#FF6B35] text-white shadow-[0_3px_0_0_#7A2A0D]",
   [WeekDayState.TodayDone]:
     "bg-[#FF6B35] text-white shadow-[0_3px_0_0_#7A2A0D]",
+  [WeekDayState.Partial]:
+    "bg-[rgba(255,107,53,0.26)] border-2 border-[rgba(255,107,53,0.55)] text-[#FFCA6B]",
   [WeekDayState.Frozen]:
     "bg-[rgba(79,195,247,0.20)] border-2 border-[#4FC3F7] text-[#4FC3F7]",
   [WeekDayState.Miss]:
@@ -61,10 +63,16 @@ const WeekStripComponent: React.FC<WeekStripProps> = ({
           !celebrating && day.state === WeekDayState.TodayPending;
         const showFrozen = day.state === WeekDayState.Frozen;
         const showMiss = day.state === WeekDayState.Miss;
+        const showPartial = day.state === WeekDayState.Partial;
         return (
           <div
             key={day.date}
             role={onOpen ? undefined : "listitem"}
+            title={
+              day.totalCount > 0
+                ? `${day.completedCount}/${day.totalCount} vakit`
+                : undefined
+            }
             className={cn(
               "relative flex flex-col items-center gap-1.5 rounded-2xl px-0.5 py-1.5",
               day.isToday &&
@@ -90,6 +98,11 @@ const WeekStripComponent: React.FC<WeekStripProps> = ({
               {showCheck && <Check className="h-[14px] w-[14px]" />}
               {showFire && <Fire className="h-[14px] w-[14px]" />}
               {showFrozen && <Snowflake className="h-[13px] w-[13px]" />}
+              {showPartial && (
+                <span className="text-[11px] font-black tabular-nums">
+                  {day.completedCount}
+                </span>
+              )}
               {showMiss && (
                 <span className="text-[11px] font-black" aria-hidden="true">
                   —

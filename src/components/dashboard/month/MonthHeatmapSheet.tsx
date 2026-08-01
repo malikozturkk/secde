@@ -7,18 +7,20 @@ import {
   MONTHS_TR_FULL,
   SHORT_WEEKDAYS_TR,
   buildMonthCalendar,
+  buildMonthRange,
 } from "@/src/lib/dashboard-utils";
+import { usePrayerHistory } from "@/src/hooks/streak/usePrayerHistory";
 import { ChevronLeft, ChevronRight, Cross } from "@/src/icons/tsx/dashboard";
 import { MonthCell } from "./MonthCell";
 import { cn } from "@/src/lib/utils";
+import type { PrayerHistoryDay } from "@/src/types/streak.types";
+
+const EMPTY_HISTORY: readonly PrayerHistoryDay[] = [];
 
 interface MonthHeatmapSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  currentStreak: number;
   longestStreak: number;
-  lastActiveDate: string | null;
-  protectedDates: readonly string[];
   completedToday: number;
   totalToday: number;
   onSeeStats?: () => void;
@@ -27,10 +29,7 @@ interface MonthHeatmapSheetProps {
 const SheetComponent: React.FC<MonthHeatmapSheetProps> = ({
   isOpen,
   onClose,
-  currentStreak,
   longestStreak,
-  lastActiveDate,
-  protectedDates,
   completedToday,
   totalToday,
   onSeeStats,
@@ -41,27 +40,24 @@ const SheetComponent: React.FC<MonthHeatmapSheetProps> = ({
     month: today.getMonth(),
   }));
 
+  const monthRange = useMemo(
+    () => (isOpen ? buildMonthRange(cursor.year, cursor.month) : null),
+    [isOpen, cursor]
+  );
+  const historyQuery = usePrayerHistory(monthRange);
+  const history = historyQuery.data?.days ?? EMPTY_HISTORY;
+
   const calendar = useMemo(
     () =>
       buildMonthCalendar({
         year: cursor.year,
         month: cursor.month,
         today,
-        currentStreak,
-        lastActiveDate,
-        protectedDates,
+        history,
         completedToday,
         totalToday,
       }),
-    [
-      cursor,
-      today,
-      currentStreak,
-      lastActiveDate,
-      protectedDates,
-      completedToday,
-      totalToday,
-    ]
+    [cursor, today, history, completedToday, totalToday]
   );
 
   const isCurrentMonth =

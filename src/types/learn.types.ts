@@ -37,10 +37,15 @@ export interface LearnNode {
   };
 }
 
+export interface RandomQuestionOption {
+  id: string;
+  text: string;
+}
+
 export interface RandomQuestion {
   id: string;
   question: string;
-  options: string[];
+  options: RandomQuestionOption[];
 }
 
 export interface GuideStep {
@@ -69,12 +74,12 @@ export interface GuideData {
 
 export interface GuideCheckQuestionPayload {
   questionId: string;
-  answer: string;
+  optionId: string;
 }
 
 export interface GuideCheckQuestionResponse {
   isCorrect: boolean;
-  correctAnswer: string;
+  correctOptionId: string;
 }
 
 export type StepType =

@@ -12,6 +12,12 @@ export interface PrayerBreakdown {
   eidAdha: number;
 }
 
+export interface Punctuality {
+  onTime: number;
+  late: number;
+  onTimePercent: number;
+}
+
 export interface PublicStats {
   username: string;
   avatarCustomization: AvatarCustomization;
@@ -31,6 +37,7 @@ export interface PublicStats {
   prayers: {
     totalCompleted: number;
     breakdown: PrayerBreakdown;
+    punctuality: Punctuality;
   };
 
   social: {

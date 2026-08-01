@@ -331,6 +331,8 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
             prayerType={prayerType}
             prayerLabel={meta.label}
             xpAwarded={completionResult.xpAwarded}
+            xpBeforePenalty={completionResult.xpBeforePenalty}
+            completionStatus={completionResult.status}
             currentStreak={completionResult.currentStreak}
             leveledUp={completionResult.leveledUp}
           />

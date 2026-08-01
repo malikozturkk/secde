@@ -7,6 +7,8 @@ import type {
   DailyPrayersResponse,
   GamificationActionRequest,
   GamificationActionResponse,
+  PrayerHistoryQuery,
+  PrayerHistoryResponse,
   PrayerQuestionsQuery,
   PrayerQuestionsResponse,
   StartPrayerQuestionResponse,
@@ -19,6 +21,17 @@ export const gamificationService = {
       {
         params: {
           date: params.date,
+        },
+      }
+    ),
+
+  getPrayerHistory: (params: PrayerHistoryQuery) =>
+    axiosInstance.get<ApiResponse<PrayerHistoryResponse>>(
+      "/gamification/prayer-history",
+      {
+        params: {
+          from: params.from,
+          to: params.to,
         },
       }
     ),

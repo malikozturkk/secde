@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useUpdateProfile } from "@/src/hooks/auth/useUpdateProfile";
@@ -10,10 +10,13 @@ import {
   type UpdateProfileFormValues,
 } from "@/src/validations/auth.validation";
 import AppLayout from "@/src/components/layout/AppLayout";
-import { Input } from "@/src/components/ui/Input";
 import { Select } from "@/src/components/ui/Select";
 import { Button } from "@/src/components/ui/Button";
 import SettingsRightPanel from "@/src/components/settings/SettingsRightPanel";
+import {
+  LocationField,
+  type LocationValue,
+} from "@/src/app/(auth)/register/LocationField";
 import {
   DEFAULT_LANGUAGE,
   LANGUAGE_OPTIONS,
@@ -23,10 +26,13 @@ import {
 export default function AccountSettings() {
   const { user } = useAuthStore();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const canChangeLocation = (user?.locationChangeCount ?? 0) < 1;
+  const canChangeMadhab = (user?.madhabChangeCount ?? 0) < 1;
 
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors, isDirty },
     setError,
     reset,
@@ -34,14 +40,39 @@ export default function AccountSettings() {
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       language: user?.language ?? DEFAULT_LANGUAGE,
+      country: user?.country ?? undefined,
+      city: user?.city ?? undefined,
+      madhab: (user?.madhab as "SHAFI" | "HANAFI" | undefined) ?? undefined,
     },
   });
 
   useEffect(() => {
     reset({
       language: user?.language ?? DEFAULT_LANGUAGE,
+      country: user?.country ?? undefined,
+      city: user?.city ?? undefined,
+      madhab: (user?.madhab as "SHAFI" | "HANAFI" | undefined) ?? undefined,
     });
   }, [user, reset]);
+
+  const location = useWatch({
+    control,
+    name: ["country", "city", "latitude", "longitude"],
+  });
+
+  const locationValue: Partial<LocationValue> = {
+    country: location?.[0],
+    city: location?.[1],
+    latitude: location?.[2],
+    longitude: location?.[3],
+  };
+  
+  const handleLocationChange = (next: LocationValue) => {
+    setValue("country", next.country, { shouldDirty: true });
+    setValue("city", next.city, { shouldDirty: true });
+    setValue("latitude", next.latitude, { shouldDirty: true });
+    setValue("longitude", next.longitude, { shouldDirty: true });
+  };
 
   const { mutate: updateProfile, isPending } = useUpdateProfile({
     setError,
@@ -53,14 +84,19 @@ export default function AccountSettings() {
 
   const onSubmit = (data: UpdateProfileFormValues) => {
     setSuccessMessage(null);
-    updateProfile({ language: data.language });
+    const locationChanged =
+      data.latitude !== undefined && data.longitude !== undefined;
+    updateProfile({
+      language: data.language,
+      ...(data.madhab && { madhab: data.madhab }),
+      ...(locationChanged && {
+        country: data.country,
+        city: data.city,
+        latitude: data.latitude,
+        longitude: data.longitude,
+      }),
+    });
   };
-
-  const countryLabel = user?.country ?? "—";
-  const cityLabel = user?.city ?? "—";
-  const madhabLabel =
-    MADHAB_OPTIONS.find((option) => option.value === user?.madhab)?.label ??
-    "—";
 
   return (
     <AppLayout rightPanel={<SettingsRightPanel active="preferences" />}>
@@ -74,31 +110,63 @@ export default function AccountSettings() {
             Profil Bilgileri
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              id="country"
-              label="Ülke"
-              type="text"
-              disabled
-              defaultValue={countryLabel}
-            />
-            <Input
-              id="city"
-              label="Şehir"
-              type="text"
-              disabled
-              defaultValue={cityLabel}
-            />
+          <div className="flex flex-col gap-1.5">
+            <span className="text-sm font-bold text-white/55 font-sans">
+              Konum
+            </span>
+            {canChangeLocation ? (
+              <>
+                <LocationField
+                  value={locationValue}
+                  onChange={handleLocationChange}
+                  error={errors.city?.message ?? errors.country?.message}
+                />
+                <p className="px-1 text-[12px] font-semibold text-white/40">
+                  Namaz vakitleri seçtiğin şehrin koordinatlarından hesaplanır.
+                  Konumunu <strong className="text-white/60">yalnızca bir kez</strong>{" "}
+                  değiştirebilirsin.
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="flex h-14 items-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-white/70">
+                  {user?.city ?? "—"}, {user?.country ?? "—"}
+                </div>
+                <p className="px-1 text-[12px] font-semibold text-white/40">
+                  Konum değiştirme hakkını kullandın.
+                </p>
+              </>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              id="madhab"
-              label="Mezhep"
-              type="text"
-              disabled
-              defaultValue={madhabLabel}
-            />
+            {canChangeMadhab ? (
+              <Controller
+                control={control}
+                name="madhab"
+                render={({ field }) => (
+                  <Select
+                    label="Mezhep"
+                    placeholder="Mezhep seçiniz"
+                    value={field.value ?? ""}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    options={MADHAB_OPTIONS}
+                    error={errors.madhab?.message}
+                  />
+                )}
+              />
+            ) : (
+              <div className="flex flex-col gap-1.5">
+                <span className="text-sm font-bold text-white/55 font-sans">Mezhep</span>
+                <div className="flex h-14 items-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-white/70">
+                  {MADHAB_OPTIONS.find((o) => o.value === user?.madhab)?.label ?? "—"}
+                </div>
+                <p className="px-1 text-[12px] font-semibold text-white/40">
+                  Mezhep değiştirme hakkını kullandın.
+                </p>
+              </div>
+            )}
             <Controller
               control={control}
               name="language"

@@ -23,12 +23,12 @@ Bu bölüm istisnasız her görev için geçerlidir. Detaylı protokol ve kontro
    senin işindir.
 4. Aynı işi yapan mevcut bir bileşen/hook/util var mı diye bak. Varsa yenisini yazma.
 
-| Görev şunu içeriyorsa | Önce oku |
-|---|---|
-| Veri çekme, hook, auth, consent, route, provider | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Yeni/değişen backend çağrısı, payload, hata kodu | [docs/API.md](docs/API.md) |
-| Bileşen, stil, renk, animasyon, ikon | [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) |
-| Namaz/vakit/seri/quiz/rehber mantığı, Türkçe metin | [docs/DOMAIN.md](docs/DOMAIN.md) |
+| Görev şunu içeriyorsa                                  | Önce oku                                         |
+| ------------------------------------------------------ | ------------------------------------------------ |
+| Veri çekme, hook, auth, consent, route, provider       | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)     |
+| Yeni/değişen backend çağrısı, payload, hata kodu       | [docs/API.md](docs/API.md)                       |
+| Bileşen, stil, renk, animasyon, ikon                   | [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)   |
+| Namaz/vakit/seri/quiz/rehber mantığı, Türkçe metin     | [docs/DOMAIN.md](docs/DOMAIN.md)                 |
 | Görev döngüsü, senkronizasyon matrisi, kontrol listesi | [docs/AGENT_WORKFLOW.md](docs/AGENT_WORKFLOW.md) |
 
 ### 0.2 İş sırasında — UY
@@ -55,26 +55,26 @@ Bu bölüm istisnasız her görev için geçerlidir. Detaylı protokol ve kontro
 15. Değiştirdiğin dosyalarda **yeni lint ihlali bırakma.** `yarn lint` çalıştır ve çıktıyı
     §3'teki bilinen durumla karşılaştır.
 
-| Yaptığın değişiklik | Güncellenecek doküman |
-|---|---|
-| Yeni/silinen route veya sayfa | `README.md` (Sayfalar), `docs/ARCHITECTURE.md` §8 |
-| Yeni/değişen endpoint, payload, response tipi | `docs/API.md` |
-| Yeni enum değeri, domain kavramı, Türkçe etiket kümesi | `docs/DOMAIN.md` |
-| Yeni UI primitive, tasarım token'ı, animasyon utility'si, ikon grubu | `docs/DESIGN_SYSTEM.md` |
-| Auth / consent / middleware / interceptor davranışı | `docs/ARCHITECTURE.md` §5–§6, `CLAUDE.md` §7 |
-| Yeni query key, cache/invalidation stratejisi, provider | `docs/ARCHITECTURE.md` §4, §7 |
-| Yeni bağımlılık veya sürüm yükseltmesi | `CLAUDE.md` §2, `README.md` (Teknoloji) |
-| Yeni env değişkeni | `.env.example`, `CLAUDE.md` §4, `README.md` (Ortam değişkenleri) |
-| Yeni `package.json` script'i | `CLAUDE.md` §3, `README.md` (Komutlar) |
-| Lint hata/uyarı sayısının değişmesi | `CLAUDE.md` §3 tabloları |
-| Yeni rehber (guide) eklenmesi | `docs/API.md` §8 + `docs/DOMAIN.md` §6 |
-| Yeni doküman dosyası | `README.md`, `AGENTS.md`, `CLAUDE.md` §0.1 tablosu |
+| Yaptığın değişiklik                                                  | Güncellenecek doküman                                            |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Yeni/silinen route veya sayfa                                        | `README.md` (Sayfalar), `docs/ARCHITECTURE.md` §8                |
+| Yeni/değişen endpoint, payload, response tipi                        | `docs/API.md`                                                    |
+| Yeni enum değeri, domain kavramı, Türkçe etiket kümesi               | `docs/DOMAIN.md`                                                 |
+| Yeni UI primitive, tasarım token'ı, animasyon utility'si, ikon grubu | `docs/DESIGN_SYSTEM.md`                                          |
+| Auth / consent / middleware / interceptor davranışı                  | `docs/ARCHITECTURE.md` §5–§6, `CLAUDE.md` §7                     |
+| Yeni query key, cache/invalidation stratejisi, provider              | `docs/ARCHITECTURE.md` §4, §7                                    |
+| Yeni bağımlılık veya sürüm yükseltmesi                               | `CLAUDE.md` §2, `README.md` (Teknoloji)                          |
+| Yeni env değişkeni                                                   | `.env.example`, `CLAUDE.md` §4, `README.md` (Ortam değişkenleri) |
+| Yeni `package.json` script'i                                         | `CLAUDE.md` §3, `README.md` (Komutlar)                           |
+| Lint hata/uyarı sayısının değişmesi                                  | `CLAUDE.md` §3 tabloları                                         |
+| Yeni rehber (guide) eklenmesi                                        | `docs/API.md` §8 + `docs/DOMAIN.md` §6                           |
+| Yeni doküman dosyası                                                 | `README.md`, `AGENTS.md`, `CLAUDE.md` §0.1 tablosu               |
 
 ### 0.4 Raporlarken — DÜRÜST OL
 
 16. **Çalıştırmadığın hiçbir şeyi "çalışıyor" diye raporlama.** Bu projede test yoktur; tek
     otomatik kanıt `yarn lint` ve `yarn build`'dir. Şu üçünü ayır:
-    *çalıştırarak doğruladım* / *kodu okuyarak çıkardım* / *önerdim, doğrulamadım*.
+    _çalıştırarak doğruladım_ / _kodu okuyarak çıkardım_ / _önerdim, doğrulamadım_.
 17. Kapsamın bir kısmını yapamadıysan **açıkça söyle**; sessizce daraltma.
 18. Şu alanlara dokunuyorsan riski **önce** belirt: token/oturum akışı (`lib/axios.ts`,
     `store/auth.store.ts`, `middleware.ts`), consent gate, kişisel veri, yasal metinler.
@@ -100,20 +100,20 @@ rehberlerini adım adım öğrenir.
 
 ## 2. Stack (package.json'dan doğrulandı)
 
-| Konu | Seçim |
-|---|---|
-| Framework | **Next.js 16.1.6 — App Router** (`src/app`) |
-| UI | React **19.2.3** |
-| Dil | TypeScript 5, `strict: true` |
-| Stil | **Tailwind CSS v4** (`@tailwindcss/postcss`) — `tailwind.config` dosyası **yok**, konfigürasyon CSS içinde `@theme inline` ile |
-| Server state | **TanStack Query v5** |
-| Client state | **Zustand v5** (+ `persist`) |
-| HTTP | **axios** (tek instance + interceptor'lar) |
-| Form | **react-hook-form** + **zod v4** (`@hookform/resolvers`) |
-| Animasyon | **framer-motion** + CSS `@keyframes` |
-| İkon | Yerel SVG → **@svgr/cli** ile üretilen TSX + `lucide-react` |
-| Yardımcı | `clsx` + `tailwind-merge` (`cn()`), `js-cookie` |
-| Paket yöneticisi | **yarn** (`yarn.lock`) |
+| Konu             | Seçim                                                                                                                          |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Framework        | **Next.js 16.1.6 — App Router** (`src/app`)                                                                                    |
+| UI               | React **19.2.3**                                                                                                               |
+| Dil              | TypeScript 5, `strict: true`                                                                                                   |
+| Stil             | **Tailwind CSS v4** (`@tailwindcss/postcss`) — `tailwind.config` dosyası **yok**, konfigürasyon CSS içinde `@theme inline` ile |
+| Server state     | **TanStack Query v5**                                                                                                          |
+| Client state     | **Zustand v5** (+ `persist`)                                                                                                   |
+| HTTP             | **axios** (tek instance + interceptor'lar)                                                                                     |
+| Form             | **react-hook-form** + **zod v4** (`@hookform/resolvers`)                                                                       |
+| Animasyon        | **framer-motion** + CSS `@keyframes`                                                                                           |
+| İkon             | Yerel SVG → **@svgr/cli** ile üretilen TSX + `lucide-react`                                                                    |
+| Yardımcı         | `clsx` + `tailwind-merge` (`cn()`), `js-cookie`                                                                                |
+| Paket yöneticisi | **yarn** (`yarn.lock`)                                                                                                         |
 
 **Yok olanlar** (agent varsaymasın): test altyapısı yok (Vitest/Jest/Testing Library **yok**,
 hiç test dosyası yok), CI yok (`.github/` yok), Prettier config dosyası yok, husky/lint-staged
@@ -131,26 +131,40 @@ yarn lint         # eslint (flat config: eslint.config.mjs)
 yarn build:icons  # src/icons/**.svg  ->  src/icons/tsx/**  (svgr)
 ```
 
+### `yarn build` mevcut durumu (1 Ağu 2026 itibarıyla çalıştırılıp doğrulandı)
+
+**Build şu an başarısız.** Derleme ve TypeScript aşamaları geçiyor; hata statik prerender
+aşamasında `/login` sayfasında çıkıyor:
+
+```
+useSearchParams() should be wrapped in a suspense boundary at page "/login"
+Export encountered an error on /(auth)/login/page: /login
+```
+
+Bu mevcut teknik borçtur — dokunulmamış `HEAD`'de ayrı bir worktree'de çalıştırılarak doğrulandı.
+Yani `yarn build` şu an bir regresyon sinyali **değildir**; değişikliğini doğrulamak için
+`npx tsc --noEmit` (temiz geçiyor) ve `yarn lint` kullan.
+
 ### `yarn lint` mevcut durumu (31 Tem 2026 itibarıyla çalıştırılıp doğrulandı)
 
 **Lint şu an başarısız: 7 error, 10 warning.** Bunlar mevcut teknik borçtur, senin
-değişikliğinden kaynaklanmaz. Kural: *dokunduğun dosyada* yeni ihlal üretme, mevcutları
+değişikliğinden kaynaklanmaz. Kural: _dokunduğun dosyada_ yeni ihlal üretme, mevcutları
 temizlemek istiyorsan ayrı iş olarak yap.
 
 **Error'lar (7):**
 
-| Kural | Konumlar |
-|---|---|
+| Kural                                 | Konumlar                                                                                                                                                                                                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `react-hooks/set-state-in-effect` (6) | `app/page.tsx:13` · `app/profile/[username]/components/FollowListDialog.tsx:41` · `app/settings/avatar/AvatarSettingsClient.tsx:252` · `components/learn/DynamicPath.tsx:54` · `components/settings/avatar/HexInput.tsx:26` · `hooks/useCookieConsent.ts:91` |
-| `react/no-unescaped-entities` (1) | `app/profile/[username]/components/InviteCard.tsx:19` |
+| `react/no-unescaped-entities` (1)     | `app/profile/[username]/components/InviteCard.tsx:19`                                                                                                                                                                                                        |
 
 **Warning'ler (10):**
 
-| Kural | Konumlar |
-|---|---|
+| Kural                                   | Konumlar                                                                                                                               |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `@typescript-eslint/no-unused-vars` (6) | `app/(auth)/reset-password/ResetPasswordClient.tsx:16,17,19,21` · `components/ui/Sparkle.tsx:2` · `hooks/auth/useForgotPassword.ts:25` |
-| `react-hooks/exhaustive-deps` (3) | `app/settings/avatar/AvatarSettingsClient.tsx:254,256` · `components/learn/DynamicPath.tsx:70` |
-| `@next/next/no-page-custom-font` (1) | `app/layout.tsx:25` (Google Fonts `<link>`) |
+| `react-hooks/exhaustive-deps` (3)       | `app/settings/avatar/AvatarSettingsClient.tsx:254,256` · `components/learn/DynamicPath.tsx:70`                                         |
+| `@next/next/no-page-custom-font` (1)    | `app/layout.tsx:25` (Google Fonts `<link>`)                                                                                            |
 
 ---
 
@@ -158,9 +172,9 @@ temizlemek istiyorsan ayrı iş olarak yap.
 
 `.env.example` → `.env.local` olarak kopyalanır. Sadece iki değişken vardır:
 
-| Değişken | Kullanım | Not |
-|---|---|---|
-| `NEXT_PUBLIC_API_URL` | `src/lib/axios.ts` → axios `baseURL` | Sonunda `/` **olmamalı** |
+| Değişken               | Kullanım                                | Not                          |
+| ---------------------- | --------------------------------------- | ---------------------------- |
+| `NEXT_PUBLIC_API_URL`  | `src/lib/axios.ts` → axios `baseURL`    | Sonunda `/` **olmamalı**     |
 | `NEXT_PUBLIC_SITE_URL` | `src/config/site.ts` → canonical/OG URL | Yoksa `https://namazgo.com/` |
 
 Backend olmadan uygulama açılır ama veri çeken her ekran hata/boş durum gösterir.
@@ -246,8 +260,13 @@ Adlandırma: `*Client.tsx`, `*Form.tsx`, `*View.tsx`. Bu ayrımı bozma — `pag
 `"use client"` ekleme (tek istisna mevcut `app/page.tsx`).
 
 Dinamik route'larda `params` bir **Promise**'tir (Next 16):
+
 ```ts
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> })
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+});
 ```
 
 ### 6.3 Metadata
@@ -295,10 +314,10 @@ Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yaz
 
 ### 7.1 Kimlik doğrulama iki katmanlıdır
 
-| Katman | Kaynak | Not |
-|---|---|---|
-| Middleware (`src/middleware.ts`) | `auth-token` **cookie**'sinin varlığı | Sadece varlığa bakar, doğrulama yapmaz |
-| İstemci (`src/store/auth.store.ts`) | Zustand state | `partialize`: localStorage'a **sadece** `refreshToken` + `user` yazılır |
+| Katman                              | Kaynak                                | Not                                                                     |
+| ----------------------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
+| Middleware (`src/middleware.ts`)    | `auth-token` **cookie**'sinin varlığı | Sadece varlığa bakar, doğrulama yapmaz                                  |
+| İstemci (`src/store/auth.store.ts`) | Zustand state                         | `partialize`: localStorage'a **sadece** `refreshToken` + `user` yazılır |
 
 - `accessToken` **persist edilmez**; bellekte ve `auth-token` cookie'sinde durur.
 - Cookie `js-cookie` ile **client-side** yazılır → `httpOnly` **değildir**, JS ile okunabilir.
@@ -312,17 +331,21 @@ Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yaz
   kullanıcı korumalı bir sayfaya giderse `/?callbackUrl=<path>` adresine yönlenir ve `/`
   Landing ekranını gösterir. Bu mevcut ve kasıtlı görünen davranıştır — "bug" diye
   düzeltmeden önce sor.
+  **`PUBLIC_ROUTES` eşleşmesi `/` için tam eşleşmedir**, diğerleri prefix. `startsWith`'i
+  hepsine uygularsan her path `/` ile başladığı için `isPublicRoute` daima `true` olur ve
+  koruma dalı sessizce ölü koda döner — bir süre öyleydi, tüm korumalı sayfalar oturumsuz
+  açılıyordu.
 - Kayıt akışı parola ile giriş akışından ayrıdır: `POST /auth/register` → **`tempToken`** →
   `setTempToken` → `/verify-otp` → `POST /otp/verify` (Authorization: `Bearer <tempToken>`).
 
 ### 7.2 İki ayrı "consent" sistemi vardır — karıştırma
 
-| | Yasal onay (blocking) | Çerez onayı |
-|---|---|---|
-| Kaynak | Backend `/consent/status`, `/consent/accept` | Tamamen client, localStorage (versiyonlu) |
-| Kod | `providers/ConsentGateProvider.tsx`, `components/consent/` | `hooks/useCookieConsent.ts`, `providers/CookieConsentProvider.tsx`, `components/cookie/` |
-| Etki | `blocked` veya `requiresReaccept` ise modal ile uygulamayı kilitler | Alt banner gösterir |
-| İstisna | `/terms` ve `/privacy` yollarında gate gösterilmez | — |
+|         | Yasal onay (blocking)                                               | Çerez onayı                                                                              |
+| ------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Kaynak  | Backend `/consent/status`, `/consent/accept`                        | Tamamen client, localStorage (versiyonlu)                                                |
+| Kod     | `providers/ConsentGateProvider.tsx`, `components/consent/`          | `hooks/useCookieConsent.ts`, `providers/CookieConsentProvider.tsx`, `components/cookie/` |
+| Etki    | `blocked` veya `requiresReaccept` ise modal ile uygulamayı kilitler | Alt banner gösterir                                                                      |
+| İstisna | `/terms` ve `/privacy` yollarında gate gösterilmez                  | —                                                                                        |
 
 ### 7.3 Hidrasyon
 
@@ -357,14 +380,14 @@ güncel değildir**. Çakışma halinde **bu dosya (CLAUDE.md) esas alınır.**
 
 Doğrulanmış farklar:
 
-| `.cursor` kuralı diyor ki | Gerçek |
-|---|---|
-| React 18 + **Vite** | **Next.js 16 App Router** |
-| **React Router v6** | Next.js dosya tabanlı routing |
-| **react-i18next**, "hardcoded string yasak" | i18n yok, tüm metinler hardcoded Türkçe |
-| **Vitest + Testing Library** | Test altyapısı hiç yok |
-| `src/features/**` feature-based yapı | `src/app` + `src/components` + katman klasörleri |
-| Açık tema paleti (`--color-bg: #F7F4EF`) | Koyu tema (`--color-bg: #070f12`) |
+| `.cursor` kuralı diyor ki                   | Gerçek                                           |
+| ------------------------------------------- | ------------------------------------------------ |
+| React 18 + **Vite**                         | **Next.js 16 App Router**                        |
+| **React Router v6**                         | Next.js dosya tabanlı routing                    |
+| **react-i18next**, "hardcoded string yasak" | i18n yok, tüm metinler hardcoded Türkçe          |
+| **Vitest + Testing Library**                | Test altyapısı hiç yok                           |
+| `src/features/**` feature-based yapı        | `src/app` + `src/components` + katman klasörleri |
+| Açık tema paleti (`--color-bg: #F7F4EF`)    | Koyu tema (`--color-bg: #070f12`)                |
 
 Hâlâ geçerli olan kısımlar: ürün konsepti, Duolingo tarzı 3D buton dili, Fredoka One +
 Nunito tipografisi, primary/secondary/streak renk ailesi, animasyon önceliği,

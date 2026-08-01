@@ -90,6 +90,13 @@ Karmaşık ekranlarda birden çok query + yerel state tek bir "controller" hook'
 DTO → view-model dönüşümü bileşende değil `src/lib/*-utils.ts` içindeki saf fonksiyonlarda
 yapılır (`buildDailyPrayersViewModel`, `buildLocalDateString`, `addDays`, `roundCoordinate`).
 
+**Takvim görünümleri.** Hafta şeridi ve ay ısı haritası geçmiş gün durumunu `usePrayerHistory`'den
+gelen **gerçek** günlük sayımlardan üretir (`buildWeekStrip` / `buildMonthCalendar`), streak
+sayısından türetmez. `DashboardView` haftalık aralığı (`buildWeekRange`), `MonthHeatmapSheet` ise
+görüntülenen ayın aralığını (`buildMonthRange`) kendi sorgusuyla çeker; ay sorgusu yalnızca sayfa
+açıkken etkindir (`isOpen ? range : null`). **Bugün** her ikisinde de canlı `daily-prayers`
+sayılarından gelir — geçmiş verisi bugün için bayat olabilir.
+
 Yeni karmaşık bir ekran eklerken bu kalıbı izle: **query hook'ları + saf util → controller
 hook → View bileşeni.**
 
@@ -111,6 +118,8 @@ Sorguya özel ayarlar ilgili `constants` dosyasından gelir:
 |---|---|---|
 | `DAILY_PRAYERS_STALE_TIME_MS` | 60 sn | `constants/streak.ts` |
 | `DAILY_PRAYERS_REFRESH_INTERVAL_MS` | 5 dk | `constants/streak.ts` |
+| `PRAYER_HISTORY_STALE_TIME_MS` | 5 dk | `constants/streak.ts` |
+| `PRAYER_HISTORY_MAX_RANGE_DAYS` | 62 | `constants/streak.ts` — backend sabitiyle aynı olmalı |
 | `STREAK_TICK_INTERVAL_MS` | 1 sn | `constants/streak.ts` |
 | `WORSHIP_STALE_TIME`, `WORSHIP_REFRESH_INTERVAL` | — | `constants/worship.ts` |
 
@@ -119,6 +128,7 @@ Sorguya özel ayarlar ilgili `constants` dosyasından gelir:
 ```ts
 GAMIFICATION_QUERY_KEYS.all                       // ["gamification"]
 GAMIFICATION_QUERY_KEYS.dailyPrayers({ date })    // ["gamification","daily-prayers",{date}]
+GAMIFICATION_QUERY_KEYS.prayerHistory({ from, to })// ["gamification","prayer-history",{from,to}]
 GAMIFICATION_QUERY_KEYS.prayerQuestions({ prayerType })
 WORSHIP_QUERY_KEYS.all / .times(params)
 USER_STATS_QUERY_KEYS.me() / .user(username)

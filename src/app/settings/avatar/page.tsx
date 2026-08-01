@@ -2,7 +2,7 @@ import { createMetadata } from "@/src/lib/metadata";
 import AvatarSettingsClient from "./AvatarSettingsClient";
 
 export const metadata = createMetadata({
-  title: "Avatarını Düzenle",
+  title: "Avatarı Düzenle",
   description:
     "NamazGo avatarının görüntüsünü özelleştir. Cilt, saç, göz ve kıyafet renklerini seç istediğin aksesuarı tak.",
   path: "/settings/avatar",

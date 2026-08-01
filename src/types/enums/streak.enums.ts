@@ -5,14 +5,15 @@ export enum PrayerType {
   Maghrib = "MAGHRIB",
   Isha = "ISHA",
   Jumuah = "JUMUAH",
-  Teravih = "TERAVIH",
-  Bayram = "BAYRAM",
+  Tarawih = "TARAWIH",
+  EidFitr = "EID_FITR",
+  EidAdha = "EID_ADHA",
 }
 
 export enum PrayerCategory {
-  Obligatory = "OBLIGATORY",
-  Friday = "FRIDAY",
-  Taraweeh = "TARAWEEH",
+  Daily = "DAILY",
+  Weekly = "WEEKLY",
+  Ramadan = "RAMADAN",
   Eid = "EID",
 }
 
@@ -20,10 +21,16 @@ export enum GamificationActionType {
   StreakFreeze = "STREAK_FREEZE",
 }
 
+export enum PrayerCompletionStatus {
+  OnTime = "ON_TIME",
+  Late = "LATE",
+}
+
 export enum PrayerCardState {
   Locked = "locked",
   Eligible = "eligible",
   Current = "current",
+  Late = "late",
   Completed = "completed",
   Missed = "missed",
   MarkingLocked = "marking-locked",

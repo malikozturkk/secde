@@ -26,7 +26,7 @@ export default function GuideRunnerPage({
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answeredSteps, setAnsweredSteps] = useState<
-    Record<number, { isCorrect: boolean; correctAnswer: string }>
+    Record<number, { isCorrect: boolean; correctOptionId: string }>
   >({});
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<number, string>
@@ -89,17 +89,17 @@ export default function GuideRunnerPage({
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   }, [currentStep]);
 
-  const handleQuestionSubmit = async (selected: string) => {
+  const handleQuestionSubmit = async (optionId: string) => {
     if (!activeStepData?.randomQuestion) return;
 
     const result = await checkQuestion({
       questionId: activeStepData.randomQuestion.id,
-      answer: selected,
+      optionId,
     });
 
     setAnsweredSteps((prev) => ({
       ...prev,
-      [currentStep]: result as { isCorrect: boolean; correctAnswer: string },
+      [currentStep]: result,
     }));
   };
 

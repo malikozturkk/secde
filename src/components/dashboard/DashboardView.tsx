@@ -9,13 +9,19 @@ import {
 } from "@/src/lib/streak-utils";
 import { useLeaderboardPreview } from "@/src/hooks/streak/useLeaderboardPreview";
 import { useStreakController } from "@/src/hooks/streak/useStreakController";
-import { getDomainErrorCode } from "@/src/lib/api-error";
+import { getApiErrorMessage, getDomainErrorCode } from "@/src/lib/api-error";
 import { LocationNotSetDialog } from "@/src/components/common/LocationNotSetDialog";
 import { useWeekStrip } from "@/src/hooks/streak/useWeekStrip";
-import { PrayerCardState } from "@/src/types/enums/streak.enums";
+import { usePrayerHistory } from "@/src/hooks/streak/usePrayerHistory";
+import { buildWeekRange } from "@/src/lib/dashboard-utils";
+import {
+  GamificationActionType,
+  PrayerCardState,
+} from "@/src/types/enums/streak.enums";
 import type {
   PrayerCardViewModel,
   PrayerCompletionResult,
+  PrayerHistoryDay,
 } from "@/src/types/streak.types";
 
 import { CharacterIllustration } from "@/src/components/dashboard/parts/CharacterIllustration";
@@ -32,6 +38,10 @@ import { WeekStrip } from "@/src/components/dashboard/parts/WeekStrip";
 import { LevelStatCard } from "@/src/components/stats/LevelStatCard";
 import { PrayerQuizModal } from "@/src/components/dashboard/quiz/PrayerQuizModal";
 import { MonthHeatmapSheet } from "@/src/components/dashboard/month/MonthHeatmapSheet";
+import { FreezeConfirmDialog } from "@/src/components/dashboard/parts/FreezeConfirmDialog";
+
+// Sabit referans: geçmiş verisi gelmeden useMemo bağımlılıkları değişmesin.
+const EMPTY_HISTORY: readonly PrayerHistoryDay[] = [];
 
 const TODAY_LABEL_FORMAT: Intl.DateTimeFormatOptions = {
   weekday: "long",
@@ -53,12 +63,34 @@ export const DashboardView: React.FC = () => {
     null
   );
   const [monthOpen, setMonthOpen] = useState<boolean>(false);
+  const [freezeOpen, setFreezeOpen] = useState<boolean>(false);
+  const [freezeError, setFreezeError] = useState<string | null>(null);
+
+  const handleOpenFreeze = useCallback(() => {
+    setFreezeError(null);
+    setFreezeOpen(true);
+  }, []);
+
+  const handleConfirmFreeze = useCallback(() => {
+    setFreezeError(null);
+    controller.action.mutate(
+      { actionType: GamificationActionType.StreakFreeze },
+      {
+        onSuccess: () => {
+          setFreezeOpen(false);
+          controller.refresh();
+        },
+        onError: (err) => setFreezeError(getApiErrorMessage(err) ?? "Seri dondurulamadı. Lütfen tekrar dene."),
+      }
+    );
+  }, [controller]);
 
   const handleMarkPrayer = useCallback((prayer: PrayerCardViewModel) => {
     if (!prayer.canMarkAsCompleted) return;
     if (
       prayer.state !== PrayerCardState.Current &&
-      prayer.state !== PrayerCardState.Eligible
+      prayer.state !== PrayerCardState.Eligible &&
+      prayer.state !== PrayerCardState.Late
     ) {
       return;
     }
@@ -85,7 +117,6 @@ export const DashboardView: React.FC = () => {
   const currentStreak = selfStats?.streak.current ?? 0;
   const longestStreak = selfStats?.streak.longest ?? 0;
   const streakFreezeCount = selfStats?.streak.freezeCount ?? 0;
-  const lastActiveDate = selfStats?.streak.lastActiveDate ?? null;
   const totalXp = selfStats?.level.totalXp ?? 0;
   const level = selfStats?.level.level ?? 1;
   const levelBadgeKey = selfStats?.level.badgeKey ?? "";
@@ -97,10 +128,12 @@ export const DashboardView: React.FC = () => {
   const completedToday = viewModel?.completedToday ?? 0;
   const totalToday = viewModel?.totalToday ?? 0;
 
+  const weekRange = useMemo(() => buildWeekRange(), []);
+  const weekHistoryQuery = usePrayerHistory(weekRange);
+  const weekHistory = weekHistoryQuery.data?.days ?? EMPTY_HISTORY;
+
   const weekDays = useWeekStrip({
-    currentStreak,
-    lastActiveDate,
-    protectedDates: [],
+    history: weekHistory,
     completedToday,
     totalToday,
   });
@@ -192,6 +225,8 @@ export const DashboardView: React.FC = () => {
           progressPercent={viewModel.progressPercent}
           goalCharacter={goalCharacter}
           streakFreezeCount={streakFreezeCount}
+          onUseFreeze={handleOpenFreeze}
+          isUsingFreeze={controller.action.isPending}
           leaderboard={leaderboard}
         />
       }
@@ -251,7 +286,11 @@ export const DashboardView: React.FC = () => {
         />
 
         <div className="lg:hidden">
-          <FreezeCard streakFreezeCount={streakFreezeCount} />
+          <FreezeCard
+            streakFreezeCount={streakFreezeCount}
+            onUseFreeze={handleOpenFreeze}
+            isUsing={controller.action.isPending}
+          />
         </div>
 
         <DashboardFooterMascot character={heroCharacter} />
@@ -266,13 +305,20 @@ export const DashboardView: React.FC = () => {
         onCompletion={handleQuizCompletion}
       />
 
+      <FreezeConfirmDialog
+        isOpen={freezeOpen}
+        onClose={() => setFreezeOpen(false)}
+        onConfirm={handleConfirmFreeze}
+        freezesRemaining={streakFreezeCount}
+        currentStreak={currentStreak}
+        isPending={controller.action.isPending}
+        errorMessage={freezeError}
+      />
+
       <MonthHeatmapSheet
         isOpen={monthOpen}
         onClose={() => setMonthOpen(false)}
-        currentStreak={currentStreak}
         longestStreak={longestStreak}
-        lastActiveDate={lastActiveDate}
-        protectedDates={[]}
         completedToday={viewModel.completedToday}
         totalToday={viewModel.totalToday}
       />
@@ -293,6 +339,8 @@ interface RightRailProps {
   progressPercent: number;
   goalCharacter: Parameters<typeof DailyGoalCard>[0]["character"];
   streakFreezeCount: number;
+  onUseFreeze: () => void;
+  isUsingFreeze: boolean;
   leaderboard: Parameters<typeof LeaderboardCard>[0]["rows"];
 }
 
@@ -309,6 +357,8 @@ const RightRail: React.FC<RightRailProps> = ({
   progressPercent,
   goalCharacter,
   streakFreezeCount,
+  onUseFreeze,
+  isUsingFreeze,
   leaderboard,
 }) => (
   <div className="flex h-full flex-col gap-4 overflow-y-auto pr-1 lg:pr-0">
@@ -327,7 +377,11 @@ const RightRail: React.FC<RightRailProps> = ({
       progressPercent={progressPercent}
       character={goalCharacter}
     />
-    <FreezeCard streakFreezeCount={streakFreezeCount} />
+    <FreezeCard
+      streakFreezeCount={streakFreezeCount}
+      onUseFreeze={onUseFreeze}
+      isUsing={isUsingFreeze}
+    />
     <LeaderboardCard rows={leaderboard} />
   </div>
 );

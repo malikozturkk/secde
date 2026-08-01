@@ -67,7 +67,7 @@ export const Sheet: React.FC<SheetProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center"
+          className="fixed inset-0 z-[var(--z-modal)] flex items-end justify-center sm:items-center"
           aria-hidden={!isOpen}
         >
           <motion.button

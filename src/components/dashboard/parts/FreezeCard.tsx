@@ -7,7 +7,8 @@ import { cn } from "@/src/lib/utils";
 interface FreezeCardProps {
   streakFreezeCount: number;
   maxFreezes?: number;
-  onEarnMore?: () => void;
+  onUseFreeze?: () => void;
+  isUsing?: boolean;
   lastUsedLabel?: string | null;
   freezeWindowExpired?: boolean;
 }
@@ -15,10 +16,12 @@ interface FreezeCardProps {
 const FreezeCardComponent: React.FC<FreezeCardProps> = ({
   streakFreezeCount,
   maxFreezes = STREAK_FREEZE_MAX_SLOTS,
-  onEarnMore,
+  onUseFreeze,
+  isUsing = false,
   lastUsedLabel,
   freezeWindowExpired = false,
 }) => {
+  const canUse = !!onUseFreeze && streakFreezeCount > 0 && !freezeWindowExpired;
   const slots = useMemo(
     () => Array.from({ length: Math.max(1, maxFreezes) }, (_, idx) => idx),
     [maxFreezes]
@@ -29,7 +32,7 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
       className={cn(
         "relative overflow-hidden rounded-3xl border border-[rgba(79,195,247,0.30)]",
         "bg-gradient-to-br from-[rgba(79,195,247,0.15)] via-[#1C2E35] to-[#1C2E35] to-70%",
-        "p-4 flex flex-col gap-3"
+        "p-4 flex flex-col gap-3 pb-8"
       )}
       aria-label="Seri dondurma"
     >
@@ -90,17 +93,19 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
             ? "Dondurma penceresi kapandı."
             : "Henüz kullanılmadı — birikiyor."}
         </div>
-        {onEarnMore && (
+        {onUseFreeze && (
           <button
             type="button"
-            onClick={onEarnMore}
+            onClick={onUseFreeze}
+            disabled={!canUse || isUsing}
             className={cn(
               "inline-flex whitespace-nowrap rounded-2xl px-3.5 py-2 text-[11px] font-black uppercase tracking-[0.10em]",
               "bg-[#4FC3F7] text-[#082F49] shadow-[0_4px_0_0_#075985]",
-              "transition-transform duration-100 active:translate-y-[3px] active:shadow-[0_1px_0_0_#075985]"
+              "transition-transform duration-100 active:translate-y-[3px] active:shadow-[0_1px_0_0_#075985]",
+              "disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none disabled:active:translate-y-0"
             )}
           >
-            KAZAN
+            {isUsing ? "DONDURULUYOR…" : "SERİYİ DONDUR"}
           </button>
         )}
       </div>

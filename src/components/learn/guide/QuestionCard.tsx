@@ -2,16 +2,17 @@ import React from "react";
 import { Button } from "../../ui/Button";
 import { Question } from "@/src/icons/tsx/learn";
 import { XCircle } from "lucide-react";
+import type { RandomQuestionOption } from "@/src/types/learn.types";
 
 interface QuestionCardProps {
   question: string;
-  options: string[];
+  options: RandomQuestionOption[];
   badgeLabel?: string;
   submitLabel?: string;
   selected: string | null;
-  onSelect: (opt: string) => void;
-  onSubmit?: (selected: string) => void;
-  answerResult?: { isCorrect: boolean; correctAnswer: string } | null;
+  onSelect: (optionId: string) => void;
+  onSubmit?: (optionId: string) => void;
+  answerResult?: { isCorrect: boolean; correctOptionId: string } | null;
   isPending?: boolean;
   shake?: boolean;
 }
@@ -34,7 +35,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     }
   };
 
-  const getOptionStyle = (opt: string) => {
+  const getOptionStyle = (optionId: string) => {
     const base = [
       "flex items-center justify-between cursor-pointer",
       "p-4 rounded-2xl border transition-all duration-150",
@@ -42,11 +43,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     ];
 
     if (answerResult) {
-      if (opt === answerResult.correctAnswer)
+      if (optionId === answerResult.correctOptionId)
         return [...base, "bg-[#1a2e26] border-[#3dffc0] text-[#3dffc0]"].join(
           " "
         );
-      if (opt === selected && !answerResult.isCorrect)
+      if (optionId === selected && !answerResult.isCorrect)
         return [...base, "bg-[#2e1a1a] border-[#ff5c5c] text-[#ff5c5c]"].join(
           " "
         );
@@ -56,7 +57,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       ].join(" ");
     }
 
-    const isSelected = selected === opt;
+    const isSelected = selected === optionId;
     return [
       ...base,
       isSelected
@@ -65,25 +66,25 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     ].join(" ");
   };
 
-  const getRadioStyle = (opt: string) => {
+  const getRadioStyle = (optionId: string) => {
     if (answerResult) {
-      if (opt === answerResult.correctAnswer) return "border-[#3dffc0]";
-      if (opt === selected && !answerResult.isCorrect)
+      if (optionId === answerResult.correctOptionId) return "border-[#3dffc0]";
+      if (optionId === selected && !answerResult.isCorrect)
         return "border-[#ff5c5c]";
       return "border-[#41494c]";
     }
-    return selected === opt ? "border-[#3dffc0]" : "border-[#41494c]";
+    return selected === optionId ? "border-[#3dffc0]" : "border-[#41494c]";
   };
 
-  const getRadioDot = (opt: string) => {
+  const getRadioDot = (optionId: string) => {
     if (answerResult) {
-      if (opt === answerResult.correctAnswer)
+      if (optionId === answerResult.correctOptionId)
         return <span className="w-2.5 h-2.5 rounded-full bg-[#3dffc0]" />;
-      if (opt === selected && !answerResult.isCorrect)
+      if (optionId === selected && !answerResult.isCorrect)
         return <span className="w-2.5 h-2.5 rounded-full bg-[#ff5c5c]" />;
       return null;
     }
-    return selected === opt ? (
+    return selected === optionId ? (
       <span className="w-2.5 h-2.5 rounded-full bg-[#3dffc0]" />
     ) : null;
   };
@@ -111,20 +112,20 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       <div className="flex flex-col gap-3">
         {options.map((opt) => (
           <button
-            key={opt}
+            key={opt.id}
             type="button"
-            onClick={() => !answerResult && onSelect(opt)}
+            onClick={() => !answerResult && onSelect(opt.id)}
             disabled={!!answerResult}
-            className={getOptionStyle(opt)}
+            className={getOptionStyle(opt.id)}
           >
-            <span>{opt}</span>
+            <span>{opt.text}</span>
             <span
               className={[
                 "w-5 h-5 rounded-full border-2 flex items-center justify-center",
-                getRadioStyle(opt),
+                getRadioStyle(opt.id),
               ].join(" ")}
             >
-              {getRadioDot(opt)}
+              {getRadioDot(opt.id)}
             </span>
           </button>
         ))}

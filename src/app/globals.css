@@ -25,6 +25,10 @@
   --shadow-button-ghost-pressed: 0 0px 0px 0px rgba(255, 255, 255, 0.1);
   --sidebar-width: 256px;
   --mobile-bar-height: 80px;
+  --z-cookie-banner: 100;
+  --z-modal: 200;
+  --z-consent-gate: 300;
+  --z-toast: 400;
 }
 
 @theme inline {
@@ -136,6 +140,7 @@ body {
   font-family: "Nunito", sans-serif;
   margin: 0;
   padding: 0;
+  padding-bottom: var(--cookie-banner-offset, 0px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

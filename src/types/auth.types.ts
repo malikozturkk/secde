@@ -8,6 +8,8 @@ export interface User {
   city: string;
   madhab: "SHAFI" | "HANAFI";
   language: string;
+  locationChangeCount?: number;
+  madhabChangeCount?: number;
 }
 
 export interface AvatarCustomization {
@@ -83,6 +85,11 @@ export interface UpdateProfilePayload {
   currentPassword?: string;
   newPassword?: string;
   language?: string;
+  country?: string;
+  city?: string;
+  latitude?: number;
+  longitude?: number;
+  madhab?: string;
 }
 
 export interface ForgotPasswordPayload {

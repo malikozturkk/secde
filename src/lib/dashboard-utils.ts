@@ -5,6 +5,7 @@ import {
   MonthCell,
   MonthCellKind,
 } from "../types/dashboard.types";
+import type { PrayerHistoryDay } from "../types/streak.types";
 import { buildLocalDateString } from "./worship-utils";
 
 export const SHORT_WEEKDAYS_TR: readonly string[] = [
@@ -48,32 +49,54 @@ const addDays = (date: Date, delta: number): Date => {
 
 interface StreakCalendarInput {
   today?: Date;
-  currentStreak: number;
-  lastActiveDate: string | null;
-  protectedDates?: readonly string[];
+  history: readonly PrayerHistoryDay[];
   completedToday: number;
   totalToday: number;
 }
 
-const isFrozen = (
-  isoDate: string,
-  protectedSet: ReadonlySet<string>
-): boolean => protectedSet.has(isoDate);
+export const buildWeekRange = (
+  today: Date = new Date()
+): { from: string; to: string } => {
+  const todayDate = startOfDay(today);
+  const monday = addDays(todayDate, -toMondayIndex(todayDate));
+  return {
+    from: buildLocalDateString(monday),
+    to: buildLocalDateString(addDays(monday, 6)),
+  };
+};
+
+export const buildMonthRange = (
+  year: number,
+  month: number
+): { from: string; to: string } => ({
+  from: buildLocalDateString(new Date(year, month, 1)),
+  to: buildLocalDateString(new Date(year, month + 1, 0)),
+});
+
+const indexHistory = (
+  history: readonly PrayerHistoryDay[]
+): ReadonlyMap<string, PrayerHistoryDay> =>
+  new Map(history.map((day) => [day.date, day]));
+
+const resolvePastState = (day: PrayerHistoryDay | undefined): WeekDayState => {
+  if (!day) return WeekDayState.Miss;
+  if (day.isFrozen) return WeekDayState.Frozen;
+  if (day.isComplete) return WeekDayState.Done;
+  if (day.completedCount > 0) return WeekDayState.Partial;
+  return WeekDayState.Miss;
+};
 
 export const buildWeekStrip = ({
   today = new Date(),
-  currentStreak,
-  lastActiveDate,
-  protectedDates,
+  history,
   completedToday,
   totalToday,
 }: StreakCalendarInput): WeekDay[] => {
   const todayDate = startOfDay(today);
   const todayIndex = toMondayIndex(todayDate);
   const monday = addDays(todayDate, -todayIndex);
-  const protectedSet = new Set(protectedDates ?? []);
   const todayIso = buildLocalDateString(todayDate);
-  const lastActiveIso = lastActiveDate ?? null;
+  const byDate = indexHistory(history);
 
   const todayIsDone = totalToday > 0 && completedToday >= totalToday;
 
@@ -83,36 +106,42 @@ export const buildWeekStrip = ({
     const dayOfMonth = cellDate.getDate();
     const isToday = cellIso === todayIso;
     const isFuture = cellDate.getTime() > todayDate.getTime();
-    const daysAgo = Math.round(
-      (todayDate.getTime() - cellDate.getTime()) / 86_400_000
-    );
+    const entry = byDate.get(cellIso);
 
-    let state: WeekDayState;
     if (isFuture) {
-      state = WeekDayState.Future;
-    } else if (isToday) {
-      state = todayIsDone ? WeekDayState.TodayDone : WeekDayState.TodayPending;
-    } else if (isFrozen(cellIso, protectedSet)) {
-      state = WeekDayState.Frozen;
-    } else if (daysAgo <= currentStreak) {
-      const lastActiveCoversToday =
-        lastActiveIso !== null && lastActiveIso === todayIso;
-      const lastActiveCoversYesterday =
-        lastActiveIso !== null && cellIso <= lastActiveIso;
-      state =
-        lastActiveCoversToday || lastActiveCoversYesterday
-          ? WeekDayState.Done
-          : WeekDayState.Miss;
-    } else {
-      state = WeekDayState.Miss;
+      return {
+        date: cellIso,
+        label: SHORT_WEEKDAYS_TR[idx]!,
+        dayOfMonth,
+        state: WeekDayState.Future,
+        isToday,
+        completedCount: 0,
+        totalCount: 0,
+      };
+    }
+
+    if (isToday) {
+      return {
+        date: cellIso,
+        label: SHORT_WEEKDAYS_TR[idx]!,
+        dayOfMonth,
+        state: todayIsDone
+          ? WeekDayState.TodayDone
+          : WeekDayState.TodayPending,
+        isToday,
+        completedCount: completedToday,
+        totalCount: totalToday,
+      };
     }
 
     return {
       date: cellIso,
       label: SHORT_WEEKDAYS_TR[idx]!,
       dayOfMonth,
-      state,
+      state: resolvePastState(entry),
       isToday,
+      completedCount: entry?.completedCount ?? 0,
+      totalCount: entry?.totalCount ?? 0,
     };
   });
 };
@@ -122,13 +151,16 @@ interface MonthCalendarInput extends StreakCalendarInput {
   month: number;
 }
 
+const toLevel = (completedCount: number, totalCount: number): number => {
+  if (totalCount <= 0 || completedCount <= 0) return 0;
+  return Math.max(1, Math.min(5, Math.round((completedCount / totalCount) * 5)));
+};
+
 export const buildMonthCalendar = ({
   year,
   month,
   today = new Date(),
-  currentStreak,
-  lastActiveDate,
-  protectedDates,
+  history,
   completedToday,
   totalToday,
 }: MonthCalendarInput): MonthCalendar => {
@@ -137,8 +169,7 @@ export const buildMonthCalendar = ({
   const firstOfMonth = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const leadingBlanks = toMondayIndex(firstOfMonth);
-  const protectedSet = new Set(protectedDates ?? []);
-  const lastActiveIso = lastActiveDate ?? null;
+  const byDate = indexHistory(history);
 
   const cells: MonthCell[] = [];
   for (let i = 0; i < leadingBlanks; i += 1) {
@@ -175,10 +206,7 @@ export const buildMonthCalendar = ({
     }
 
     if (isToday) {
-      const todayLevel =
-        totalToday === 0
-          ? 0
-          : Math.min(5, Math.round((completedToday / totalToday) * 5));
+      const todayLevel = toLevel(completedToday, totalToday);
       const todayPerfect = totalToday > 0 && completedToday >= totalToday;
       cells.push({
         kind: MonthCellKind.Today,
@@ -194,8 +222,20 @@ export const buildMonthCalendar = ({
       continue;
     }
 
-    const frozen = isFrozen(cellIso, protectedSet);
-    if (frozen) {
+    const entry = byDate.get(cellIso);
+
+    if (!entry) {
+      cells.push({
+        kind: MonthCellKind.Past,
+        day,
+        level: 0,
+        perfect: false,
+        date: cellIso,
+      });
+      continue;
+    }
+
+    if (entry.isFrozen) {
       cells.push({
         kind: MonthCellKind.Frozen,
         day,
@@ -208,19 +248,10 @@ export const buildMonthCalendar = ({
       continue;
     }
 
-    const daysAgo = Math.round((todayDate.getTime() - cellTime) / 86_400_000);
+    const level = toLevel(entry.completedCount, entry.totalCount);
 
-    let level = 0;
-    const lastActiveCoversCell =
-      lastActiveIso !== null && cellIso <= lastActiveIso;
-    if (daysAgo > 0 && daysAgo <= currentStreak && lastActiveCoversCell) {
-      level = 5;
-    }
-
-    if (level === 5) {
-      perfectDays += 1;
-      totalCompletedPrayers += 5;
-    }
+    totalCompletedPrayers += entry.completedCount;
+    if (entry.isComplete) perfectDays += 1;
 
     viableDayCount += 1;
     if (level >= 4) viableSuccessCount += 1;
@@ -229,7 +260,7 @@ export const buildMonthCalendar = ({
       kind: MonthCellKind.Past,
       day,
       level,
-      perfect: level === 5,
+      perfect: entry.isComplete,
       date: cellIso,
     });
   }

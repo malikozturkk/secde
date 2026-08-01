@@ -10,7 +10,7 @@ Görsel dil: **koyu tema + Duolingo tarzı 3B (kabartma) bileşenler**. Kaynakla
 - `tailwind.config.js/ts` **yoktur**. Tailwind v4 CSS-first modda çalışır.
 - Giriş noktası `src/app/globals.css`:
   ```css
-  @import url("...Fredoka+One...Nunito...");   /* Google Fonts */
+  @import url("...Fredoka+One...Nunito..."); /* Google Fonts */
   @import "../styles/learn.css";
   @import "tailwindcss";
   ```
@@ -27,20 +27,20 @@ olarak kullanılacaksa `@theme inline` içinde eşle.
 
 ### Renk
 
-| Değişken | Değer | Kullanım |
-|---|---|---|
-| `--color-primary` | `#1a7f6e` | Ana marka rengi, primary buton |
-| `--color-primary-light` | `#25b49a` | Vurgu, tema rengi (`themeColor`) |
-| `--color-primary-dark` | `#0f5048` | Buton alt gölgesi |
-| `--color-secondary` | `#f5a623` | Ödül / altın |
-| `--color-secondary-light` | `#ffca6b` | — |
-| `--color-accent` | `#4fc3f7` | Su / abdest teması |
-| `--color-streak` | `#ff6b35` | Seri (alev) |
-| `--color-bg` | `#070f12` | Sayfa arka planı (tek tema — koyu) |
-| `--color-surface` | `#1a2b2a` | Yüzey |
-| `--color-text` | `#ffffff` | Metin |
-| `--color-text-muted` | `rgba(255,255,255,0.55)` | İkincil metin |
-| `--color-border` | `rgba(255,255,255,0.15)` | Kenarlık |
+| Değişken                  | Değer                    | Kullanım                           |
+| ------------------------- | ------------------------ | ---------------------------------- |
+| `--color-primary`         | `#1a7f6e`                | Ana marka rengi, primary buton     |
+| `--color-primary-light`   | `#25b49a`                | Vurgu, tema rengi (`themeColor`)   |
+| `--color-primary-dark`    | `#0f5048`                | Buton alt gölgesi                  |
+| `--color-secondary`       | `#f5a623`                | Ödül / altın                       |
+| `--color-secondary-light` | `#ffca6b`                | —                                  |
+| `--color-accent`          | `#4fc3f7`                | Su / abdest teması                 |
+| `--color-streak`          | `#ff6b35`                | Seri (alev)                        |
+| `--color-bg`              | `#070f12`                | Sayfa arka planı (tek tema — koyu) |
+| `--color-surface`         | `#1a2b2a`                | Yüzey                              |
+| `--color-text`            | `#ffffff`                | Metin                              |
+| `--color-text-muted`      | `rgba(255,255,255,0.55)` | İkincil metin                      |
+| `--color-border`          | `rgba(255,255,255,0.15)` | Kenarlık                           |
 
 ### Radius
 
@@ -48,16 +48,38 @@ olarak kullanılacaksa `@theme inline` içinde eşle.
 
 ### Gölge (3B buton efekti)
 
-| Değişken | Değer |
-|---|---|
-| `--shadow-button-primary` | `0 4px 0px 0px var(--color-primary-dark)` |
+| Değişken                          | Değer                                     |
+| --------------------------------- | ----------------------------------------- |
+| `--shadow-button-primary`         | `0 4px 0px 0px var(--color-primary-dark)` |
 | `--shadow-button-primary-pressed` | `0 0px 0px 0px var(--color-primary-dark)` |
-| `--shadow-button-ghost` | `0 4px 0px 0px rgba(255,255,255,0.1)` |
-| `--shadow-button-ghost-pressed` | `0 0px 0px 0px rgba(255,255,255,0.1)` |
+| `--shadow-button-ghost`           | `0 4px 0px 0px rgba(255,255,255,0.1)`     |
+| `--shadow-button-ghost-pressed`   | `0 0px 0px 0px rgba(255,255,255,0.1)`     |
 
 ### Layout
 
 `--sidebar-width: 256px` · `--mobile-bar-height: 80px` — `AppLayout` ve `Sidebar` bunlara bağlıdır.
+
+### Katman sırası (z-index)
+
+Üst üste binen her yüzey bu token'lardan birini kullanır. **Bileşen dosyasına ham z-index yazma.**
+
+| Token               | Değer | Kullanan                                    |
+| ------------------- | ----- | ------------------------------------------- |
+| `--z-cookie-banner` | 100   | `CookieBanner` (alt şerit)                  |
+| `--z-modal`         | 200   | `Sheet`, `Dialog`, çerez tercihleri modalı  |
+| `--z-consent-gate`  | 300   | `ConsentGateModal` (engelleyici yasal onay) |
+| `--z-toast`         | 400   | `Toast` — her zaman en üstte                |
+
+Kullanım: `className="fixed inset-0 z-[var(--z-modal)]"`.
+
+Çerez banner'ı bilinçli olarak **en altta**: sayfanın altına sabitlenmiş pasif bir şerittir ve
+bir modal açıldığında onun altında kalmalıdır. Daha önce `z-[9998]` ile `Sheet`'in (`z-[100]`)
+çok üstündeydi; bu, quiz'in "Cevabı gönder" butonu gibi alt CTA'ları tıklanamaz yapıyordu.
+
+Banner ayrıca **yer kaplar**: görünürken kendi yüksekliğini `--cookie-banner-offset`
+değişkenine yazar, `AppLayout` da `main` yüksekliğini `calc(100vh - offset)` ile daraltır.
+Yalnızca alt dolgu vermek yetmiyordu — rehber gibi yüksekliğe sabitlenmiş sayfalarda içerik
+zaten taşmadığı için dolgu görünür bir etki yaratmıyor, butonlar banner'ın altında kalıyordu.
 
 > **Not:** Kart tonları ve buton varyantları gibi bazı renkler bileşen dosyalarında
 > hardcoded hex olarak durur (örn. kart yüzeyi `#1C2E35`). Yeni bileşen yazarken önce
@@ -67,10 +89,10 @@ olarak kullanılacaksa `@theme inline` içinde eşle.
 
 ## 3. Tipografi
 
-| Rol | Font | Tailwind |
-|---|---|---|
-| Başlık / sayı | **Fredoka One** | `font-display` |
-| Gövde | **Nunito** (400/600/700/800) | `font-sans` |
+| Rol           | Font                         | Tailwind       |
+| ------------- | ---------------------------- | -------------- |
+| Başlık / sayı | **Fredoka One**              | `font-display` |
+| Gövde         | **Nunito** (400/600/700/800) | `font-sans`    |
 
 `body` varsayılanı Nunito'dur.
 
@@ -85,14 +107,14 @@ etiketleri **ve** `globals.css` başındaki `@import`. `layout.tsx`'teki `<link>
 
 Paylaşılan bileşenler. Yeni bir buton/kart/dialog yazmadan önce buradakini kullan.
 
-| Bileşen | Önemli prop'lar |
-|---|---|
-| `Button` | `variant` (12 seçenek), `size: xs\|sm\|md\|lg\|xl`, `icon`, `iconPosition: left\|right\|top\|bottom` |
-| `Card` | `tone: plain\|primary\|ice\|violet\|gold\|rose`, `glow`, `padding: none\|sm\|md\|lg`, `as: section\|div\|article` |
-| `Dialog` | `isOpen`, `onClose`, `header`, `maxWidth: sm\|md\|lg\|xl` — açıkken `body` scroll'unu kilitler |
-| `Input` | `label`, `error`, `leftIcon`, `suffix` — `useId` ile otomatik `id`/label bağı |
-| `Toast` | `ToastProvider` + `useToast()` → `show/success/error/info/warning/dismiss` |
-| Diğer | `Select`, `Radio`, `Pill`, `Sheet`, `Tooltip`, `ProgressBar`, `StatTile`, `SkeletonBox`, `CircleButton`, `SpeechBubble`, `Sparkle`, `DatePicker`, `BarChart`, `DonutChart` |
+| Bileşen  | Önemli prop'lar                                                                                                                                                            |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button` | `variant` (12 seçenek), `size: xs\|sm\|md\|lg\|xl`, `icon`, `iconPosition: left\|right\|top\|bottom`                                                                       |
+| `Card`   | `tone: plain\|primary\|ice\|violet\|gold\|rose`, `glow`, `padding: none\|sm\|md\|lg`, `as: section\|div\|article`                                                          |
+| `Dialog` | `isOpen`, `onClose`, `header`, `maxWidth: sm\|md\|lg\|xl` — açıkken `body` scroll'unu kilitler                                                                             |
+| `Input`  | `label`, `error`, `leftIcon`, `suffix` — `useId` ile otomatik `id`/label bağı                                                                                              |
+| `Toast`  | `ToastProvider` + `useToast()` → `show/success/error/info/warning/dismiss`                                                                                                 |
+| Diğer    | `Select`, `Radio`, `Pill`, `Sheet`, `Tooltip`, `ProgressBar`, `StatTile`, `SkeletonBox`, `CircleButton`, `SpeechBubble`, `Sparkle`, `DatePicker`, `BarChart`, `DonutChart` |
 
 ### `Button` varyantları
 
@@ -126,10 +148,10 @@ toast.error(mesaj, { duration: 6000 });
 
 İki yöntem bir arada kullanılır:
 
-| Yöntem | Ne zaman | Nerede |
-|---|---|---|
-| **CSS `@keyframes`** | Döngüsel/basit efektler (float, pulse, shimmer, shake) | `globals.css`, `styles/learn.css`, `styles/worship.css` |
-| **framer-motion** | Orkestrasyon, giriş/çıkış, layout animasyonları | `Sidebar` (`LayoutGroup`), `Toast` (`AnimatePresence`), dashboard/quiz bileşenleri |
+| Yöntem               | Ne zaman                                               | Nerede                                                                             |
+| -------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| **CSS `@keyframes`** | Döngüsel/basit efektler (float, pulse, shimmer, shake) | `globals.css`, `styles/learn.css`, `styles/worship.css`                            |
+| **framer-motion**    | Orkestrasyon, giriş/çıkış, layout animasyonları        | `Sidebar` (`LayoutGroup`), `Toast` (`AnimatePresence`), dashboard/quiz bileşenleri |
 
 ### `@theme inline` ile tanımlı animasyon utility'leri
 

@@ -6,6 +6,7 @@ import { PrayerKey } from "@/src/types/enums/worship.enums";
 import {
   PrayerCardState,
   PrayerCategory,
+  PrayerCompletionStatus,
   PrayerType,
 } from "@/src/types/enums/streak.enums";
 import { PRAYER_META, type PrayerMeta } from "@/src/constants/streak";
@@ -26,12 +27,16 @@ import { PRAYER_COLORWAY } from "../styles";
 import { cn } from "@/src/lib/utils";
 import type { PrayerCardViewModel } from "@/src/types/streak.types";
 
-const PRAYER_TYPE_TO_ICON_KEY: Partial<Record<PrayerType, PrayerKey>> = {
+const PRAYER_TYPE_TO_ICON_KEY: Record<PrayerType, PrayerKey> = {
   [PrayerType.Fajr]: PrayerKey.Fajr,
   [PrayerType.Dhuhr]: PrayerKey.Dhuhr,
   [PrayerType.Asr]: PrayerKey.Asr,
   [PrayerType.Maghrib]: PrayerKey.Maghrib,
   [PrayerType.Isha]: PrayerKey.Isha,
+  [PrayerType.Jumuah]: PrayerKey.Dhuhr,
+  [PrayerType.Tarawih]: PrayerKey.Isha,
+  [PrayerType.EidFitr]: PrayerKey.Sunrise,
+  [PrayerType.EidAdha]: PrayerKey.Sunrise,
 };
 
 const FALLBACK_PRAYER_META: PrayerMeta = {
@@ -54,6 +59,8 @@ const ROW_BG_BY_STATE: Record<PrayerCardState, string> = {
     "border-[rgba(255,107,53,0.40)] bg-gradient-to-b from-[rgba(255,107,53,0.13)] to-[#1C2E35] to-60% shadow-[0_6px_0_0_rgba(124,39,8,0.30)]",
   [PrayerCardState.Eligible]:
     "border-[rgba(255,202,107,0.40)] bg-gradient-to-b from-[rgba(245,166,35,0.08)] to-[#1C2E35] to-60%",
+  [PrayerCardState.Late]:
+    "border-[rgba(245,166,35,0.45)] bg-gradient-to-b from-[rgba(245,166,35,0.12)] to-[#1C2E35] to-60%",
   [PrayerCardState.Locked]: "border-white/[0.06] bg-[#1C2E35] opacity-70",
   [PrayerCardState.MarkingLocked]:
     "border-[rgba(239,68,68,0.35)] bg-gradient-to-b from-[rgba(239,68,68,0.12)] to-[#1C2E35] to-60% opacity-90",
@@ -64,6 +71,7 @@ const ROW_TIME_BY_STATE: Record<PrayerCardState, string> = {
   [PrayerCardState.Missed]: "text-rose-400",
   [PrayerCardState.Current]: "text-[#FF6B35]",
   [PrayerCardState.Eligible]: "text-amber-300",
+  [PrayerCardState.Late]: "text-amber-400",
   [PrayerCardState.Locked]: "text-white",
   [PrayerCardState.MarkingLocked]: "text-rose-300",
 };
@@ -97,7 +105,8 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
     !!onMark &&
     prayer.canMarkAsCompleted &&
     (prayer.state === PrayerCardState.Current ||
-      prayer.state === PrayerCardState.Eligible);
+      prayer.state === PrayerCardState.Eligible ||
+      prayer.state === PrayerCardState.Late);
 
   const handleMark = useCallback(() => {
     if (!isInteractive) return;
@@ -107,7 +116,8 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
   const NodeButton = (
     <div className="relative flex w-[94px] shrink-0 items-center justify-center">
       {(prayer.state === PrayerCardState.Current ||
-        prayer.state === PrayerCardState.Eligible) && (
+        prayer.state === PrayerCardState.Eligible ||
+        prayer.state === PrayerCardState.Late) && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-2 -left-5 z-30 h-16 w-14 animate-[floatBounce_3.6s_ease-in-out_infinite] [filter:drop-shadow(0_6px_8px_rgba(0,0,0,0.4))]"
@@ -134,11 +144,13 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
           prayer.state === PrayerCardState.Missed && "opacity-80",
           prayer.state === PrayerCardState.Current &&
             "before:absolute before:-inset-2.5 before:rounded-full before:border-[2.5px] before:opacity-55 before:animate-[pulse-ring_2.2s_ease-in-out_infinite] before:content-['']",
-          prayer.state === PrayerCardState.Eligible &&
+          (prayer.state === PrayerCardState.Eligible ||
+            prayer.state === PrayerCardState.Late) &&
             "before:absolute before:-inset-2 before:rounded-full before:border-2 before:opacity-35 before:animate-[pulse-ring_2.6s_ease-in-out_infinite] before:content-['']",
           prayer.state === PrayerCardState.Current &&
             `before:${colorway.nodeHalo.replace("ring-", "border-")}`,
-          prayer.state === PrayerCardState.Eligible &&
+          (prayer.state === PrayerCardState.Eligible ||
+            prayer.state === PrayerCardState.Late) &&
             `before:${colorway.nodeHalo.replace("ring-", "border-")}`
         )}
       >
@@ -175,6 +187,11 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
             +{prayer.xpReward} XP
           </span>
         )}
+        {prayer.state === PrayerCardState.Late && (
+          <span className="absolute -top-2.5 -right-1 z-40 whitespace-nowrap rounded-full bg-[var(--color-secondary)] px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.08em] text-[#2A1813] shadow-[0_3px_0_0_rgba(124,80,8,0.6)]">
+            KAZA
+          </span>
+        )}
       </button>
     </div>
   );
@@ -185,7 +202,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
         "relative flex-1 overflow-hidden rounded-3xl border p-3.5 sm:p-4",
         "flex flex-col gap-1.5",
         ROW_BG_BY_STATE[prayer.state],
-        prayer.category === PrayerCategory.Friday &&
+        prayer.category !== PrayerCategory.Daily &&
           colorway.rowBorder + " " + colorway.rowBg
       )}
     >
@@ -204,15 +221,24 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <StatusChip state={prayer.state} category={prayer.category} />
+        <StatusChip
+          state={prayer.state}
+          category={prayer.category}
+          completionStatus={prayer.completionStatus}
+        />
         <Pill
-          tone="violet"
+          tone={prayer.state === PrayerCardState.Late ? "secondary" : "violet"}
           size="sm"
           isCounter
           icon={<XpStar className="h-[9px] w-[9px]" />}
         >
-          +{prayer.xpReward} XP
+          +{prayer.effectiveXpReward} XP
         </Pill>
+        {prayer.state === PrayerCardState.Late && (
+          <span className="text-[10px] font-black tracking-[0.06em] text-white/30 line-through">
+            +{prayer.xpReward} XP
+          </span>
+        )}
         {prayer.streakContribution && (
           <Pill
             tone="streak"
@@ -285,6 +311,49 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
         </div>
       )}
 
+      {prayer.state === PrayerCardState.Late && (
+        <div className="mt-1.5 flex items-center justify-between gap-2.5">
+          <div className="text-[11px] font-bold text-white/35">
+            Vakti çıktı · kaza olarak işaretlenir,{" "}
+            <strong className="font-black text-[var(--color-secondary-light)]">
+              {prayer.xpReward} yerine {prayer.lateXpReward} XP
+            </strong>{" "}
+            kazanılır
+            <div className="mt-1">
+              Sonraki vakte{" "}
+              <strong className="font-black text-white/55">
+                {formatCountdown(prayer.secondsUntilMarkCloses)}
+              </strong>{" "}
+              kaldı
+            </div>
+            <div className="mt-1.5 w-[140px]">
+              <ProgressBar
+                value={prayer.windowProgressPercent}
+                tone="secondary"
+                size="xs"
+                shiny={false}
+                aria-label="Kaza penceresi ilerlemesi"
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleMark}
+            disabled={!isInteractive}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-2xl px-3.5 py-2",
+              "bg-[var(--color-secondary)] text-[#2A1813] font-black text-xs uppercase tracking-[0.10em]",
+              "shadow-[0_4px_0_0_#7A5A0D] transition-transform duration-100",
+              "active:translate-y-[3px] active:shadow-[0_1px_0_0_#7A5A0D]",
+              "disabled:opacity-50 disabled:cursor-not-allowed"
+            )}
+          >
+            KAZA ET
+            <ChevronRight className="h-[11px] w-[11px]" />
+          </button>
+        </div>
+      )}
+
       {prayer.state === PrayerCardState.Locked && (
         <div className="mt-1.5 text-[11px] font-bold text-white/35">
           <strong className="font-black text-white/55">
@@ -312,7 +381,10 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
             <strong className="font-black text-white/55">
               {prayer.completedAtLabel}
             </strong>
-            &apos;da işaretlendi
+            &apos;da{" "}
+            {prayer.completionStatus === PrayerCompletionStatus.Late
+              ? "kaza olarak işaretlendi"
+              : "işaretlendi"}
           </div>
         )}
     </div>
@@ -357,8 +429,11 @@ const arePropsEqual = (
     a.isCompleted === b.isCompleted &&
     a.isLocked === b.isLocked &&
     a.canMarkAsCompleted === b.canMarkAsCompleted &&
+    a.completionStatus === b.completionStatus &&
+    a.effectiveXpReward === b.effectiveXpReward &&
     a.secondsUntilOpens === b.secondsUntilOpens &&
     a.secondsUntilCloses === b.secondsUntilCloses &&
+    a.secondsUntilMarkCloses === b.secondsUntilMarkCloses &&
     a.windowProgressPercent === b.windowProgressPercent &&
     a.scheduledTimeLabel === b.scheduledTimeLabel &&
     a.completedAtLabel === b.completedAtLabel

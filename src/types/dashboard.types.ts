@@ -1,5 +1,6 @@
 export enum WeekDayState {
   Done = "done",
+  Partial = "partial",
   Frozen = "frozen",
   Miss = "miss",
   TodayPending = "today-pending",
@@ -13,6 +14,8 @@ export interface WeekDay {
   dayOfMonth: number;
   state: WeekDayState;
   isToday: boolean;
+  completedCount: number;
+  totalCount: number;
 }
 
 export enum MonthCellKind {

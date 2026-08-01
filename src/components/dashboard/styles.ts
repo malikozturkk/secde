@@ -77,7 +77,7 @@ const JUMUAH: PrayerColorway = {
   textAccent: "text-emerald-300",
 };
 
-const TERAVIH: PrayerColorway = {
+const TARAWIH: PrayerColorway = {
   nodeBg: "bg-violet-600",
   nodeShadow: "shadow-[0_7px_0_0_#3B0764]",
   nodeHalo: "ring-violet-500",
@@ -88,7 +88,7 @@ const TERAVIH: PrayerColorway = {
   textAccent: "text-violet-300",
 };
 
-const BAYRAM: PrayerColorway = {
+const EID: PrayerColorway = {
   nodeBg: "bg-yellow-500",
   nodeShadow: "shadow-[0_7px_0_0_#713F12]",
   nodeHalo: "ring-yellow-400",
@@ -106,8 +106,9 @@ export const PRAYER_COLORWAY: Record<PrayerType, PrayerColorway> = {
   [PrayerType.Maghrib]: MAGHRIB,
   [PrayerType.Isha]: ISHA,
   [PrayerType.Jumuah]: JUMUAH,
-  [PrayerType.Teravih]: TERAVIH,
-  [PrayerType.Bayram]: BAYRAM,
+  [PrayerType.Tarawih]: TARAWIH,
+  [PrayerType.EidFitr]: EID,
+  [PrayerType.EidAdha]: EID,
 };
 
 export const SURFACE_CARD_GRADIENT_PRIMARY =

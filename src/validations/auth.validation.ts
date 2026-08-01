@@ -99,6 +99,11 @@ export const updateProfileSchema = z
       .optional()
       .or(z.literal("")),
     language: z.string().optional(),
+    country: z.string().optional(),
+    city: z.string().optional(),
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
+    madhab: z.enum(["SHAFI", "HANAFI"]).optional(),
   })
   .refine(
     (data) => {

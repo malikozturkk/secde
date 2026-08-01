@@ -5,6 +5,7 @@ import { LevelStatCard } from "@/src/components/stats/LevelStatCard";
 import { StreakStatCard } from "@/src/components/stats/StreakStatCard";
 import { PrayerBreakdownCard } from "@/src/components/stats/PrayerBreakdownCard";
 import { QuizAccuracyCard } from "@/src/components/stats/QuizAccuracyCard";
+import { PunctualityCard } from "@/src/components/stats/PunctualityCard";
 import {
   StatsError,
   StatsGridSkeleton,
@@ -58,6 +59,12 @@ export const ProfileStats: React.FC<ProfileStatsProps> = ({
             className="sm:col-span-2"
             breakdown={stats.prayers.breakdown}
             totalCompleted={stats.prayers.totalCompleted}
+          />
+          <PunctualityCard
+            className="sm:col-span-2"
+            onTimePercent={stats.prayers.punctuality.onTimePercent}
+            onTime={stats.prayers.punctuality.onTime}
+            late={stats.prayers.punctuality.late}
           />
           {selfQuiz && (
             <QuizAccuracyCard

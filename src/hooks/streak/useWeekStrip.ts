@@ -3,20 +3,17 @@
 import { useMemo } from "react";
 import { buildWeekStrip } from "@/src/lib/dashboard-utils";
 import type { WeekDay } from "@/src/types/dashboard.types";
+import type { PrayerHistoryDay } from "@/src/types/streak.types";
 
 interface UseWeekStripInput {
-  currentStreak: number;
-  lastActiveDate: string | null;
-  protectedDates: readonly string[];
+  history: readonly PrayerHistoryDay[];
   completedToday: number;
   totalToday: number;
   today?: Date;
 }
 
 export const useWeekStrip = ({
-  currentStreak,
-  lastActiveDate,
-  protectedDates,
+  history,
   completedToday,
   totalToday,
   today,
@@ -24,20 +21,11 @@ export const useWeekStrip = ({
   return useMemo(
     () =>
       buildWeekStrip({
-        currentStreak,
-        lastActiveDate,
-        protectedDates,
+        history,
         completedToday,
         totalToday,
         today,
       }),
-    [
-      currentStreak,
-      lastActiveDate,
-      protectedDates,
-      completedToday,
-      totalToday,
-      today,
-    ]
+    [history, completedToday, totalToday, today]
   );
 };
