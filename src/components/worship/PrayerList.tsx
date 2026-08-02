@@ -6,10 +6,14 @@ import type { WorshipTimes } from "@/src/types/worship.types";
 import { PrayerCard } from "./PrayerCard";
 
 interface PrayerListProps {
+  timeZone: string;
   times: WorshipTimes;
 }
 
-const PrayerListComponent: React.FC<PrayerListProps> = ({ times }) => {
+const PrayerListComponent: React.FC<PrayerListProps> = ({
+  times,
+  timeZone,
+}) => {
   return (
     <section className="flex flex-col gap-4">
       <div className="flex items-end justify-between gap-4">
@@ -24,7 +28,12 @@ const PrayerListComponent: React.FC<PrayerListProps> = ({ times }) => {
       </div>
       <div className="grid grid-cols-1 gap-3.5 min-[520px]:grid-cols-2 min-[900px]:grid-cols-3">
         {PRAYER_ORDER.map((key) => (
-          <PrayerCard key={key} prayerKey={key} time={times[key]} />
+          <PrayerCard
+            key={key}
+            prayerKey={key}
+            time={times[key]}
+            timeZone={timeZone}
+          />
         ))}
       </div>
     </section>

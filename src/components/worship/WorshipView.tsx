@@ -12,6 +12,7 @@ import { DayOverview } from "./DayOverview";
 import { FastingCard } from "./FastingCard";
 import { HeroCard } from "./HeroCard";
 import { PageHead } from "./PageHead";
+import { localDateInZone } from "@/src/lib/time-format";
 import { PrayerList } from "./PrayerList";
 import { HijriCard } from "./rail/HijriCard";
 import { LocationCard } from "./rail/LocationCard";
@@ -84,11 +85,14 @@ const WorshipView: React.FC = () => {
           onToday={goToToday}
           onRefresh={refresh}
         />
-        <PageHead meta={data.meta} />
+        <PageHead
+          meta={data.meta}
+          todayDate={localDateInZone(new Date(), data.meta.timezone)}
+        />
         <HeroCard worship={data} />
         <DayOverview worship={data} />
-        <PrayerList times={data.times} />
-        <FastingCard fasting={data.fasting} />
+        <PrayerList times={data.times} timeZone={data.meta.timezone} />
+        <FastingCard fasting={data.fasting} timeZone={data.meta.timezone} />
       </>
     );
   };

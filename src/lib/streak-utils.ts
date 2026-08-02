@@ -6,11 +6,10 @@ import {
   STREAK_DAY_COMPLETED_MESSAGE,
   STREAK_FRESH_DAY_MESSAGE,
   STREAK_HERO_CHARACTER_POOL,
-  STREAK_LOCALE,
   STREAK_MESSAGES,
-  STREAK_TIME_FORMAT_OPTIONS,
   type StreakCharacterName,
 } from "../constants/streak";
+import { formatTimeInZone } from "./time-format";
 import type {
   DailyPrayersResponse,
   DailyPrayersViewModel,
@@ -28,19 +27,13 @@ const parseIsoMs = (iso: string): number => {
   return Number.isFinite(ms) ? ms : Number.NaN;
 };
 
-const formatPrayerTime = (iso: string): string => {
-  const ms = parseIsoMs(iso);
-  if (!Number.isFinite(ms)) return "";
-  return new Date(ms).toLocaleTimeString(
-    STREAK_LOCALE,
-    STREAK_TIME_FORMAT_OPTIONS
-  );
-};
-
+const formatPrayerTime = (iso: string, timeZone: string): string =>
+  formatTimeInZone(iso, timeZone);
 
 const buildPrayerCardViewModel = (
   dto: PrayerCardDto,
-  nowMs: number
+  nowMs: number,
+  timeZone: string,
 ): PrayerCardViewModel => {
   const startMs = parseIsoMs(dto.windowStartsAt);
   const endMs = parseIsoMs(dto.windowEndsAt);
@@ -101,7 +94,7 @@ const buildPrayerCardViewModel = (
     category: dto.category,
     isObligatory: dto.isObligatory,
     scheduledAt: dto.scheduledAt,
-    scheduledTimeLabel: formatPrayerTime(dto.scheduledAt),
+    scheduledTimeLabel: formatPrayerTime(dto.scheduledAt, timeZone),
     windowStartsAt: dto.windowStartsAt,
     windowEndsAt: dto.windowEndsAt,
     markWindowEndsAt: dto.markWindowEndsAt,
@@ -114,7 +107,7 @@ const buildPrayerCardViewModel = (
     completionStatus: dto.completionStatus,
     completedAt: dto.completedAt,
     completedAtLabel: dto.completedAt
-      ? formatPrayerTime(dto.completedAt)
+      ? formatPrayerTime(dto.completedAt, timeZone)
       : null,
     streakContribution: dto.streakContribution,
     pendingQuizId: dto.pendingQuizId,
@@ -132,7 +125,7 @@ export const buildDailyPrayersViewModel = (
   nowMs: number
 ): DailyPrayersViewModel => {
   const prayers = payload.prayers.map((dto) =>
-    buildPrayerCardViewModel(dto, nowMs)
+    buildPrayerCardViewModel(dto, nowMs, payload.timezone)
   );
 
   const totalToday = prayers.length;
@@ -204,8 +197,6 @@ export const resolveHeroVariant = ({
   return StreakHeroVariant.Normal;
 };
 
-
-
 export const formatCountdown = (seconds: number): string => {
   if (!Number.isFinite(seconds) || seconds < 0) return "0 dk";
   if (seconds < 60) return `${seconds} sn`;
@@ -215,4 +206,3 @@ export const formatCountdown = (seconds: number): string => {
   const minutes = totalMinutes % 60;
   return `${hours} sa ${String(minutes).padStart(2, "0")} dk`;
 };
-

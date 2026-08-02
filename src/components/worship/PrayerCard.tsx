@@ -2,11 +2,8 @@
 
 import React, { memo } from "react";
 import { PRAYER_CONFIG, PRAYER_STATE_LABEL } from "@/src/constants/worship";
-import {
-  formatFromNow,
-  formatTime,
-  getPrayerState,
-} from "@/src/lib/worship-utils";
+import { formatFromNow, getPrayerState } from "@/src/lib/worship-utils";
+import { formatTimeInZone } from "@/src/lib/time-format";
 import {
   useCountdownToIso,
   useElapsedSinceIso,
@@ -19,18 +16,20 @@ import { PrayerIcon } from "./PrayerIcon";
 interface PrayerCardProps {
   prayerKey: PrayerKey;
   time: PrayerTime;
+  timeZone: string;
 }
 
 const PrayerCardComponent: React.FC<PrayerCardProps> = ({
   prayerKey,
   time,
+  timeZone,
 }) => {
   const config = PRAYER_CONFIG[prayerKey];
   const state = getPrayerState(time);
   const elapsed = useElapsedSinceIso(time.isPassed ? time.iso : null);
   const remaining = useCountdownToIso(time.isPassed ? null : time.iso);
   const signed = time.isPassed ? -elapsed : remaining;
-  const timeLabel = formatTime(time.iso);
+  const timeLabel = formatTimeInZone(time.iso, timeZone);
 
   const cardVars = {
     "--wsh-c": config.color,

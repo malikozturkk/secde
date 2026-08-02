@@ -3,19 +3,23 @@
 import React, { memo } from "react";
 import {
   clampPercent,
-  formatTime,
   padNumber,
   splitDuration,
 } from "@/src/lib/worship-utils";
+import { formatTimeInZone } from "@/src/lib/time-format";
 import { useCountdownToIso } from "@/src/hooks/worship/useCountdown";
 import type { WorshipFasting } from "@/src/types/worship.types";
 import { Moon } from "@/src/icons/tsx/worship";
 
 interface FastingCardProps {
+  timeZone: string;
   fasting: WorshipFasting | null;
 }
 
-const FastingCardComponent: React.FC<FastingCardProps> = ({ fasting }) => {
+const FastingCardComponent: React.FC<FastingCardProps> = ({
+  fasting,
+  timeZone,
+}) => {
   const live = useCountdownToIso(fasting?.fastingEnd ?? null);
 
   if (!fasting) return null;
@@ -66,8 +70,8 @@ const FastingCardComponent: React.FC<FastingCardProps> = ({ fasting }) => {
     );
   }
 
-  const startLabel = formatTime(fasting.fastingStart);
-  const endLabel = formatTime(fasting.fastingEnd);
+  const startLabel = formatTimeInZone(fasting.fastingStart, timeZone);
+  const endLabel = formatTimeInZone(fasting.fastingEnd, timeZone);
   const dur = splitDuration(live);
   const percent = clampPercent(fasting.progressPercent ?? 0);
 

@@ -5,10 +5,10 @@ import { PRAYER_CONFIG, ARC_RADIUS } from "@/src/constants/worship";
 import {
   formatDayName,
   formatRelativeDate,
-  formatTime,
   padNumber,
   splitDuration,
 } from "@/src/lib/worship-utils";
+import { formatTimeInZone } from "@/src/lib/time-format";
 import { useCountdownToIso } from "@/src/hooks/worship/useCountdown";
 import type { WorshipData } from "@/src/types/worship.types";
 import { NuraSitting } from "@/src/icons/tsx/characters/nura";
@@ -28,10 +28,11 @@ const STAR_POSITIONS: Array<React.CSSProperties> = [
 ];
 
 const HeroCardComponent: React.FC<HeroCardProps> = ({ worship }) => {
+  const timeZone = worship.meta.timezone;
   const config = PRAYER_CONFIG[worship.nextPrayer];
   const live = useCountdownToIso(worship.nextPrayerAt);
   const dur = splitDuration(live);
-  const timeLabel = formatTime(worship.nextPrayerAt);
+  const timeLabel = formatTimeInZone(worship.nextPrayerAt, timeZone);
   const whenLabel = formatRelativeDate(
     worship.nextPrayerAt,
     worship.meta.gregorianDate
