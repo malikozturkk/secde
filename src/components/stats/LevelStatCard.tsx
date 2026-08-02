@@ -21,7 +21,7 @@ interface LevelStatCardProps {
 const LEVEL_TICKS = [25, 50, 75] as const;
 
 const LevelStatCardComponent: React.FC<LevelStatCardProps> = ({
-  level: rawLevel,
+  level,
   badgeKey,
   progressPercent,
   xpToNextLevel,
@@ -30,7 +30,6 @@ const LevelStatCardComponent: React.FC<LevelStatCardProps> = ({
   totalXpForNextLevel,
   className,
 }) => {
-  const level = Math.max(1, rawLevel);
   const showXp = totalXp !== undefined;
   const animatedTotalXp = useAnimatedNumber(totalXp ?? 0);
   const badgeLabel = resolveBadgeLabel(badgeKey);
