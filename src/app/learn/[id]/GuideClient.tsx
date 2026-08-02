@@ -39,6 +39,8 @@ export default function GuideRunnerPage({
   const activeStepData = steps[currentStep];
   const activeAnswerResult = answeredSteps[currentStep] ?? null;
   const questionAnswered = !!activeAnswerResult?.isCorrect;
+  const hasUnansweredQuestion =
+    !!activeStepData?.randomQuestion && !questionAnswered;
   const isLastStep = currentStep === steps.length - 1;
   const nextNode = getNextNode(id);
 
@@ -61,8 +63,6 @@ export default function GuideRunnerPage({
   }, []);
 
   const handleNext = useCallback(() => {
-    const hasUnansweredQuestion =
-      !!activeStepData?.randomQuestion && !questionAnswered;
     if (hasUnansweredQuestion) {
       triggerQuestionAttention();
       return;
@@ -79,8 +79,7 @@ export default function GuideRunnerPage({
   }, [
     currentStep,
     steps.length,
-    activeStepData,
-    questionAnswered,
+    hasUnansweredQuestion,
     isLastStep,
     triggerQuestionAttention,
   ]);
@@ -219,6 +218,12 @@ export default function GuideRunnerPage({
                 icon={<CheckCircle width={17} height={17} />}
                 iconPosition="right"
                 onClick={handleNext}
+                disabled={hasUnansweredQuestion}
+                title={
+                  hasUnansweredQuestion
+                    ? "Devam etmek için sorunu doğru cevapla"
+                    : undefined
+                }
               >
                 Tamamla
               </Button>
@@ -229,11 +234,25 @@ export default function GuideRunnerPage({
                 icon={<ArrowRight width={16} height={16} />}
                 iconPosition="right"
                 onClick={handleNext}
+                disabled={hasUnansweredQuestion}
+                title={
+                  hasUnansweredQuestion
+                    ? "Devam etmek için sorunu doğru cevapla"
+                    : undefined
+                }
               >
                 İleri
               </Button>
             )}
           </div>
+          {hasUnansweredQuestion && (
+            <p
+              role="status"
+              className="text-center text-[13px] font-semibold text-[var(--color-text-muted)]"
+            >
+              Devam etmek için yandaki soruyu doğru cevapla.
+            </p>
+          )}
         </div>
       </AppLayout>
     </>

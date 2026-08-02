@@ -1,11 +1,39 @@
 import { z } from "zod";
 
+const USERNAME_MIN_LENGTH = 3;
+const USERNAME_MAX_LENGTH = 20;
+const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MAX_LENGTH = 72;
+
+const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+const PASSWORD_COMPLEXITY_MESSAGE =
+  "Şifre büyük harf, küçük harf, rakam ve özel karakter içermelidir";
+
+const passwordSchema = z
+  .string()
+  .min(1, "Şifre zorunludur")
+  .min(
+    PASSWORD_MIN_LENGTH,
+    `Şifre en az ${PASSWORD_MIN_LENGTH} karakter olmalıdır`
+  )
+  .max(
+    PASSWORD_MAX_LENGTH,
+    `Şifre en fazla ${PASSWORD_MAX_LENGTH} karakter olabilir`
+  )
+  .regex(PASSWORD_PATTERN, PASSWORD_COMPLEXITY_MESSAGE);
+
 export const registerSchema = z.object({
   username: z
     .string()
     .min(1, "Kullanıcı adı zorunludur")
-    .min(3, "Kullanıcı adı en az 3 karakter olmalıdır")
-    .max(20, "Kullanıcı adı en fazla 20 karakter olabilir")
+    .min(
+      USERNAME_MIN_LENGTH,
+      `Kullanıcı adı en az ${USERNAME_MIN_LENGTH} karakter olmalıdır`
+    )
+    .max(
+      USERNAME_MAX_LENGTH,
+      `Kullanıcı adı en fazla ${USERNAME_MAX_LENGTH} karakter olabilir`
+    )
     .regex(
       /^[a-zA-Z0-9_]+$/,
       "Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir"
@@ -14,10 +42,7 @@ export const registerSchema = z.object({
     .string()
     .min(1, "E-posta zorunludur")
     .email("Geçerli bir e-posta adresi giriniz"),
-  password: z
-    .string()
-    .min(1, "Şifre zorunludur")
-    .min(8, "Şifre en az 8 karakter olmalıdır"),
+  password: passwordSchema,
   gender: z.enum(["MALE", "FEMALE"], { error: "Lütfen cinsiyet seçiniz" }),
   country: z
     .string()
@@ -62,12 +87,7 @@ export const forgotPasswordSchema = z.object({
 
 export const resetPasswordSchema = z
   .object({
-    newPassword: z
-      .string()
-      .min(8, "Şifre en az 8 karakter olmalıdır")
-      .regex(/[A-Z]/, "Şifre en az bir büyük harf içermelidir")
-      .regex(/[a-z]/, "Şifre en az bir küçük harf içermelidir")
-      .regex(/[0-9]/, "Şifre en az bir rakam içermelidir"),
+    newPassword: passwordSchema,
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -79,8 +99,14 @@ export const updateProfileSchema = z
   .object({
     username: z
       .string()
-      .min(3, "Kullanıcı adı en az 3 karakter olmalıdır")
-      .max(20, "Kullanıcı adı en fazla 20 karakter olabilir")
+      .min(
+        USERNAME_MIN_LENGTH,
+        `Kullanıcı adı en az ${USERNAME_MIN_LENGTH} karakter olmalıdır`
+      )
+      .max(
+        USERNAME_MAX_LENGTH,
+        `Kullanıcı adı en fazla ${USERNAME_MAX_LENGTH} karakter olabilir`
+      )
       .regex(
         /^[a-zA-Z0-9_]+$/,
         "Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir"
@@ -93,11 +119,7 @@ export const updateProfileSchema = z
       .optional()
       .or(z.literal("")),
     currentPassword: z.string().optional().or(z.literal("")),
-    newPassword: z
-      .string()
-      .min(8, "Şifre en az 8 karakter olmalıdır")
-      .optional()
-      .or(z.literal("")),
+    newPassword: passwordSchema.optional().or(z.literal("")),
     language: z.string().optional(),
     country: z.string().optional(),
     city: z.string().optional(),
