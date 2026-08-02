@@ -17,16 +17,11 @@ const ERROR_MESSAGES: Record<string, string> = {
   INVALID_TOKEN: "Oturumun geçersiz. Lütfen tekrar giriş yap.",
   FORBIDDEN: "Bu işlem için yetkin yok.",
 
-  QUIZ_ANSWER_INCORRECT:
-    "Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar deneyebilirsin.",
-  INCORRECT_ANSWER:
-    "Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar deneyebilirsin.",
-  WRONG_ANSWER:
-    "Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar deneyebilirsin.",
-  QUIZ_FAILED:
-    "Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar deneyebilirsin.",
-  PRAYER_QUIZ_FAILED:
-    "Cevaplardan biri hatalı. Vakit işaretlenemedi — tekrar deneyebilirsin.",
+  QUIZ_ANSWER_INCORRECT: "Cevap yanlış. Bu vakit yarına kadar işaretlenemeyecek.",
+  INCORRECT_ANSWER: "Cevap yanlış. Bu vakit yarına kadar işaretlenemeyecek.",
+  WRONG_ANSWER: "Cevap yanlış. Bu vakit yarına kadar işaretlenemeyecek.",
+  QUIZ_FAILED: "Cevap yanlış. Bu vakit yarına kadar işaretlenemeyecek.",
+  PRAYER_QUIZ_FAILED: "Cevap yanlış. Bu vakit yarına kadar işaretlenemeyecek.",
   QUIZ_EXPIRED: "Soruların süresi doldu. Yeni sorular yükleniyor.",
   QUIZ_SESSION_EXPIRED: "Soruların süresi doldu. Yeni sorular yükleniyor.",
   QUIZ_NOT_FOUND: "Sorular bulunamadı. Yeni sorular yükleniyor.",
@@ -57,6 +52,9 @@ const ERROR_MESSAGES: Record<string, string> = {
   FREEZE_WINDOW_EXPIRED: "Seri dondurma için süre doldu.",
   STREAK_FREEZE_ALREADY_USED: "Bu gün için seri dondurma zaten kullanılmış.",
   ALREADY_FROZEN: "Bu gün için seri dondurma zaten kullanılmış.",
+
+  ACCOUNT_TEMPORARILY_LOCKED:
+    "Çok fazla hatalı deneme yapıldı. Hesabın 15 dakika boyunca kilitli.",
 
   VALIDATION_ERROR: "Gönderilen bilgilerde bir hata var.",
   BAD_REQUEST: "Gönderilen bilgilerde bir hata var.",
