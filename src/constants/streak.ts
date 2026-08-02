@@ -154,6 +154,8 @@ export const STREAK_HERO_CHARACTER_POOL: readonly StreakCharacterName[] = [
 
 export const GAMIFICATION_QUERY_KEYS = {
   all: ["gamification"] as const,
+  dailyPrayersAll: ["gamification", "daily-prayers"] as const,
+  prayerHistoryAll: ["gamification", "prayer-history"] as const,
   dailyPrayers: (params: { date: string }) =>
     ["gamification", "daily-prayers", params] as const,
   prayerHistory: (params: { from: string; to: string }) =>

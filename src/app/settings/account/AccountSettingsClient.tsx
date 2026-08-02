@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/src/store/auth.store";
+import { useAuthHydrated } from "@/src/hooks/auth/useAuthHydrated";
 import { useUpdateProfile } from "@/src/hooks/auth/useUpdateProfile";
 import {
   updateProfileSchema,
@@ -25,6 +26,7 @@ import {
 
 export default function AccountSettings() {
   const { user } = useAuthStore();
+  const hydrated = useAuthHydrated();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const canChangeLocation = (user?.locationChangeCount ?? 0) < 1;
   const canChangeMadhab = (user?.madhabChangeCount ?? 0) < 1;
@@ -66,7 +68,7 @@ export default function AccountSettings() {
     latitude: location?.[2],
     longitude: location?.[3],
   };
-  
+
   const handleLocationChange = (next: LocationValue) => {
     setValue("country", next.country, { shouldDirty: true });
     setValue("city", next.city, { shouldDirty: true });
@@ -97,6 +99,22 @@ export default function AccountSettings() {
       }),
     });
   };
+
+  if (!hydrated) {
+    return (
+      <AppLayout rightPanel={<SettingsRightPanel active="preferences" />}>
+        <h1 className="text-2xl font-extrabold text-white mb-6 font-sans">
+          Tercihler
+        </h1>
+        <div aria-hidden="true" className="flex flex-col gap-4">
+          <div className="h-6 w-40 animate-pulse rounded-lg bg-white/[0.06]" />
+          <div className="h-14 w-full animate-pulse rounded-2xl bg-white/[0.06]" />
+          <div className="h-14 w-full animate-pulse rounded-2xl bg-white/[0.06]" />
+          <div className="h-14 w-full animate-pulse rounded-2xl bg-white/[0.06]" />
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout rightPanel={<SettingsRightPanel active="preferences" />}>

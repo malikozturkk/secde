@@ -91,9 +91,12 @@ export const useAnswerPrayerQuestion = (): AnswerMutation => {
           );
         }
         await Promise.all(invalidations);
-      } else if (result.isLocked) {
+      } else if (
+        result.isLocked ||
+        result.quizStatus === PrayerQuizStatus.Expired
+      ) {
         await queryClient.invalidateQueries({
-          queryKey: ["gamification", "daily-prayers"],
+          queryKey: GAMIFICATION_QUERY_KEYS.dailyPrayersAll,
         });
       }
     },
