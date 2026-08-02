@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { createMetadata } from "@/src/lib/metadata";
 import LoginForm from "./LoginForm";
 
@@ -9,5 +10,13 @@ export const metadata = createMetadata({
 });
 
 export default function LoginPage() {
-  return <LoginForm />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#070F12]" aria-hidden="true" />
+      }
+    >
+      <LoginForm />
+    </Suspense>
+  );
 }
