@@ -1,15 +1,10 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useConsentStatus } from "@/src/hooks/consent/useConsentStatus";
+import { useAuthHydrated } from "@/src/hooks/auth/useAuthHydrated";
 import { ConsentGateModal } from "@/src/components/consent/ConsentGateModal";
-
-const subscribeHydration = (cb: () => void) =>
-  useAuthStore.persist.onFinishHydration(cb);
-const getHydrationSnapshot = () => useAuthStore.persist.hasHydrated();
-const getServerHydrationSnapshot = () => false;
 
 const CONSENT_GATE_EXCLUDED_PATHS = ["/terms", "/privacy"] as const;
 
@@ -27,11 +22,7 @@ export function ConsentGateProvider({
   const pathname = usePathname();
   const isExcludedPath = isConsentGateExcludedPath(pathname);
   const refreshToken = useAuthStore((s) => s.refreshToken);
-  const hydrated = useSyncExternalStore(
-    subscribeHydration,
-    getHydrationSnapshot,
-    getServerHydrationSnapshot
-  );
+  const hydrated = useAuthHydrated();
 
   const isAuthenticated = hydrated && !!refreshToken;
 

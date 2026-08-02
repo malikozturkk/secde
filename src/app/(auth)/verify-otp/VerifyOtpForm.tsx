@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useOtpVerify } from "@/src/hooks/auth/useOtpVerify";
 import { useOtpResend } from "@/src/hooks/auth/useOtpResend";
 import { useAuthStore } from "@/src/store/auth.store";
+import { useAuthHydrated } from "@/src/hooks/auth/useAuthHydrated";
 import { Button } from "@/src/components/ui/Button";
 import Link from "next/link";
 import { Mail } from "lucide-react";
@@ -15,6 +16,7 @@ const OTP_LENGTH = 6;
 export default function VerifyOtpPage() {
   const router = useRouter();
   const { tempToken } = useAuthStore();
+  const hydrated = useAuthHydrated();
 
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const [fieldError, setFieldError] = useState<string | null>(null);
@@ -28,8 +30,8 @@ export default function VerifyOtpPage() {
   );
 
   useEffect(() => {
-    if (!tempToken) router.replace("/register");
-  }, [tempToken, router]);
+    if (hydrated && !tempToken) router.replace("/register");
+  }, [hydrated, tempToken, router]);
 
   useEffect(() => {
     if (cooldown <= 0) return;

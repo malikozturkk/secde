@@ -53,6 +53,7 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) => ({
         refreshToken: state.refreshToken,
         user: state.user,
+        tempToken: state.tempToken,
       }),
     }
   )

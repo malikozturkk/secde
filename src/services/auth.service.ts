@@ -25,6 +25,12 @@ export const authService = {
       payload
     ),
 
+  resumeRegistration: (email: string) =>
+    axiosInstance.post<ApiResponse<RegisterResponseData>>(
+      "/auth/resume-registration",
+      { email }
+    ),
+
   login: (payload: LoginPayload) =>
     axiosInstance.post<ApiResponse<LoginResponseData>>("/auth/login", payload),
 

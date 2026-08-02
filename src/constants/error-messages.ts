@@ -53,11 +53,48 @@ const ERROR_MESSAGES: Record<string, string> = {
   STREAK_FREEZE_ALREADY_USED: "Bu gün için seri dondurma zaten kullanılmış.",
   ALREADY_FROZEN: "Bu gün için seri dondurma zaten kullanılmış.",
 
+  NO_STREAK_FREEZE_AVAILABLE: "Kullanılabilir seri dondurma hakkın yok.",
+  STREAK_NOT_AT_RISK: "Serin şu an risk altında değil.",
+  STREAK_NOT_FOUND: "Seri bilgin bulunamadı.",
+  UNKNOWN_GAMIFICATION_ACTION: "Bu işlem desteklenmiyor.",
+  PRAYER_NOT_AVAILABLE_TODAY: "Bu vakit bugün için geçerli değil.",
+  PRAYER_ATTEMPT_LIMIT_REACHED:
+    "Süreyi iki kez kaçırdın. Bu vakit yarına kadar işaretlenemeyecek.",
+  INVALID_DATE_RANGE: "Seçtiğin tarih aralığı geçersiz.",
+  PRAYER_HISTORY_RANGE_TOO_LARGE:
+    "Tarih aralığı çok geniş. En fazla 62 günlük aralık seçebilirsin.",
+
+  CANNOT_FOLLOW_YOURSELF: "Kendini takip edemezsin.",
+  CONSENT_OUTDATED: "Bu metnin güncel sürümünü onaylaman gerekiyor.",
+
+  INVALID_CURRENT_PASSWORD: "Mevcut şifren hatalı.",
+  PASSWORD_FIELDS_REQUIRED: "Mevcut ve yeni şifreyi birlikte girmelisin.",
+  PASSWORDS_DO_NOT_MATCH: "Şifreler eşleşmiyor.",
+  PASSWORD_TOO_WEAK:
+    "Şifren en az 8 karakter olmalı; büyük harf, küçük harf, rakam ve özel karakter içermeli.",
+  PASSWORD_TOO_SHORT: "Şifren en az 8 karakter olmalı.",
+  PASSWORD_TOO_LONG: "Şifren en fazla 72 karakter olabilir.",
+  USERNAME_TOO_SHORT: "Kullanıcı adı en az 3 karakter olmalı.",
+  USERNAME_TOO_LONG: "Kullanıcı adı en fazla 20 karakter olabilir.",
+  USERNAME_ALREADY_EXISTS: "Bu kullanıcı adı zaten kullanılıyor.",
+  USERNAME_CHANGE_COOLDOWN_ACTIVE:
+    "Kullanıcı adını yakın zamanda değiştirdin. 30 gün geçmeden tekrar değiştiremezsin.",
+  USER_ALREADY_EXISTS: "Bu e-posta adresi zaten kayıtlı.",
+  ACTIVE_REGISTRATION_EXISTS:
+    "Bu hesap için zaten aktif bir kayıt süreci var. E-postana gönderilen kodu kullan.",
+  NO_PENDING_REGISTRATION:
+    "Bekleyen bir kayıt bulunamadı. Lütfen yeniden kayıt ol.",
+  INVALID_OR_EXPIRED_TOKEN: "Bağlantının süresi dolmuş veya geçersiz.",
+  ACTIVE_RESET_EXISTS:
+    "Zaten aktif bir şifre sıfırlama isteğin var. E-postanı kontrol et.",
+  EMAIL_SEND_FAILED: "E-posta gönderilemedi. Lütfen tekrar dene.",
   ACCOUNT_TEMPORARILY_LOCKED:
     "Çok fazla hatalı deneme yapıldı. Hesabın 15 dakika boyunca kilitli.",
   TOKEN_REVOKED_BY_PASSWORD_CHANGE:
     "Şifren değiştirildiği için oturumun kapatıldı. Lütfen tekrar giriş yap.",
 
+  GUIDE_NOT_FOUND: "Bu rehber bulunamadı.",
+  QUESTION_NOT_FOUND: "Soru bulunamadı.",
   VALIDATION_ERROR: "Gönderilen bilgilerde bir hata var.",
   BAD_REQUEST: "Gönderilen bilgilerde bir hata var.",
   LOCATION_REQUIRED: "Konum bilgisi gerekli.",
