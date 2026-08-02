@@ -40,7 +40,6 @@ import { PrayerQuizModal } from "@/src/components/dashboard/quiz/PrayerQuizModal
 import { MonthHeatmapSheet } from "@/src/components/dashboard/month/MonthHeatmapSheet";
 import { FreezeConfirmDialog } from "@/src/components/dashboard/parts/FreezeConfirmDialog";
 
-// Sabit referans: geçmiş verisi gelmeden useMemo bağımlılıkları değişmesin.
 const EMPTY_HISTORY: readonly PrayerHistoryDay[] = [];
 
 const TODAY_LABEL_FORMAT: Intl.DateTimeFormatOptions = {

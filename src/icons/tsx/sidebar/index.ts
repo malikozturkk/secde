@@ -5,4 +5,5 @@ export { default as Series } from "./Series";
 export { default as Settings } from "./Settings";
 export { default as Shop } from "./Shop";
 export { default as Stats } from "./Stats";
+export { default as Tools } from "./Tools";
 export { default as Worship } from "./Worship";

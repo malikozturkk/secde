@@ -8,7 +8,7 @@ import { NavItem, MobileNavItem } from "./NavItem";
 import styles from "./Sidebar.module.css";
 import { useAuthStore } from "@/src/store/auth.store";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
-import { Learn, Series, Settings, Worship } from "@/src/icons/tsx/sidebar";
+import { Learn, Series, Settings, Tools, Worship } from "@/src/icons/tsx/sidebar";
 
 interface NavItemConfig {
   label: string;
@@ -43,6 +43,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       label: "Vakitler",
       href: "/worship",
       icon: <Worship />,
+      hideOnMobile: false,
+    },
+    {
+      label: "Araçlar",
+      href: "/tools",
+      icon: <Tools />,
       hideOnMobile: false,
     },
     // {

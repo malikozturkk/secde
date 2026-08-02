@@ -9,9 +9,6 @@ interface PageMetadataOptions {
   openGraph?: Metadata["openGraph"];
 }
 
-/**
- * Sayfa bazlı metadata nesnesi oluşturur.
- */
 export function createMetadata({
   title,
   description,
@@ -47,12 +44,6 @@ export function createMetadata({
   };
 }
 
-/**
- * Root layout'ta kullanılacak global metadata.
- *
- * Favicon, title template, default OG ayarları vb.
- * tek bir yerde tanımlanır.
- */
 export function createRootMetadata(): Metadata {
   return {
     metadataBase: new URL(siteConfig.url),

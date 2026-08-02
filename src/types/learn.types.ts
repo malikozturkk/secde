@@ -83,7 +83,6 @@ export interface GuideCheckQuestionResponse {
 }
 
 export type StepType =
-  // Namaz
   | "takbir"
   | "standing"
   | "ruku"
@@ -91,10 +90,8 @@ export type StepType =
   | "prostration"
   | "salutation"
 
-  // Cuma
   | "khutbah"
 
-  // Abdest
   | "wash_hands"
   | "wash_mouth"
   | "wash_nose"
@@ -104,7 +101,6 @@ export type StepType =
   | "wash_ears"
   | "wash_feet"
 
-  // Gusül Abdesti
   | "intend"
   | "wash_private"
   | "full_ablution"

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true" viewBox="0 0 32 32">
+  <g transform="translate(0 2.5)">
+    <g transform="rotate(-45 16 16)">
+      <rect x="14" y="11" width="4" height="15" rx="2" fill="#4E6470" />
+      <path fill="#4E6470" d="M16 4.5a5 5 0 0 0-3.4 8.7h6.8A5 5 0 0 0 16 4.5m0 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4" />
+    </g>
+    <g transform="rotate(45 16 16)">
+      <rect x="14.2" y="16" width="3.6" height="10" rx="1.4" fill="#B07510" />
+      <rect x="14.8" y="7" width="2.4" height="10" fill="#4E6470" />
+      <path fill="#4E6470" d="M14.8 4.5h2.4v3h-2.4z" />
+    </g>
+  </g>
+
+  <g transform="rotate(-45 16 16)">
+    <rect x="14" y="11" width="4" height="15" rx="2" fill="#8FA6B4" />
+    <path fill="#8FA6B4" d="M16 4.5a5 5 0 0 0-3.4 8.7h6.8A5 5 0 0 0 16 4.5m0 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4" />
+  </g>
+
+  <g transform="rotate(45 16 16)">
+    <rect x="14.2" y="16" width="3.6" height="10" rx="1.4" fill="#F5A623" />
+    <rect x="14.2" y="16" width="1.6" height="10" rx="0.8" fill="#FFCA6B" />
+    <rect x="14.8" y="7" width="2.4" height="10" fill="#C3D3DC" />
+    <path fill="#8FA6B4" d="M14.8 4.5h2.4v3h-2.4z" />
+  </g>
+</svg>

@@ -30,7 +30,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const stepIconMap: Record<StepType, SvgIcon> = {
-  // Namaz
   takbir: Takbir,
   standing: Standing,
   ruku: Ruku,
@@ -38,10 +37,8 @@ export const stepIconMap: Record<StepType, SvgIcon> = {
   prostration: Prostration,
   salutation: Salutation,
 
-  // Cuma
   khutbah: Khutbah,
 
-  // Abdest
   wash_hands: WashingTheHands,
   wash_mouth: WashingTheMouth,
   wash_nose: WashingTheNose,
@@ -51,7 +48,6 @@ export const stepIconMap: Record<StepType, SvgIcon> = {
   wash_ears: WashingTheEars,
   wash_feet: WashingTheFeets,
 
-  // Gusül Abdesti
   intend: Intend,
   wash_private: WashingThePrivate,
   full_ablution: FullAblution,
@@ -61,7 +57,6 @@ export const stepIconMap: Record<StepType, SvgIcon> = {
 };
 
 export const stepImageMap: Record<StepType, string> = {
-  // Namaz
   takbir: "/learn/takbir.png",
   standing: "/learn/standing.png",
   ruku: "/learn/ruku.png",
@@ -69,10 +64,8 @@ export const stepImageMap: Record<StepType, string> = {
   prostration: "/learn/prostration.png",
   salutation: "/learn/salutation.png",
 
-  // Cuma
   khutbah: "/learn/khutbah.png",
 
-  // Abdest
   wash_hands: "/learn/wash_hands.png",
   wash_mouth: "/learn/wash_mouth.png",
   wash_nose: "/learn/wash_nose.png",
@@ -82,7 +75,6 @@ export const stepImageMap: Record<StepType, string> = {
   wash_ears: "/learn/wash_ears.png",
   wash_feet: "/learn/wash_feet.png",
 
-  // Gusül Abdesti
   intend: "/learn/intend.png",
   wash_private: "/learn/wash_private.png",
   full_ablution: "/learn/full_ablution.png",
