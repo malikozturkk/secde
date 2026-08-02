@@ -45,7 +45,7 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
     <section
       className={cn(
         "rounded-3xl border border-white/[0.06] bg-[#1C2E35] p-[18px]",
-        "flex flex-col gap-3"
+        "flex flex-col gap-3 overflow-scroll"
       )}
       aria-label="Lider tablosu"
     >

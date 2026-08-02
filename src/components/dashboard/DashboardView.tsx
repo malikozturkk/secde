@@ -435,6 +435,7 @@ const RightRail: React.FC<RightRailProps> = ({
       currentLevelXp={currentLevelXp}
       xpToNextLevel={xpToNextLevel}
       totalXpForNextLevel={totalXpForNextLevel}
+      className="min-h-fit"
     />
     <DailyGoalCard
       completedToday={completedToday}
