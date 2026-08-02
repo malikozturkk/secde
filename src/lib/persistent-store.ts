@@ -1,4 +1,3 @@
-
 export interface PersistentStore<T> {
   getSnapshot: () => T;
   getServerSnapshot: () => T;
@@ -11,7 +10,7 @@ export function createPersistentStore<T>(
   key: string,
   defaultValue: T,
 
-  revive: (raw: unknown) => T | null,
+  revive: (raw: unknown) => T | null
 ): PersistentStore<T> {
   let cache: T = defaultValue;
   let hydrated = false;
@@ -32,8 +31,7 @@ export function createPersistentStore<T>(
     if (typeof window === "undefined") return;
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-    }
+    } catch {}
   };
 
   const emit = (): void => listeners.forEach((l) => l());
@@ -54,7 +52,9 @@ export function createPersistentStore<T>(
     set: (updater) => {
       const current = typeof window === "undefined" ? defaultValue : cache;
       const next =
-        typeof updater === "function" ? (updater as (c: T) => T)(current) : updater;
+        typeof updater === "function"
+          ? (updater as (c: T) => T)(current)
+          : updater;
       if (Object.is(next, cache)) return;
       cache = next;
       hydrated = true;

@@ -93,14 +93,14 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       orientation === "horizontal"
         ? "flex flex-wrap gap-2"
         : orientation === "vertical"
-          ? "flex flex-col gap-2"
-          : cn(
-              "grid gap-2",
-              columns === 1 && "grid-cols-1",
-              columns === 2 && "grid-cols-1 sm:grid-cols-2",
-              columns === 3 && "grid-cols-1 sm:grid-cols-3",
-              columns === 4 && "grid-cols-2 sm:grid-cols-4"
-            );
+        ? "flex flex-col gap-2"
+        : cn(
+            "grid gap-2",
+            columns === 1 && "grid-cols-1",
+            columns === 2 && "grid-cols-1 sm:grid-cols-2",
+            columns === 3 && "grid-cols-1 sm:grid-cols-3",
+            columns === 4 && "grid-cols-2 sm:grid-cols-4"
+          );
 
     return (
       <RadioGroupContext.Provider value={context}>
@@ -132,7 +132,10 @@ interface RadioProps {
   trailing?: React.ReactNode;
   className?: string;
   id?: string;
-  onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (
+    value: string,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
 }
 
 const SIZE_PADDING: Record<RadioSize, string> = {
@@ -211,8 +214,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       group !== null
         ? group.value === value
         : checked !== undefined
-          ? checked
-          : uncontrolled;
+        ? checked
+        : uncontrolled;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (resolvedDisabled) return;

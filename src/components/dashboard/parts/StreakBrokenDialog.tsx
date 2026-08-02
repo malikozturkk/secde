@@ -34,8 +34,8 @@ const StreakBrokenDialogComponent: React.FC<StreakBrokenDialogProps> = ({
   const reason = freezeWindowExpired
     ? "Dondurma için geç kaldın, bu seri geri alınamıyor."
     : freezesAvailable <= 0
-      ? "Dondurma hakkın kalmadı, bu seri geri alınamıyor."
-      : null;
+    ? "Dondurma hakkın kalmadı, bu seri geri alınamıyor."
+    : null;
 
   return (
     <Dialog isOpen={isOpen} onClose={onClose} maxWidth="sm">
@@ -90,7 +90,9 @@ const StreakBrokenDialogComponent: React.FC<StreakBrokenDialogProps> = ({
               onClick={onRecover}
               disabled={isPending}
             >
-              {isPending ? "Kurtarılıyor…" : `Serimi kurtar (${lostStreak} gün)`}
+              {isPending
+                ? "Kurtarılıyor…"
+                : `Serimi kurtar (${lostStreak} gün)`}
             </Button>
           )}
           <Button

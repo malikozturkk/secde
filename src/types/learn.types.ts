@@ -89,9 +89,7 @@ export type StepType =
   | "after_standing"
   | "prostration"
   | "salutation"
-
   | "khutbah"
-
   | "wash_hands"
   | "wash_mouth"
   | "wash_nose"
@@ -100,7 +98,6 @@ export type StepType =
   | "anoint_head"
   | "wash_ears"
   | "wash_feet"
-
   | "intend"
   | "wash_private"
   | "full_ablution"

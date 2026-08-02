@@ -4,8 +4,7 @@ import { useSyncExternalStore } from "react";
 import { COUNTDOWN_TICK_MS } from "@/src/constants/worship";
 
 const listeners = new Set<() => void>();
-let cachedNow: number =
-  typeof Date !== "undefined" ? Date.now() : 0;
+let cachedNow: number = typeof Date !== "undefined" ? Date.now() : 0;
 let intervalHandle: ReturnType<typeof setInterval> | null = null;
 
 const startTicker = (): void => {

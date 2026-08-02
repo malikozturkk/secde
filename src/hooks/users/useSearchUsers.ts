@@ -3,7 +3,10 @@ import { userService } from "@/src/services/user.service";
 
 const DEFAULT_PAGE_SIZE = 20;
 
-export function useSearchUsers(query: string, pageSize: number = DEFAULT_PAGE_SIZE) {
+export function useSearchUsers(
+  query: string,
+  pageSize: number = DEFAULT_PAGE_SIZE
+) {
   const trimmed = query.trim();
 
   return useInfiniteQuery({

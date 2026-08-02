@@ -7,11 +7,7 @@ import {
   formatRelativeDate,
 } from "@/src/lib/worship-utils";
 import { DatePicker, type DateString } from "@/src/components/ui/DatePicker";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Refresh,
-} from "@/src/icons/tsx/worship";
+import { ChevronLeft, ChevronRight, Refresh } from "@/src/icons/tsx/worship";
 
 interface ControlBarProps {
   selectedDate: DateString;

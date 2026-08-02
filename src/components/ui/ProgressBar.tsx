@@ -3,12 +3,7 @@
 import React from "react";
 import { cn } from "@/src/lib/utils";
 
-type ProgressTone =
-  | "primary"
-  | "secondary"
-  | "streak"
-  | "violet"
-  | "accent";
+type ProgressTone = "primary" | "secondary" | "streak" | "violet" | "accent";
 
 interface ProgressBarProps {
   value: number;

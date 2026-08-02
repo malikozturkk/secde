@@ -8,8 +8,17 @@ import { Input } from "@/src/components/ui/Input";
 import { ProgressBar } from "@/src/components/ui/ProgressBar";
 import { Zakat } from "@/src/icons/tsx/tools";
 import { useAuthStore } from "@/src/store/auth.store";
-import { calculateZakat, formatCurrency, parseAmount } from "@/src/lib/zakat-utils";
-import { NISAB_GRAMS, NISAB_LABELS, ZAKAT_DISCLAIMER, ZAKAT_RATE } from "@/src/constants/tools";
+import {
+  calculateZakat,
+  formatCurrency,
+  parseAmount,
+} from "@/src/lib/zakat-utils";
+import {
+  NISAB_GRAMS,
+  NISAB_LABELS,
+  ZAKAT_DISCLAIMER,
+  ZAKAT_RATE,
+} from "@/src/constants/tools";
 import { NisabBasis } from "@/src/types/enums/tools.enums";
 import { cn } from "@/src/lib/utils";
 
@@ -23,7 +32,11 @@ type FieldKey =
   | "goldPerGram"
   | "silverPerGram";
 
-const ASSET_FIELDS: ReadonlyArray<{ key: FieldKey; label: string; suffix: string }> = [
+const ASSET_FIELDS: ReadonlyArray<{
+  key: FieldKey;
+  label: string;
+  suffix: string;
+}> = [
   { key: "cash", label: "Nakit ve banka", suffix: "TL" },
   { key: "receivables", label: "Alacaklar", suffix: "TL" },
   { key: "investments", label: "Yatırım ve ticaret malı", suffix: "TL" },
@@ -49,7 +62,8 @@ export const ZakatClient: React.FC = () => {
   const [chosenBasis, setChosenBasis] = useState<NisabBasis | null>(null);
 
   const basis =
-    chosenBasis ?? (user?.madhab === "HANAFI" ? NisabBasis.Silver : NisabBasis.Gold);
+    chosenBasis ??
+    (user?.madhab === "HANAFI" ? NisabBasis.Silver : NisabBasis.Gold);
 
   const setField = useCallback((key: FieldKey, raw: string) => {
     if (raw && !/^[\d.,\s]*$/.test(raw)) return;
@@ -71,9 +85,9 @@ export const ZakatClient: React.FC = () => {
           goldPerGram: parseAmount(values.goldPerGram),
           silverPerGram: parseAmount(values.silverPerGram),
         },
-        basis,
+        basis
       ),
-    [values, basis],
+    [values, basis]
   );
 
   const missingPrice =
@@ -131,7 +145,8 @@ export const ZakatClient: React.FC = () => {
                 {formatCurrency(result.zakatDue)}
               </span>
               <span className="text-[12px] font-black text-white/45">
-                TL · net varlığın %{(ZAKAT_RATE * 100).toLocaleString("tr-TR")}&apos;i
+                TL · net varlığın %{(ZAKAT_RATE * 100).toLocaleString("tr-TR")}
+                &apos;i
               </span>
             </>
           ) : (

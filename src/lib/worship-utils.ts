@@ -1,12 +1,6 @@
-import {
-  MONTHS_TR,
-  DAYS_LONG_TR,
-} from "../constants/worship";
+import { MONTHS_TR, DAYS_LONG_TR } from "../constants/worship";
 import { PrayerState } from "../types/enums/worship.enums";
-import type {
-  PrayerTime,
-  Coordinates,
-} from "../types/worship.types";
+import type { PrayerTime, Coordinates } from "../types/worship.types";
 
 interface DurationParts {
   h: number;
@@ -105,8 +99,6 @@ export const getPrayerState = (time: PrayerTime | undefined): PrayerState => {
   if (time.isPassed) return PrayerState.Passed;
   return PrayerState.Upcoming;
 };
-
-
 
 export const stripHijriPrefix = (hijri: string): string =>
   hijri.replace(/^Hicri\s+/i, "").trim();

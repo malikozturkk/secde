@@ -2,12 +2,7 @@
 import React from "react";
 import { cn } from "@/src/lib/utils";
 
-type SpeechBubbleTone =
-  | "primary"
-  | "neutral"
-  | "accent"
-  | "warning"
-  | "white";
+type SpeechBubbleTone = "primary" | "neutral" | "accent" | "warning" | "white";
 type SpeechBubblePlacement =
   | "top"
   | "bottom"

@@ -695,8 +695,7 @@ export const MADHAB_LABEL: Record<string, string> = {
 
 export const WORSHIP_QUERY_KEYS = {
   all: ["worship"] as const,
-  times: (params: { date: string }) =>
-    ["worship", "times", params] as const,
+  times: (params: { date: string }) => ["worship", "times", params] as const,
   options: () => ["worship", "options"] as const,
 };
 

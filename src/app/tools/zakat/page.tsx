@@ -3,7 +3,8 @@ import { ZakatClient } from "./ZakatClient";
 
 export const metadata = createMetadata({
   title: "Zekât Hesaplayıcı",
-  description: "Varlığını gir, nisabı aşıyor musun ve ne kadar zekât düştüğünü hesapla.",
+  description:
+    "Varlığını gir, nisabı aşıyor musun ve ne kadar zekât düştüğünü hesapla.",
   path: "/tools/zakat",
 });
 

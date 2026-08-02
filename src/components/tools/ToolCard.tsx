@@ -61,8 +61,12 @@ const ToolCardComponent: React.FC<ToolCardProps> = ({ tool, hint }) => {
           <ChevronRight className="h-3 w-3 shrink-0 text-white/30" />
         </div>
 
-        <h3 className="text-[17px] font-black tracking-[-0.01em] text-white">{tool.label}</h3>
-        <p className="text-[13px] font-bold leading-snug text-white/55">{tool.description}</p>
+        <h3 className="text-[17px] font-black tracking-[-0.01em] text-white">
+          {tool.label}
+        </h3>
+        <p className="text-[13px] font-bold leading-snug text-white/55">
+          {tool.description}
+        </p>
 
         {hint && (
           <div className="mt-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-white/40">

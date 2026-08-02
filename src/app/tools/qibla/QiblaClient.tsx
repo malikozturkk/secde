@@ -32,7 +32,11 @@ export const QiblaClient: React.FC = () => {
 
   const origin = useMemo(() => {
     if (useDeviceLocation && geo.coords) {
-      return { latitude: geo.coords.lat, longitude: geo.coords.lng, label: "Cihaz konumun" };
+      return {
+        latitude: geo.coords.lat,
+        longitude: geo.coords.lng,
+        label: "Cihaz konumun",
+      };
     }
     if (registeredCity) {
       return {
@@ -45,8 +49,9 @@ export const QiblaClient: React.FC = () => {
   }, [useDeviceLocation, geo.coords, registeredCity]);
 
   const reading = useMemo(
-    () => (origin ? buildQiblaReading(origin.latitude, origin.longitude) : null),
-    [origin],
+    () =>
+      origin ? buildQiblaReading(origin.latitude, origin.longitude) : null,
+    [origin]
   );
 
   const delta = useMemo(() => {
@@ -54,14 +59,16 @@ export const QiblaClient: React.FC = () => {
     return shortestAngleDelta(compass.heading, reading.bearing);
   }, [reading, compass.heading]);
 
-  const isAligned = delta !== null && Math.abs(delta) <= QIBLA_ALIGNED_TOLERANCE_DEGREES;
+  const isAligned =
+    delta !== null && Math.abs(delta) <= QIBLA_ALIGNED_TOLERANCE_DEGREES;
   const liveCompass = compass.status === CompassStatus.Active;
 
   const handleUseDeviceLocation = useCallback(() => geo.request(), [geo]);
 
   const headline = useMemo(() => {
     if (delta === null) return null;
-    if (Math.abs(delta) <= QIBLA_ALIGNED_TOLERANCE_DEGREES) return "Kıbleye dönüksün";
+    if (Math.abs(delta) <= QIBLA_ALIGNED_TOLERANCE_DEGREES)
+      return "Kıbleye dönüksün";
     return `${Math.abs(Math.round(delta))}° ${delta > 0 ? "sağa" : "sola"} dön`;
   }, [delta]);
 
@@ -78,12 +85,18 @@ export const QiblaClient: React.FC = () => {
 
         {!origin ? (
           <section className="flex flex-col items-start gap-3 rounded-3xl border border-[rgba(245,166,35,0.35)] bg-gradient-to-b from-[rgba(245,166,35,0.12)] to-[#1C2E35] to-60% p-5">
-            <h1 className="m-0 text-xl font-black text-white">Önce konum gerekli</h1>
+            <h1 className="m-0 text-xl font-black text-white">
+              Önce konum gerekli
+            </h1>
             <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
               Kıble yönü bulunduğun noktaya göre hesaplanır.
             </p>
             <div className="flex flex-wrap gap-2">
-              <Button size="sm" variant="primary" onClick={handleUseDeviceLocation}>
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={handleUseDeviceLocation}
+              >
                 Konumumu kullan
               </Button>
               <Link href="/settings/account">
@@ -119,7 +132,10 @@ export const QiblaClient: React.FC = () => {
                       : "text-[26px] text-white"
                   )}
                 >
-                  {headline ?? `${formatBearing(reading!.bearing)} ${describeDirection(reading!.bearing)}`}
+                  {headline ??
+                    `${formatBearing(reading!.bearing)} ${describeDirection(
+                      reading!.bearing
+                    )}`}
                 </span>
                 <span className="text-[11px] font-black uppercase tracking-[0.1em] text-white/35">
                   {liveCompass
@@ -173,7 +189,9 @@ export const QiblaClient: React.FC = () => {
               <span className="text-[12px] font-black text-white/70">
                 {origin.label}
                 {!useDeviceLocation && (
-                  <span className="ml-1.5 font-bold text-white/35">kayıtlı şehrin</span>
+                  <span className="ml-1.5 font-bold text-white/35">
+                    kayıtlı şehrin
+                  </span>
                 )}
               </span>
               <Button
@@ -190,7 +208,9 @@ export const QiblaClient: React.FC = () => {
                   : "Cihaz konumu"}
               </Button>
               {geo.error && (
-                <p className="m-0 w-full text-[12px] font-bold text-rose-300">{geo.error}</p>
+                <p className="m-0 w-full text-[12px] font-bold text-rose-300">
+                  {geo.error}
+                </p>
               )}
             </div>
           </>

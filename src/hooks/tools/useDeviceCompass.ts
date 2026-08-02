@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { COMPASS_SMOOTHING } from "@/src/constants/tools";
 import { normalizeDegrees, shortestAngleDelta } from "@/src/lib/qibla-utils";
 import { CompassStatus } from "@/src/types/enums/tools.enums";
@@ -22,7 +28,10 @@ enum Capability {
 }
 
 const detectCapability = (): Capability => {
-  if (typeof window === "undefined" || typeof DeviceOrientationEvent === "undefined") {
+  if (
+    typeof window === "undefined" ||
+    typeof DeviceOrientationEvent === "undefined"
+  ) {
     return Capability.Unsupported;
   }
   const cls = DeviceOrientationEvent as OrientationEventClass;
@@ -32,7 +41,8 @@ const detectCapability = (): Capability => {
 };
 
 let cachedCapability: Capability | null = null;
-const getCapability = (): Capability => (cachedCapability ??= detectCapability());
+const getCapability = (): Capability =>
+  (cachedCapability ??= detectCapability());
 const getServerCapability = (): Capability => Capability.Unknown;
 const subscribeNever = (): (() => void) => () => {};
 
@@ -50,13 +60,20 @@ interface HeadingReading {
 }
 
 const readHeading = (event: WebkitOrientationEvent): HeadingReading | null => {
-  if (typeof event.webkitCompassHeading === "number" && !Number.isNaN(event.webkitCompassHeading)) {
-    return { heading: normalizeDegrees(event.webkitCompassHeading), isAbsolute: true };
+  if (
+    typeof event.webkitCompassHeading === "number" &&
+    !Number.isNaN(event.webkitCompassHeading)
+  ) {
+    return {
+      heading: normalizeDegrees(event.webkitCompassHeading),
+      isAbsolute: true,
+    };
   }
   if (typeof event.alpha === "number" && !Number.isNaN(event.alpha)) {
     return {
       heading: normalizeDegrees(360 - event.alpha + screenAngle()),
-      isAbsolute: event.absolute === true || event.type === "deviceorientationabsolute",
+      isAbsolute:
+        event.absolute === true || event.type === "deviceorientationabsolute",
     };
   }
   return null;
@@ -71,7 +88,11 @@ export interface DeviceCompass {
 }
 
 export const useDeviceCompass = (): DeviceCompass => {
-  const capability = useSyncExternalStore(subscribeNever, getCapability, getServerCapability);
+  const capability = useSyncExternalStore(
+    subscribeNever,
+    getCapability,
+    getServerCapability
+  );
 
   const [heading, setHeading] = useState<number | null>(null);
   const [isAbsolute, setIsAbsolute] = useState(true);
@@ -89,7 +110,8 @@ export const useDeviceCompass = (): DeviceCompass => {
       previous === null
         ? reading.heading
         : normalizeDegrees(
-            previous + shortestAngleDelta(previous, reading.heading) * COMPASS_SMOOTHING,
+            previous +
+              shortestAngleDelta(previous, reading.heading) * COMPASS_SMOOTHING
           );
 
     smoothed.current = next;
@@ -102,14 +124,25 @@ export const useDeviceCompass = (): DeviceCompass => {
   useEffect(() => {
     if (!listening) return;
 
-    window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+    window.addEventListener(
+      "deviceorientationabsolute",
+      handleOrientation,
+      true
+    );
     window.addEventListener("deviceorientation", handleOrientation, true);
 
-    const probe = window.setTimeout(() => setProbeExpired(true), PROBE_TIMEOUT_MS);
+    const probe = window.setTimeout(
+      () => setProbeExpired(true),
+      PROBE_TIMEOUT_MS
+    );
 
     return () => {
       window.clearTimeout(probe);
-      window.removeEventListener("deviceorientationabsolute", handleOrientation, true);
+      window.removeEventListener(
+        "deviceorientationabsolute",
+        handleOrientation,
+        true
+      );
       window.removeEventListener("deviceorientation", handleOrientation, true);
     };
   }, [listening, handleOrientation]);
@@ -134,7 +167,8 @@ export const useDeviceCompass = (): DeviceCompass => {
   let status: CompassStatus;
   if (heading !== null) status = CompassStatus.Active;
   else if (permissionDenied) status = CompassStatus.Denied;
-  else if (capability === Capability.Unsupported) status = CompassStatus.Unsupported;
+  else if (capability === Capability.Unsupported)
+    status = CompassStatus.Unsupported;
   else if (listening && probeExpired) status = CompassStatus.Unsupported;
   else status = CompassStatus.Idle;
 

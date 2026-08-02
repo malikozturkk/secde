@@ -33,7 +33,9 @@ export const MONTHS_TR_FULL: readonly string[] = [
   "Aralık",
 ] as const;
 
-export const formatFreezeUsageLabel = (isoDate: string | null): string | null => {
+export const formatFreezeUsageLabel = (
+  isoDate: string | null
+): string | null => {
   if (!isoDate) return null;
   const [year, month, day] = isoDate.split("-").map(Number);
   if (!year || !month || !day) return null;
@@ -132,9 +134,7 @@ export const buildWeekStrip = ({
         date: cellIso,
         label: SHORT_WEEKDAYS_TR[idx]!,
         dayOfMonth,
-        state: todayIsDone
-          ? WeekDayState.TodayDone
-          : WeekDayState.TodayPending,
+        state: todayIsDone ? WeekDayState.TodayDone : WeekDayState.TodayPending,
         isToday,
         completedCount: completedToday,
         totalCount: totalToday,
@@ -160,7 +160,10 @@ interface MonthCalendarInput extends StreakCalendarInput {
 
 const toLevel = (completedCount: number, totalCount: number): number => {
   if (totalCount <= 0 || completedCount <= 0) return 0;
-  return Math.max(1, Math.min(5, Math.round((completedCount / totalCount) * 5)));
+  return Math.max(
+    1,
+    Math.min(5, Math.round((completedCount / totalCount) * 5))
+  );
 };
 
 export const buildMonthCalendar = ({
@@ -286,4 +289,3 @@ export const buildMonthCalendar = ({
     totalCompletedPrayers,
   };
 };
-

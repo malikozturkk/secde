@@ -32,7 +32,7 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
       className={cn(
         "relative overflow-hidden rounded-3xl border border-[rgba(79,195,247,0.30)]",
         "bg-gradient-to-br from-[rgba(79,195,247,0.15)] via-[#1C2E35] to-[#1C2E35] to-70%",
-        "p-4 flex flex-col gap-3 pb-8"
+        "p-4 flex flex-col gap-3"
       )}
       aria-label="Seri dondurma"
     >

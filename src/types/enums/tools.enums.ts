@@ -1,4 +1,3 @@
-
 export enum ToolId {
   Qibla = "qibla",
   Dhikr = "dhikr",

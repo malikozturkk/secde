@@ -6,8 +6,16 @@ import { SectionHead } from "@/src/components/dashboard/parts/SectionHead";
 import { ToolCard } from "@/src/components/tools/ToolCard";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useDhikrCounter } from "@/src/hooks/tools/useDhikrCounter";
-import { TOOLS, TOOLS_PAGE_SUBTITLE, TOOLS_PAGE_TITLE } from "@/src/constants/tools";
-import { buildQiblaReading, describeDirection, formatBearing } from "@/src/lib/qibla-utils";
+import {
+  TOOLS,
+  TOOLS_PAGE_SUBTITLE,
+  TOOLS_PAGE_TITLE,
+} from "@/src/constants/tools";
+import {
+  buildQiblaReading,
+  describeDirection,
+  formatBearing,
+} from "@/src/lib/qibla-utils";
 import { matchTrCity } from "@/src/lib/geocode";
 import { ToolId } from "@/src/types/enums/tools.enums";
 
@@ -19,7 +27,9 @@ export const ToolsHubClient: React.FC = () => {
     const city = matchTrCity(user?.city);
     if (!city) return "Kâbe yönünü göster";
     const { bearing } = buildQiblaReading(city.latitude, city.longitude);
-    return `${city.city} · ${formatBearing(bearing)} ${describeDirection(bearing)}`;
+    return `${city.city} · ${formatBearing(bearing)} ${describeDirection(
+      bearing
+    )}`;
   }, [user?.city]);
 
   const hints: Record<ToolId, React.ReactNode> = {
@@ -45,7 +55,8 @@ export const ToolsHubClient: React.FC = () => {
         </ul>
 
         <p className="px-1 text-[11px] font-bold leading-relaxed text-white/35">
-          Bu araçlar seri veya XP kazandırmaz; namaz takibinden bağımsız çalışırlar.
+          Bu araçlar seri veya XP kazandırmaz; namaz takibinden bağımsız
+          çalışırlar.
         </p>
       </div>
     </AppLayout>

@@ -32,7 +32,7 @@ export const DhikrClient: React.FC = () => {
         increment();
       }
     },
-    [increment],
+    [increment]
   );
 
   return (
@@ -74,7 +74,9 @@ export const DhikrClient: React.FC = () => {
             <h1 className="m-0 text-xl font-black tracking-[-0.01em] text-white">
               {preset.label}
             </h1>
-            <p className="m-0 mt-1 text-[12px] font-bold text-white/45">{preset.meaning}</p>
+            <p className="m-0 mt-1 text-[12px] font-bold text-white/45">
+              {preset.meaning}
+            </p>
           </div>
 
           <button

@@ -2,10 +2,7 @@
 
 import React, { memo } from "react";
 import { DAYS_LONG_TR, MONTHS_TR } from "@/src/constants/worship";
-import {
-  parseLocalDate,
-  stripHijriPrefix,
-} from "@/src/lib/worship-utils";
+import { parseLocalDate, stripHijriPrefix } from "@/src/lib/worship-utils";
 import type { WorshipMeta } from "@/src/types/worship.types";
 
 interface HijriCardProps {

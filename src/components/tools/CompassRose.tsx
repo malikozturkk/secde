@@ -67,7 +67,11 @@ const CompassRoseComponent: React.FC<CompassRoseProps> = ({
                 "absolute left-1/2 top-[18px] text-[13px] font-black tracking-[0.08em]",
                 label === "K" ? "text-[#FF6B35]" : "text-white/35"
               )}
-              style={{ transform: `translateX(-50%) rotate(${-angle - dialRotation}deg)` }}
+              style={{
+                transform: `translateX(-50%) rotate(${
+                  -angle - dialRotation
+                }deg)`,
+              }}
             >
               {label}
             </span>
@@ -85,7 +89,9 @@ const CompassRoseComponent: React.FC<CompassRoseProps> = ({
             <div
               className={cn(
                 "h-0 w-0 border-x-[11px] border-b-[20px] border-x-transparent transition-colors duration-300",
-                isAligned ? "border-b-[var(--color-primary-light)]" : "border-b-[#FFCA6B]"
+                isAligned
+                  ? "border-b-[var(--color-primary-light)]"
+                  : "border-b-[#FFCA6B]"
               )}
             />
             <div

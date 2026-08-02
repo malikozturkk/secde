@@ -2,8 +2,7 @@
 
 import React, { forwardRef, useId } from "react";
 
-interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   suffix?: React.ReactNode;
