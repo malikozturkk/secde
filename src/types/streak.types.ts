@@ -31,11 +31,14 @@ export interface PrayerCardDto {
   streakContribution: boolean;
   pendingQuizId: string | null;
   isLocked: boolean;
+  xpAwarded: number | null;
 }
 
 export interface DailyPrayersResponse {
   date: string;
   timezone: string;
+  firstOfDayBonusXp: number;
+  firstOfDayBonusAvailable: boolean;
   isFriday: boolean;
   isRamadan: boolean;
   isEidDay: boolean;
@@ -186,6 +189,8 @@ export interface PrayerCardViewModel {
   streakContribution: boolean;
   pendingQuizId: string | null;
   isLocked: boolean;
+  totalXpOnCompletion: number;
+  xpAwarded: number | null;
   state: PrayerCardState;
   secondsUntilOpens: number;
   secondsUntilCloses: number;

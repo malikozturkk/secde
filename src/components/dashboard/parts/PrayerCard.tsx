@@ -184,7 +184,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
         )}
         {prayer.state === PrayerCardState.Eligible && (
           <span className="absolute -top-2.5 -right-1 z-40 whitespace-nowrap rounded-full bg-[#FF6B35] px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.08em] text-white shadow-[0_3px_0_0_rgba(124,39,8,0.6)]">
-            +{prayer.xpReward} XP
+            +{prayer.totalXpOnCompletion} XP
           </span>
         )}
         {prayer.state === PrayerCardState.Late && (
@@ -232,7 +232,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
           isCounter
           icon={<XpStar className="h-[9px] w-[9px]" />}
         >
-          +{prayer.effectiveXpReward} XP
+          +{prayer.xpAwarded ?? prayer.totalXpOnCompletion} XP
         </Pill>
         {prayer.state === PrayerCardState.Late && (
           <span className="text-[10px] font-black tracking-[0.06em] text-white/30 line-through">
@@ -431,6 +431,8 @@ const arePropsEqual = (
     a.canMarkAsCompleted === b.canMarkAsCompleted &&
     a.completionStatus === b.completionStatus &&
     a.effectiveXpReward === b.effectiveXpReward &&
+    a.totalXpOnCompletion === b.totalXpOnCompletion &&
+    a.xpAwarded === b.xpAwarded &&
     a.secondsUntilOpens === b.secondsUntilOpens &&
     a.secondsUntilCloses === b.secondsUntilCloses &&
     a.secondsUntilMarkCloses === b.secondsUntilMarkCloses &&

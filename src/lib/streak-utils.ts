@@ -34,6 +34,7 @@ const buildPrayerCardViewModel = (
   dto: PrayerCardDto,
   nowMs: number,
   timeZone: string,
+  firstOfDayBonusXp: number
 ): PrayerCardViewModel => {
   const startMs = parseIsoMs(dto.windowStartsAt);
   const endMs = parseIsoMs(dto.windowEndsAt);
@@ -101,6 +102,8 @@ const buildPrayerCardViewModel = (
     xpReward: dto.xpReward,
     lateXpReward: dto.lateXpReward,
     effectiveXpReward: inLateWindow ? dto.lateXpReward : dto.xpReward,
+    totalXpOnCompletion:
+      (inLateWindow ? dto.lateXpReward : dto.xpReward) + firstOfDayBonusXp,
     isCompleted: dto.isCompleted,
     canMarkAsCompleted: dto.canMarkAsCompleted,
     isLateWindow: inLateWindow,
@@ -112,6 +115,7 @@ const buildPrayerCardViewModel = (
     streakContribution: dto.streakContribution,
     pendingQuizId: dto.pendingQuizId,
     isLocked: dto.isLocked,
+    xpAwarded: dto.xpAwarded,
     state,
     secondsUntilOpens,
     secondsUntilCloses,
@@ -124,8 +128,11 @@ export const buildDailyPrayersViewModel = (
   payload: DailyPrayersResponse,
   nowMs: number
 ): DailyPrayersViewModel => {
+  const bonusXp = payload.firstOfDayBonusAvailable
+    ? payload.firstOfDayBonusXp
+    : 0;
   const prayers = payload.prayers.map((dto) =>
-    buildPrayerCardViewModel(dto, nowMs, payload.timezone)
+    buildPrayerCardViewModel(dto, nowMs, payload.timezone, bonusXp)
   );
 
   const totalToday = prayers.length;
