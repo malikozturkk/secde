@@ -23,6 +23,10 @@ export default function FollowButton({
   const Icon = isFollowing ? UserCheck : UserPlus;
   const label = isFollowing ? "TAKİP EDİYORSUN" : "TAKİP ET";
 
+  const accessibleLabel = isFollowing
+    ? `${username} kullanıcısını takipten çık`
+    : `${username} kullanıcısını takip et`;
+
   return (
     <Button
       onClick={(e) => {
@@ -33,6 +37,9 @@ export default function FollowButton({
       className="gap-1"
       variant={isFollowing ? "ghost" : "primary"}
       disabled={isPending}
+      aria-label={accessibleLabel}
+      aria-pressed={isFollowing}
+      title={accessibleLabel}
     >
       {isPending ? (
         "BEKLENİYOR..."

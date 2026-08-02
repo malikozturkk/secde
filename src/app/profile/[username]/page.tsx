@@ -12,6 +12,7 @@ export async function generateMetadata({
   return {
     title: `${username} Profili`,
     description: `${username} kullanıcısının NamazGo profili. Takipçilerini gör ve takip et.`,
+    robots: { index: false, follow: false },
     alternates: {
       canonical: `${siteConfig.url}/profile/${username}`,
     },

@@ -6,6 +6,7 @@ export const metadata = createMetadata({
   title: "Namaz Vakitleri",
   description:
     "Konumuna göre günün altı namaz vaktini, kalan süreyi, hicri tarihi ve oruç bilgisini canlı olarak takip et.",
+  noIndex: true,
   path: "/worship",
 });
 

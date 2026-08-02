@@ -7,6 +7,7 @@ export const metadata = createMetadata({
   title: "Kullanıcı Ara",
   description:
     "NamazGo topluluğunda kullanıcı ara, arkadaşlarını bul ve takip et.",
+  noIndex: true,
   path: "/search",
 });
 
