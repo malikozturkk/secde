@@ -47,7 +47,7 @@ export interface LeaderboardRow {
   rank: number;
   name: string;
   city: string;
-  xp: number;
+  currentStreak: number;
   avatarColor: string;
   avatarInitial: string;
   isCurrentUser?: boolean;

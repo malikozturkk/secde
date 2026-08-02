@@ -85,7 +85,7 @@ const QuizAccuracyCardComponent: React.FC<QuizAccuracyCardProps> = ({
                 tone="default"
                 size="sm"
                 value={failedCount}
-                label="KALAN DENEME"
+                label="YANLIŞ CEVAPLANAN"
                 icon={
                   <XCircle
                     size={15}

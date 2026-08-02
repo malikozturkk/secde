@@ -4,6 +4,7 @@ import React, { memo } from "react";
 import { STREAK_LOCALE } from "@/src/constants/streak";
 import { cn } from "@/src/lib/utils";
 import type { LeaderboardRow } from "@/src/types/dashboard.types";
+import Fire from "@/src/icons/tsx/dashboard/Fire";
 
 interface LeaderboardCardProps {
   title?: string;
@@ -114,8 +115,8 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
                     {row.city}
                   </small>
                 </span>
-                <span className="font-display text-[13px] tabular-nums text-white/55">
-                  {row.xp.toLocaleString(STREAK_LOCALE)}
+                <span className="font-display text-[13px] tabular-nums text-white/55 flex items-center gap-1">
+                  {row.currentStreak.toLocaleString(STREAK_LOCALE)} <Fire className="h-4 w-4 fill-[var(--color-streak)]" />
                 </span>
               </div>
             );
