@@ -130,6 +130,7 @@ GAMIFICATION_QUERY_KEYS.all                       // ["gamification"]
 GAMIFICATION_QUERY_KEYS.dailyPrayers({ date })    // ["gamification","daily-prayers",{date}]
 GAMIFICATION_QUERY_KEYS.prayerHistory({ from, to })// ["gamification","prayer-history",{from,to}]
 GAMIFICATION_QUERY_KEYS.prayerQuestions({ prayerType })
+GAMIFICATION_QUERY_KEYS.streakRisk()              // ["gamification","streak-risk"]
 WORSHIP_QUERY_KEYS.all / .times(params)
 USER_STATS_QUERY_KEYS.me() / .user(username)
 CONSENT_QUERY_KEYS.status

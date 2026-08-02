@@ -33,6 +33,13 @@ export const MONTHS_TR_FULL: readonly string[] = [
   "Aralık",
 ] as const;
 
+export const formatFreezeUsageLabel = (isoDate: string | null): string | null => {
+  if (!isoDate) return null;
+  const [year, month, day] = isoDate.split("-").map(Number);
+  if (!year || !month || !day) return null;
+  return `${day} ${MONTHS_TR_FULL[month - 1]} ${year}`;
+};
+
 const toMondayIndex = (date: Date): number => (date.getDay() + 6) % 7;
 
 const cloneDate = (input: Date): Date => new Date(input.getTime());

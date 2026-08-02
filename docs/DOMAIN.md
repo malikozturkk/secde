@@ -174,6 +174,32 @@ ve dondurma penceresi açıkken etkindir; hata mesajı modalın içinde gösteri
 > artmıyor, dolayısıyla buton pratikte devre dışı kalır. Planlanan yol ücretli mağaza;
 > otomatik kilometre taşı ödülü bilinçli olarak eklenmedi.
 
+### Seri kopması ve kurtarma
+
+Seri, kullanıcı namaz işaretlemeyi beklemeden düşer: backend `currentStreak` alanını
+`lastActiveDate` ile bugün arasındaki farktan türetir, bu yüzden kopmuş bir seri uygulama
+açılır açılmaz **0** görünür (`GET /gamification/streak-risk`, bkz. `docs/API.md`).
+
+Akış: `useStreakRisk` → `isBroken` ise `useStreakBreakNotice` modalı açar →
+`StreakBrokenDialog`. Modal üç durumu ayırır:
+
+| Durum                 | Modal                                                                |
+| --------------------- | -------------------------------------------------------------------- |
+| `canFreezeNow`        | **SERİMİ KURTAR (n gün)** + **ŞİMDİ DEĞİL**                        |
+| Hak yok               | "Dondurma hakkın kalmadı, bu seri geri alınamıyor." + **YENİDEN BAŞLA** |
+| `freezeWindowExpired` | "Dondurma için geç kaldın, bu seri geri alınamıyor." + **YENİDEN BAŞLA** |
+
+Kurtarma butonu `FreezeCard` ile aynı ucu çağırır (`STREAK_FREEZE`); ayrı bir endpoint yoktur.
+
+Modal, kapatıldığında o **kopma olayı** için susturulur: `useStreakBreakNotice` kapatılan
+kopmanın `lastActiveDate` değerini localStorage'a yazar
+(`STREAK_BREAK_NOTICE_STORAGE_KEY`). Seri tekrar koparsa `lastActiveDate` değişeceği için
+modal yeniden çıkar. Okuma `useSyncExternalStore` ile yapılır — efekt içinde `setState`
+yok, bu yüzden `react-hooks/set-state-in-effect` kuralına takılmaz.
+
+`atRisk` (boşluk = 1, seri bu gece kopacak) backend'den geliyor ancak arayüzde
+**henüz kullanılmıyor**.
+
 ### Yenileme aralıkları
 
 `DAILY_PRAYERS_STALE_TIME_MS` 60 sn · `DAILY_PRAYERS_REFRESH_INTERVAL_MS` 5 dk ·

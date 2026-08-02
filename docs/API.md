@@ -220,12 +220,32 @@ konum güncelleme akışlarında kullanılır.
 | ----- | ----------------------------------------------------------------------- | ---------------------------------- | ------------------------------ |
 | GET   | `/gamification/daily-prayers`                                           | `date`                             | `DailyPrayersResponse`         |
 | GET   | `/gamification/prayer-history`                                          | `from`, `to`                       | `PrayerHistoryResponse`        |
+| GET   | `/gamification/streak-risk`                                             | —                                  | `StreakRiskAssessment`         |
 | GET   | `/gamification/prayer-questions/{prayerType}`                           | —                                  | `PrayerQuestionsResponse`      |
 | POST  | `/gamification/prayer-questions/{quizId}/questions/{questionId}/start`  | —                                  | `StartPrayerQuestionResponse`  |
 | POST  | `/gamification/prayer-questions/{quizId}/questions/{questionId}/answer` | `{ optionId }`                     | `AnswerPrayerQuestionResponse` |
 | POST  | `/gamification/action`                                                  | `{ actionType, clientRequestId? }` | `GamificationActionResponse`   |
 
 Yol parametreleri `encodeURIComponent` ile kodlanır.
+
+### Seri durumu
+
+`GET /gamification/streak-risk` → `StreakRiskAssessment`. Serinin **şu anki** durumunu döner;
+backend `currentStreak` alanını `lastActiveDate` ile bugün arasındaki farka göre türetir, yani
+kopmuş bir seri kullanıcı namaz işaretlemeyi beklemeden **0** okunur.
+
+| Alan                  | Anlamı                                                                 |
+| --------------------- | ---------------------------------------------------------------------- |
+| `isBroken`            | Boşluk ≥ 2 gün — seri kopmuş                                          |
+| `recoverableStreak`   | Dondurma hakkı kullanılırsa geri gelecek gün sayısı                    |
+| `atRisk`              | Boşluk = 1 — seri ayakta ama bugün işaretlenmezse gece yarısı kopacak |
+| `canFreezeNow`        | Kopmuş **ve** 3 günlük pencere içinde **ve** hak var                   |
+| `freezeWindowExpired` | Kopmuş ama pencere kapanmış, geri alınamaz                             |
+| `lastFreezeUsedAt`    | En son korunan gün (`null` = hiç kullanılmamış)                        |
+
+Geri alma ayrı bir uç değildir: `POST /gamification/action` +
+`actionType: STREAK_FREEZE` kullanılır. `useGamificationAction` başarıda bu sorguyu
+invalidate eder.
 
 ### Günlük vakitler
 

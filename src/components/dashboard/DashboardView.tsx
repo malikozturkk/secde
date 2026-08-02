@@ -39,6 +39,10 @@ import { LevelStatCard } from "@/src/components/stats/LevelStatCard";
 import { PrayerQuizModal } from "@/src/components/dashboard/quiz/PrayerQuizModal";
 import { MonthHeatmapSheet } from "@/src/components/dashboard/month/MonthHeatmapSheet";
 import { FreezeConfirmDialog } from "@/src/components/dashboard/parts/FreezeConfirmDialog";
+import { StreakBrokenDialog } from "@/src/components/dashboard/parts/StreakBrokenDialog";
+import { useStreakRisk } from "@/src/hooks/streak/useStreakRisk";
+import { useStreakBreakNotice } from "@/src/hooks/streak/useStreakBreakNotice";
+import { formatFreezeUsageLabel } from "@/src/lib/dashboard-utils";
 
 const EMPTY_HISTORY: readonly PrayerHistoryDay[] = [];
 
@@ -64,6 +68,11 @@ export const DashboardView: React.FC = () => {
   const [monthOpen, setMonthOpen] = useState<boolean>(false);
   const [freezeOpen, setFreezeOpen] = useState<boolean>(false);
   const [freezeError, setFreezeError] = useState<string | null>(null);
+  const [breakError, setBreakError] = useState<string | null>(null);
+
+  const streakRisk = useStreakRisk(!locationNotSet);
+  const risk = streakRisk.data;
+  const breakNotice = useStreakBreakNotice(risk);
 
   const handleOpenFreeze = useCallback(() => {
     setFreezeError(null);
@@ -83,6 +92,23 @@ export const DashboardView: React.FC = () => {
       }
     );
   }, [controller]);
+
+  const handleRecoverStreak = useCallback(() => {
+    setBreakError(null);
+    controller.action.mutate(
+      { actionType: GamificationActionType.StreakFreeze },
+      {
+        onSuccess: () => {
+          breakNotice.dismiss();
+          controller.refresh();
+        },
+        onError: (err) =>
+          setBreakError(
+            getApiErrorMessage(err) ?? "Seri kurtarılamadı. Lütfen tekrar dene."
+          ),
+      }
+    );
+  }, [breakNotice, controller]);
 
   const handleMarkPrayer = useCallback((prayer: PrayerCardViewModel) => {
     if (!prayer.canMarkAsCompleted) return;
@@ -116,6 +142,9 @@ export const DashboardView: React.FC = () => {
   const currentStreak = selfStats?.streak.current ?? 0;
   const longestStreak = selfStats?.streak.longest ?? 0;
   const streakFreezeCount = selfStats?.streak.freezeCount ?? 0;
+  const freezeUsageLabel = formatFreezeUsageLabel(risk?.lastFreezeUsedAt ?? null);
+  const freezeWindowExpired = risk?.freezeWindowExpired ?? false;
+  const freezeTargetStreak = risk?.isBroken ? risk.recoverableStreak : currentStreak;
   const totalXp = selfStats?.level.totalXp ?? 0;
   const level = selfStats?.level.level ?? 1;
   const levelBadgeKey = selfStats?.level.badgeKey ?? "";
@@ -226,6 +255,8 @@ export const DashboardView: React.FC = () => {
           streakFreezeCount={streakFreezeCount}
           onUseFreeze={handleOpenFreeze}
           isUsingFreeze={controller.action.isPending}
+          freezeUsageLabel={freezeUsageLabel}
+          freezeWindowExpired={freezeWindowExpired}
           leaderboard={leaderboard}
         />
       }
@@ -289,6 +320,8 @@ export const DashboardView: React.FC = () => {
             streakFreezeCount={streakFreezeCount}
             onUseFreeze={handleOpenFreeze}
             isUsing={controller.action.isPending}
+            lastUsedLabel={freezeUsageLabel}
+            freezeWindowExpired={freezeWindowExpired}
           />
         </div>
 
@@ -304,12 +337,28 @@ export const DashboardView: React.FC = () => {
         onCompletion={handleQuizCompletion}
       />
 
+      <StreakBrokenDialog
+        isOpen={breakNotice.isOpen}
+        onClose={() => {
+          setBreakError(null);
+          breakNotice.dismiss();
+        }}
+        onRecover={handleRecoverStreak}
+        lostStreak={risk?.recoverableStreak ?? 0}
+        daysSinceLastActive={risk?.daysSinceLastActive ?? 0}
+        freezesAvailable={risk?.freezesAvailable ?? 0}
+        canFreezeNow={risk?.canFreezeNow ?? false}
+        freezeWindowExpired={risk?.freezeWindowExpired ?? false}
+        isPending={controller.action.isPending}
+        errorMessage={breakError}
+      />
+
       <FreezeConfirmDialog
         isOpen={freezeOpen}
         onClose={() => setFreezeOpen(false)}
         onConfirm={handleConfirmFreeze}
         freezesRemaining={streakFreezeCount}
-        currentStreak={currentStreak}
+        currentStreak={freezeTargetStreak}
         isPending={controller.action.isPending}
         errorMessage={freezeError}
       />
@@ -338,6 +387,8 @@ interface RightRailProps {
   progressPercent: number;
   goalCharacter: Parameters<typeof DailyGoalCard>[0]["character"];
   streakFreezeCount: number;
+  freezeUsageLabel: string | null;
+  freezeWindowExpired: boolean;
   onUseFreeze: () => void;
   isUsingFreeze: boolean;
   leaderboard: Parameters<typeof LeaderboardCard>[0]["rows"];
@@ -358,6 +409,8 @@ const RightRail: React.FC<RightRailProps> = ({
   streakFreezeCount,
   onUseFreeze,
   isUsingFreeze,
+  freezeUsageLabel,
+  freezeWindowExpired,
   leaderboard,
 }) => (
   <div className="flex h-full flex-col gap-4 overflow-y-auto pr-1 lg:pr-0">
@@ -380,6 +433,8 @@ const RightRail: React.FC<RightRailProps> = ({
       streakFreezeCount={streakFreezeCount}
       onUseFreeze={onUseFreeze}
       isUsing={isUsingFreeze}
+      lastUsedLabel={freezeUsageLabel}
+      freezeWindowExpired={freezeWindowExpired}
     />
     <LeaderboardCard rows={leaderboard} />
   </div>

@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { gamificationService } from "@/src/services/gamification.service";
 import { USER_STATS_QUERY_KEYS } from "@/src/constants/user-stats";
+import { GAMIFICATION_QUERY_KEYS } from "@/src/constants/streak";
 import { useAuthStore } from "@/src/store/auth.store";
 import type {
   GamificationActionRequest,
@@ -38,6 +39,9 @@ export const useGamificationAction = (): ActionMutation => {
 
       const invalidations: Promise<unknown>[] = [
         queryClient.invalidateQueries({ queryKey: USER_STATS_QUERY_KEYS.me() }),
+        queryClient.invalidateQueries({
+          queryKey: GAMIFICATION_QUERY_KEYS.streakRisk(),
+        }),
       ];
 
       if (username) {

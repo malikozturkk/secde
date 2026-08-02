@@ -132,9 +132,24 @@ export interface PrayerCompletionResult {
   level: number;
   leveledUp: boolean;
   streakAdvanced: boolean;
+  streakReset: boolean;
   currentStreak: number;
   longestStreak: number;
   isFirstOfDay: boolean;
+}
+
+export interface StreakRiskAssessment {
+  currentStreak: number;
+  longestStreak: number;
+  freezesAvailable: number;
+  lastActiveDate: string | null;
+  daysSinceLastActive: number | null;
+  isBroken: boolean;
+  recoverableStreak: number;
+  atRisk: boolean;
+  canFreezeNow: boolean;
+  freezeWindowExpired: boolean;
+  lastFreezeUsedAt: string | null;
 }
 
 export interface StreakFreezeUsageResult {

@@ -12,6 +12,7 @@ import type {
   PrayerQuestionsQuery,
   PrayerQuestionsResponse,
   StartPrayerQuestionResponse,
+  StreakRiskAssessment,
 } from "@/src/types/streak.types";
 
 export const gamificationService = {
@@ -34,6 +35,11 @@ export const gamificationService = {
           to: params.to,
         },
       }
+    ),
+
+  getStreakRisk: () =>
+    axiosInstance.get<ApiResponse<StreakRiskAssessment>>(
+      "/gamification/streak-risk"
     ),
 
   getPrayerQuestions: (params: PrayerQuestionsQuery) =>

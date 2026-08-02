@@ -160,9 +160,12 @@ export const GAMIFICATION_QUERY_KEYS = {
     ["gamification", "prayer-history", params] as const,
   prayerQuestions: (params: { prayerType: string }) =>
     ["gamification", "prayer-questions", params] as const,
+  streakRisk: () => ["gamification", "streak-risk"] as const,
 } as const;
 
 export const DAILY_PRAYERS_STALE_TIME_MS = 60 * 1000;
+export const STREAK_RISK_STALE_TIME_MS = 60 * 1000;
+export const STREAK_BREAK_NOTICE_STORAGE_KEY = "namazgo:streak-break-notice";
 export const PRAYER_HISTORY_STALE_TIME_MS = 5 * 60 * 1000;
 export const PRAYER_HISTORY_MAX_RANGE_DAYS = 62;
 
