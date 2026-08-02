@@ -179,14 +179,3 @@ export const PRAYER_QUIZ_QUESTION_COUNT = 3;
 export const STREAK_FREEZE_MAX_SLOTS = 3;
 export const ANIMATED_NUMBER_DURATION_MS = 700;
 export const STREAK_HERO_LEVEL_LABEL_FALLBACK = "Sabır Yolcusu";
-export const STREAK_HERO_LEVEL_TITLES: Record<number, string> = {
-  1: "İlk Adım",
-  5: "Yolcu",
-  10: "Kararlı",
-  15: "Sabır Yolcusu",
-  20: "Devamlı",
-  30: "Erken Kuş",
-  50: "Disiplinli",
-  75: "İçten",
-  100: "Üç Hane",
-};

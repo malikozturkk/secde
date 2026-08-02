@@ -237,7 +237,6 @@ UI: `components/dashboard/quiz/` (`PrayerQuizModal`, `QuizOption`, `QuizProgress
 consistent, steadfast, early_bird, night_owl, disciplined, devoted, dedicated, master,
 champion, legend`.
 - Dashboard kahramanı için ayrı bir seviye ünvanı tablosu vardır:
-  `STREAK_HERO_LEVEL_TITLES` (1, 5, 10, 15, 20, 30, 50, 75, 100) + fallback
   `STREAK_HERO_LEVEL_LABEL_FALLBACK = "Sabır Yolcusu"`.
 - Vakit dağılımı `PRAYER_BREAKDOWN_META` ile renk/etiket alır
   (`fajr, dhuhr, asr, maghrib, isha, jumuah, tarawih, eidFitr, eidAdha`).
