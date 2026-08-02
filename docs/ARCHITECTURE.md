@@ -31,14 +31,14 @@ istemciden, `axiosInstance` üzerinden gelir.
 
 ## 2. Katmanlar
 
-| Katman | Konum | Sorumluluk | Yapmaması gereken |
-|---|---|---|---|
-| Service | `src/services/*.service.ts` | Endpoint yolu, HTTP metodu, request/response tipi | State tutmak, hata mesajı üretmek |
-| Hook | `src/hooks/**/use*.ts` | React Query key/config, `ApiResponse` zarfını açmak, cache invalidation | JSX döndürmek |
-| Bileşen | `src/components/**`, `src/app/**` | Sunum + etkileşim | Doğrudan axios/fetch çağırmak |
-| Store | `src/store/auth.store.ts` | Oturum durumu, cookie yazma/silme | Sunucu verisi cache'lemek |
-| Lib | `src/lib/**` | Saf yardımcılar, axios instance, view-model üreticileri | React'e bağımlı olmak (`utils` dosyaları saf) |
-| Constants | `src/constants/**` | Sabitler, query key fabrikaları, hata sözlüğü | İş mantığı |
+| Katman    | Konum                             | Sorumluluk                                                              | Yapmaması gereken                             |
+| --------- | --------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------- |
+| Service   | `src/services/*.service.ts`       | Endpoint yolu, HTTP metodu, request/response tipi                       | State tutmak, hata mesajı üretmek             |
+| Hook      | `src/hooks/**/use*.ts`            | React Query key/config, `ApiResponse` zarfını açmak, cache invalidation | JSX döndürmek                                 |
+| Bileşen   | `src/components/**`, `src/app/**` | Sunum + etkileşim                                                       | Doğrudan axios/fetch çağırmak                 |
+| Store     | `src/store/auth.store.ts`         | Oturum durumu, cookie yazma/silme                                       | Sunucu verisi cache'lemek                     |
+| Lib       | `src/lib/**`                      | Saf yardımcılar, axios instance, view-model üreticileri                 | React'e bağımlı olmak (`utils` dosyaları saf) |
+| Constants | `src/constants/**`                | Sabitler, query key fabrikaları, hata sözlüğü                           | İş mantığı                                    |
 
 ### Service örneği
 
@@ -58,7 +58,9 @@ export const worshipService = {
 // src/hooks/worship/useWorshipTimes.ts
 export const useWorshipTimes = (params: WorshipQueryParams | null) =>
   useQuery<WorshipData>({
-    queryKey: params ? WORSHIP_QUERY_KEYS.times(params) : ["worship", "times", "disabled"],
+    queryKey: params
+      ? WORSHIP_QUERY_KEYS.times(params)
+      : ["worship", "times", "disabled"],
     queryFn: async () => {
       const response = await worshipService.getTimes(params!);
       const data = response.data.data;
@@ -82,10 +84,10 @@ sorgunun cache'i kirlenmez.
 Karmaşık ekranlarda birden çok query + yerel state tek bir "controller" hook'unda toplanır ve
 `View` bileşeni yalnızca onu tüketir:
 
-| Hook | Topladığı şey |
-|---|---|
-| `useWorshipController` | Seçili tarih, gün ileri/geri/bugün gezinmesi, `useWorshipTimes`, gün değişimi izleme (`useDayChange`), manuel `refresh` |
-| `useStreakController` | Bugünün tarihi, `useDailyPrayers` + `useSelfStats`, saniyelik tik (`useNowTicker`), view-model üretimi, kutlama (celebration) state'i |
+| Hook                   | Topladığı şey                                                                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `useWorshipController` | Seçili tarih, gün ileri/geri/bugün gezinmesi, `useWorshipTimes`, gün değişimi izleme (`useDayChange`), manuel `refresh`               |
+| `useStreakController`  | Bugünün tarihi, `useDailyPrayers` + `useSelfStats`, saniyelik tik (`useNowTicker`), view-model üretimi, kutlama (celebration) state'i |
 
 DTO → view-model dönüşümü bileşende değil `src/lib/*-utils.ts` içindeki saf fonksiyonlarda
 yapılır (`buildDailyPrayersViewModel`, `buildLocalDateString`, `addDays`, `roundCoordinate`).
@@ -114,14 +116,14 @@ Varsayılanlar `src/providers/QueryProvider.tsx` içinde:
 
 Sorguya özel ayarlar ilgili `constants` dosyasından gelir:
 
-| Sabit | Değer | Kaynak |
-|---|---|---|
-| `DAILY_PRAYERS_STALE_TIME_MS` | 60 sn | `constants/streak.ts` |
-| `DAILY_PRAYERS_REFRESH_INTERVAL_MS` | 5 dk | `constants/streak.ts` |
-| `PRAYER_HISTORY_STALE_TIME_MS` | 5 dk | `constants/streak.ts` |
-| `PRAYER_HISTORY_MAX_RANGE_DAYS` | 62 | `constants/streak.ts` — backend sabitiyle aynı olmalı |
-| `STREAK_TICK_INTERVAL_MS` | 1 sn | `constants/streak.ts` |
-| `WORSHIP_STALE_TIME`, `WORSHIP_REFRESH_INTERVAL` | — | `constants/worship.ts` |
+| Sabit                                            | Değer | Kaynak                                                |
+| ------------------------------------------------ | ----- | ----------------------------------------------------- |
+| `DAILY_PRAYERS_STALE_TIME_MS`                    | 60 sn | `constants/streak.ts`                                 |
+| `DAILY_PRAYERS_REFRESH_INTERVAL_MS`              | 5 dk  | `constants/streak.ts`                                 |
+| `PRAYER_HISTORY_STALE_TIME_MS`                   | 5 dk  | `constants/streak.ts`                                 |
+| `PRAYER_HISTORY_MAX_RANGE_DAYS`                  | 62    | `constants/streak.ts` — backend sabitiyle aynı olmalı |
+| `STREAK_TICK_INTERVAL_MS`                        | 1 sn  | `constants/streak.ts`                                 |
+| `WORSHIP_STALE_TIME`, `WORSHIP_REFRESH_INTERVAL` | —     | `constants/worship.ts`                                |
 
 ### Query key fabrikaları
 
@@ -132,6 +134,7 @@ GAMIFICATION_QUERY_KEYS.prayerHistory({ from, to })// ["gamification","prayer-hi
 GAMIFICATION_QUERY_KEYS.prayerQuestions({ prayerType })
 GAMIFICATION_QUERY_KEYS.streakRisk()              // ["gamification","streak-risk"]
 WORSHIP_QUERY_KEYS.all / .times(params)
+LEADERBOARD_QUERY_KEYS.all / .list(params)        // QA B1
 USER_STATS_QUERY_KEYS.me() / .user(username)
 CONSENT_QUERY_KEYS.status
 ```
@@ -146,18 +149,29 @@ CONSENT_QUERY_KEYS.status
 
 Yeni mutation yazarken: neyin yerinde güncelleneceğini, neyin invalidate edileceğini bilinçli seç.
 
+**QA M3 — eksik invalidation gerçek bir hataydı.** Seri dondurma `200` dönüyor, sağ panel ve seri
+sayacı anında güncelleniyor ama hafta şeridindeki korunan gün boş kalıyordu: kar tanesi
+`prayer-history`'den geliyor ve o sorgu invalidate edilmiyordu. `useGamificationAction` artık
+`prayerHistoryAll`, `dailyPrayersAll` ve `LEADERBOARD_QUERY_KEYS.all` sorgularını da tazeliyor;
+`useAnswerPrayerQuestion` da tamamlama sonrası aynısını yapıyor.
+
+**QA M9 — `retry` politikası.** `QueryProvider` varsayılanı `retry: 1`, yani _her_ hatayı bir kez
+tekrarlar. Var olmayan bir profil bu yüzden uç başına iki adet 404 üretiyordu. `useProfile`,
+`useGetFollowers` ve `useGetFollowing` artık `retryOnServerError()` kullanıyor — yalnızca 5xx
+tekrarlanır. Yeni sorgular için varsayılan bu olmalı.
+
 ---
 
 ## 5. Kimlik doğrulama
 
 ### 5.1 Durum nerede tutulur
 
-| Veri | Yer | Kalıcı mı |
-|---|---|---|
-| `accessToken` | Zustand state + `auth-token` cookie | localStorage'a **yazılmaz** |
-| `refreshToken` | Zustand state + localStorage (`auth-storage`) | Evet |
-| `user` | Zustand state + localStorage | Evet |
-| `tempToken` | Zustand state | Hayır (kayıt/OTP akışı için geçici) |
+| Veri           | Yer                                           | Kalıcı mı                           |
+| -------------- | --------------------------------------------- | ----------------------------------- |
+| `accessToken`  | Zustand state + `auth-token` cookie           | localStorage'a **yazılmaz**         |
+| `refreshToken` | Zustand state + localStorage (`auth-storage`) | Evet                                |
+| `user`         | Zustand state + localStorage                  | Evet                                |
+| `tempToken`    | Zustand state                                 | Hayır (kayıt/OTP akışı için geçici) |
 
 `partialize` yalnızca `refreshToken` ve `user`'ı persist eder.
 
@@ -193,11 +207,19 @@ Bu mekanizmayı sadeleştirmeye çalışırken kuyruk mantığını bozma.
 Yalnızca `auth-token` cookie'sinin **varlığına** bakar; token doğrulaması yapmaz.
 
 ```ts
-PUBLIC_ROUTES = ["/", "/login", "/register", "/forgot-password",
-                 "/reset-password", "/verify-otp", "/terms", "/privacy"]
-AUTH_ROUTES   = ["/login", "/register", "/forgot-password", "/reset-password"]
-DEFAULT_AUTHENTICATED_REDIRECT   = "/"
-DEFAULT_UNAUTHENTICATED_REDIRECT = "/"
+PUBLIC_ROUTES = [
+  "/",
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+  "/verify-otp",
+  "/terms",
+  "/privacy",
+];
+AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
+DEFAULT_AUTHENTICATED_REDIRECT = "/";
+DEFAULT_UNAUTHENTICATED_REDIRECT = "/";
 ```
 
 - Oturumlu kullanıcı `AUTH_ROUTES`'a girerse → `/`
@@ -207,7 +229,19 @@ DEFAULT_UNAUTHENTICATED_REDIRECT = "/"
 gösterdiği için akış tutarlıdır. Buna karşılık axios refresh hatası `/login`'e yönlendirir.
 İki farklı yol kasıtlı görünüyor — "tutarsızlık" diye tek taraflı değiştirme.
 
-`matcher` statik dosyaları ve yaygın görsel uzantılarını hariç tutar.
+**QA H4 — `matcher` yetersizdi.** Yalnızca `_next/*`, `favicon.ico` ve üç görsel uzantısı hariç
+tutuluyordu; dolayısıyla `robots.txt`, `sitemap.xml` ve `site.webmanifest` de auth kontrolünden
+geçiyor ve oturumsuz ziyaretçide `307 → /?callbackUrl=…` dönüyordu. `<head>` içinde
+`<link rel="manifest">` olduğu için PWA manifest'i herkeste bozuktu.
+
+Matcher artık Next iç yollarını, adıyla bilinen SEO/PWA dosyalarını ve statik uzantıları
+(`.ico`, `.txt`, `.xml`, `.webmanifest`, `.woff2`, görseller, medya) hariç tutuyor. Yeni bir kök
+seviyesi statik dosya eklerken bu listeye de eklemeyi unutma.
+
+`app/robots.ts` ve `app/sitemap.ts` eklendi. Oturum arkasındaki yollar (`/settings/`, `/profile/`,
+`/search`, `/worship`) hem `robots.txt` içinde disallow, hem de sayfa `metadata`'sında
+`noIndex: true` — bunlar oturumsuz ziyaretçiyi zaten yönlendiriyor, indexlenmeleri yalnızca
+soft-404 üretir (QA M8).
 
 ### 5.4 Kayıt ve OTP akışı
 
@@ -229,10 +263,24 @@ gelmez. Şifre sıfırlama ayrı akıştır: `/auth/forgot-password` →
 Zustand `persist` istemcide asenkron hidre olur. Auth durumuna bakan üst-seviye bileşenler
 hidrasyonu beklemek zorundadır:
 
-| Yer | Yöntem |
-|---|---|
-| `src/app/page.tsx` | `useState` + `useEffect` ile `hydrated` bayrağı, o ana kadar splash |
-| `src/providers/ConsentGateProvider.tsx` | `useSyncExternalStore` + `useAuthStore.persist.onFinishHydration()` |
+| Yer                                                  | Yöntem                                                              |
+| ---------------------------------------------------- | ------------------------------------------------------------------- |
+| `src/app/page.tsx`                                   | `useState` + `useEffect` ile `hydrated` bayrağı, o ana kadar splash |
+| `src/providers/ConsentGateProvider.tsx`              | `useAuthHydrated()` (paylaşılan hook)                               |
+| `src/app/(auth)/verify-otp/VerifyOtpForm.tsx`        | `useAuthHydrated()` — QA B6                                         |
+| `src/app/settings/account/AccountSettingsClient.tsx` | `useAuthHydrated()` — QA M4                                         |
+
+`useAuthHydrated` (`hooks/auth/useAuthHydrated.ts`) `useSyncExternalStore` +
+`useAuthStore.persist.onFinishHydration()` sarmalayıcısıdır; daha önce yalnızca
+`ConsentGateProvider` içinde satır içi duruyordu.
+
+Persist edilmiş bir değerin **yokluğuna** bakıp yönlendirme yapan her yer bunu beklemek zorundadır:
+
+- **QA B6** — `/verify-otp` beklemiyordu, bu yüzden ilk client render'da `tempToken` hâlâ null
+  görünüyor ve sayfa `/register`'a atıyordu. Kullanıcı 10 dakika kilitleniyordu.
+- **QA M4** — `/settings/account` `user`'a göre `<Select>` mi düz `<div>` mi render edeceğine karar
+  veriyordu. `Select` `useId()` çağırdığı için sunucu ve istemci farklı hook sırası yürütüyor ve
+  React "This won't be patched up" hydration hatası veriyordu.
 
 Beklemezsen SSR/CSR uyuşmazlığı ve yanlış "oturum yok" durumu oluşur.
 
@@ -296,21 +344,21 @@ diğerleri için `startsWith`. Navigasyonda `Puan Tabloları`, `Görevler`, `Ma�
 
 ## 8. Route envanteri
 
-| Route | Dosya | Tip |
-|---|---|---|
-| `/` | `app/page.tsx` | Client — hidrasyon sonrası Landing / Dashboard |
-| `/login` | `app/(auth)/login/` | Server page + `LoginForm` |
-| `/register` | `app/(auth)/register/` | Server page + `RegisterForm`, `LocationField` |
-| `/verify-otp` | `app/(auth)/verify-otp/` | Server page + `VerifyOtpForm` |
-| `/forgot-password` | `app/(auth)/forgot-password/` | Server page + form |
-| `/reset-password` | `app/(auth)/reset-password/` | Server page + `ResetPasswordClient` |
-| `/learn` | `app/learn/page.tsx` | Server, `revalidate = 3600`, `LEARN_NODES` statik listesinden render |
-| `/learn/[id]` | `app/learn/[id]/` | `generateMetadata` + `GuideClient` |
-| `/worship` | `app/worship/page.tsx` | Server page + `WorshipView` |
-| `/profile/[username]` | `app/profile/[username]/` | `generateMetadata` + `ProfileClient` |
-| `/search` | `app/search/page.tsx` | Server page + `Suspense` fallback + `SearchPageContent` |
-| `/settings/profile\|account\|avatar` | `app/settings/*/` | Server page (`noIndex`) + `*Client` |
-| `/terms`, `/privacy` | `app/terms/`, `app/privacy/` | Server page + içerik bileşeni |
+| Route                                | Dosya                         | Tip                                                                  |
+| ------------------------------------ | ----------------------------- | -------------------------------------------------------------------- |
+| `/`                                  | `app/page.tsx`                | Client — hidrasyon sonrası Landing / Dashboard                       |
+| `/login`                             | `app/(auth)/login/`           | Server page + `LoginForm`                                            |
+| `/register`                          | `app/(auth)/register/`        | Server page + `RegisterForm`, `LocationField`                        |
+| `/verify-otp`                        | `app/(auth)/verify-otp/`      | Server page + `VerifyOtpForm`                                        |
+| `/forgot-password`                   | `app/(auth)/forgot-password/` | Server page + form                                                   |
+| `/reset-password`                    | `app/(auth)/reset-password/`  | Server page + `ResetPasswordClient`                                  |
+| `/learn`                             | `app/learn/page.tsx`          | Server, `revalidate = 3600`, `LEARN_NODES` statik listesinden render |
+| `/learn/[id]`                        | `app/learn/[id]/`             | `generateMetadata` + `GuideClient`                                   |
+| `/worship`                           | `app/worship/page.tsx`        | Server page + `WorshipView`                                          |
+| `/profile/[username]`                | `app/profile/[username]/`     | `generateMetadata` + `ProfileClient`                                 |
+| `/search`                            | `app/search/page.tsx`         | Server page + `Suspense` fallback + `SearchPageContent`              |
+| `/settings/profile\|account\|avatar` | `app/settings/*/`             | Server page (`noIndex`) + `*Client`                                  |
+| `/terms`, `/privacy`                 | `app/terms/`, `app/privacy/`  | Server page + içerik bileşeni                                        |
 
 `/learn/[id]` içeriği `useGuide(id)` hook'unda `switch` ile ilgili `learnService` metoduna
 yönlenir; geçersiz id `Error("Invalid guide ID")` fırlatır. Yeni rehber eklerken hem

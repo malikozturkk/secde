@@ -131,19 +131,21 @@ yarn lint         # eslint (flat config: eslint.config.mjs)
 yarn build:icons  # src/icons/**.svg  ->  src/icons/tsx/**  (svgr)
 ```
 
-### `yarn build` mevcut durumu (1 Ağu 2026 itibarıyla çalıştırılıp doğrulandı)
+### `yarn build` mevcut durumu (2 Ağu 2026 itibarıyla çalıştırılıp doğrulandı)
 
-**Build şu an başarısız.** Derleme ve TypeScript aşamaları geçiyor; hata statik prerender
-aşamasında `/login` sayfasında çıkıyor:
+**Build geçiyor.** Önceden `/login` statik prerender aşamasında şu hatayla düşüyordu:
 
 ```
 useSearchParams() should be wrapped in a suspense boundary at page "/login"
 Export encountered an error on /(auth)/login/page: /login
 ```
 
-Bu mevcut teknik borçtur — dokunulmamış `HEAD`'de ayrı bir worktree'de çalıştırılarak doğrulandı.
-Yani `yarn build` şu an bir regresyon sinyali **değildir**; değişikliğini doğrulamak için
-`npx tsc --noEmit` (temiz geçiyor) ve `yarn lint` kullan.
+`LoginForm`, `callbackUrl` için `useSearchParams()` okuyor; bu route'u client-side render'a
+zorluyor ve Suspense sınırı olmadan Next sayfayı prerender edemiyordu. `app/(auth)/login/page.tsx`
+artık formu bir `<Suspense>` içine alıyor. Sonuç: proje ilk kez dağıtılabilir bir production
+build üretiyor.
+
+`yarn build` artık **gerçek bir regresyon sinyalidir** — kırıldıysa senin değişikliğindendir.
 
 ### `yarn lint` mevcut durumu (31 Tem 2026 itibarıyla çalıştırılıp doğrulandı)
 

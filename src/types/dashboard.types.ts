@@ -42,13 +42,3 @@ export interface MonthCalendar {
   successPercent: number;
   totalCompletedPrayers: number;
 }
-
-export interface LeaderboardRow {
-  rank: number;
-  name: string;
-  city: string;
-  currentStreak: number;
-  avatarColor: string;
-  avatarInitial: string;
-  isCurrentUser?: boolean;
-}

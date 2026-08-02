@@ -54,14 +54,38 @@ Türkçe karşılıkları: `src/constants/error-messages.ts`.
 | POST  | `/auth/login`                | `{ identifier, password }`                        | `{ accessToken, refreshToken, user }`         |
 | POST  | `/auth/refresh`              | `{ refreshToken }`                                | `{ accessToken, refreshToken, user }`         |
 | GET   | `/auth/{username}`           | —                                                 | `UserDetail`                                  |
-| PATCH | `/auth/profile`              | `UpdateProfilePayload`                            | `User`                                        |
+| PATCH | `/auth/profile`              | `UpdateProfilePayload`                            | `User & { tokens? }` — bkz. QA B3             |
 | POST  | `/auth/logout`               | `{ refreshToken }`                                | `null`                                        |
+| POST  | `/auth/resume-registration`  | `{ email }`                                       | `{ tempToken: string }` — bkz. QA B6          |
 | POST  | `/auth/forgot-password`      | `{ email }`                                       | `{ message: "FORGOT_PASSWORD_EMAIL_SENT" }`   |
 | POST  | `/auth/validate-reset-token` | `{ userId, token }`                               | `boolean`                                     |
 | POST  | `/auth/reset-password`       | `{ userId, token, newPassword, confirmPassword }` | `null`                                        |
 | POST  | `/auth/{username}/follow`    | —                                                 | `{ following: boolean }` (toggle)             |
 | GET   | `/auth/{username}/followers` | —                                                 | `{ username, avatar, avatarCustomization }[]` |
 | GET   | `/auth/{username}/following` | —                                                 | `{ username, avatar, avatarCustomization }[]` |
+
+### Oturum güvenliği (QA B2 / B3 / B6)
+
+**Hız sınırı.** Kimlik veya e-posta dokunan her uç artık sınırlı; aşıldığında **429** döner ve
+`resolveApiErrorMessage` bunu "Çok fazla deneme yaptın. Lütfen biraz bekle." mesajına çevirir.
+Öne çıkanlar: `/auth/login` 5/dk, `/auth/register` 5/saat, `/auth/forgot-password` ve `/otp/resend`
+3/saat, `/otp/verify` 5/dk. Ayrıca 10 ardışık hatalı girişten sonra hesap 15 dakika kilitlenir ve
+doğru şifre bile `ACCOUNT_TEMPORARILY_LOCKED` alır.
+
+**Şifre değişimi tüm oturumları kapatır.** `PATCH /auth/profile` şifreyi değiştirdiğinde yanıt
+`tokens: { accessToken, refreshToken }` taşır. Backend o anda mevcut **tüm** access ve refresh
+token'ları geçersiz kılar; bu çifti almazsan bir sonraki istek `401` alır ve axios interceptor'ı
+kullanıcıyı `/login`'e atar. `useUpdateProfile` bunu `setAuth` ile devralır.
+
+**Refresh token'lar rotate ediliyor.** `/auth/refresh` sunulan token'ı iptal eder; aynı token ikinci
+kez kullanılamaz. Interceptor'daki tek-uçuşlu (single-flight) kuyruk bu yüzden önemli — paralel
+401'ler tek bir refresh doğurmazsa ikinci istek iptal edilmiş bir token gönderir.
+
+**Kayıt kurtarma.** `POST /auth/resume-registration` bekleyen bir kayıt için yeni `tempToken` üretir.
+Yeni kayıt oluşturmaz, e-posta göndermez, OTP kodunu ve süresini değiştirmez. `useRegister`
+`ACTIVE_REGISTRATION_EXISTS` aldığında bunu otomatik çağırır ve kullanıcıyı `/verify-otp`'ye
+döndürür. `tempToken` ayrıca artık localStorage'a persist ediliyor, yani sayfa yenilemesi tek başına
+akışı bozmuyor.
 
 ### `RegisterPayload`
 
@@ -234,14 +258,14 @@ Yol parametreleri `encodeURIComponent` ile kodlanır.
 backend `currentStreak` alanını `lastActiveDate` ile bugün arasındaki farka göre türetir, yani
 kopmuş bir seri kullanıcı namaz işaretlemeyi beklemeden **0** okunur.
 
-| Alan                  | Anlamı                                                                 |
-| --------------------- | ---------------------------------------------------------------------- |
+| Alan                  | Anlamı                                                                |
+| --------------------- | --------------------------------------------------------------------- |
 | `isBroken`            | Boşluk ≥ 2 gün — seri kopmuş                                          |
-| `recoverableStreak`   | Dondurma hakkı kullanılırsa geri gelecek gün sayısı                    |
+| `recoverableStreak`   | Dondurma hakkı kullanılırsa geri gelecek gün sayısı                   |
 | `atRisk`              | Boşluk = 1 — seri ayakta ama bugün işaretlenmezse gece yarısı kopacak |
-| `canFreezeNow`        | Kopmuş **ve** 3 günlük pencere içinde **ve** hak var                   |
-| `freezeWindowExpired` | Kopmuş ama pencere kapanmış, geri alınamaz                             |
-| `lastFreezeUsedAt`    | En son korunan gün (`null` = hiç kullanılmamış)                        |
+| `canFreezeNow`        | Kopmuş **ve** 3 günlük pencere içinde **ve** hak var                  |
+| `freezeWindowExpired` | Kopmuş ama pencere kapanmış, geri alınamaz                            |
+| `lastFreezeUsedAt`    | En son korunan gün (`null` = hiç kullanılmamış)                       |
 
 Geri alma ayrı bir uç değildir: `POST /gamification/action` +
 `actionType: STREAK_FREEZE` kullanılır. `useGamificationAction` başarıda bu sorguyu
@@ -253,6 +277,8 @@ invalidate eder.
 DailyPrayersResponse = {
   date, timezone,
   isFriday, isRamadan, isEidDay,
+  firstOfDayBonusXp: number;        // QA L1 — günün ilk namazına eklenen bonus
+  firstOfDayBonusAvailable: boolean;// QA L1 — bugün bir vakit tamamlandıysa false
   prayers: PrayerCardDto[]
 }
 
@@ -273,6 +299,8 @@ PrayerCardDto = {
   streakContribution: boolean;
   pendingQuizId: string | null;
   isLocked: boolean;
+  attemptsRemaining: number;        // QA M13 — süre dolduktan sonra kalan tazeleme hakkı
+  xpAwarded: number | null;         // QA L1 — gerçekten verilen XP; tamamlanana kadar null
 }
 ```
 
@@ -351,6 +379,17 @@ POST .../{quizId}/questions/{questionId}/answer  { optionId }
 - `isLocked === true` ise o vakit için quiz kilitlenmiştir.
 - İstemci sabiti: `PRAYER_QUIZ_QUESTION_COUNT = 3`.
 
+#### Süre dolması ile yanlış cevap artık farklı (QA M13)
+
+| Sonuç       | `quizStatus` | `isLocked`              | Bugün tekrar denenebilir mi? |
+| ----------- | ------------ | ----------------------- | ---------------------------- |
+| `INCORRECT` | `FAILED`     | `true`                  | hayır — vakit kapandı        |
+| `EXPIRED`   | `EXPIRED`    | yalnızca hak bittiğinde | evet, hak kaldıysa           |
+
+`PrayerCardDto.attemptsRemaining` kaç tazeleme hakkı kaldığını söyler (başlangıç 2). Süre dolduğunda
+`useAnswerPrayerQuestion` `daily-prayers` sorgusunu invalidate eder, böylece kart yeni durumu
+gösterir.
+
 ### Aksiyonlar
 
 `actionType` şu an tek değer alır: `STREAK_FREEZE` (`GamificationActionType`).
@@ -359,6 +398,48 @@ Yanıt `streakFreezeUsage` içerir:
 İstemci sabiti: `STREAK_FREEZE_MAX_SLOTS = 3`.
 
 `clientRequestId` idempotency için opsiyonel gönderilir.
+
+---
+
+## 6.5 Leaderboard — `src/services/leaderboard.service.ts`
+
+QA B1. Panodaki "Lider" kartı, daha önce `useLeaderboardPreview` içindeki **sabit kodlanmış** beş
+kişilik listeyi gösteriyordu (Mehmet K., Ayşe D., …). O hook silindi; kart artık gerçek veriyi
+`useLeaderboard` üzerinden okuyor.
+
+| Metot | Uç             | Parametre                            | `data` yanıtı     |
+| ----- | -------------- | ------------------------------------ | ----------------- |
+| GET   | `/leaderboard` | `metric`, `scope`, `period`, `limit` | `LeaderboardData` |
+
+```ts
+LeaderboardMetric = "STREAK" | "XP" | "PRAYERS";          // varsayılan STREAK
+LeaderboardScope  = "GLOBAL" | "CITY" | "FOLLOWING";      // varsayılan GLOBAL
+LeaderboardPeriod = "ALL_TIME" | "WEEKLY" | "MONTHLY";    // varsayılan ALL_TIME, yalnızca PRAYERS'ı etkiler
+
+LeaderboardData = {
+  metric; scope; period;
+  city: string | null;              // scope = CITY iken dolu
+  entries: {
+    rank: number;
+    username: string;
+    city: string | null;            // yalnızca şehir — koordinat asla gelmez
+    avatar: string | null;
+    avatarCustomization: AvatarCustomization;
+    score: number;                  // metric'in ima ettiği birimde
+    isCurrentUser: boolean;         // backend işaretler
+  }[];
+  currentUser: { rank: number | null; score: number; inTopList: boolean };
+};
+```
+
+`currentUser`, kullanıcı ilk sayfada olmasa bile gelir; kart bunu "Sen 12. sıradasın" olarak
+gösterir. Eski sahte listede her zaman 4. sırada "Sen" satırı vardı, yani herkese aynı yalan
+söyleniyordu.
+
+Hata anahtarları: `INVALID_LEADERBOARD_METRIC` / `_SCOPE` / `_PERIOD` / `_LIMIT` (400).
+
+Query key'ler `constants/leaderboard.ts` içinde; namaz tamamlama ve seri dondurma mutasyonları
+`LEADERBOARD_QUERY_KEYS.all` ile invalidate eder.
 
 ---
 

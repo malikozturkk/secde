@@ -7,7 +7,8 @@ import {
   resolveHeroVariant,
   resolveStreakMessage,
 } from "@/src/lib/streak-utils";
-import { useLeaderboardPreview } from "@/src/hooks/streak/useLeaderboardPreview";
+import { useLeaderboard } from "@/src/hooks/streak/useLeaderboard";
+import { LEADERBOARD_PREVIEW_LIMIT } from "@/src/constants/leaderboard";
 import { useStreakController } from "@/src/hooks/streak/useStreakController";
 import { getApiErrorMessage, getDomainErrorCode } from "@/src/lib/api-error";
 import { LocationNotSetDialog } from "@/src/components/common/LocationNotSetDialog";
@@ -57,11 +58,10 @@ export const DashboardView: React.FC = () => {
   const controller = useStreakController();
   const { viewModel, stats, celebration, isLoading, error, action } =
     controller;
-  const leaderboard = useLeaderboardPreview();
+  const leaderboardQuery = useLeaderboard({ limit: LEADERBOARD_PREVIEW_LIMIT });
   const locationNotSet =
     !!error && getDomainErrorCode(error) === "USER_LOCATION_NOT_SET";
-  const [locationDialogDismissed, setLocationDialogDismissed] =
-    useState(false);
+  const [locationDialogDismissed, setLocationDialogDismissed] = useState(false);
   const [quizPrayer, setQuizPrayer] = useState<PrayerCardViewModel | null>(
     null
   );
@@ -88,7 +88,10 @@ export const DashboardView: React.FC = () => {
           setFreezeOpen(false);
           controller.refresh();
         },
-        onError: (err) => setFreezeError(getApiErrorMessage(err) ?? "Seri dondurulamadı. Lütfen tekrar dene."),
+        onError: (err) =>
+          setFreezeError(
+            getApiErrorMessage(err) ?? "Seri dondurulamadı. Lütfen tekrar dene."
+          ),
       }
     );
   }, [controller]);
@@ -142,9 +145,13 @@ export const DashboardView: React.FC = () => {
   const currentStreak = selfStats?.streak.current ?? 0;
   const longestStreak = selfStats?.streak.longest ?? 0;
   const streakFreezeCount = selfStats?.streak.freezeCount ?? 0;
-  const freezeUsageLabel = formatFreezeUsageLabel(risk?.lastFreezeUsedAt ?? null);
+  const freezeUsageLabel = formatFreezeUsageLabel(
+    risk?.lastFreezeUsedAt ?? null
+  );
   const freezeWindowExpired = risk?.freezeWindowExpired ?? false;
-  const freezeTargetStreak = risk?.isBroken ? risk.recoverableStreak : currentStreak;
+  const freezeTargetStreak = risk?.isBroken
+    ? risk.recoverableStreak
+    : currentStreak;
   const totalXp = selfStats?.level.totalXp ?? 0;
   const level = selfStats?.level.level ?? 1;
   const levelBadgeKey = selfStats?.level.badgeKey ?? "";
@@ -257,7 +264,9 @@ export const DashboardView: React.FC = () => {
           isUsingFreeze={controller.action.isPending}
           freezeUsageLabel={freezeUsageLabel}
           freezeWindowExpired={freezeWindowExpired}
-          leaderboard={leaderboard}
+          leaderboard={leaderboardQuery.data ?? null}
+          isLeaderboardLoading={leaderboardQuery.isPending}
+          isLeaderboardError={leaderboardQuery.isError}
         />
       }
       mainClassName="px-4 pb-10 pt-6 lg:pt-8"
@@ -391,7 +400,9 @@ interface RightRailProps {
   freezeWindowExpired: boolean;
   onUseFreeze: () => void;
   isUsingFreeze: boolean;
-  leaderboard: Parameters<typeof LeaderboardCard>[0]["rows"];
+  leaderboard: Parameters<typeof LeaderboardCard>[0]["data"];
+  isLeaderboardLoading: boolean;
+  isLeaderboardError: boolean;
 }
 
 const RightRail: React.FC<RightRailProps> = ({
@@ -412,6 +423,8 @@ const RightRail: React.FC<RightRailProps> = ({
   freezeUsageLabel,
   freezeWindowExpired,
   leaderboard,
+  isLeaderboardLoading,
+  isLeaderboardError,
 }) => (
   <div className="flex h-full flex-col gap-4 overflow-y-auto pr-1 lg:pr-0">
     <LevelStatCard
@@ -436,7 +449,12 @@ const RightRail: React.FC<RightRailProps> = ({
       lastUsedLabel={freezeUsageLabel}
       freezeWindowExpired={freezeWindowExpired}
     />
-    <LeaderboardCard rows={leaderboard} />
+    </div>
+    <LeaderboardCard
+      data={leaderboard}
+      isLoading={isLeaderboardLoading}
+      isError={isLeaderboardError}
+    />
   </div>
 );
 

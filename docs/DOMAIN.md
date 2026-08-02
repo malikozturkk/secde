@@ -183,10 +183,10 @@ açılır açılmaz **0** görünür (`GET /gamification/streak-risk`, bkz. `doc
 Akış: `useStreakRisk` → `isBroken` ise `useStreakBreakNotice` modalı açar →
 `StreakBrokenDialog`. Modal üç durumu ayırır:
 
-| Durum                 | Modal                                                                |
-| --------------------- | -------------------------------------------------------------------- |
-| `canFreezeNow`        | **SERİMİ KURTAR (n gün)** + **ŞİMDİ DEĞİL**                        |
-| Hak yok               | "Dondurma hakkın kalmadı, bu seri geri alınamıyor." + **YENİDEN BAŞLA** |
+| Durum                 | Modal                                                                    |
+| --------------------- | ------------------------------------------------------------------------ |
+| `canFreezeNow`        | **SERİMİ KURTAR (n gün)** + **ŞİMDİ DEĞİL**                              |
+| Hak yok               | "Dondurma hakkın kalmadı, bu seri geri alınamıyor." + **YENİDEN BAŞLA**  |
 | `freezeWindowExpired` | "Dondurma için geç kaldın, bu seri geri alınamıyor." + **YENİDEN BAŞLA** |
 
 Kurtarma butonu `FreezeCard` ile aynı ucu çağırır (`STREAK_FREEZE`); ayrı bir endpoint yoktur.
@@ -297,3 +297,53 @@ champion, legend`.
 - Ay ve gün adları `MONTHS_TR`, `DAYS_LONG_TR` (`constants/worship.ts`) — `Intl` yerine
   bu sabitler kullanılır.
 - Göreli zaman ("2 gün önce") `src/lib/relative-time.ts` içinde Türkçe üretilir.
+
+---
+
+## Lider tablosu (QA B1)
+
+`GET /leaderboard`. Panonun sağ panelindeki kart daha önce `useLeaderboardPreview` içindeki sabit
+kodlanmış beş kişiyi ("Mehmet K. / İstanbul / 35", "Ayşe D. / Ankara / 28", …) gerçek kullanıcı gibi
+gösteriyordu. O hook silindi.
+
+| Enum                | Değerler                          | Türkçe başlık                                         |
+| ------------------- | --------------------------------- | ----------------------------------------------------- |
+| `LeaderboardMetric` | `STREAK` · `XP` · `PRAYERS`       | Seri Liderleri · XP Liderleri · En Çok Vakit Kılanlar |
+| `LeaderboardScope`  | `GLOBAL` · `CITY` · `FOLLOWING`   | —                                                     |
+| `LeaderboardPeriod` | `ALL_TIME` · `WEEKLY` · `MONTHLY` | —                                                     |
+
+Etiketler `types/enums/leaderboard.enums.ts` içindeki `LEADERBOARD_METRIC_LABELS` /
+`LEADERBOARD_METRIC_UNIT` sabitlerinde. `scope = CITY` iken başlık "İstanbul · Seri Liderleri"
+biçimine döner.
+
+Kartın boş, hata ve "listede değilsin" durumları ayrı ayrı ele alınır — sahte satırla doldurulmaz:
+
+- veri yok → "Henüz kimse tabloya girmedi. İlk sen ol!"
+- hata → "Lider tablosu şu an yüklenemedi."
+- kullanıcı ilk sayfada değil → "Sen 12. sıradasın · 3 gün"
+
+## Quiz: süre dolması ile yanlış cevap (QA M13)
+
+Bunlar artık farklı sonuçlar doğurur ve arayüz de öyle anlatmalıdır:
+
+| Sonuç        | Vakit bugün kapanır mı? | Kullanıcıya söylenecek                                   |
+| ------------ | ----------------------- | -------------------------------------------------------- |
+| Yanlış cevap | **evet**                | "Cevap yanlış. Bu vakit yarına kadar işaretlenemeyecek." |
+| Süre doldu   | hak bitene kadar hayır  | tekrar deneyebileceğini söyle (`attemptsRemaining` > 0)  |
+
+`constants/error-messages.ts` içindeki `QUIZ_ANSWER_INCORRECT` ve kardeşleri eskiden "tekrar
+deneyebilirsin" diyordu; bu gerçeğin tersiydi (QA M12) ve düzeltildi.
+
+## Saat dilimi (QA B4)
+
+Namaz saatleri **kullanıcının kayıtlı konumunun** saat diliminde gösterilir, cihazınkinde değil.
+Backend `meta.timezone` / `timezone` gönderir; biçimlendirme `lib/time-format.ts` üzerinden yapılır
+ve `timeZone` argümanı **zorunludur**.
+
+Bu bir kozmetik detay değil: Madrid'e kayıtlı bir hesap, İstanbul'daki bir cihazda sabah namazını
+06:24 (doğrusu 05:24), New York'taki bir cihazda 23:24 — yani bir önceki gün — olarak görüyordu.
+Yurt dışına çıkan her kullanıcı etkileniyordu.
+
+Yeni bir yerde saat gösterecekseniz `formatTimeInZone` / `formatOptionalTimeInZone` kullanın;
+`toLocaleTimeString` doğrudan çağrılmamalı. "Bugün mü?" sorusu için `localDateInZone` var —
+gece yarısına yakın cihazın tarihi ile konumun tarihi ayrışabilir.

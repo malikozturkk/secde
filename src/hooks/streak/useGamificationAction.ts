@@ -8,6 +8,7 @@ import {
 import { gamificationService } from "@/src/services/gamification.service";
 import { USER_STATS_QUERY_KEYS } from "@/src/constants/user-stats";
 import { GAMIFICATION_QUERY_KEYS } from "@/src/constants/streak";
+import { LEADERBOARD_QUERY_KEYS } from "@/src/constants/leaderboard";
 import { useAuthStore } from "@/src/store/auth.store";
 import type {
   GamificationActionRequest,
@@ -42,6 +43,13 @@ export const useGamificationAction = (): ActionMutation => {
         queryClient.invalidateQueries({
           queryKey: GAMIFICATION_QUERY_KEYS.streakRisk(),
         }),
+        queryClient.invalidateQueries({
+          queryKey: GAMIFICATION_QUERY_KEYS.prayerHistoryAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: GAMIFICATION_QUERY_KEYS.dailyPrayersAll,
+        }),
+        queryClient.invalidateQueries({ queryKey: LEADERBOARD_QUERY_KEYS.all }),
       ];
 
       if (username) {

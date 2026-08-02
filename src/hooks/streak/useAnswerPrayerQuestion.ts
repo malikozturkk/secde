@@ -6,10 +6,10 @@ import {
   type UseMutationResult,
 } from "@tanstack/react-query";
 import { gamificationService } from "@/src/services/gamification.service";
-import {
-  GAMIFICATION_QUERY_KEYS,
-} from "@/src/constants/streak";
+import { GAMIFICATION_QUERY_KEYS } from "@/src/constants/streak";
+import { LEADERBOARD_QUERY_KEYS } from "@/src/constants/leaderboard";
 import { useAuthStore } from "@/src/store/auth.store";
+import { PrayerQuizStatus } from "@/src/types/enums/streak.enums";
 import { USER_STATS_QUERY_KEYS } from "@/src/constants/user-stats";
 import type {
   AnswerPrayerQuestionResponse,
@@ -70,10 +70,16 @@ export const useAnswerPrayerQuestion = (): AnswerMutation => {
       if (result.prayerCompletion) {
         const invalidations: Promise<unknown>[] = [
           queryClient.invalidateQueries({
-            queryKey: ["gamification", "daily-prayers"],
+            queryKey: GAMIFICATION_QUERY_KEYS.dailyPrayersAll,
           }),
           queryClient.invalidateQueries({
             queryKey: USER_STATS_QUERY_KEYS.me(),
+          }),
+          queryClient.invalidateQueries({
+            queryKey: GAMIFICATION_QUERY_KEYS.prayerHistoryAll,
+          }),
+          queryClient.invalidateQueries({
+            queryKey: LEADERBOARD_QUERY_KEYS.all,
           }),
         ];
         const username = useAuthStore.getState().user?.username;
