@@ -17,7 +17,7 @@ export const useUpdateProfile = ({
   setError,
   onSuccess,
 }: UseUpdateProfileOptions) => {
-  const { setUser } = useAuthStore();
+  const { setUser, setAuth } = useAuthStore();
 
   return useMutation({
     mutationFn: (payload: UpdateProfileFormValues) => {
@@ -30,7 +30,12 @@ export const useUpdateProfile = ({
     },
     onSuccess: ({ data }) => {
       if (data.data) {
-        setUser(data.data);
+        const { tokens, ...user } = data.data;
+        if (tokens) {
+          setAuth({ ...tokens, user });
+        } else {
+          setUser(user);
+        }
         onSuccess?.();
       }
     },

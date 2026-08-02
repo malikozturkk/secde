@@ -120,7 +120,12 @@ export type LoginResponseData = AuthTokensWithUser;
 export type RefreshTokenResponseData = AuthTokensWithUser;
 
 export type ProfileResponseData = UserDetail;
-export type UpdateProfileResponseData = User;
+export type UpdateProfileResponseData = User & {
+  tokens?: {
+    accessToken: string;
+    refreshToken: string;
+  };
+};
 
 export enum Gender {
   MALE = "MALE",

@@ -55,6 +55,8 @@ const ERROR_MESSAGES: Record<string, string> = {
 
   ACCOUNT_TEMPORARILY_LOCKED:
     "Çok fazla hatalı deneme yapıldı. Hesabın 15 dakika boyunca kilitli.",
+  TOKEN_REVOKED_BY_PASSWORD_CHANGE:
+    "Şifren değiştirildiği için oturumun kapatıldı. Lütfen tekrar giriş yap.",
 
   VALIDATION_ERROR: "Gönderilen bilgilerde bir hata var.",
   BAD_REQUEST: "Gönderilen bilgilerde bir hata var.",
