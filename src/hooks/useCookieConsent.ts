@@ -7,17 +7,13 @@ const COOKIE_EXPIRY_DAYS = 365;
 
 function applyAnalyticsConsent(granted: boolean): void {
   if (granted) {
-    // TODO: analytics consent onaylandı, yükle
   } else {
-    // TODO: analytics consent reddedildi, yükleme
   }
 }
 
 function applyMarketingConsent(granted: boolean): void {
   if (granted) {
-    // TODO: marketing consent onaylandı, yükle
   } else {
-    // TODO: marketing consent reddedildi, yükleme
   }
 }
 

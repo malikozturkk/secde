@@ -8,8 +8,8 @@ const SvgDhikr = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 32 32"
     {...props}
   >
-    <circle cx={16} cy={13.5} r={8.5} stroke="#3A2415" strokeWidth={1.1} />
-    <g fill="#5C3A21">
+    <circle cx={16} cy={13.5} r={8.5} stroke="#2A1810" strokeWidth={1.1} />
+    <g fill="#8A5A2E">
       <circle cx={16} cy={6} r={1.9} />
       <circle cx={20.6} cy={7.35} r={1.9} />
       <circle cx={23.7} cy={11} r={1.9} />
@@ -22,7 +22,7 @@ const SvgDhikr = (props: SVGProps<SVGSVGElement>) => (
       <circle cx={8.3} cy={11} r={1.9} />
       <circle cx={11.4} cy={7.35} r={1.9} />
     </g>
-    <g fill="#8B5A2B">
+    <g fill="#E8C08A">
       <circle cx={16} cy={5} r={1.9} />
       <circle cx={20.6} cy={6.35} r={1.9} />
       <circle cx={23.7} cy={10} r={1.9} />
@@ -35,21 +35,21 @@ const SvgDhikr = (props: SVGProps<SVGSVGElement>) => (
       <circle cx={8.3} cy={10} r={1.9} />
       <circle cx={11.4} cy={6.35} r={1.9} />
     </g>
-    <g fill="#C08B54" opacity={0.75}>
+    <g fill="#FFF1DC" opacity={0.85}>
       <circle cx={15.4} cy={4.4} r={0.62} />
       <circle cx={23.1} cy={9.4} r={0.62} />
       <circle cx={7.7} cy={14.1} r={0.62} />
       <circle cx={9} cy={18.5} r={0.62} />
     </g>
-    <rect width={4.4} height={8.2} x={13.8} y={22} fill="#4A2C17" rx={2.2} />
-    <rect width={4.4} height={8.2} x={13.8} y={21} fill="#A9713C" rx={2.2} />
+    <rect width={4.4} height={8.2} x={13.8} y={22} fill="#8A5A2E" rx={2.2} />
+    <rect width={4.4} height={8.2} x={13.8} y={21} fill="#F0D2A8" rx={2.2} />
     <rect
       width={1.4}
       height={6}
       x={14.7}
       y={22.1}
-      fill="#D9A66C"
-      opacity={0.75}
+      fill="#FFF6EA"
+      opacity={0.8}
       rx={0.7}
     />
   </svg>

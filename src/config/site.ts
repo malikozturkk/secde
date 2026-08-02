@@ -1,10 +1,3 @@
-/**
- * Merkezi site yapılandırması.
- *
- * Tüm genel sabitler burada tek bir yerde tanımlanır.
- * İleride i18n desteği eklendiğinde bu değerler kolayca
- * bir çeviri katmanının arkasına taşınabilir.
- */
 
 export const siteConfig = {
   name: "NamazGo",
@@ -17,4 +10,3 @@ export const siteConfig = {
   ogImage: "/og-default.png",
   themeColor: "#25b49a",
 } as const;
-

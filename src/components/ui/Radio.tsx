@@ -198,7 +198,6 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
     const autoId = useId();
     const inputId = id ?? `radio-${autoId}`;
 
-    // controlled standalone or within group
     const resolvedName = name ?? group?.name ?? inputId;
     const resolvedVariant: RadioVariant = variant ?? group?.variant ?? "card";
     const resolvedSize: RadioSize = size ?? group?.size ?? "md";
