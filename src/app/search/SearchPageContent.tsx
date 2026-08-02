@@ -153,8 +153,12 @@ export default function SearchPageContent() {
         <div className="flex flex-col gap-3 w-full">
           {!hasInput && (
             <div className="flex flex-col items-center justify-center text-center py-14 px-6">
-              <div>
-                <AllCharacters width={450} height={450} />
+              <div className="w-full max-w-[450px] overflow-hidden">
+                <AllCharacters
+                  width={450}
+                  height={450}
+                  className="h-auto w-full max-w-full"
+                />
               </div>
               <p className="text-base font-extrabold text-white mb-1 max-w-2xs">
                 Öğrenmek ve arkadaşlarınla birlikte takip etmek artık daha

@@ -58,8 +58,6 @@ const ERROR_MESSAGES: Record<string, string> = {
   STREAK_NOT_FOUND: "Seri bilgin bulunamadı.",
   UNKNOWN_GAMIFICATION_ACTION: "Bu işlem desteklenmiyor.",
   PRAYER_NOT_AVAILABLE_TODAY: "Bu vakit bugün için geçerli değil.",
-  PRAYER_ATTEMPT_LIMIT_REACHED:
-    "Süreyi iki kez kaçırdın. Bu vakit yarına kadar işaretlenemeyecek.",
   INVALID_DATE_RANGE: "Seçtiğin tarih aralığı geçersiz.",
   PRAYER_HISTORY_RANGE_TOO_LARGE:
     "Tarih aralığı çok geniş. En fazla 62 günlük aralık seçebilirsin.",

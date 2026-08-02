@@ -123,7 +123,8 @@ export default function AccountSettings() {
                 />
                 <p className="px-1 text-[12px] font-semibold text-white/40">
                   Namaz vakitleri seçtiğin şehrin koordinatlarından hesaplanır.
-                  Konumunu <strong className="text-white/60">yalnızca bir kez</strong>{" "}
+                  Konumunu{" "}
+                  <strong className="text-white/60">yalnızca bir kez</strong>{" "}
                   değiştirebilirsin.
                 </p>
               </>
@@ -158,9 +159,12 @@ export default function AccountSettings() {
               />
             ) : (
               <div className="flex flex-col gap-1.5">
-                <span className="text-sm font-bold text-white/55 font-sans">Mezhep</span>
+                <span className="text-sm font-bold text-white/55 font-sans">
+                  Mezhep
+                </span>
                 <div className="flex h-14 items-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-white/70">
-                  {MADHAB_OPTIONS.find((o) => o.value === user?.madhab)?.label ?? "—"}
+                  {MADHAB_OPTIONS.find((o) => o.value === user?.madhab)
+                    ?.label ?? "—"}
                 </div>
                 <p className="px-1 text-[12px] font-semibold text-white/40">
                   Mezhep değiştirme hakkını kullandın.

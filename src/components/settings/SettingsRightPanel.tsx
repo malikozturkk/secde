@@ -18,12 +18,13 @@ const ACCOUNT_LINKS: ReadonlyArray<{
   key: SettingsNavKey;
   label: string;
   href?: string;
+  comingSoon?: boolean;
 }> = [
   { key: "preferences", label: "Tercihler", href: "/settings/account" },
   { key: "profile", label: "Profil", href: "/settings/profile" },
-  { key: "notifications", label: "Bildirimler" },
-  { key: "social", label: "Sosyal hesaplar" },
-  { key: "privacy", label: "Gizlilik ayarları", href: "/privacy" },
+  { key: "notifications", label: "Bildirimler", comingSoon: true },
+  { key: "social", label: "Sosyal hesaplar", comingSoon: true },
+  { key: "privacy", label: "Gizlilik Politikası", href: "/privacy" },
 ];
 
 const baseItemClass =
@@ -32,8 +33,18 @@ const baseItemClass =
 const activeClass = "text-white bg-white/5 border-none";
 const inactiveClass =
   "text-[rgba(255,255,255,0.55)] bg-transparent border-none";
+const comingSoonClass =
+  "text-[rgba(255,255,255,0.3)] bg-transparent border-none cursor-not-allowed hover:bg-transparent flex items-center justify-between gap-2";
 
-export default function SettingsRightPanel({ active }: SettingsRightPanelProps) {
+const ComingSoonBadge = () => (
+  <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.08em] text-white/35">
+    Yakında
+  </span>
+);
+
+export default function SettingsRightPanel({
+  active,
+}: SettingsRightPanelProps) {
   const { mutate: logout } = useLogout();
 
   return (
@@ -56,8 +67,15 @@ export default function SettingsRightPanel({ active }: SettingsRightPanelProps) 
             }
 
             return (
-              <button key={item.key} type="button" className={className}>
+              <button
+                key={item.key}
+                type="button"
+                disabled
+                aria-disabled="true"
+                className={`${baseItemClass} ${comingSoonClass}`}
+              >
                 {item.label}
+                <ComingSoonBadge />
               </button>
             );
           })}
@@ -69,8 +87,14 @@ export default function SettingsRightPanel({ active }: SettingsRightPanelProps) 
           Abonelik
         </div>
         <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
-          <button type="button" className={`${baseItemClass} ${inactiveClass}`}>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className={`${baseItemClass} ${comingSoonClass}`}
+          >
             Bir plan seç
+            <ComingSoonBadge />
           </button>
         </div>
       </div>
@@ -80,8 +104,14 @@ export default function SettingsRightPanel({ active }: SettingsRightPanelProps) 
           Destek
         </div>
         <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
-          <button type="button" className={`${baseItemClass} ${inactiveClass}`}>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className={`${baseItemClass} ${comingSoonClass}`}
+          >
             Yardım Merkezi
+            <ComingSoonBadge />
           </button>
         </div>
       </div>

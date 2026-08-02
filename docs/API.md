@@ -298,8 +298,7 @@ PrayerCardDto = {
   completedAt: string | null;
   streakContribution: boolean;
   pendingQuizId: string | null;
-  isLocked: boolean;
-  attemptsRemaining: number;        // QA M13 — süre dolduktan sonra kalan tazeleme hakkı
+  isLocked: boolean;                // yanlış cevap ya da süre dolması vakti gün boyu kapatır
   xpAwarded: number | null;         // QA L1 — gerçekten verilen XP; tamamlanana kadar null
 }
 ```
@@ -379,16 +378,16 @@ POST .../{quizId}/questions/{questionId}/answer  { optionId }
 - `isLocked === true` ise o vakit için quiz kilitlenmiştir.
 - İstemci sabiti: `PRAYER_QUIZ_QUESTION_COUNT = 3`.
 
-#### Süre dolması ile yanlış cevap artık farklı (QA M13)
+#### Süre dolması ile yanlış cevap aynı sonucu verir
 
-| Sonuç       | `quizStatus` | `isLocked`              | Bugün tekrar denenebilir mi? |
-| ----------- | ------------ | ----------------------- | ---------------------------- |
-| `INCORRECT` | `FAILED`     | `true`                  | hayır — vakit kapandı        |
-| `EXPIRED`   | `EXPIRED`    | yalnızca hak bittiğinde | evet, hak kaldıysa           |
+| Sonuç       | `quizStatus` | `isLocked` | Bugün tekrar denenebilir mi? |
+| ----------- | ------------ | ---------- | ---------------------------- |
+| `INCORRECT` | `FAILED`     | `true`     | hayır — vakit kapandı        |
+| `EXPIRED`   | `FAILED`     | `true`     | hayır — vakit kapandı        |
 
-`PrayerCardDto.attemptsRemaining` kaç tazeleme hakkı kaldığını söyler (başlangıç 2). Süre dolduğunda
-`useAnswerPrayerQuestion` `daily-prayers` sorgusunu invalidate eder, böylece kart yeni durumu
-gösterir.
+İkisi de vakti gün boyu kapatır; yalnızca `result` alanı ayrışır, böylece mesaj doğru
+kelimelenebilir. Süre dolduğunda `useAnswerPrayerQuestion` `daily-prayers` sorgusunu invalidate
+eder, böylece kart kilitli duruma geçer.
 
 ### Aksiyonlar
 

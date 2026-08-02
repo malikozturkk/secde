@@ -322,14 +322,14 @@ Kartın boş, hata ve "listede değilsin" durumları ayrı ayrı ele alınır �
 - hata → "Lider tablosu şu an yüklenemedi."
 - kullanıcı ilk sayfada değil → "Sen 12. sıradasın · 3 gün"
 
-## Quiz: süre dolması ile yanlış cevap (QA M13)
+## Quiz: süre dolması ile yanlış cevap
 
-Bunlar artık farklı sonuçlar doğurur ve arayüz de öyle anlatmalıdır:
+İkisi de aynı sonucu doğurur ve arayüz de öyle anlatmalıdır:
 
 | Sonuç        | Vakit bugün kapanır mı? | Kullanıcıya söylenecek                                   |
 | ------------ | ----------------------- | -------------------------------------------------------- |
 | Yanlış cevap | **evet**                | "Cevap yanlış. Bu vakit yarına kadar işaretlenemeyecek." |
-| Süre doldu   | hak bitene kadar hayır  | tekrar deneyebileceğini söyle (`attemptsRemaining` > 0)  |
+| Süre doldu   | **evet**                | "Süre doldu. Bu vakit yarına kadar işaretlenemeyecek."   |
 
 `constants/error-messages.ts` içindeki `QUIZ_ANSWER_INCORRECT` ve kardeşleri eskiden "tekrar
 deneyebilirsin" diyordu; bu gerçeğin tersiydi (QA M12) ve düzeltildi.

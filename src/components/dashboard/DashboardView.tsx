@@ -437,19 +437,22 @@ const RightRail: React.FC<RightRailProps> = ({
       totalXpForNextLevel={totalXpForNextLevel}
       className="min-h-fit"
     />
-    <DailyGoalCard
-      completedToday={completedToday}
-      totalToday={totalToday}
-      progressPercent={progressPercent}
-      character={goalCharacter}
-    />
-    <FreezeCard
-      streakFreezeCount={streakFreezeCount}
-      onUseFreeze={onUseFreeze}
-      isUsing={isUsingFreeze}
-      lastUsedLabel={freezeUsageLabel}
-      freezeWindowExpired={freezeWindowExpired}
-    />
+    <div className="hidden lg:block">
+      <DailyGoalCard
+        completedToday={completedToday}
+        totalToday={totalToday}
+        progressPercent={progressPercent}
+        character={goalCharacter}
+      />
+    </div>
+    <div className="hidden lg:block">
+      <FreezeCard
+        streakFreezeCount={streakFreezeCount}
+        onUseFreeze={onUseFreeze}
+        isUsing={isUsingFreeze}
+        lastUsedLabel={freezeUsageLabel}
+        freezeWindowExpired={freezeWindowExpired}
+      />
     </div>
     <LeaderboardCard
       data={leaderboard}
