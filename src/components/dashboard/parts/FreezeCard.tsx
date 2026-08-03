@@ -11,6 +11,7 @@ interface FreezeCardProps {
   isUsing?: boolean;
   lastUsedLabel?: string | null;
   freezeWindowExpired?: boolean;
+  canFreezeNow?: boolean;
 }
 
 const FreezeCardComponent: React.FC<FreezeCardProps> = ({
@@ -20,8 +21,20 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
   isUsing = false,
   lastUsedLabel,
   freezeWindowExpired = false,
+  canFreezeNow = false,
 }) => {
-  const canUse = !!onUseFreeze && streakFreezeCount > 0 && !freezeWindowExpired;
+  const canUse =
+    !!onUseFreeze &&
+    canFreezeNow &&
+    streakFreezeCount > 0 &&
+    !freezeWindowExpired;
+  const statusLabel = freezeWindowExpired
+    ? "Dondurma penceresi kapandı."
+    : !canFreezeNow && streakFreezeCount > 0
+    ? "Serin güvende — dondurulacak gün yok."
+    : lastUsedLabel
+    ? `Son kullanım: ${lastUsedLabel}`
+    : "Henüz kullanılmadı — birikiyor.";
   const slots = useMemo(
     () => Array.from({ length: Math.max(1, maxFreezes) }, (_, idx) => idx),
     [maxFreezes]
@@ -87,11 +100,7 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
 
       <div className="relative flex items-center justify-between gap-2.5">
         <div className="flex-1 text-[11px] font-bold text-white/55">
-          {lastUsedLabel
-            ? `Son kullanım: ${lastUsedLabel}`
-            : freezeWindowExpired
-            ? "Dondurma penceresi kapandı."
-            : "Henüz kullanılmadı — birikiyor."}
+          {statusLabel}
         </div>
         {onUseFreeze && (
           <button

@@ -165,8 +165,14 @@ açıklaması). **Seri her iki durumda da aynı şekilde ilerler** — fark yaln
 korunan tarihler ve `alreadyApplied` bilgisini döner.
 
 Akış: `FreezeCard` → **SERİYİ DONDUR** → `FreezeConfirmDialog` (onay) →
-`useGamificationAction().mutate` → başarıda `controller.refresh()`. Buton yalnızca hak varsa
-ve dondurma penceresi açıkken etkindir; hata mesajı modalın içinde gösterilir.
+`useGamificationAction().mutate` → başarıda `controller.refresh()`. Hata mesajı modalın
+içinde gösterilir.
+
+Buton, `useStreakRisk` yanıtındaki **`canFreezeNow`** ile kapılanır (ek olarak hak > 0 ve
+pencere açık). `canFreezeNow` yalnızca seri **kopmuşken** (`daysSinceLastActive ≥ 2`)
+true'dur — `atRisk` (gap = 1: seri hâlâ ayakta, gece yarısı kopacak) **kapı olarak
+kullanılmaz**, çünkü backend o durumda `STREAK_NOT_AT_RISK` (409) döner. Dondurulacak bir
+gün yokken kart "Serin güvende — dondurulacak gün yok." yazar ve buton `disabled` kalır.
 
 > Bu akış bir süre **erişilemezdi**: `FreezeCard`'ın tek butonu hiç geçilmeyen bir prop'a
 > bağlıydı ve `action.mutate` hiçbir yerden çağrılmıyordu. Backend tarafı ise çalışıyordu.

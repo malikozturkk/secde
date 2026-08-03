@@ -149,6 +149,7 @@ export const DashboardView: React.FC = () => {
     risk?.lastFreezeUsedAt ?? null
   );
   const freezeWindowExpired = risk?.freezeWindowExpired ?? false;
+  const canFreezeNow = risk?.canFreezeNow ?? false;
   const freezeTargetStreak = risk?.isBroken
     ? risk.recoverableStreak
     : currentStreak;
@@ -264,6 +265,7 @@ export const DashboardView: React.FC = () => {
           isUsingFreeze={controller.action.isPending}
           freezeUsageLabel={freezeUsageLabel}
           freezeWindowExpired={freezeWindowExpired}
+          canFreezeNow={canFreezeNow}
           leaderboard={leaderboardQuery.data ?? null}
           isLeaderboardLoading={leaderboardQuery.isPending}
           isLeaderboardError={leaderboardQuery.isError}
@@ -331,6 +333,7 @@ export const DashboardView: React.FC = () => {
             isUsing={controller.action.isPending}
             lastUsedLabel={freezeUsageLabel}
             freezeWindowExpired={freezeWindowExpired}
+            canFreezeNow={canFreezeNow}
           />
         </div>
 
@@ -398,6 +401,7 @@ interface RightRailProps {
   streakFreezeCount: number;
   freezeUsageLabel: string | null;
   freezeWindowExpired: boolean;
+  canFreezeNow: boolean;
   onUseFreeze: () => void;
   isUsingFreeze: boolean;
   leaderboard: Parameters<typeof LeaderboardCard>[0]["data"];
@@ -422,6 +426,7 @@ const RightRail: React.FC<RightRailProps> = ({
   isUsingFreeze,
   freezeUsageLabel,
   freezeWindowExpired,
+  canFreezeNow,
   leaderboard,
   isLeaderboardLoading,
   isLeaderboardError,
@@ -452,6 +457,7 @@ const RightRail: React.FC<RightRailProps> = ({
         isUsing={isUsingFreeze}
         lastUsedLabel={freezeUsageLabel}
         freezeWindowExpired={freezeWindowExpired}
+        canFreezeNow={canFreezeNow}
       />
     </div>
     <LeaderboardCard
