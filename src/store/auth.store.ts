@@ -8,10 +8,11 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   tempToken: string | null;
+  pendingEmail: string | null;
   user: User | null;
   setAuth: (data: AuthTokensWithUser) => void;
   setUser: (user: User) => void;
-  setTempToken: (token: string) => void;
+  setTempToken: (token: string, email?: string | null) => void;
   clearTempToken: () => void;
   clearAuth: () => void;
 }
@@ -22,6 +23,7 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       refreshToken: null,
       tempToken: null,
+      pendingEmail: null,
       user: null,
 
       setAuth: ({ accessToken, refreshToken, user }) => {
@@ -29,14 +31,24 @@ export const useAuthStore = create<AuthState>()(
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
         });
-        set({ accessToken, refreshToken, user, tempToken: null });
+        set({
+          accessToken,
+          refreshToken,
+          user,
+          tempToken: null,
+          pendingEmail: null,
+        });
       },
 
       setUser: (user) => set({ user }),
 
-      setTempToken: (token) => set({ tempToken: token }),
+      setTempToken: (token, email) =>
+        set((state) => ({
+          tempToken: token,
+          pendingEmail: email ?? state.pendingEmail,
+        })),
 
-      clearTempToken: () => set({ tempToken: null }),
+      clearTempToken: () => set({ tempToken: null, pendingEmail: null }),
 
       clearAuth: () => {
         Cookies.remove(AUTH_COOKIE_NAME);
@@ -44,6 +56,7 @@ export const useAuthStore = create<AuthState>()(
           accessToken: null,
           refreshToken: null,
           tempToken: null,
+          pendingEmail: null,
           user: null,
         });
       },
@@ -54,6 +67,7 @@ export const useAuthStore = create<AuthState>()(
         refreshToken: state.refreshToken,
         user: state.user,
         tempToken: state.tempToken,
+        pendingEmail: state.pendingEmail,
       }),
     }
   )

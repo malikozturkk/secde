@@ -78,7 +78,7 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
         const response = await authService.resumeRegistration(email);
         const tempToken = response.data.data?.tempToken;
         if (tempToken) {
-          setTempToken(tempToken);
+          setTempToken(tempToken, email);
           router.push("/verify-otp");
           return;
         }
@@ -94,10 +94,10 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
 
   return useMutation({
     mutationFn: (payload: RegisterFormValues) => authService.register(payload),
-    onSuccess: ({ data }) => {
+    onSuccess: ({ data }, payload) => {
       const tempToken = data.data?.tempToken;
       if (tempToken) {
-        setTempToken(tempToken);
+        setTempToken(tempToken, payload.email);
         router.push("/verify-otp");
       }
     },

@@ -15,7 +15,7 @@ const OTP_LENGTH = 6;
 
 export default function VerifyOtpPage() {
   const router = useRouter();
-  const { tempToken } = useAuthStore();
+  const { tempToken, pendingEmail } = useAuthStore();
   const hydrated = useAuthHydrated();
 
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(""));
@@ -167,7 +167,16 @@ export default function VerifyOtpPage() {
               className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
               style={{ fontFamily: "'Nunito', sans-serif" }}
             >
-              E-posta adresinize gönderilen
+              {pendingEmail ? (
+                <>
+                  <span className="text-[rgba(255,255,255,0.75)] font-bold break-all">
+                    {pendingEmail}
+                  </span>{" "}
+                  adresine gönderilen
+                </>
+              ) : (
+                "E-posta adresinize gönderilen"
+              )}
               <br />
               <span className="text-[rgba(255,255,255,0.75)] font-bold">
                 6 haneli kodu

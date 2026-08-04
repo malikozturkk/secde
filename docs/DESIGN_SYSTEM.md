@@ -96,6 +96,11 @@ zaten taşmadığı için dolgu görünür bir etki yaratmıyor, butonlar banner
 
 `body` varsayılanı Nunito'dur.
 
+**Başlık hiyerarşisi.** Her sayfada tam olarak bir `<h1>` olmalıdır. Dashboard/araç bölümlerinde
+başlık `SectionHead` (`components/dashboard/parts/SectionHead.tsx`) ile basılır; bileşen
+varsayılan olarak `<h2>` üretir ve sayfanın _ilk_ başlığında `as="h1"` verilmelidir. Görsel stil
+iki değerde de aynıdır — prop yalnızca semantiği değiştirir.
+
 **Bilinen durum:** Google Fonts iki yerden yüklenir — `src/app/layout.tsx` içindeki `<link>`
 etiketleri **ve** `globals.css` başındaki `@import`. `layout.tsx`'teki `<link>` ESLint
 `next/no-page-custom-font` uyarısını üretir. Font yükleme stratejisini değiştirecek olursan

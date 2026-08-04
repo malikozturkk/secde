@@ -83,11 +83,15 @@ export const QiblaClient: React.FC = () => {
           Araçlar
         </Link>
 
+        <h1 className="m-0 text-[22px] font-black leading-[1.1] tracking-[-0.01em] text-white">
+          Kıble Bulucu
+        </h1>
+
         {!origin ? (
           <section className="flex flex-col items-start gap-3 rounded-3xl border border-[rgba(245,166,35,0.35)] bg-gradient-to-b from-[rgba(245,166,35,0.12)] to-[#1C2E35] to-60% p-5">
-            <h1 className="m-0 text-xl font-black text-white">
+            <h2 className="m-0 text-xl font-black text-white">
               Önce konum gerekli
-            </h1>
+            </h2>
             <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
               Kıble yönü bulunduğun noktaya göre hesaplanır.
             </p>

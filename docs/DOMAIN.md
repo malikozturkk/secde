@@ -174,6 +174,19 @@ true'dur — `atRisk` (gap = 1: seri hâlâ ayakta, gece yarısı kopacak) **kap
 kullanılmaz**, çünkü backend o durumda `STREAK_NOT_AT_RISK` (409) döner. Dondurulacak bir
 gün yokken kart "Serin güvende — dondurulacak gün yok." yazar ve buton `disabled` kalır.
 
+Kartın altındaki durum satırı (`statusLabel`) sırayla şu koşullara bakar:
+
+| Koşul                          | Metin                                   |
+| ------------------------------ | --------------------------------------- |
+| `freezeWindowExpired`          | "Dondurma penceresi kapandı."           |
+| `!canFreezeNow` **ve** hak > 0 | "Serin güvende — dondurulacak gün yok." |
+| Son kullanım tarihi var        | "Son kullanım: {tarih}"                 |
+| Hak > 0                        | "Henüz kullanılmadı."                   |
+| Aksi halde (hak = 0)           | "Dondurma hakkın yok."                  |
+
+Hak **0** iken "Henüz kullanılmadı." yazmak yanlıştı: kullanıcıya hak birikiyormuş izlenimi
+veriyordu, oysa `streakFreezeCount` hiçbir yerde artmıyor. Sıfır hak artık açıkça söyleniyor.
+
 > Bu akış bir süre **erişilemezdi**: `FreezeCard`'ın tek butonu hiç geçilmeyen bir prop'a
 > bağlıydı ve `action.mutate` hiçbir yerden çağrılmıyordu. Backend tarafı ise çalışıyordu.
 > Hak **kazanma** mekanizması hâlâ yok: `streakFreezeCount` backend'de hiçbir yerde
@@ -249,6 +262,13 @@ UI: `components/dashboard/quiz/` (`PrayerQuizModal`, `QuizOption`, `QuizProgress
   öne çıkarılmış cuma düğümü (`isFeatured`).
 - Rehber içeriği `/learn/[id]` sayfasında `useGuide(id)` ile backend'den çekilir
   (`GET /guides/{id}`).
+- **Sayfa başlığı ve açıklaması içerikten değil `GUIDE_TITLES`'tan üretilir**
+  (`src/constants/guides.ts`): `generateMetadata` sunucuda çalışır, rehber içeriği ise
+  istemcide çekilir; bu yüzden sekiz sayfa da aynı jenerik `metadata`'yı paylaşıyordu.
+  `GUIDE_TITLES` her `GuideId` için Türkçe adı verir (`wudu → "Abdest"`, `jumuah → "Cuma
+Namazı"`, …) ve başlık `"{ad} Rehberi"` olur. Değerler backend'in
+  `src/guides/strategies/*.strategy.ts` dosyalarındaki `title` alanlarıyla birebir aynıdır —
+  yeni rehber eklenirken bu eşleme de genişletilmeli, metin uydurulmamalıdır.
 - Her adım (`GuideStep`) bir `StepType` taşır; bu tip `stepIconMap` (SVG bileşeni) ve
   `stepImageMap` (`/public/learn/*.png` görseli) üzerinden görselleştirilir.
 - Adım alanları: `name`, `shortDescription`, `description`, opsiyonel `recitation` (okunuş),

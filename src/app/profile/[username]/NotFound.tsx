@@ -1,7 +1,18 @@
+"use client";
+
+import { useEffect } from "react";
 import { Button } from "@/src/components/ui/Button";
 import Link from "next/link";
+import { siteConfig } from "@/src/config/site";
 
 export default function NotFound({ username }: { username: string }) {
+  useEffect(() => {
+    document.title = siteConfig.titleTemplate.replace(
+      "%s",
+      "Kullanıcı Bulunamadı"
+    );
+  }, []);
+
   return (
     <div className="ng-animate-up flex flex-col items-center justify-center text-center px-6 pt-[60px] pb-20 gap-[14px]">
       <div className="ng-animate-float mb-1">

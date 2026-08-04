@@ -44,7 +44,11 @@ export const ToolsHubClient: React.FC = () => {
   return (
     <AppLayout mainClassName="px-4 pb-10 pt-6 lg:pt-8">
       <div className="mx-auto flex w-full flex-col gap-4">
-        <SectionHead title={TOOLS_PAGE_TITLE} subtitle={TOOLS_PAGE_SUBTITLE} />
+        <SectionHead
+          as="h1"
+          title={TOOLS_PAGE_TITLE}
+          subtitle={TOOLS_PAGE_SUBTITLE}
+        />
 
         <ul className="flex list-none flex-col gap-3 p-0">
           {TOOLS.map((tool) => (

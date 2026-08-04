@@ -34,7 +34,9 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
     ? "Serin güvende — dondurulacak gün yok."
     : lastUsedLabel
     ? `Son kullanım: ${lastUsedLabel}`
-    : "Henüz kullanılmadı — birikiyor.";
+    : streakFreezeCount > 0
+    ? "Henüz kullanılmadı."
+    : "Dondurma hakkın yok.";
   const slots = useMemo(
     () => Array.from({ length: Math.max(1, maxFreezes) }, (_, idx) => idx),
     [maxFreezes]

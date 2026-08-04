@@ -166,14 +166,20 @@ tekrarlanır. Yeni sorgular için varsayılan bu olmalı.
 
 ### 5.1 Durum nerede tutulur
 
-| Veri           | Yer                                           | Kalıcı mı                           |
-| -------------- | --------------------------------------------- | ----------------------------------- |
-| `accessToken`  | Zustand state + `auth-token` cookie           | localStorage'a **yazılmaz**         |
-| `refreshToken` | Zustand state + localStorage (`auth-storage`) | Evet                                |
-| `user`         | Zustand state + localStorage                  | Evet                                |
-| `tempToken`    | Zustand state                                 | Hayır (kayıt/OTP akışı için geçici) |
+| Veri           | Yer                                           | Kalıcı mı                      |
+| -------------- | --------------------------------------------- | ------------------------------ |
+| `accessToken`  | Zustand state + `auth-token` cookie           | localStorage'a **yazılmaz**    |
+| `refreshToken` | Zustand state + localStorage (`auth-storage`) | Evet                           |
+| `user`         | Zustand state + localStorage                  | Evet                           |
+| `tempToken`    | Zustand state + localStorage (`auth-storage`) | Evet (kayıt/OTP akışı boyunca) |
+| `pendingEmail` | Zustand state + localStorage (`auth-storage`) | Evet (kayıt/OTP akışı boyunca) |
 
-`partialize` yalnızca `refreshToken` ve `user`'ı persist eder.
+`partialize` `refreshToken`, `user`, `tempToken` ve `pendingEmail`'i persist eder.
+
+`pendingEmail`, `/verify-otp` ekranının kodun hangi adrese gittiğini yazabilmesi için tutulur;
+`setTempToken(token, email)` ile yazılır, `setAuth` / `clearTempToken` / `clearAuth` üçünde de
+`tempToken` ile birlikte temizlenir. E-posta adresi kişisel veridir — yalnızca doğrulama ekranında
+gösterilir, hiçbir isteğe eklenmez.
 
 Cookie `js-cookie` ile client tarafında yazılır:
 `secure: production`, `sameSite: "lax"`. **`httpOnly` değildir** — JS ile okunabilir.
@@ -247,7 +253,7 @@ soft-404 üretir (QA M8).
 
 ```
 POST /auth/register  →  { tempToken }
-        ↓  setTempToken(tempToken)
+        ↓  setTempToken(tempToken, email)
    /verify-otp  ──  POST /otp/verify   (Authorization: Bearer <tempToken>)
                 └─  POST /otp/resend   (Authorization: Bearer <tempToken>)
         ↓
@@ -399,3 +405,41 @@ Bileşen (Toast, form setError, ErrorState bileşenleri)
 `lib/geocode.ts` BigDataCloud reverse-geocode servisiyle koordinatı ülke/şehre çevirir ve
 `TR_CITIES` listesine haversine mesafesiyle eşler. **Şu an yalnızca Türkiye desteklenir**
 (kayıt zod şeması `country`'yi `"Türkiye"` ile sınırlar).
+
+---
+
+## 11. Güvenlik başlıkları (`next.config.ts`)
+
+`poweredByHeader: false` — `X-Powered-By: Next.js` artık gönderilmiyor. `headers()` tüm yollara
+(`/:path*`) şu başlıkları ekler:
+
+| Başlık                      | Değer                                            |
+| --------------------------- | ------------------------------------------------ |
+| `Content-Security-Policy`   | aşağıya bak                                      |
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload`   |
+| `X-Content-Type-Options`    | `nosniff`                                        |
+| `X-Frame-Options`           | `DENY`                                           |
+| `Referrer-Policy`           | `strict-origin-when-cross-origin`                |
+| `Permissions-Policy`        | kamera/mikrofon/ödeme kapalı, sensörler `(self)` |
+
+`Permissions-Policy` içinde `geolocation`, `accelerometer`, `gyroscope` ve `magnetometer`
+**`(self)` bırakılmıştır**: ilki `useGeolocation` için, diğer üçü `useDeviceCompass`
+(`deviceorientation` / `deviceorientationabsolute`) için gerekir — tarayıcılar bu olayları üç
+sensör iznine birden bağlar, yani birini `()` yapmak `/tools/qibla` pusulasını sessizce öldürür.
+Kapalı olanlar: `camera`, `display-capture`, `microphone`, `payment`, `usb`.
+
+CSP direktifleri:
+
+- `default-src 'self'`, `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'`,
+  `object-src 'none'`, `upgrade-insecure-requests`
+- `img-src 'self' data: blob:` — avatar/OG üretimi data URI kullanıyor
+- `font-src`/`style-src` Google Fonts'a (`fonts.gstatic.com` / `fonts.googleapis.com`) izin verir
+- `connect-src` `'self'` + `https://api.bigdatacloud.net` (reverse-geocode) +
+  `NEXT_PUBLIC_API_URL`'in **origin**'i. Backend adresi değişirse başlık kendiliğinden uyar;
+  ortam değişkeni geçersizse origin boş kalır ve API çağrıları CSP'ye takılır.
+- `script-src 'self' 'unsafe-inline'`, dev'de ek olarak `'unsafe-eval'`
+
+`'unsafe-inline'` **bilinen bir tavizdir**: Next'in App Router'ı hidrasyon verisini satır içi
+`<script>` ile gönderir. Kaldırmanın doğru yolu `middleware.ts` içinde istek başına nonce üretip
+CSP'ye `'nonce-…'` eklemektir; yapılmadı. Yeni bir üçüncü taraf origin'i (analitik, harita, font)
+eklemeden önce ilgili direktifi burada güncelle — aksi halde tarayıcı isteği sessizce bloklar.

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/src/config/site";
-import { GUIDE_IDS, isGuideId } from "@/src/constants/guides";
+import { GUIDE_IDS, GUIDE_TITLES, isGuideId } from "@/src/constants/guides";
 import GuideClient from "./GuideClient";
 
 export function generateStaticParams() {
@@ -22,15 +22,18 @@ export async function generateMetadata({
     };
   }
 
+  const title = `${GUIDE_TITLES[id]} Rehberi`;
+  const description = `${GUIDE_TITLES[id]} nasıl yapılır, adım adım öğren. NamazGo interaktif rehberiyle pratik yap.`;
+
   return {
-    title: `İbadet Rehberi`,
-    description: `İbadetlerin konusunu adım adım öğren. NamazGo interaktif rehberiyle pratik yap.`,
+    title,
+    description,
     alternates: {
       canonical: `${siteConfig.url}/learn/${id}`,
     },
     openGraph: {
-      title: `İbadet Rehberi`,
-      description: `İbadetlerin konusunu adım adım öğren.`,
+      title,
+      description,
       url: `${siteConfig.url}/learn/${id}`,
     },
   };
