@@ -390,6 +390,32 @@ Bileşen (Toast, form setError, ErrorState bileşenleri)
 - `retryOnServerError(max)` yalnızca 5xx'te yeniden dener.
 - Form hataları react-hook-form `setError` ile alana veya `root`'a yazılır (bkz. `useLogin`).
 
+### 9.1 Hata raporlama (client → backend telemetri)
+
+Yakalanmamış tarayıcı hataları backend'e raporlanır ve sunucu logunda `CLIENT_ERROR` satırı olarak
+izlenir (`POST /telemetry/client-errors`, bkz. `docs/API.md` §10):
+
+```
+src/instrumentation-client.ts     window "error" + "unhandledrejection" dinleyicileri
+src/app/error.tsx                 route seviyesinde React render hatası (layout korunur)
+src/app/global-error.tsx          kök layout çökerse (kendi <html>/<body>'sini render eder)
+   ↓
+src/lib/error-reporter.ts         dedupe + oturum başına ≤10 rapor + alan kırpma + döngü koruması
+   ↓
+src/services/telemetry.service.ts fetch keepalive — bilerek axiosInstance DIŞINDA
+```
+
+- **KVKK:** URL'nin yalnızca `pathname`'i gönderilir — query string ve hash (reset-password
+  token'ı, `callbackUrl`) asla gönderilmez. Çerez/oturum bilgisi taşınmaz.
+- **Döngü koruması:** telemetri endpoint'inin kendi hatası raporlanmaz; `fetch` hatası sessizce
+  yutulur; aynı `source:message` ikilisi oturumda bir kez gider; `"Script error."` (cross-origin,
+  bilgi taşımaz) atlanır.
+- `telemetryService` `axiosInstance` kullanmaz: interceptor'lardan geçse 401'de refresh kuyruğunu
+  tetiklerdi ve raporlayıcının kendisi hata üretip döngü oluşturabilirdi; `keepalive` sayfa
+  kapanırken bile isteği tamamlar.
+- Raporlama backend'in erişim loguna ek **hata** telemetrisidir; başarılı işlemler zaten backend
+  tarafında her istek için loglanır (kible `ARCHITECTURE.md` → Logging).
+
 ---
 
 ## 10. Konum (geolocation)

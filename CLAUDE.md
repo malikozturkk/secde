@@ -197,6 +197,8 @@ src/
 │   ├── settings/{profile,account,avatar}/
 │   ├── search/  worship/  terms/  privacy/
 │   ├── layout.tsx      # root layout + provider zinciri
+│   ├── error.tsx       # route seviyesinde hata sınırı — hatayı backend'e raporlar
+│   ├── global-error.tsx# kök layout çökerse; kendi <html>/<body>'sini render eder
 │   └── page.tsx        # "/" → oturum varsa Dashboard, yoksa Landing
 ├── components/         # domain klasörlerine bölünmüş bileşenler
 │   ├── ui/             # paylaşılan primitive'ler (Button, Card, Dialog, Input, ...)
@@ -206,14 +208,15 @@ src/
 ├── constants/          # sabitler + React Query key fabrikaları + hata mesajı sözlüğü
 ├── hooks/              # React Query hook'ları + UI hook'ları (domain alt klasörleri)
 ├── icons/              # ham .svg  →  icons/tsx/ üretilmiş bileşenler (commit'li)
-├── lib/                # axios, api-error, utils(cn), metadata, domain util'leri
+├── lib/                # axios, api-error, error-reporter, utils(cn), metadata, domain util'leri
 ├── providers/          # QueryProvider, CookieConsentProvider, ConsentGateProvider
 ├── services/           # axios çağrıları (endpoint katmanı)
 ├── store/auth.store.ts # tek Zustand store
 ├── styles/             # learn.css, worship.css (sayfa-özel keyframe'ler)
 ├── types/              # tipler + types/enums/
 ├── validations/        # zod şemaları
-└── middleware.ts       # cookie tabanlı route koruması
+├── middleware.ts       # cookie tabanlı route koruması
+└── instrumentation-client.ts  # window error/unhandledrejection → error-reporter
 ```
 
 ---
@@ -366,7 +369,21 @@ QueryProvider → ToastProvider → CookieConsentProvider → ConsentGateProvide
 
 `ConsentGateProvider` React Query kullandığı için `QueryProvider` içinde kalmalıdır.
 
-### 7.5 Layout
+### 7.5 Hata raporlama tek kanaldan geçer
+
+Yakalanmamış tarayıcı hataları `src/lib/error-reporter.ts` üzerinden backend'e raporlanır
+(`POST /telemetry/client-errors`; detay: `docs/ARCHITECTURE.md` §9.1). Kurallar:
+
+- Yeni hata yakalama noktası eklersen **`reportClientError()` çağır** — doğrudan
+  `telemetryService`'i veya `fetch`'i çağırma; dedupe, oturum limiti ve KVKK kırpması
+  raporlayıcıda yaşar.
+- `telemetryService` bilerek `axiosInstance` kullanmaz (refresh döngüsü riski) ve **kullanmaya
+  çevirme**.
+- Rapora asla query string, token, çerez veya kişisel veri ekleme; `url` alanı yalnızca
+  `pathname`'dir.
+- Raporlayıcı hata fırlatamaz — bu değişmezi bozan bir düzenleme uygulamanın kendisini bozar.
+
+### 7.6 Layout
 
 Oturum içi sayfalar `AppLayout` ile sarılır (sol `Sidebar` + opsiyonel `rightPanel`;
 mobilde alt bar). `Sidebar`, `user` yoksa hiçbir şey render etmez. Sidebar'da

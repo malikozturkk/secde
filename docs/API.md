@@ -572,3 +572,26 @@ her iki harita da güncellenmelidir.
 | BigDataCloud reverse-geocode | Koordinat → ülke/şehir (kayıt ve konum seçimi) | `src/lib/geocode.ts` |
 
 Bu çağrı `axiosInstance` üzerinden **geçmez**, anahtar gerektirmez ve 10 sn timeout'ludur.
+
+---
+
+## 10. Telemetry — `src/services/telemetry.service.ts`
+
+### `POST /telemetry/client-errors` — auth yok · `202` · 10 istek/dk (IP başına)
+
+Yakalanmamış tarayıcı hatasını backend loguna yazdırır. `fetch` (keepalive) ile gönderilir —
+**bilerek** `axiosInstance` dışındadır (döngü koruması, bkz. `ARCHITECTURE.md` §9.1). Çağıran tek
+yer `src/lib/error-reporter.ts`'dir; bileşenler doğrudan bu servisi çağırmaz.
+
+```ts
+interface ClientErrorReportPayload {
+  message: string; // ≤ 500 — zorunlu
+  source: ClientErrorSource; // window_error | unhandled_rejection | react_render_error
+  stack?: string; // ≤ 8000
+  url?: string; // ≤ 300 — yalnızca pathname (query/hash gönderilmez)
+  digest?: string; // ≤ 100 — Next.js production hata özeti
+}
+```
+
+Yanıt: `202` + `data: null` zarfı. Başarısızlık (`400`, `429`, ağ hatası) raporlayıcı tarafından
+sessizce yutulur — hata raporlama uygulama akışını asla etkilemez.
