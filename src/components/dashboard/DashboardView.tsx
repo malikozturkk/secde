@@ -150,6 +150,9 @@ export const DashboardView: React.FC = () => {
   );
   const freezeWindowExpired = risk?.freezeWindowExpired ?? false;
   const canFreezeNow = risk?.canFreezeNow ?? false;
+  const recoverableStreak = risk?.recoverableStreak ?? 0;
+  const recoveredStreak =
+    !risk?.isBroken && recoverableStreak > 0 ? recoverableStreak : 0;
   const freezeTargetStreak = risk?.isBroken
     ? risk.recoverableStreak
     : currentStreak;
@@ -266,6 +269,7 @@ export const DashboardView: React.FC = () => {
           freezeUsageLabel={freezeUsageLabel}
           freezeWindowExpired={freezeWindowExpired}
           canFreezeNow={canFreezeNow}
+          recoverableStreak={recoverableStreak}
           leaderboard={leaderboardQuery.data ?? null}
           isLeaderboardLoading={leaderboardQuery.isPending}
           isLeaderboardError={leaderboardQuery.isError}
@@ -334,6 +338,7 @@ export const DashboardView: React.FC = () => {
             lastUsedLabel={freezeUsageLabel}
             freezeWindowExpired={freezeWindowExpired}
             canFreezeNow={canFreezeNow}
+            recoverableStreak={recoverableStreak}
           />
         </div>
 
@@ -371,6 +376,7 @@ export const DashboardView: React.FC = () => {
         onConfirm={handleConfirmFreeze}
         freezesRemaining={streakFreezeCount}
         currentStreak={freezeTargetStreak}
+        recoveredStreak={recoveredStreak}
         isPending={controller.action.isPending}
         errorMessage={freezeError}
       />
@@ -402,6 +408,7 @@ interface RightRailProps {
   freezeUsageLabel: string | null;
   freezeWindowExpired: boolean;
   canFreezeNow: boolean;
+  recoverableStreak: number;
   onUseFreeze: () => void;
   isUsingFreeze: boolean;
   leaderboard: Parameters<typeof LeaderboardCard>[0]["data"];
@@ -427,6 +434,7 @@ const RightRail: React.FC<RightRailProps> = ({
   freezeUsageLabel,
   freezeWindowExpired,
   canFreezeNow,
+  recoverableStreak,
   leaderboard,
   isLeaderboardLoading,
   isLeaderboardError,
@@ -458,6 +466,7 @@ const RightRail: React.FC<RightRailProps> = ({
         lastUsedLabel={freezeUsageLabel}
         freezeWindowExpired={freezeWindowExpired}
         canFreezeNow={canFreezeNow}
+        recoverableStreak={recoverableStreak}
       />
     </div>
     <LeaderboardCard

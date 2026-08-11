@@ -12,6 +12,7 @@ interface FreezeCardProps {
   lastUsedLabel?: string | null;
   freezeWindowExpired?: boolean;
   canFreezeNow?: boolean;
+  recoverableStreak?: number;
 }
 
 const FreezeCardComponent: React.FC<FreezeCardProps> = ({
@@ -22,6 +23,7 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
   lastUsedLabel,
   freezeWindowExpired = false,
   canFreezeNow = false,
+  recoverableStreak = 0,
 }) => {
   const canUse =
     !!onUseFreeze &&
@@ -30,6 +32,8 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
     !freezeWindowExpired;
   const statusLabel = freezeWindowExpired
     ? "Dondurma penceresi kapandı."
+    : canFreezeNow && recoverableStreak > 0
+    ? `Kaybettiğin ${recoverableStreak} günlük seriyi kurtarabilirsin.`
     : !canFreezeNow && streakFreezeCount > 0
     ? "Serin güvende — dondurulacak gün yok."
     : lastUsedLabel

@@ -11,6 +11,7 @@ interface FreezeConfirmDialogProps {
   onConfirm: () => void;
   freezesRemaining: number;
   currentStreak: number;
+  recoveredStreak?: number;
   isPending: boolean;
   errorMessage?: string | null;
 }
@@ -21,6 +22,7 @@ const FreezeConfirmDialogComponent: React.FC<FreezeConfirmDialogProps> = ({
   onConfirm,
   freezesRemaining,
   currentStreak,
+  recoveredStreak = 0,
   isPending,
   errorMessage,
 }) => (
@@ -34,13 +36,27 @@ const FreezeConfirmDialogComponent: React.FC<FreezeConfirmDialogProps> = ({
         Seriyi dondur
       </h2>
 
-      <p className="m-0 max-w-[36ch] text-[13px] font-bold leading-snug text-white/55">
-        Kaçırdığın günler korunur ve{" "}
-        <strong className="font-black text-[#7DD3FC]">
-          {currentStreak} günlük
-        </strong>{" "}
-        serin devam eder. Bir dondurma hakkın harcanır.
-      </p>
+      {recoveredStreak > 0 ? (
+        <p className="m-0 max-w-[36ch] text-[13px] font-bold leading-snug text-white/55">
+          Kaybettiğin{" "}
+          <strong className="font-black text-[#7DD3FC]">
+            {recoveredStreak} günlük
+          </strong>{" "}
+          serin geri gelir ve bugünkü serinle birleşerek{" "}
+          <strong className="font-black text-[#7DD3FC]">
+            {recoveredStreak + currentStreak} gün
+          </strong>{" "}
+          olur. Bir dondurma hakkın harcanır.
+        </p>
+      ) : (
+        <p className="m-0 max-w-[36ch] text-[13px] font-bold leading-snug text-white/55">
+          Kaçırdığın günler korunur ve{" "}
+          <strong className="font-black text-[#7DD3FC]">
+            {currentStreak} günlük
+          </strong>{" "}
+          serin devam eder. Bir dondurma hakkın harcanır.
+        </p>
+      )}
 
       <div className="mt-1 rounded-2xl border border-[rgba(79,195,247,0.30)] bg-[rgba(79,195,247,0.10)] px-3.5 py-2 text-[11px] font-black uppercase tracking-[0.08em] text-[#7DD3FC]">
         {freezesRemaining} hakkın kaldı

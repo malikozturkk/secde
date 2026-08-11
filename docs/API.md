@@ -258,14 +258,14 @@ Yol parametreleri `encodeURIComponent` ile kodlanır.
 backend `currentStreak` alanını `lastActiveDate` ile bugün arasındaki farka göre türetir, yani
 kopmuş bir seri kullanıcı namaz işaretlemeyi beklemeden **0** okunur.
 
-| Alan                  | Anlamı                                                                |
-| --------------------- | --------------------------------------------------------------------- |
-| `isBroken`            | Boşluk ≥ 2 gün — seri kopmuş                                          |
-| `recoverableStreak`   | Dondurma hakkı kullanılırsa geri gelecek gün sayısı                   |
-| `atRisk`              | Boşluk = 1 — seri ayakta ama bugün işaretlenmezse gece yarısı kopacak |
-| `canFreezeNow`        | Kopmuş **ve** 3 günlük pencere içinde **ve** hak var                  |
-| `freezeWindowExpired` | Kopmuş ama pencere kapanmış, geri alınamaz                            |
-| `lastFreezeUsedAt`    | En son korunan gün (`null` = hiç kullanılmamış)                       |
+| Alan                  | Anlamı                                                                                                                             |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `isBroken`            | Boşluk ≥ 2 gün — seri kopmuş                                                                                                        |
+| `recoverableStreak`   | Dondurma hakkı kullanılırsa geri gelecek gün sayısı; kopmadan sonra yeniden başlanmışsa da (pencere açıkken) sıfırdan büyük döner |
+| `atRisk`              | Boşluk = 1 — seri ayakta ama bugün işaretlenmezse gece yarısı kopacak                                                               |
+| `canFreezeNow`        | Dondurma şu an başarılı olur: kopmuş ve 3 günlük pencere içinde, **veya** saklanmış kurtarılabilir seri var — her iki durumda hak > 0 |
+| `freezeWindowExpired` | Kopmuş ama pencere kapanmış, geri alınamaz                                                                                          |
+| `lastFreezeUsedAt`    | En son korunan gün (`null` = hiç kullanılmamış)                                                                                     |
 
 Geri alma ayrı bir uç değildir: `POST /gamification/action` +
 `actionType: STREAK_FREEZE` kullanılır. `useGamificationAction` başarıda bu sorguyu
@@ -394,6 +394,8 @@ eder, böylece kart kilitli duruma geçer.
 `actionType` şu an tek değer alır: `STREAK_FREEZE` (`GamificationActionType`).
 Yanıt `streakFreezeUsage` içerir:
 `{ currentStreak, longestStreak, freezesRemaining, protectedDates, alreadyApplied }`.
+Seri kopmuşsa kaçan günleri korur; kopmadan sonra yeniden başlanmışsa kaybedilen seriyi
+geri getirip mevcut seriyle **birleştirir** — yanıttaki `currentStreak` birleşik toplamdır.
 İstemci sabiti: `STREAK_FREEZE_MAX_SLOTS = 3`.
 
 `clientRequestId` idempotency için opsiyonel gönderilir.

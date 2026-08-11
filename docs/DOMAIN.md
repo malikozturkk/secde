@@ -169,20 +169,26 @@ Akış: `FreezeCard` → **SERİYİ DONDUR** → `FreezeConfirmDialog` (onay) �
 içinde gösterilir.
 
 Buton, `useStreakRisk` yanıtındaki **`canFreezeNow`** ile kapılanır (ek olarak hak > 0 ve
-pencere açık). `canFreezeNow` yalnızca seri **kopmuşken** (`daysSinceLastActive ≥ 2`)
-true'dur — `atRisk` (gap = 1: seri hâlâ ayakta, gece yarısı kopacak) **kapı olarak
-kullanılmaz**, çünkü backend o durumda `STREAK_NOT_AT_RISK` (409) döner. Dondurulacak bir
-gün yokken kart "Serin güvende — dondurulacak gün yok." yazar ve buton `disabled` kalır.
+pencere açık). `canFreezeNow` iki durumda true'dur: seri **kopmuşken**
+(`daysSinceLastActive ≥ 2`, 3 günlük pencere içinde) **veya** seri kopmadan sonra yeniden
+başlatılmışken backend'in sakladığı bir **kurtarılabilir seri** varken (`recoverableStreak
+> 0`). İkinci durumda dondurma, kaybedilen seriyi geri getirip mevcut seriyle
+**birleştirir** (4 kayıp + bugün 1 = 5) — yani o günün namazını kılmış olmak kurtarma
+hakkını yakmaz; onay diyaloğu birleşik toplamı gösterir. `atRisk` (gap = 1: seri hâlâ
+ayakta, gece yarısı kopacak) **kapı olarak kullanılmaz**, çünkü backend o durumda
+`STREAK_NOT_AT_RISK` (409) döner. Dondurulacak bir gün yokken kart "Serin güvende —
+dondurulacak gün yok." yazar ve buton `disabled` kalır.
 
 Kartın altındaki durum satırı (`statusLabel`) sırayla şu koşullara bakar:
 
-| Koşul                          | Metin                                   |
-| ------------------------------ | --------------------------------------- |
-| `freezeWindowExpired`          | "Dondurma penceresi kapandı."           |
-| `!canFreezeNow` **ve** hak > 0 | "Serin güvende — dondurulacak gün yok." |
-| Son kullanım tarihi var        | "Son kullanım: {tarih}"                 |
-| Hak > 0                        | "Henüz kullanılmadı."                   |
-| Aksi halde (hak = 0)           | "Dondurma hakkın yok."                  |
+| Koşul                                       | Metin                                             |
+| ------------------------------------------- | ------------------------------------------------- |
+| `freezeWindowExpired`                       | "Dondurma penceresi kapandı."                     |
+| `canFreezeNow` **ve** `recoverableStreak>0` | "Kaybettiğin {n} günlük seriyi kurtarabilirsin." |
+| `!canFreezeNow` **ve** hak > 0              | "Serin güvende — dondurulacak gün yok."           |
+| Son kullanım tarihi var                     | "Son kullanım: {tarih}"                           |
+| Hak > 0                                     | "Henüz kullanılmadı."                             |
+| Aksi halde (hak = 0)                        | "Dondurma hakkın yok."                            |
 
 Hak **0** iken "Henüz kullanılmadı." yazmak yanlıştı: kullanıcıya hak birikiyormuş izlenimi
 veriyordu, oysa `streakFreezeCount` hiçbir yerde artmıyor. Sıfır hak artık açıkça söyleniyor.
@@ -209,6 +215,13 @@ Akış: `useStreakRisk` → `isBroken` ise `useStreakBreakNotice` modalı açar 
 | `freezeWindowExpired` | "Dondurma için geç kaldın, bu seri geri alınamıyor." + **YENİDEN BAŞLA** |
 
 Kurtarma butonu `FreezeCard` ile aynı ucu çağırır (`STREAK_FREEZE`); ayrı bir endpoint yoktur.
+
+Kopmadan sonra kullanıcı önce namaz kılarsa seri 1'den yeniden başlar ama kurtarma
+kaybolmaz: backend kaybedilen seriyi saklar, `streak-risk` yanıtında `isBroken: false`
+iken `recoverableStreak > 0` ve `canFreezeNow: true` döner. Bu durumda `StreakBrokenDialog`
+açılmaz (o yalnızca `isBroken` ile açılır); kurtarma `FreezeCard` üzerinden yapılır ve
+dondurma iki seriyi birleştirir. Sıra fark etmez: önce dondur sonra kıl da, önce kıl sonra
+dondur da aynı toplamı verir.
 
 Modal, kapatıldığında o **kopma olayı** için susturulur: `useStreakBreakNotice` kapatılan
 kopmanın `lastActiveDate` değerini localStorage'a yazar
