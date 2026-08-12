@@ -11,28 +11,14 @@ const CATEGORIES = [
     key: "essential" as const,
     label: "Zorunlu Çerezler",
     description:
-      "Oturum yönetimi, güvenlik ve temel platform işlevleri için gereklidir. Devre dışı bırakılamaz.",
+      "Oturum yönetimi (auth-token), güvenlik ve çerez tercihinizin saklanması için gereklidir. Devre dışı bırakılamaz. NamazGo analitik veya pazarlama çerezi kullanmaz.",
     locked: true,
   },
   {
-    key: "analytics" as const,
-    label: "Analitik Çerezler",
-    description:
-      "Platform kullanımını analiz etmek, hizmet kalitesini ölçmek ve ürün geliştirme çalışmalarını desteklemek için kullanılır.",
-    locked: false,
-  },
-  {
-    key: "marketing" as const,
-    label: "Pazarlama Çerezleri",
-    description:
-      "Kişiselleştirilmiş reklam ve tanıtım içerikleri sunmak, kampanya etkinliğini ölçmek amacıyla kullanılır.",
-    locked: false,
-  },
-  {
     key: "personalization" as const,
-    label: "Kişiselleştirme Çerezleri",
+    label: "Kişiselleştirme (Yerel Kayıtlar)",
     description:
-      "Bildirim tercihlerinizi, tema ayarlarınızı ve kişiselleştirme seçeneklerinizi hatırlamak için kullanılır.",
+      "Zikirmatik sayacı ve seri bildirimi gibi araç tercihlerinizin tarayıcınızda (localStorage) hatırlanması için kullanılır. Bu veriler sunucuya gönderilmez.",
     locked: false,
   },
 ];
@@ -117,7 +103,7 @@ export default function CookieBanner() {
                 href="/privacy#cerezler"
                 className="text-[var(--color-primary-light)] underline underline-offset-2"
               >
-                Gizlilik Politikamızı
+                Aydınlatma Metnimizi
               </Link>{" "}
               inceleyebilirsiniz.
             </p>
@@ -224,13 +210,14 @@ export default function CookieBanner() {
                 Çerez Kullanımı
               </h3>
               <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
-                NamazGo, hizmetini sunmak ve deneyiminizi iyileştirmek için
-                çerezler kullanır. Detaylar için{" "}
+                NamazGo, hizmetin çalışması için zorunlu çerezler ile araç
+                tercihlerinizi hatırlayan yerel kayıtlar kullanır; analitik veya
+                pazarlama çerezi kullanmaz. Detaylar için{" "}
                 <Link
                   href="/privacy#cerezler"
                   className="text-[var(--color-primary-light)] underline underline-offset-2"
                 >
-                  Gizlilik Politikamızı
+                  Aydınlatma Metnimizi
                 </Link>{" "}
                 inceleyebilirsiniz.
               </p>

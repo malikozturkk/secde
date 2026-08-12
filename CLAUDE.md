@@ -157,7 +157,7 @@ temizlemek istiyorsan ayrı iş olarak yap.
 
 | Kural                                 | Konumlar                                                                                                                                                                                                                                                     |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `react-hooks/set-state-in-effect` (6) | `app/page.tsx:13` · `app/profile/[username]/components/FollowListDialog.tsx:41` · `app/settings/avatar/AvatarSettingsClient.tsx:252` · `components/learn/DynamicPath.tsx:54` · `components/settings/avatar/HexInput.tsx:26` · `hooks/useCookieConsent.ts:91` |
+| `react-hooks/set-state-in-effect` (6) | `app/page.tsx:13` · `app/profile/[username]/components/FollowListDialog.tsx:41` · `app/settings/avatar/AvatarSettingsClient.tsx:252` · `components/learn/DynamicPath.tsx:54` · `components/settings/avatar/HexInput.tsx:26` · `hooks/useCookieConsent.ts:75` |
 | `react/no-unescaped-entities` (1)     | `app/profile/[username]/components/InviteCard.tsx:19`                                                                                                                                                                                                        |
 
 **Warning'ler (10):**
@@ -195,7 +195,7 @@ src/
 │   ├── learn/[id]/     # rehber detay
 │   ├── profile/[username]/
 │   ├── settings/{profile,account,avatar}/
-│   ├── search/  worship/  terms/  privacy/
+│   ├── search/  worship/  terms/  privacy/  explicit-consent/
 │   ├── layout.tsx      # root layout + provider zinciri
 │   ├── error.tsx       # route seviyesinde hata sınırı — hatayı backend'e raporlar
 │   ├── global-error.tsx# kök layout çökerse; kendi <html>/<body>'sini render eder
@@ -347,10 +347,11 @@ Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yaz
 
 |         | Yasal onay (blocking)                                               | Çerez onayı                                                                              |
 | ------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Kaynak  | Backend `/consent/status`, `/consent/accept`                        | Tamamen client, localStorage (versiyonlu)                                                |
+| Kaynak  | Backend `/consent/status`, `/consent/accept`                        | Tamamen client, `js-cookie` çerezi (versiyonlu, `COOKIE_CONSENT_VERSION = "1.0.0"`)        |
 | Kod     | `providers/ConsentGateProvider.tsx`, `components/consent/`          | `hooks/useCookieConsent.ts`, `providers/CookieConsentProvider.tsx`, `components/cookie/` |
+| Tipler / kategoriler | 3 tip (`ConsentType`): `TERMS_OF_SERVICE` "Kullanım Koşulları" (`/terms`), `PRIVACY_POLICY` "Aydınlatma Metni" (`/privacy`, yalnızca "okudum" teyidi), `SPECIAL_CATEGORY_DATA` "Açık Rıza Metni" (`/explicit-consent`) | 2 kategori: `essential` (hep `true`) + `personalization` — analitik/pazarlama v2.0'da kaldırıldı |
 | Etki    | `blocked` veya `requiresReaccept` ise modal ile uygulamayı kilitler | Alt banner gösterir                                                                      |
-| İstisna | `/terms` ve `/privacy` yollarında gate gösterilmez                  | —                                                                                        |
+| İstisna | `/terms`, `/privacy` ve `/explicit-consent` yollarında gate gösterilmez (`CONSENT_GATE_EXCLUDED_PATHS`) | —                                                                       |
 
 ### 7.3 Hidrasyon
 

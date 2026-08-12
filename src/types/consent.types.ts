@@ -1,4 +1,7 @@
-export type ConsentType = "TERMS_OF_SERVICE" | "PRIVACY_POLICY";
+export type ConsentType =
+  | "TERMS_OF_SERVICE"
+  | "PRIVACY_POLICY"
+  | "SPECIAL_CATEGORY_DATA";
 
 export interface ConsentStatusItem {
   type: ConsentType;

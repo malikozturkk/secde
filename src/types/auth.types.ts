@@ -29,7 +29,8 @@ export interface AvatarCustomization {
   accessories: Record<string, unknown>;
 }
 
-export interface UserDetail extends User {
+export interface UserDetail extends Omit<User, "madhab"> {
+  madhab?: User["madhab"];
   followingCount: number;
   followerCount: number;
   isFollowing: boolean | null;
@@ -68,6 +69,7 @@ export interface RegisterPayload {
   language: string;
   termsAccepted: boolean;
   privacyPolicyAccepted: boolean;
+  specialCategoryDataAccepted: boolean;
 }
 
 export interface LoginPayload {

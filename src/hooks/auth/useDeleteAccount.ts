@@ -1,0 +1,17 @@
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { authService } from "@/src/services/auth.service";
+import { useAuthStore } from "@/src/store/auth.store";
+
+export const useDeleteAccount = () => {
+  const router = useRouter();
+  const { clearAuth } = useAuthStore();
+
+  return useMutation({
+    mutationFn: () => authService.deleteAccount(),
+    onSuccess: () => {
+      clearAuth();
+      router.push("/");
+    },
+  });
+};

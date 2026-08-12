@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/src/store/auth.store";
 import { useUpdateProfile } from "@/src/hooks/auth/useUpdateProfile";
+import { useDeleteAccount } from "@/src/hooks/auth/useDeleteAccount";
 import {
   updateProfileSchema,
   type UpdateProfileFormValues,
@@ -23,6 +24,13 @@ export default function ProfileSettings() {
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+
+  const {
+    mutate: deleteAccount,
+    isPending: isDeleting,
+    isError: deleteFailed,
+  } = useDeleteAccount();
 
   const {
     register,
@@ -190,18 +198,53 @@ export default function ProfileSettings() {
           </div>
 
           <div className="flex flex-col gap-4 mt-8">
-            <button
-              type="button"
-              className="text-[13px] font-extrabold text-[rgba(255,255,255,0.55)] uppercase bg-transparent border-none cursor-pointer text-left p-0 tracking-wide hover:text-white"
-            >
-              VERİLERİMİ DIŞA AKTAR
-            </button>
-            <button
-              type="button"
-              className="text-[13px] font-extrabold text-[#ff4b4b] uppercase bg-transparent border-none cursor-pointer text-left p-0 tracking-wide hover:text-[#ff7979]"
-            >
-              HESABIMI SİL
-            </button>
+            {confirmingDelete ? (
+              <div className="flex flex-col gap-3 border border-[#ff4b4b]/40 rounded-2xl p-4">
+                <p
+                  className="text-[13px] text-[rgba(255,255,255,0.7)] leading-relaxed"
+                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                >
+                  Hesabını silersen tüm kişisel verilerin, ibadet ve seri
+                  geçmişin, puanların ve avatar özelleştirmelerin kalıcı olarak
+                  silinir. Bu işlem geri alınamaz.
+                </p>
+                {deleteFailed && (
+                  <p
+                    className="text-[13px] font-semibold text-red-400"
+                    style={{ fontFamily: "'Nunito', sans-serif" }}
+                  >
+                    Hesap silinemedi. Lütfen tekrar dene veya info@namazgo.com
+                    adresine yaz.
+                  </p>
+                )}
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    disabled={isDeleting}
+                    onClick={() => deleteAccount()}
+                    className="text-[13px] font-extrabold text-[#ff4b4b] uppercase bg-transparent border-none cursor-pointer text-left p-0 tracking-wide hover:text-[#ff7979] disabled:opacity-50"
+                  >
+                    {isDeleting ? "SİLİNİYOR..." : "EVET, KALICI OLARAK SİL"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isDeleting}
+                    onClick={() => setConfirmingDelete(false)}
+                    className="text-[13px] font-extrabold text-[rgba(255,255,255,0.55)] uppercase bg-transparent border-none cursor-pointer text-left p-0 tracking-wide hover:text-white"
+                  >
+                    VAZGEÇ
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmingDelete(true)}
+                className="text-[13px] font-extrabold text-[#ff4b4b] uppercase bg-transparent border-none cursor-pointer text-left p-0 tracking-wide hover:text-[#ff7979]"
+              >
+                HESABIMI SİL
+              </button>
+            )}
           </div>
         </div>
       </form>

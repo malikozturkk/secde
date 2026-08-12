@@ -53,11 +53,16 @@ export default function RegisterForm() {
     control,
     name: "privacyPolicyAccepted",
   });
+  const specialCategoryAccepted = useWatch({
+    control,
+    name: "specialCategoryDataAccepted",
+  });
   const location = useWatch({
     control,
     name: ["country", "city", "latitude", "longitude"],
   });
-  const consentsMissing = !termsAccepted || !privacyAccepted;
+  const consentsMissing =
+    !termsAccepted || !privacyAccepted || !specialCategoryAccepted;
 
   const locationValue: Partial<LocationValue> = {
     country: location?.[0],
@@ -239,6 +244,11 @@ export default function RegisterForm() {
                 error={errors.privacyPolicyAccepted?.message}
                 {...register("privacyPolicyAccepted")}
               />
+              <ConsentCheckbox
+                consentType="SPECIAL_CATEGORY_DATA"
+                error={errors.specialCategoryDataAccepted?.message}
+                {...register("specialCategoryDataAccepted")}
+              />
             </div>
 
             <div className="mt-1">
@@ -250,7 +260,7 @@ export default function RegisterForm() {
                 disabled={isPending || consentsMissing}
                 title={
                   consentsMissing
-                    ? "Devam etmek için yukarıdaki iki kutuyu da işaretlemelisin"
+                    ? "Devam etmek için yukarıdaki kutuların tümünü işaretlemelisin"
                     : undefined
                 }
               >

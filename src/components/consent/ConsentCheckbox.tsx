@@ -28,8 +28,17 @@ export const ConsentCheckbox = forwardRef<
     ),
     PRIVACY_POLICY: (
       <>
+        Kişisel verilerimin işlenmesine ilişkin{" "}
         <LegalLink type="PRIVACY_POLICY" />
-        &apos;nı okudum ve kabul ediyorum.
+        &apos;ni okudum ve kabul ediyorum.
+      </>
+    ),
+    SPECIAL_CATEGORY_DATA: (
+      <>
+        <LegalLink type="SPECIAL_CATEGORY_DATA" />
+        &apos;nde açıklanan özel nitelikli kişisel verilerimin (mezhep tercihim
+        ve ibadet kayıtlarım) belirtilen amaçlarla işlenmesine açık rıza
+        veriyorum.
       </>
     ),
   };

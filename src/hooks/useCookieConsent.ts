@@ -2,25 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 
 const COOKIE_CONSENT_KEY = "namazgo-cookie-consent";
-const COOKIE_CONSENT_VERSION = "1.0";
+const COOKIE_CONSENT_VERSION = "1.0.0";
 const COOKIE_EXPIRY_DAYS = 365;
-
-function applyAnalyticsConsent(granted: boolean): void {
-  if (granted) {
-  } else {
-  }
-}
-
-function applyMarketingConsent(granted: boolean): void {
-  if (granted) {
-  } else {
-  }
-}
 
 export interface CookiePreferences {
   essential: true;
-  analytics: boolean;
-  marketing: boolean;
   personalization: boolean;
 }
 
@@ -39,8 +25,6 @@ export interface CookieConsentState {
 
 const DEFAULT_PREFERENCES: CookiePreferences = {
   essential: true,
-  analytics: false,
-  marketing: false,
   personalization: false,
 };
 
@@ -92,16 +76,9 @@ export function useCookieConsent(): CookieConsentState {
     }
   }, []);
 
-  useEffect(() => {
-    applyAnalyticsConsent(hasConsented && preferences.analytics);
-    applyMarketingConsent(hasConsented && preferences.marketing);
-  }, [hasConsented, preferences.analytics, preferences.marketing]);
-
   const acceptAll = useCallback(() => {
     const allAccepted: CookiePreferences = {
       essential: true,
-      analytics: true,
-      marketing: true,
       personalization: true,
     };
     setPreferences(allAccepted);

@@ -60,6 +60,7 @@ Türkçe karşılıkları: `src/constants/error-messages.ts`.
 | POST  | `/auth/forgot-password`      | `{ email }`                                       | `{ message: "FORGOT_PASSWORD_EMAIL_SENT" }`   |
 | POST  | `/auth/validate-reset-token` | `{ userId, token }`                               | `boolean`                                     |
 | POST  | `/auth/reset-password`       | `{ userId, token, newPassword, confirmPassword }` | `null`                                        |
+| DELETE | `/auth/me`                  | —                                                 | `null` — hesabı kalıcı olarak siler           |
 | POST  | `/auth/{username}/follow`    | —                                                 | `{ following: boolean }` (toggle)             |
 | GET   | `/auth/{username}/followers` | —                                                 | `{ username, avatar, avatarCustomization }[]` |
 | GET   | `/auth/{username}/following` | —                                                 | `{ username, avatar, avatarCustomization }[]` |
@@ -87,6 +88,11 @@ Yeni kayıt oluşturmaz, e-posta göndermez, OTP kodunu ve süresini değiştirm
 döndürür. `tempToken` ayrıca artık localStorage'a persist ediliyor, yani sayfa yenilemesi tek başına
 akışı bozmuyor.
 
+**Hesap silme.** `DELETE /auth/me` kullanıcı hesabını kalıcı olarak siler (KVKK m.11-e).
+İstemcide tek çağıran `useDeleteAccount` hook'udur (`hooks/auth/useDeleteAccount.ts`);
+başarıda `clearAuth()` + `/` yönlendirmesi yapar. UI girişi `/settings/profile` ekranındaki
+"HESABIMI SİL" butonudur ve iki aşamalı onay ister (`ProfileSettingsClient`).
+
 ### `RegisterPayload`
 
 ```ts
@@ -103,8 +109,12 @@ akışı bozmuyor.
   language: "tr";
   termsAccepted: boolean; // true olmalı
   privacyPolicyAccepted: boolean; // true olmalı
+  specialCategoryDataAccepted: boolean; // true olmalı — KVKK m.6 açık rıza (mezhep + ibadet kayıtları)
 }
 ```
+
+`specialCategoryDataAccepted` reddedilirse backend `SPECIAL_CATEGORY_CONSENT_NOT_ACCEPTED`
+döner (`ConsentErrorCode`); `useRegister` bunu forma alan hatası olarak yazar.
 
 Doğrulama `src/validations/auth.validation.ts` (zod) içindedir; sunucu tarafı doğrulamasının
 aynası değil, istemci ön kontrolüdür.
@@ -114,9 +124,6 @@ aynası değil, istemci ön kontrolüdür.
 ```ts
 {
   username?, avatar?, currentPassword?, newPassword?, language?,
-  // Konum + mezhep: namaz vakitleri bunlardan türetildiği için kayıt sonrası da
-  // değiştirilebilir. Dördü birlikte gönderilir; eksik gönderim backend'de
-  // INCOMPLETE_LOCATION_UPDATE ile reddedilir. `madhab` tek başına gönderilebilir.
   country?, city?, latitude?, longitude?,
   madhab?: "SHAFI" | "HANAFI"
 }
@@ -137,7 +144,8 @@ User = {
   language: string
 }
 
-UserDetail = User & {
+UserDetail = Omit<User, "madhab"> & {
+  madhab?: "SHAFI" | "HANAFI",
   followingCount, followerCount,
   isFollowing: boolean | null,
   mutualFollowers: { count, preview: {username, avatar, avatarCustomization}[] },
@@ -174,12 +182,16 @@ OTP kodu: 6 haneli, yalnızca rakam (zod `otpSchema`).
 
 ```ts
 ConsentStatusItem = {
-  type: "TERMS_OF_SERVICE" | "PRIVACY_POLICY";
+  type: "TERMS_OF_SERVICE" | "PRIVACY_POLICY" | "SPECIAL_CATEGORY_DATA";
   acceptedVersion: string | null;
   currentVersion: string;
   requiresReaccept: boolean;
 }
 ```
+
+`ConsentType` üç değerlidir; `SPECIAL_CATEGORY_DATA` özel nitelikli verilere (mezhep
+tercihi + ibadet kayıtları) ilişkin KVKK m.6 açık rızasıdır ve metni `/explicit-consent`
+sayfasındadır (etiketler/yollar: `constants/consent.ts`).
 
 `blocked === true` veya herhangi bir maddede `requiresReaccept === true` ise istemci
 uygulamayı engelleyici modal ile kilitler.

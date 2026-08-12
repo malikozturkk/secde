@@ -83,6 +83,9 @@ export const LandingView = () => {
             >
               Gizlilik Politikası
             </Link>
+            <Link href="/explicit-consent" className="hover:text-white transition-colors">
+            Açık Rıza
+            </Link>
             <CookiePreferencesLink />
           </div>
         </div>

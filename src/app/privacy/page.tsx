@@ -2,9 +2,9 @@ import { createMetadata } from "@/src/lib/metadata";
 import PrivacyContent from "./PrivacyContent";
 
 export const metadata = createMetadata({
-  title: "Gizlilik Politikası",
+  title: "Aydınlatma Metni",
   description:
-    "NamazGo uygulamasının gizlilik politikası, kişisel verilerin korunması, çerez kullanımı ve kullanıcı hakları hakkında detaylı bilgi.",
+    "NamazGo'nun KVKK m.10 kapsamındaki aydınlatma metni: işlenen kişisel veriler, işleme amaçları ve hukuki sebepleri, aktarım, saklama süreleri, çerezler ve ilgili kişi hakları.",
   path: "/privacy",
 });
 

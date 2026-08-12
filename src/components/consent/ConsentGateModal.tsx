@@ -12,6 +12,12 @@ interface ConsentGateModalProps {
   items: ConsentStatusItem[];
 }
 
+const ACTION_LABELS: Record<ConsentStatusItem["type"], string> = {
+  TERMS_OF_SERVICE: "Kabulünüz gerekiyor",
+  PRIVACY_POLICY: "Kabulünüz gerekiyor",
+  SPECIAL_CATEGORY_DATA: "Açık rızanız gerekiyor",
+};
+
 export function ConsentGateModal({ items }: ConsentGateModalProps) {
   const acceptMutation = useAcceptConsent();
   const logout = useLogout();
@@ -79,13 +85,14 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
             className="text-white text-xl font-extrabold"
             style={{ fontFamily: "'Nunito', sans-serif" }}
           >
-            Kullanım koşullarımız güncellendi
+            Yasal metinlerimiz güncellendi
           </h2>
           <p
             className="mt-2 text-[rgba(255,255,255,0.6)] text-[14px] leading-relaxed"
             style={{ fontFamily: "'Nunito', sans-serif" }}
           >
-            Devam edebilmen için aşağıdaki güncellenmiş metinleri kabul etmen
+            Devam edebilmen için aşağıdaki güncel metinleri incelemen; Kullanım
+            Koşulları&apos;nı kabul etmen ve gerekliyse açık rızanı yenilemen
             gerekiyor.
           </p>
         </div>
@@ -107,7 +114,8 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
                   className="text-[rgba(255,255,255,0.45)] text-[12px]"
                   style={{ fontFamily: "'Nunito', sans-serif" }}
                 >
-                  v{item.acceptedVersion ?? "—"} → v{item.currentVersion}
+                  {ACTION_LABELS[item.type]} · v{item.acceptedVersion ?? "—"} →
+                  v{item.currentVersion}
                 </span>
               </div>
               <LegalLink
@@ -141,7 +149,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
             disabled={isPending}
             onClick={acceptAll}
           >
-            {isPending ? "Kaydediliyor..." : "Hepsini kabul et"}
+            {isPending ? "Kaydediliyor..." : "Onayla ve devam et"}
           </Button>
           <Button
             type="button"

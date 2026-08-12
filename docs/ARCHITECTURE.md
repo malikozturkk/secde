@@ -222,6 +222,7 @@ PUBLIC_ROUTES = [
   "/verify-otp",
   "/terms",
   "/privacy",
+  "/explicit-consent",
 ];
 AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
 DEFAULT_AUTHENTICATED_REDIRECT = "/";
@@ -305,17 +306,43 @@ Birbirinden bağımsız **iki** sistem vardır.
 - `data.blocked === true` **veya** herhangi bir maddede `requiresReaccept === true` ise
   `ConsentGateModal` gösterilir ve uygulama kilitlenir.
 - Yükleniyor / hata / veri yok durumlarında **engellemez** (fail-open) — children geçer.
-- `/terms` ve `/privacy` yollarında modal gösterilmez (kullanıcı metni okuyabilsin diye).
+- `/terms`, `/privacy` ve `/explicit-consent` yollarında modal gösterilmez (kullanıcı, onaylaması
+  istenen metni okuyabilsin diye). İstisna listesi: `CONSENT_GATE_EXCLUDED_PATHS`
+  (`providers/ConsentGateProvider.tsx`).
 - Onay `POST /consent/accept` ile gönderilir (`useAcceptConsent`).
 
+Consent tipi **üçtür** (`types/consent.types.ts` → `ConsentType`):
+
+| Tip                     | Etiket (`CONSENT_LABELS`) | Metin yolu (`CONSENT_PATHS`) | Modal eylem etiketi (`ACTION_LABELS`) |
+| ----------------------- | ------------------------- | ---------------------------- | ------------------------------------- |
+| `TERMS_OF_SERVICE`      | Kullanım Koşulları        | `/terms`                     | "Kabulünüz gerekiyor"                 |
+| `PRIVACY_POLICY`        | Aydınlatma Metni          | `/privacy`                   | "Bilgilendirme — okumanız yeterli"    |
+| `SPECIAL_CATEGORY_DATA` | Açık Rıza Metni           | `/explicit-consent`                 | "Açık rızanız gerekiyor"              |
+
+KVKK 2026/347 İlke Kararı ayrımı koda işlenmiştir: aydınlatma metni "kabul" edilmez —
+`ConsentCheckbox` PRIVACY_POLICY için yalnızca "okudum" teyidi gösterir; açık rıza
+(`SPECIAL_CATEGORY_DATA`, mezhep tercihi + ibadet kayıtları) ayrı bir kutu ve ayrı bir
+irade beyanıdır. `ConsentGateModal` başlığı "Yasal metinlerimiz güncellendi", onay butonu
+"Onayla ve devam et"tir; her madde için eylem etiketi yukarıdaki `ACTION_LABELS`'tan gelir.
+
 İlgili sabitler: `CONSENT_PATHS`, `CONSENT_LABELS` (`constants/consent.ts`),
-hata kodları `types/enums/consent.enums.ts`.
+hata kodları `types/enums/consent.enums.ts` (kayıt akışında
+`SPECIAL_CATEGORY_CONSENT_NOT_ACCEPTED` dahil).
 
 ### 6.2 Çerez onayı — bilgilendirici
 
-Tamamen istemci tarafı: `useCookieConsent` → localStorage'da **versiyonlu** kayıt
-(`COOKIE_CONSENT_VERSION`). Versiyon değişirse banner tekrar gösterilir. `essential` tercihi
-her zaman `true`'ya zorlanır. Context olarak `CookieConsentProvider` ile dağıtılır,
+Tamamen istemci tarafı: `useCookieConsent` → `js-cookie` ile **versiyonlu** çerez kaydı
+(`namazgo-cookie-consent`, 365 gün, `sameSite: "lax"`). `COOKIE_CONSENT_VERSION = "1.0.0"`;
+kayıtlı versiyon güncel versiyondan farklıysa banner tekrar gösterilir.
+
+Kategori **ikidir** (`CookiePreferences`): `essential` (her zaman `true`'ya zorlanır) ve
+`personalization`. v2.0'da analitik/pazarlama kategorileri kaldırıldı — uygulamada bu
+çerezler hiç yok (KVKK Çerez Rehberi: yalnızca gerçekten kullanılan çerezler için tercih
+sunulur); ileride analitik/pazarlama çerezi eklenirse kategori geri eklenip versiyon
+artırılmalıdır. `CookieBanner` da yalnızca bu iki kategoriyi listeler ("Zorunlu Çerezler",
+"Kişiselleştirme (Yerel Kayıtlar)").
+
+Context olarak `CookieConsentProvider` ile dağıtılır,
 `useCookieConsentContext()` ile okunur (provider dışında çağrılırsa hata fırlatır).
 
 ---
@@ -365,6 +392,7 @@ diğerleri için `startsWith`. Navigasyonda `Puan Tabloları`, `Görevler`, `Ma�
 | `/search`                            | `app/search/page.tsx`         | Server page + `Suspense` fallback + `SearchPageContent`              |
 | `/settings/profile\|account\|avatar` | `app/settings/*/`             | Server page (`noIndex`) + `*Client`                                  |
 | `/terms`, `/privacy`                 | `app/terms/`, `app/privacy/`  | Server page + içerik bileşeni                                        |
+| `/explicit-consent`                         | `app/explicit-consent/`              | Server page + `ExplicitConsentContent` (`LegalLayout`) — `PUBLIC_ROUTES`'ta, kayıt öncesi de okunabilir |
 
 `/learn/[id]` içeriği `useGuide(id)` hook'unda `switch` ile ilgili `learnService` metoduna
 yönlenir; geçersiz id `Error("Invalid guide ID")` fırlatır. Yeni rehber eklerken hem

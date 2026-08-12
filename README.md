@@ -84,7 +84,8 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 | `/profile/[username]` | Korumalı | Profil, istatistikler, takip/takipçi |
 | `/search` | Korumalı | Kullanıcı arama |
 | `/settings/profile`, `/settings/account`, `/settings/avatar` | Korumalı | Ayarlar |
-| `/terms`, `/privacy` | Herkese açık | Yasal metinler |
+| `/terms`, `/privacy` | Herkese açık | Yasal metinler: Kullanım Koşulları ve "Kişisel Verilere İlişkin Aydınlatma Metni" |
+| `/explicit-consent` | Herkese açık | KVKK m.6 açık rıza metni (özel nitelikli veriler: mezhep + ibadet kayıtları). Kayıt formundan linklenir; `PUBLIC_ROUTES` içindedir |
 
 Erişim kontrolü `src/middleware.ts` içinde `auth-token` cookie'sinin varlığına göre yapılır.
 

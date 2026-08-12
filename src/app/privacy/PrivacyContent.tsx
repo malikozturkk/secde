@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import LegalLayout from "@/src/components/legal/LegalLayout";
 import {
   LegalSection,
@@ -7,484 +8,485 @@ import {
   LegalList,
 } from "@/src/components/legal/LegalSection";
 
+const tableWrapClass = "overflow-x-auto rounded-xl border border-[var(--color-border)]";
+const tableClass = "w-full text-left text-[13px] leading-relaxed";
+const thClass =
+  "px-3 py-2 font-bold text-white bg-white/[0.04] border-b border-[var(--color-border)] align-top";
+const tdClass =
+  "px-3 py-2 border-b border-[var(--color-border)] text-[rgba(255,255,255,0.8)] align-top";
+
 export default function PrivacyContent() {
   return (
-    <LegalLayout title="Gizlilik Politikası" lastUpdated="19 Mayıs 2026">
-      <LegalSection id="giris" title="1. Giriş ve Kapsam">
+    <LegalLayout
+      title="Kişisel Verilere İlişkin Aydınlatma Metni"
+      lastUpdated="12 Ağustos 2026"
+    >
+      <LegalSection id="giris" title="1. Amaç ve Kapsam">
         <p>
-          İşbu Gizlilik Politikası (&quot;Politika&quot;), NamazGo platformunun
-          (&quot;Uygulama&quot;, &quot;Platform&quot;) kişisel verilerinizi
-          nasıl topladığını, kullandığını, sakladığını ve koruduğunu açıklar. Bu
-          Politika, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve
-          Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) ilkeleriyle uyumlu
-          olarak hazırlanmıştır.
+          İşbu Aydınlatma Metni; NamazGo platformunda (&quot;Uygulama&quot;)
+          hangi kişisel verilerinizin, hangi amaçlarla, hangi hukuki sebeplere
+          dayanılarak işlendiği, kimlere aktarıldığı ve 6698 sayılı Kişisel
+          Verilerin Korunması Kanunu (&quot;KVKK&quot;) kapsamındaki
+          haklarınız konusunda sizi bilgilendirmek amacıyla, KVKK&apos;nın 10.
+          maddesi ve Aydınlatma Yükümlülüğünün Yerine Getirilmesinde Uyulacak
+          Usul ve Esaslar Hakkında Tebliğ uyarınca hazırlanmıştır.
         </p>
         <p>
-          NamazGo&apos;yu kullanarak, işbu Politika&apos;da belirtilen veri
-          işleme uygulamalarını kabul ettiğinizi beyan edersiniz.
-          Politika&apos;yı kabul etmiyorsanız, Platform&apos;u kullanmamanızı
-          rica ederiz.
+          Bu metin yalnızca bilgilendirme amaçlıdır; herhangi bir onay veya
+          rıza beyanı içermez. Açık rızanıza tabi işleme faaliyetleri için
+          rızanız, bu metinden ayrı olarak{" "}
+          <Link
+            href="/explicit-consent"
+            className="text-[#25B49A] underline hover:text-[#4FC3F7] transition-colors"
+          >
+            Açık Rıza Metni
+          </Link>{" "}
+          üzerinden alınır.
         </p>
       </LegalSection>
 
       <LegalSection id="veri-sorumlusu" title="2. Veri Sorumlusu">
         <p>
-          Kişisel verileriniz bakımından veri sorumlusu NamazGo&apos;dur. Veri
-          sorumlusuna aşağıdaki kanallardan ulaşabilirsiniz:
+          Kişisel verileriniz bakımından veri sorumlusu, NamazGo platformunu
+          işleten [VERİ SORUMLUSUNUN TİCARİ UNVANI / AD-SOYAD] — [ADRES]
+          (&quot;NamazGo&quot;) olup veri sorumlusuna aşağıdaki kanallardan
+          ulaşabilirsiniz:
         </p>
-        <LegalList
-          items={[
-            "E-posta: info@namazgo.com",
-            "Uygulama içi: Ayarlar → Yardım Merkezi",
-          ]}
-        />
+        <LegalList items={["E-posta: info@namazgo.com"]} />
       </LegalSection>
 
-      <LegalSection id="toplanan-veriler" title="3. Toplanan Kişisel Veriler">
-        <LegalSubSection title="3.1. Kimlik ve İletişim Verileri">
-          <p>
-            Hesap oluşturma ve doğrulama süreçlerinde aşağıdaki veriler
-            toplanır:
-          </p>
+      <LegalSection id="toplanan-veriler" title="3. İşlenen Kişisel Veriler">
+        <p>
+          NamazGo, yalnızca aşağıda sayılan kişisel verileri işler. Bu listede
+          yer almayan hiçbir veri (ad-soyad, telefon numarası, ödeme bilgisi,
+          cihaz kimliği, reklam tanımlayıcısı vb.) toplanmaz.
+        </p>
+
+        <LegalSubSection title="3.1. Hesap ve Kimlik Doğrulama Verileri">
           <LegalList
             items={[
-              "Ad ve soyad",
               "Kullanıcı adı",
               "E-posta adresi",
-              "Telefon numarası (OTP doğrulama için isteğe bağlı)",
-              "Şifre (tek yönlü şifrelenerek — hash — saklanır)",
-              "Cinsiyet bilgisi (avatar özelleştirmesi için isteğe bağlı)",
+              "Şifre (yalnızca tek yönlü — bcrypt + sunucu tarafı ek gizli değer (pepper) — özetlenmiş hâlde saklanır; düz metin şifreniz hiçbir zaman kaydedilmez)",
+              "E-posta doğrulama (OTP) sürecine ait geçici kayıt (en fazla 10 dakika saklanır; doğrulama kodu da özetlenmiş hâlde tutulur)",
+              "Oturum yenileme anahtarlarının (refresh token) özetlenmiş hâli",
             ]}
           />
         </LegalSubSection>
 
-        <LegalSubSection title="3.2. Profil ve Avatar Verileri">
+        <LegalSubSection title="3.2. Profil Verileri">
           <LegalList
             items={[
-              "Avatar renk ve görünüm tercihleri (iris, saç, ten, dudak, kıyafet, arka plan vb. 10 ayrı renk alanı)",
-              "Satın alınan avatar aksesuarları",
-              "Profil fotoğrafı (kullanılması halinde)",
+              "Cinsiyet (yalnızca avatar görünümünün oluşturulması için; kayıt sırasında zorunludur)",
+              "Avatar renk ve aksesuar tercihleri",
+              "Dil tercihi",
             ]}
           />
         </LegalSubSection>
 
-        <LegalSubSection title="3.3. Kullanım ve Aktivite Verileri">
+        <LegalSubSection title="3.3. Konum Verileri">
           <LegalList
             items={[
-              "Namaz streak (seri) verileri ve geçmişi",
-              "Tamamlanan görevler ve görev ilerleme durumları",
-              "Puan, XP ve lig bilgileri",
-              "Liderlik tablosu sıralama verileri",
-              "Öğrenme modülü ilerleme verileri (abdest, gusül, namaz rehberleri)",
-              "Her bir rehberdeki adım tamamlanma durumları ve quiz yanıtları",
-              "Uygulama içi etkileşim verileri (tıklama, gezinme, özellik kullanımı)",
+              "Ülke ve il bilgisi",
+              "Enlem ve boylam (koordinat) bilgisi — namaz vakitlerinin ve saat diliminizin konumunuza göre hesaplanması için kayıt sırasında alınır ve profilinizde saklanır",
             ]}
           />
-        </LegalSubSection>
-
-        <LegalSubSection title="3.4. Sosyal Etkileşim Verileri">
-          <LegalList
-            items={[
-              "Arkadaş listesi ve takipçi/takip edilen bilgileri",
-              "Gönderilen ve alınan davetler",
-              "Kullanıcı arama geçmişi",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="3.5. Teknik ve Cihaz Verileri">
-          <LegalList
-            items={[
-              "IP adresi",
-              "Cihaz türü, modeli ve işletim sistemi",
-              "Tarayıcı türü ve sürümü",
-              "Ekran çözünürlüğü",
-              "Uygulama sürümü",
-              "Zaman dilimi ve dil tercihi",
-              "Benzersiz cihaz tanımlayıcısı",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="3.6. Ödeme Verileri">
           <p>
-            Uygulama içi satın alımlar ve abonelik işlemleri sırasında ödeme
-            işlemleri üçüncü parti ödeme sağlayıcılar (Apple App Store, Google
-            Play Store veya diğer ödeme altyapıları) tarafından
-            gerçekleştirilir. NamazGo, kredi kartı numarası veya banka hesap
-            bilgisi gibi hassas ödeme verilerini doğrudan toplamaz ve saklamaz.
-            Yalnızca işlem referans numarası, satın alınan ürün bilgisi ve işlem
-            tarihi gibi meta veriler işlenir.
+            Koordinat bilgileriniz diğer kullanıcılara hiçbir şekilde
+            gösterilmez. İl bilginiz, liderlik tablosunun il bazlı
+            görünümünde diğer kullanıcılar tarafından görülebilir.
           </p>
+        </LegalSubSection>
+
+        <LegalSubSection title="3.4. Özel Nitelikli Kişisel Veriler (Din/İnanç)">
+          <p>
+            Uygulamanın temel işlevi ibadet takibi olduğundan, aşağıdaki
+            veriler KVKK&apos;nın 6. maddesi kapsamında dini inanca ilişkin{" "}
+            <strong>özel nitelikli kişisel veri</strong> olarak kabul edilir ve
+            yalnızca ayrıca vereceğiniz açık rızaya dayanılarak işlenir:
+          </p>
+          <LegalList
+            items={[
+              "Mezhep tercihi (Hanefî/Şâfiî) — namaz vakitlerinin mezhebinize göre hesaplanması için",
+              "Namaz/ibadet tamamlama kayıtları (hangi vakti, hangi tarihte, vaktinde veya geç işaretlediğiniz)",
+              "Namaz sonrası quiz yanıtları ve sonuçları",
+              "Seri (streak), XP/seviye ve ibadet istatistikleri (ibadet kayıtlarınızdan türetilir)",
+            ]}
+          />
+          <p>
+            Mezhep bilginiz yalnızca size gösterilir; diğer kullanıcılara ve
+            üçüncü taraflara açıklanmaz. İbadet istatistikleriniz (seri, XP,
+            namaz sayısı) ise Uygulamanın sosyal özellikleri gereği liderlik
+            tablosunda ve profil istatistiklerinizde diğer kullanıcılara
+            görünür; bu görünürlük, açık rıza metninde ayrıca belirtilmiştir.
+          </p>
+        </LegalSubSection>
+
+        <LegalSubSection title="3.5. Sosyal Etkileşim Verileri">
+          <LegalList
+            items={[
+              "Takip ettiğiniz ve sizi takip eden kullanıcılar",
+              "Kullanıcı arama sorgularınız (kayıt altına alınmaz; yalnızca aramanın çalıştırılması için işlenir)",
+            ]}
+          />
+        </LegalSubSection>
+
+        <LegalSubSection title="3.6. İşlem Güvenliği ve Teknik Veriler">
+          <LegalList
+            items={[
+              "IP adresi ve istek kayıtları (erişim logları: istek yolu, zaman damgası, istek kimliği, kullanıcı kimliği)",
+              "Başarısız giriş denemesi sayısı ve hesap kilitlenme durumu",
+              "Uygulama hatası raporları (hata mesajı, sayfa yolu, tarayıcı bilgisi — user-agent; bu raporlara kimlik bilgisi ve sorgu parametresi eklenmez)",
+            ]}
+          />
         </LegalSubSection>
       </LegalSection>
 
       <LegalSection
-        id="kullanim-amaclari"
-        title="4. Verilerin Kullanım Amaçları"
+        id="amac-hukuki-sebep"
+        title="4. İşleme Amaçları, Hukuki Sebepler ve Alıcılar"
       >
-        <LegalSubSection title="4.1. Hizmet Sunumu">
-          <LegalList
-            items={[
-              "Hesap oluşturma, kimlik doğrulama ve oturum yönetimi",
-              "OTP doğrulama kodlarının SMS, WhatsApp veya e-posta ile iletilmesi",
-              "Namaz rehberlerinin ve öğrenme içeriklerinin sunulması",
-              "Streak takibi ve görev yönetimi işlevlerinin sağlanması",
-              "Avatar oluşturma ve özelleştirme hizmetinin sunulması",
-              "Arkadaş ekleme, arama ve davet özelliklerinin çalıştırılması",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="4.2. Kişiselleştirme">
-          <LegalList
-            items={[
-              "Kullanıcı tercihlerine göre bildirim içeriklerinin özelleştirilmesi",
-              "Öğrenme deneyiminin kullanıcı ilerlemesine göre uyarlanması",
-              "Avatar ve profil deneyiminin kişiselleştirilmesi",
-              "Görev ve ödül önerilerinin kullanım alışkanlıklarına göre ayarlanması",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="4.3. İstatistik ve Analiz">
-          <LegalList
-            items={[
-              "Puan, lig ve liderlik tablosu hesaplamalarının yapılması",
-              "Kullanım istatistiklerinin derlenmesi ve hizmet kalitesinin ölçülmesi",
-              "Anonim ve toplu istatistiksel analizlerle ürün geliştirme çalışmaları",
-              "Hata tespiti, performans izleme ve teknik sorun giderme",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="4.4. Bildirim Gönderimi">
-          <LegalList
-            items={[
-              "Namaz vakti hatırlatmaları",
-              "Streak uyarıları ve motivasyon bildirimleri",
-              "Görev güncellemeleri ve tamamlanma hatırlatmaları",
-              "Sosyal etkileşim bildirimleri (arkadaşlık istekleri, takip bildirimleri)",
-              "Platform güncellemeleri, duyurular ve hizmet bildirimleri",
-              "Abonelik ve ödeme durum bildirimleri",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="4.5. Güvenlik ve Hukuki Yükümlülükler">
-          <LegalList
-            items={[
-              "Hesap güvenliğinin sağlanması ve yetkisiz erişimin önlenmesi",
-              "Dolandırıcılık ve kötüye kullanımın tespiti",
-              "Yasal yükümlülüklerin yerine getirilmesi ve resmi makam taleplerinin karşılanması",
-            ]}
-          />
-        </LegalSubSection>
-      </LegalSection>
-
-      <LegalSection id="loglama" title="5. Loglama ve İşlem Kayıtları">
         <p>
-          NamazGo, platform güvenliğini sağlamak, hataları tespit etmek ve
-          hizmet kalitesini artırmak amacıyla tüm kullanıcı işlemlerini kayıt
-          altına alır (loglama). Loglanan veriler şunları içerebilir:
+          Hangi veri kategorisinin hangi amaçla, hangi hukuki sebebe
+          dayanılarak işlendiği ve kimlere aktarıldığı aşağıdaki tabloda
+          gösterilmiştir (KVKK m.5, m.6 ve m.10):
         </p>
-        <LegalList
-          items={[
-            "Oturum açma ve kapatma işlemleri",
-            "OTP doğrulama girişimleri ve sonuçları",
-            "Hesap ayarlarında yapılan değişiklikler",
-            "Streak kaydı oluşturma ve güncelleme işlemleri",
-            "Satın alma işlemleri ve abonelik değişiklikleri",
-            "Arkadaş ekleme, silme ve davet işlemleri",
-            "Avatar özelleştirme değişiklikleri",
-            "Hata ve çökme raporları",
-            "API erişim kayıtları (IP adresi, zaman damgası, istek türü)",
-          ]}
-        />
+        <div className={tableWrapClass}>
+          <table className={tableClass}>
+            <thead>
+              <tr>
+                <th className={thClass}>Veri</th>
+                <th className={thClass}>Amaç</th>
+                <th className={thClass}>Hukuki Sebep</th>
+                <th className={thClass}>Alıcı / Aktarım</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className={tdClass}>E-posta, kullanıcı adı, şifre özeti</td>
+                <td className={tdClass}>
+                  Hesap oluşturma, kimlik doğrulama, oturum yönetimi, zorunlu
+                  hizmet e-postaları (doğrulama kodu, şifre sıfırlama)
+                </td>
+                <td className={tdClass}>
+                  KVKK m.5/2-c — sözleşmenin kurulması ve ifası
+                </td>
+                <td className={tdClass}>
+                  E-posta iletimi için Mailjet (bkz. Bölüm 5)
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Ülke, il, koordinat</td>
+                <td className={tdClass}>
+                  Namaz vakitlerinin, kıble yönünün ve saat diliminin
+                  konumunuza göre hesaplanması
+                </td>
+                <td className={tdClass}>
+                  KVKK m.5/2-c — sözleşmenin ifası
+                </td>
+                <td className={tdClass}>
+                  &quot;Konumumu kullan&quot; özelliğini seçerseniz koordinat,
+                  il adının bulunması için BigDataCloud servisine iletilir
+                  (bkz. Bölüm 5); aksi hâlde aktarım yok
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Mezhep tercihi</td>
+                <td className={tdClass}>
+                  Namaz vakitlerinin (özellikle ikindi vaktinin) mezhebinize
+                  göre hesaplanması
+                </td>
+                <td className={tdClass}>
+                  KVKK m.6/2 — açık rıza (ayrı Açık Rıza Metni ile)
+                </td>
+                <td className={tdClass}>Aktarılmaz</td>
+              </tr>
+              <tr>
+                <td className={tdClass}>
+                  İbadet kayıtları, quiz yanıtları, seri/XP
+                </td>
+                <td className={tdClass}>
+                  İbadet takibi, oyunlaştırma (seri, XP, seviye), liderlik
+                  tablosu ve profil istatistikleri
+                </td>
+                <td className={tdClass}>
+                  KVKK m.6/2 — açık rıza (ayrı Açık Rıza Metni ile)
+                </td>
+                <td className={tdClass}>
+                  Üçüncü taraflara aktarılmaz; istatistikler Uygulama içinde
+                  diğer kullanıcılara görünür
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Cinsiyet, avatar tercihleri</td>
+                <td className={tdClass}>Avatar görünümünün oluşturulması</td>
+                <td className={tdClass}>
+                  KVKK m.5/2-c — sözleşmenin ifası
+                </td>
+                <td className={tdClass}>
+                  Avatar görünümü diğer kullanıcılara görünür; üçüncü taraflara
+                  aktarılmaz
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Takip ilişkileri</td>
+                <td className={tdClass}>Sosyal özelliklerin sunulması</td>
+                <td className={tdClass}>
+                  KVKK m.5/2-c — sözleşmenin ifası
+                </td>
+                <td className={tdClass}>Aktarılmaz</td>
+              </tr>
+              <tr>
+                <td className={tdClass}>IP adresi, erişim logları</td>
+                <td className={tdClass}>
+                  Hizmet güvenliği, kötüye kullanımın ve yetkisiz erişimin
+                  önlenmesi, hata tespiti
+                </td>
+                <td className={tdClass}>
+                  KVKK m.5/2-f — meşru menfaat; ilgili mevzuattan doğan
+                  yükümlülükler bakımından m.5/2-a ve m.5/2-ç
+                </td>
+                <td className={tdClass}>
+                  Yalnızca yetkili kamu kurumlarının hukuka uygun talebi
+                  hâlinde
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Hata raporları</td>
+                <td className={tdClass}>
+                  Uygulama hatalarının tespiti ve giderilmesi
+                </td>
+                <td className={tdClass}>KVKK m.5/2-f — meşru menfaat</td>
+                <td className={tdClass}>Aktarılmaz (kendi sunucumuza gider)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <p>
-          Log verileri, ilgili yasal saklama süreleri boyunca veya güvenlik ve
-          hata analizi amacıyla gerekli olan süre boyunca muhafaza edilir.
+          NamazGo; pazarlama, reklam veya profilleme amaçlı veri işlemez, veri
+          satmaz ve üçüncü taraflarla ticari amaçla veri paylaşmaz.
         </p>
-      </LegalSection>
-
-      <LegalSection id="cerezler" title="6. Çerez (Cookie) Kullanımı">
-        <p>
-          NamazGo, hizmetin düzgün çalışmasını sağlamak, kullanıcı deneyimini
-          iyileştirmek ve analiz yapmak amacıyla çerezler ve benzeri
-          teknolojiler kullanır.
-        </p>
-
-        <LegalSubSection title="6.1. Zorunlu Çerezler">
-          <p>
-            Platform&apos;un temel işlevleri için gereklidir ve devre dışı
-            bırakılamaz. Bu çerezler; oturum yönetimi (auth-token), güvenlik
-            doğrulaması, dil tercihi ve çerez onay tercihlerinizin saklanması
-            gibi işlevleri kapsar.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="6.2. Analitik Çerezler">
-          <p>
-            Platform kullanımını analiz etmek, hizmet kalitesini ölçmek ve ürün
-            geliştirme çalışmalarını desteklemek için kullanılır. Bu çerezler;
-            sayfa görüntüleme sayıları, oturum süreleri, özellik kullanım
-            oranları ve hata raporları gibi anonim istatistiksel veriler toplar.
-            Analitik çerezlerin kullanımı için açık rızanız alınır.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="6.3. Pazarlama ve Takip Çerezleri">
-          <p>
-            Kişiselleştirilmiş reklam ve tanıtım içerikleri sunmak, kampanya
-            etkinliğini ölçmek amacıyla kullanılabilir. Bu çerezler yalnızca
-            açık rızanızla aktifleştirilir. Üçüncü parti reklam ağlarıyla
-            etkileşim içerebilir.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="6.4. Bildirim ve Kişiselleştirme Çerezleri">
-          <p>
-            Bildirim tercihlerinizi, tema ayarlarınızı ve kişiselleştirme
-            seçeneklerinizi hatırlamak için kullanılır. Bu çerezler, her
-            ziyaretinizde tercihlerinizi yeniden belirlemenize gerek kalmadan
-            özelleştirilmiş bir deneyim sunar. Kullanımları rızanıza tabidir.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="6.5. Çerez Yönetimi">
-          <p>
-            İlk ziyaretinizde çerez tercihlerinizi belirlemeniz için bir onay
-            ekranı gösterilir. Tercihlerinizi dilediğiniz zaman sayfa altındaki
-            &quot;Çerez Tercihleri&quot; bağlantısından veya Ayarlar bölümünden
-            güncelleyebilirsiniz. Zorunlu çerezler hariç tüm çerez
-            kategorilerini kabul veya reddetme hakkınız bulunmaktadır.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="6.6. Üçüncü Parti Çerezler">
-          <p>Aşağıdaki üçüncü parti hizmetler çerez kullanabilir:</p>
-          <LegalList
-            items={[
-              "Firebase (Google): Uygulama analitik, push bildirim altyapısı ve hata raporlama",
-              "Ödeme sağlayıcılar: Satın alma işlemlerinin doğrulanması",
-              "Bildirim servisleri: Push bildirim teslimatının yönetimi",
-            ]}
-          />
-          <p>
-            Bu hizmetlerin kendi gizlilik politikaları ve çerez uygulamaları
-            bulunmaktadır. İlgili hizmetlerin gizlilik politikalarını
-            incelemenizi öneririz.
-          </p>
-        </LegalSubSection>
       </LegalSection>
 
       <LegalSection
         id="veri-paylasimi"
-        title="7. Verilerin Üçüncü Taraflarla Paylaşımı"
+        title="5. Verilerin Aktarıldığı Taraflar ve Yurt Dışına Aktarım"
       >
         <p>
-          NamazGo, kişisel verilerinizi yalnızca aşağıdaki durumlarda ve
-          belirtilen taraflarla paylaşır:
-        </p>
-
-        <LegalSubSection title="7.1. Hizmet Sağlayıcılar">
-          <LegalList
-            items={[
-              "Firebase (Google LLC): Kimlik doğrulama, veritabanı, push bildirim, analitik ve çökme raporlama hizmetleri",
-              "SMS/WhatsApp sağlayıcıları: OTP doğrulama kodlarının iletimi",
-              "E-posta hizmet sağlayıcıları: İşlem e-postalarının ve bildirim e-postalarının gönderimi",
-              "Ödeme altyapısı sağlayıcıları: Abonelik ve satın alma işlemlerinin gerçekleştirilmesi",
-              "Bulut altyapısı sağlayıcıları: Verilerin güvenli şekilde barındırılması",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="7.2. Yasal Zorunluluklar">
-          <p>
-            Mahkeme kararı, savcılık talebi veya yasal düzenleme gereği yetkili
-            resmi kurumlara veri aktarımı yapılabilir.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="7.3. Paylaşılmayan Veriler">
-          <p>
-            NamazGo, kişisel verilerinizi reklam amaçlı üçüncü taraflara satmaz,
-            kiralamaz veya ticari amaçla devretmez.
-          </p>
-        </LegalSubSection>
-      </LegalSection>
-
-      <LegalSection
-        id="veri-saklama"
-        title="8. Veri Saklama Süreleri ve Güvenlik"
-      >
-        <LegalSubSection title="8.1. Saklama Süreleri">
-          <LegalList
-            items={[
-              "Aktif hesap verileri: Hesabınız aktif olduğu sürece saklanır.",
-              "Hesap silme sonrası: Kişisel veriler 30 gün içinde silinir.",
-              "İşlem logları: Güvenlik ve hukuki yükümlülükler kapsamında 2 yıla kadar saklanabilir.",
-              "Anonim istatistiksel veriler: Kişisel veri niteliği taşımadığı için süresiz saklanabilir.",
-              "Ödeme kayıtları: İlgili vergi ve ticaret mevzuatının öngördüğü süreler boyunca saklanır.",
-            ]}
-          />
-        </LegalSubSection>
-
-        <LegalSubSection title="8.2. Güvenlik Önlemleri">
-          <p>
-            NamazGo, kişisel verilerinizi korumak için aşağıdaki teknik ve idari
-            önlemleri uygular:
-          </p>
-          <LegalList
-            items={[
-              "Veri aktarımında TLS/SSL şifreleme",
-              "Şifrelerin tek yönlü hash algoritmasıyla saklanması",
-              "Erişim yetkilendirme ve kimlik doğrulama mekanizmaları (Bearer token, OTP)",
-              "Düzenli güvenlik güncellemeleri ve zafiyet taramaları",
-              "Yetkisiz erişim girişimlerinin izlenmesi ve loglanması",
-              "Veri tabanı yedekleme ve felaket kurtarma planları",
-              "Üçüncü parti hizmet sağlayıcıların güvenlik standartlarının değerlendirilmesi",
-            ]}
-          />
-        </LegalSubSection>
-      </LegalSection>
-
-      <LegalSection
-        id="kullanici-haklari"
-        title="9. Kullanıcı Hakları (KVKK / GDPR)"
-      >
-        <p>6698 sayılı KVKK ve GDPR kapsamında aşağıdaki haklara sahipsiniz:</p>
-
-        <LegalSubSection title="9.1. Erişim Hakkı">
-          <p>
-            Kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna
-            ilişkin bilgi talep etme hakkına sahipsiniz. Ayarlar bölümündeki
-            &quot;Verileri Dışa Aktar&quot; özelliğini kullanarak verilerinizin
-            bir kopyasını alabilirsiniz.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="9.2. Düzeltme Hakkı">
-          <p>
-            Eksik veya yanlış işlenmiş kişisel verilerinizin düzeltilmesini
-            talep edebilirsiniz. Profil bilgilerinizi Ayarlar → Profil
-            bölümünden doğrudan güncelleyebilirsiniz.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="9.3. Silme Hakkı (Unutulma Hakkı)">
-          <p>
-            Kişisel verilerinizin silinmesini talep edebilirsiniz. Hesap silme
-            işlemi Ayarlar → &quot;Hesabımı Sil&quot; bölümünden
-            gerçekleştirilebilir. Yasal saklama yükümlülükleri kapsamındaki
-            veriler hariç olmak üzere, tüm verileriniz 30 gün içinde
-            sistemlerimizden kalıcı olarak silinir.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="9.4. İşlemenin Kısıtlanması">
-          <p>
-            Belirli koşullarda kişisel verilerinizin işlenmesinin kısıtlanmasını
-            talep edebilirsiniz. Örneğin, verilerinizin doğruluğunu itiraz
-            ettiğiniz süre boyunca işleme kısıtlanabilir.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="9.5. Veri Taşınabilirliği">
-          <p>
-            Kişisel verilerinizi yapılandırılmış, yaygın kullanılan ve makine
-            tarafından okunabilir bir formatta alma hakkına sahipsiniz.
-            &quot;Verileri Dışa Aktar&quot; özelliği bu hakkınızı kullanmanızı
-            kolaylaştırır.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="9.6. İtiraz Hakkı">
-          <p>
-            Kişisel verilerinizin işlenmesine itiraz edebilir, bildirim
-            tercihlerinizi yönetebilir ve belirli veri işleme faaliyetlerine
-            verdiğiniz onayı geri çekebilirsiniz. Bildirim ayarlarınızı Ayarlar
-            → Bildirimler bölümünden güncelleyebilirsiniz.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="9.7. Şikayet Hakkı">
-          <p>
-            Kişisel verilerinizin işlenmesiyle ilgili şikayetlerinizi Kişisel
-            Verileri Koruma Kurumu&apos;na (KVKK) veya AB vatandaşları için
-            ilgili veri koruma otoritesine iletebilirsiniz.
-          </p>
-        </LegalSubSection>
-
-        <LegalSubSection title="9.8. Hak Kullanım Yöntemi">
-          <p>
-            Yukarıdaki haklarınızı kullanmak için info@namazgo.com adresine
-            e-posta göndererek veya uygulama içi Yardım Merkezi aracılığıyla
-            talepte bulunabilirsiniz. Talepleriniz en geç 30 gün içinde
-            değerlendirilir ve sonuçlandırılır.
-          </p>
-        </LegalSubSection>
-      </LegalSection>
-
-      <LegalSection id="cocuklar" title="10. Çocukların Gizliliği">
-        <p>
-          NamazGo, 13 yaşın altındaki çocuklardan bilerek kişisel veri toplamaz.
-          13-18 yaş arasındaki kullanıcıların, ebeveyn veya yasal vasi onayıyla
-          Platform&apos;u kullanmaları önerilir. Bir çocuğun izinsiz olarak
-          kişisel veri sağladığını fark etmemiz halinde, ilgili veriler derhal
-          silinir. Bu konuda bilgi sahibiyseniz lütfen info@namazgo.com adresine
-          bildirin.
-        </p>
-      </LegalSection>
-
-      <LegalSection id="uluslararasi" title="11. Uluslararası Veri Aktarımı">
-        <p>
-          NamazGo, hizmet sağlayıcılarının (Firebase/Google, bildirim servisleri
-          vb.) altyapıları gereği kişisel verileriniz Türkiye dışındaki
-          sunucularda işlenebilir. Bu tür aktarımlarda KVKK&apos;nın 9. maddesi
-          ve GDPR&apos;ın 46. maddesi kapsamındaki güvencelere (standart
-          sözleşme hükümleri, yeterlilik kararları vb.) uyulur.
-        </p>
-      </LegalSection>
-
-      <LegalSection
-        id="hukuki-dayanak"
-        title="12. Veri İşlemenin Hukuki Dayanağı"
-      >
-        <p>
-          Kişisel verileriniz aşağıdaki hukuki dayanaklara istinaden işlenir:
+          Kişisel verileriniz yalnızca aşağıdaki hizmet sağlayıcılara,
+          yalnızca belirtilen amaçla sınırlı olarak aktarılır:
         </p>
         <LegalList
           items={[
-            "Açık rıza: Analitik çerezler, pazarlama bildirimleri ve kişiselleştirme çerezleri.",
-            "Sözleşmenin ifası: Hesap oluşturma, hizmet sunumu, streak takibi, görev yönetimi ve ödeme işlemleri.",
-            "Meşru menfaat: Hizmet güvenliği, dolandırıcılık önleme, loglama ve ürün geliştirme.",
-            "Hukuki yükümlülük: Vergi mevzuatı, resmi makam talepleri ve yasal saklama yükümlülükleri.",
+            "Mailjet (e-posta iletim hizmeti): Hesap doğrulama kodu ve şifre sıfırlama e-postalarının gönderilebilmesi için e-posta adresiniz ve kullanıcı adınız iletilir. Sunucuları yurt dışındadır.",
+            "BigDataCloud (ters coğrafi kodlama): Yalnızca kayıt/ayarlar ekranında \"Konumumu kullan\" seçeneğini kullandığınızda, koordinatınızdan il adının bulunması için koordinat bilgisi bu servise iletilir. Sunucuları yurt dışındadır. Bu özelliği kullanmak zorunlu değildir; ilinizi elle de seçebilirsiniz.",
+            "Google Fonts (yazı tipi servisi): Uygulama yazı tiplerini Google sunucularından yükler; bu sırada IP adresiniz ve tarayıcı bilgileriniz teknik zorunluluk gereği Google'a iletilir.",
+            "Barındırma altyapısı: Uygulama ve veritabanı, Bulutova'nın Türkiye/Bursa'daki sunucuları üzerinde barındırılmaktadır.",
+            "Yetkili kamu kurum ve kuruluşları: Yalnızca hukuka uygun ve usulüne göre yapılmış talepler hâlinde (KVKK m.8/2, m.28).",
+          ]}
+        />
+        <p>
+          Yurt dışında yerleşik hizmet sağlayıcılara yapılan aktarımlar,
+          KVKK&apos;nın 9. maddesinde öngörülen mekanizmalara (yeterlilik
+          kararı bulunmayan hâllerde, Kişisel Verilerin Yurt Dışına
+          Aktarılmasına İlişkin Usul ve Esaslar Hakkında Yönetmelik uyarınca
+          imzalanan ve Kurum&apos;a bildirilen standart sözleşmeler gibi uygun
+          güvenceler) dayanılarak gerçekleştirilir.
+        </p>
+      </LegalSection>
+
+      <LegalSection id="veri-saklama" title="6. Saklama Süreleri">
+        <p>
+          Kişisel veriler, KVKK m.4/2-d ve m.7 uyarınca kategori bazında
+          yalnızca amaç için gerekli süre boyunca saklanır; işleme şartlarının
+          tamamı ortadan kalktığında silinir, yok edilir veya anonim hâle
+          getirilir:
+        </p>
+        <div className={tableWrapClass}>
+          <table className={tableClass}>
+            <thead>
+              <tr>
+                <th className={thClass}>Veri</th>
+                <th className={thClass}>Saklama Süresi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className={tdClass}>
+                  Hesap, profil, konum, mezhep ve ibadet verileri
+                </td>
+                <td className={tdClass}>
+                  Hesabınız var olduğu sürece; hesabınızı sildiğinizde derhâl
+                  ve geri alınamaz şekilde silinir
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>
+                  E-posta doğrulama (OTP) geçici kayıtları
+                </td>
+                <td className={tdClass}>
+                  En fazla 10 dakika; süresi dolan kayıtlar her dakika çalışan
+                  otomatik temizlikle silinir
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Şifre sıfırlama kayıtları</td>
+                <td className={tdClass}>
+                  En fazla 30 dakika; süresi dolan kayıtlar otomatik silinir
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Oturum yenileme anahtarları</td>
+                <td className={tdClass}>
+                  En fazla 1 gün; süresi dolan kayıtlar saatlik otomatik
+                  temizlikle silinir
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>
+                  Erişim/güvenlik logları (IP adresi dâhil)
+                </td>
+                <td className={tdClass}>
+                  Güvenlik ve ilgili mevzuattan doğan yükümlülükler (5651
+                  sayılı Kanun dâhil) için gerekli süre boyunca, her hâlde en
+                  fazla 2 yıl
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </LegalSection>
+
+      <LegalSection id="cerezler" title="7. Çerezler ve Yerel Depolama">
+        <p>
+          NamazGo <strong>analitik, pazarlama veya reklam çerezi kullanmaz</strong>;
+          üçüncü taraf takip teknolojisi barındırmaz. Kullanılan çerez ve yerel
+          depolama kayıtlarının tamamı aşağıdadır:
+        </p>
+        <LegalSubSection title="7.1. Zorunlu Kayıtlar">
+          <LegalList
+            items={[
+              "auth-token (çerez): Oturumunuzun sürdürülmesi için erişim anahtarını tutar; oturum kapatıldığında silinir.",
+              "namazgo-cookie-consent (çerez): Çerez tercihlerinizi hatırlar (365 gün).",
+              "auth-storage (localStorage): Oturum yenileme anahtarı ve profil bilgileriniz (mezhep tercihiniz dâhil), her açılışta yeniden giriş yapmanızı önlemek için tarayıcınızda saklanır; çıkış yaptığınızda temizlenir.",
+            ]}
+          />
+        </LegalSubSection>
+        <LegalSubSection title="7.2. Tercihe Bağlı Kişiselleştirme Kayıtları">
+          <LegalList
+            items={[
+              "Zikirmatik sayacı ve seri bildirimi tercihi (localStorage): Yalnızca ilgili aracı kullandığınızda, sayaç durumunuzu tarayıcınızda hatırlamak için tutulur. Sunucuya gönderilmez.",
+            ]}
+          />
+        </LegalSubSection>
+        <p>
+          Çerez tercihlerinizi ilk ziyaretinizde gösterilen tercih ekranından
+          veya ana sayfa altındaki &quot;Çerez Tercihleri&quot; bağlantısından
+          yönetebilirsiniz.
+        </p>
+      </LegalSection>
+
+      <LegalSection id="loglama" title="8. Loglama">
+        <p>
+          Hizmet güvenliğinin sağlanması ve hataların tespiti amacıyla API
+          istekleri; IP adresi, istek yolu, zaman damgası, istek kimliği ve
+          (oturum açmışsanız) kullanıcı kimliğinizle birlikte kayıt altına
+          alınır. Log kayıtlarına şifre, oturum anahtarı, e-posta içeriği ve
+          istek gövdesi yazılmaz; e-posta adresleri log satırlarında
+          maskelenir.
+        </p>
+      </LegalSection>
+
+      <LegalSection id="guvenlik" title="9. Veri Güvenliği Önlemleri">
+        <p>KVKK m.12 kapsamında alınan başlıca teknik tedbirler:</p>
+        <LegalList
+          items={[
+            "Tüm veri aktarımında TLS/SSL şifreleme",
+            "Şifrelerin bcrypt ve sunucu tarafı ek gizli değer (pepper) ile tek yönlü özetlenmesi",
+            "OTP kodlarının, oturum yenileme ve şifre sıfırlama anahtarlarının veritabanında yalnızca özet (hash) olarak tutulması",
+            "İstek sınırlama (rate limiting) ve art arda başarısız girişlerde hesap kilitleme",
+            "Log kayıtlarında kişisel verilerin maskelenmesi ve hassas alanların log dışı bırakılması",
+            "Süresi dolan geçici kayıtların otomatik silinmesi",
           ]}
         />
       </LegalSection>
 
-      <LegalSection id="degisiklikler" title="13. Politika Değişiklikleri">
+      <LegalSection id="kullanici-haklari" title="10. KVKK Kapsamındaki Haklarınız">
         <p>
-          NamazGo, işbu Gizlilik Politikası&apos;nı zaman zaman güncelleyebilir.
-          Önemli değişikliklerde kullanıcılara uygulama içi bildirim veya
-          e-posta yoluyla bilgilendirme yapılır. Güncellenmiş Politika, Platform
-          üzerinde yayımlandığı anda yürürlüğe girer. &quot;Son güncelleme&quot;
-          tarihini düzenli olarak kontrol etmenizi öneririz.
+          KVKK&apos;nın 11. maddesi uyarınca veri sorumlusuna başvurarak şu
+          haklara sahipsiniz:
+        </p>
+        <LegalList
+          items={[
+            "Kişisel verilerinizin işlenip işlenmediğini öğrenme",
+            "İşlenmişse buna ilişkin bilgi talep etme",
+            "İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme",
+            "Yurt içinde veya yurt dışında verilerin aktarıldığı üçüncü kişileri bilme",
+            "Eksik veya yanlış işlenmişse düzeltilmesini isteme (profil bilgilerinizi Ayarlar bölümünden doğrudan da güncelleyebilirsiniz)",
+            "KVKK m.7'deki şartlar çerçevesinde silinmesini veya yok edilmesini isteme (hesabınızı Ayarlar bölümünden silebilir veya bize e-posta ile başvurabilirsiniz)",
+            "Düzeltme, silme ve yok etme işlemlerinin, verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme",
+            "İşlenen verilerin münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme",
+            "Kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme",
+          ]}
+        />
+        <p>
+          Açık rızanıza dayanan işleme faaliyetlerine ilişkin rızanızı her
+          zaman geri çekebilirsiniz. Mezhep ve ibadet kayıtlarının işlenmesi
+          Uygulamanın temel işlevi olduğundan, bu rızanın geri çekilmesi
+          hâlinde hesabınızın ve ilişkili verilerin silinmesi gerekir; bunu
+          Ayarlar bölümünden veya e-posta ile talep edebilirsiniz.
+        </p>
+        <LegalSubSection title="10.1. Başvuru Yöntemi">
+          <p>
+            Taleplerinizi, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında
+            Tebliğ&apos;e uygun olarak info@namazgo.com adresine (hesabınıza
+            kayıtlı e-posta adresinizden) iletebilirsiniz. Başvurularınız,
+            KVKK m.13/2 uyarınca talebin niteliğine göre en kısa sürede ve en
+            geç otuz gün içinde ücretsiz olarak sonuçlandırılır.
+          </p>
+          <p>
+            Başvurunuzun reddedilmesi, verilen cevabı yetersiz bulmanız veya
+            süresinde cevap verilmemesi hâllerinde KVKK m.14 uyarınca Kişisel
+            Verileri Koruma Kurulu&apos;na şikâyette bulunma hakkınız saklıdır.
+          </p>
+        </LegalSubSection>
+      </LegalSection>
+
+      <LegalSection id="gdpr" title="11. AB'de Bulunan Kullanıcılar (GDPR)">
+        <p>
+          Avrupa Birliği&apos;nde bulunuyorsanız, Genel Veri Koruma Tüzüğü
+          (GDPR) kapsamında yukarıdaki haklara ek olarak; işlemenin
+          kısıtlanmasını isteme (m.18), veri taşınabilirliği (m.20), itiraz
+          (m.21) ve bulunduğunuz üye devletin denetim makamına şikâyette
+          bulunma (m.77) haklarına sahipsiniz. Bu hakları da yukarıdaki
+          başvuru kanallarından kullanabilirsiniz.
+        </p>
+      </LegalSection>
+
+      <LegalSection id="cocuklar" title="12. Çocukların Verileri">
+        <p>
+          NamazGo, 13 yaşın altındaki çocuklardan bilerek kişisel veri
+          toplamaz. Bir çocuğun velisinin/vasisinin bilgisi dışında kişisel
+          veri sağladığını fark etmemiz hâlinde ilgili veriler derhâl silinir.
+          Bu konuda bilgi sahibiyseniz lütfen info@namazgo.com adresine
+          bildirin.
+        </p>
+      </LegalSection>
+
+      <LegalSection id="degisiklikler" title="13. Metin Değişiklikleri">
+        <p>
+          Veri işleme faaliyetlerinde değişiklik olması hâlinde bu metin
+          güncellenir ve önemli değişikliklerde Uygulama içinde
+          bilgilendirilirsiniz. &quot;Son güncelleme&quot; tarihini düzenli
+          olarak kontrol etmenizi öneririz.
         </p>
       </LegalSection>
 
       <LegalSection id="iletisim" title="14. İletişim">
         <p>
-          Gizlilik Politikası hakkında soru, görüş veya veri koruma talepleriniz
-          için:
+          Bu metin ve kişisel verilerinizin işlenmesi hakkındaki her türlü
+          soru ve talebiniz için: info@namazgo.com
         </p>
-        <LegalList
-          items={[
-            "Genel destek: info@namazgo.com",
-            "Uygulama içi: Ayarlar → Yardım Merkezi",
-          ]}
-        />
       </LegalSection>
     </LegalLayout>
   );

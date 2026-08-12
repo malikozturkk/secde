@@ -7,6 +7,7 @@ export const PUBLIC_ROUTES = [
   "/verify-otp",
   "/terms",
   "/privacy",
+  "/explicit-consent",
 ];
 export const AUTH_ROUTES = [
   "/login",

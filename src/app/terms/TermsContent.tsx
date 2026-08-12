@@ -9,7 +9,7 @@ import {
 
 export default function TermsContent() {
   return (
-    <LegalLayout title="Kullanım Şartları" lastUpdated="19 Mayıs 2026">
+    <LegalLayout title="Kullanım Şartları" lastUpdated="12 Ağustos 2026">
       <LegalSection id="giris" title="1. Genel Hükümler ve Kabul">
         <p>
           İşbu Kullanım Şartları (&quot;Sözleşme&quot;), NamazGo platformunu
@@ -19,16 +19,17 @@ export default function TermsContent() {
           platformdur.
         </p>
         <p>
-          Uygulamaya kayıt olarak, hesap oluşturarak veya Hizmeti herhangi bir
-          şekilde kullanarak işbu Sözleşme&apos;nin tüm hükümlerini okuduğunuzu,
-          anladığınızı ve kabul ettiğinizi beyan ve taahhüt edersiniz. Bu
-          şartları kabul etmiyorsanız, Uygulamayı kullanmamanız gerekmektedir.
+          İşbu Sözleşme, kayıt sırasında &quot;Kullanım Koşulları&apos;nı
+          okudum ve kabul ediyorum&quot; kutusunu işaretlemenizle kurulur. Bu
+          şartları kabul etmiyorsanız kayıt işlemi tamamlanmaz.
         </p>
         <p>
-          NamazGo, işbu Sözleşme&apos;yi önceden bildirimde bulunmaksızın
-          güncelleme hakkını saklı tutar. Güncellenmiş şartlar Uygulama
-          üzerinden yayımlandığı anda yürürlüğe girer. Uygulamayı kullanmaya
-          devam etmeniz, güncellenmiş şartları kabul ettiğiniz anlamına gelir.
+          NamazGo, işbu Sözleşme&apos;yi güncelleyebilir. Güncellenmiş şartlar
+          Uygulama üzerinden yayımlanır ve mevcut kullanıcılara Uygulama içinde
+          bildirilir; güncel metni yeniden onaylamanız istenir. Kişisel
+          verilerin işlenmesine ilişkin bilgilendirme bu Sözleşme&apos;nin
+          parçası değildir; ayrıca yayımlanan Aydınlatma Metni&apos;nde yer
+          alır.
         </p>
       </LegalSection>
 
@@ -49,20 +50,22 @@ export default function TermsContent() {
         <LegalSubSection title="3.1. Kayıt Süreci">
           <p>
             NamazGo&apos;yu tam kapsamlı kullanabilmek için bir hesap
-            oluşturmanız gerekmektedir. Kayıt sırasında ad, soyad, kullanıcı
-            adı, e-posta adresi ve şifre gibi bilgiler talep edilir.
-            Sağladığınız tüm bilgilerin doğru, güncel ve eksiksiz olduğunu
-            taahhüt edersiniz.
+            oluşturmanız gerekmektedir. Kayıt sırasında kullanıcı adı, e-posta
+            adresi, şifre, cinsiyet (avatar için), konum (ülke/il/koordinat),
+            mezhep ve dil bilgileri talep edilir. Bu verilerin işlenmesine
+            ilişkin ayrıntılar Aydınlatma Metni&apos;nde ve Açık Rıza
+            Metni&apos;nde açıklanmıştır. Sağladığınız tüm bilgilerin doğru,
+            güncel ve eksiksiz olduğunu taahhüt edersiniz.
           </p>
         </LegalSubSection>
 
         <LegalSubSection title="3.2. OTP Doğrulama">
           <p>
             Hesabınızı aktifleştirmek için tek kullanımlık doğrulama kodu (OTP)
-            ile kimlik doğrulaması yapmanız gerekir. Doğrulama kodları SMS,
-            WhatsApp veya e-posta kanallarından biri aracılığıyla iletilir.
-            Doğrulama işlemini tamamlamadan hesabınız aktifleştirilmez ve
-            Platform&apos;un korunan özelliklerine erişim sağlayamazsınız.
+            ile kimlik doğrulaması yapmanız gerekir. Doğrulama kodu yalnızca
+            e-posta adresinize iletilir. Doğrulama işlemini tamamlamadan
+            hesabınız aktifleştirilmez ve Platform&apos;un korunan
+            özelliklerine erişim sağlayamazsınız.
           </p>
         </LegalSubSection>
 
@@ -78,14 +81,14 @@ export default function TermsContent() {
 
         <LegalSubSection title="3.4. Hesap Silme">
           <p>
-            Hesabınızı dilediğiniz zaman Ayarlar bölümündeki &quot;Hesabımı
-            Sil&quot; seçeneğini kullanarak kapatabilirsiniz. Hesap silme işlemi
-            geri alınamaz. Hesabınız silindiğinde tüm kişisel verileriniz,
-            streak geçmişiniz, puan ve lig bilgileriniz, avatar
-            özelleştirmeleriniz ve satın aldığınız dijital ürünler kalıcı olarak
-            kaldırılır. Yasal zorunluluklar kapsamında saklanması gereken
-            veriler hariç olmak üzere, verileriniz silme talebinden itibaren en
-            geç 30 (otuz) gün içinde sistemlerimizden tamamen silinir.
+            Hesabınızı dilediğiniz zaman Ayarlar → Profil bölümündeki
+            &quot;Hesabımı Sil&quot; seçeneğini kullanarak veya
+            info@namazgo.com adresine e-posta göndererek silebilirsiniz. Hesap
+            silme işlemi geri alınamaz. Hesabınız silindiğinde tüm kişisel
+            verileriniz, ibadet ve streak geçmişiniz, puan bilgileriniz ve
+            avatar özelleştirmeleriniz sistemlerimizden derhâl ve kalıcı olarak
+            silinir. Yalnızca yasal saklama yükümlülüğü kapsamındaki erişim
+            kayıtları, ilgili mevzuatta öngörülen süreler boyunca saklanabilir.
           </p>
         </LegalSubSection>
       </LegalSection>
@@ -106,7 +109,7 @@ export default function TermsContent() {
             Namaz streak sistemi, kullanıcıların günlük ibadet alışkanlıklarını
             takip etmelerini sağlayan bir oyunlaştırma mekanizmasıdır. Streak
             serisi; günlük namaz kayıtlarının düzenli tutulmasıyla artar, kayıt
-            yapılmayan günlerde sıfırlanabilir. Streak freeze hakkı satın alarak
+            yapılmayan günlerde sıfırlanabilir. Streak freeze hakkınız varsa
             belirli koşullarda serinizin korunmasını sağlayabilirsiniz. Streak
             verileri tamamen platform içi istatistiksel amaçlıdır ve dini bir
             değerlendirme ya da yargı içermez.
@@ -137,13 +140,12 @@ export default function TermsContent() {
 
         <LegalSubSection title="4.5. Bildirim Sistemi">
           <p>
-            NamazGo, size push bildirim, e-posta, SMS ve WhatsApp kanalları
-            üzerinden bildirim gönderebilir. Bildirimler; namaz vakti
-            hatırlatmaları, streak uyarıları, görev güncellemeleri, sosyal
-            etkileşim bildirimleri ve Platform duyurularını içerebilir. Bildirim
-            tercihlerinizi Ayarlar bölümünden dilediğiniz zaman yönetebilir,
-            belirli kanalları kapatabilir veya tamamen devre dışı
-            bırakabilirsiniz.
+            NamazGo şu anda yalnızca hizmetin işleyişi için zorunlu e-postalar
+            gönderir: hesap doğrulama (OTP) kodu ve şifre sıfırlama
+            e-postaları. Push bildirimi, SMS, WhatsApp mesajı veya pazarlama
+            amaçlı elektronik ileti gönderilmez. İleride pazarlama amaçlı
+            elektronik ileti gönderilmek istenirse, 6563 sayılı Kanun uyarınca
+            önceden ayrıca onayınız alınır.
           </p>
         </LegalSubSection>
 
@@ -175,6 +177,12 @@ export default function TermsContent() {
       </LegalSection>
 
       <LegalSection id="odeme" title="5. Ödeme, Abonelik ve Dijital Ürünler">
+        <p>
+          NamazGo şu anda tamamen ücretsizdir; abonelik veya uygulama içi satın
+          alma sunulmamaktadır ve hiçbir ödeme verisi işlenmemektedir.
+          Aşağıdaki hükümler, ileride ücretli özelliklerin sunulması hâlinde
+          geçerli olacaktır ve bu durumda ayrıca bilgilendirilirsiniz.
+        </p>
         <LegalSubSection title="5.1. Abonelik Sistemi">
           <p>
             NamazGo, belirli premium özelliklere erişim sağlayan abonelik
@@ -345,12 +353,7 @@ export default function TermsContent() {
           Kullanım Şartları hakkında soru, görüş veya talepleriniz için
           aşağıdaki kanallardan bize ulaşabilirsiniz:
         </p>
-        <LegalList
-          items={[
-            "E-posta: info@namazgo.com",
-            "Uygulama içi: Ayarlar → Yardım Merkezi",
-          ]}
-        />
+        <LegalList items={["E-posta: info@namazgo.com"]} />
       </LegalSection>
     </LegalLayout>
   );

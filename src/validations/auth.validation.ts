@@ -65,7 +65,11 @@ export const registerSchema = z.object({
     message: "Devam etmek için Kullanım Koşullarını kabul etmelisiniz",
   }),
   privacyPolicyAccepted: z.boolean().refine((v) => v === true, {
-    message: "Devam etmek için Gizlilik Politikasını kabul etmelisiniz",
+    message: "Devam etmek için Aydınlatma Metni'ni okuduğunuzu ve onayladığınızı belirtmelisiniz",
+  }),
+  specialCategoryDataAccepted: z.boolean().refine((v) => v === true, {
+    message:
+      "Devam etmek için özel nitelikli verilerinizin işlenmesine açık rıza vermelisiniz",
   }),
 });
 

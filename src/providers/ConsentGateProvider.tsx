@@ -6,7 +6,7 @@ import { useConsentStatus } from "@/src/hooks/consent/useConsentStatus";
 import { useAuthHydrated } from "@/src/hooks/auth/useAuthHydrated";
 import { ConsentGateModal } from "@/src/components/consent/ConsentGateModal";
 
-const CONSENT_GATE_EXCLUDED_PATHS = ["/terms", "/privacy"] as const;
+const CONSENT_GATE_EXCLUDED_PATHS = ["/terms", "/privacy", "/explicit-consent"] as const;
 
 const isConsentGateExcludedPath = (pathname: string | null): boolean => {
   if (!pathname) return false;

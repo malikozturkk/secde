@@ -55,7 +55,12 @@ const VALIDATION_FIELD_MAP: Record<
   },
   PRIVACY_POLICY_NOT_ACCEPTED: {
     field: "privacyPolicyAccepted",
-    message: "Gizlilik Politikasını kabul etmelisiniz",
+    message: "Aydınlatma Metni'ni okuduğunuzı ve onayladığınızı belirtmelisiniz",
+  },
+  SPECIAL_CATEGORY_CONSENT_NOT_ACCEPTED: {
+    field: "specialCategoryDataAccepted",
+    message:
+      "Özel nitelikli verilerinizin işlenmesine açık rıza vermelisiniz",
   },
 };
 
@@ -156,7 +161,13 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
           break;
         case ConsentErrorCode.PRIVACY_POLICY_NOT_ACCEPTED:
           setError("privacyPolicyAccepted", {
-            message: "Gizlilik Politikasını kabul etmelisiniz",
+            message: "Aydınlatma Metni'ni okuduğunuzu ve onayladığınızı belirtmelisiniz",
+          });
+          break;
+        case ConsentErrorCode.SPECIAL_CATEGORY_CONSENT_NOT_ACCEPTED:
+          setError("specialCategoryDataAccepted", {
+            message:
+              "Özel nitelikli verilerinizin işlenmesine açık rıza vermelisiniz",
           });
           break;
         default:

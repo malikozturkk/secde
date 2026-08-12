@@ -141,21 +141,21 @@ export default function LoginPage() {
             className="text-center text-[rgba(255,255,255,0.25)] text-[12px] leading-relaxed px-4"
             style={{ fontFamily: "'Nunito', sans-serif" }}
           >
-            Giriş yaparak{" "}
+            Hizmetin kullanımı, kayıt sırasında kabul ettiğin{" "}
             <Link
               href="/terms"
               className="text-[rgba(255,255,255,0.45)] underline hover:text-white transition-colors"
             >
-              Kullanım Koşullarımızı
-            </Link>{" "}
-            ve{" "}
+              Kullanım Koşulları
+            </Link>
+            &apos;na tabidir. Kişisel verilerinin işlenmesine ilişkin bilgiye{" "}
             <Link
               href="/privacy"
               className="text-[rgba(255,255,255,0.45)] underline hover:text-white transition-colors"
             >
-              Gizlilik Politikamızı
-            </Link>{" "}
-            kabul etmiş olursun.
+              Aydınlatma Metni
+            </Link>
+            &apos;nden ulaşabilirsin.
           </p>
         </div>
       </main>

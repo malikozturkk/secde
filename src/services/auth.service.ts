@@ -52,6 +52,8 @@ export const authService = {
   logout: (payload: LogoutPayload) =>
     axiosInstance.post<ApiResponse<null>>("/auth/logout", payload),
 
+  deleteAccount: () => axiosInstance.delete<ApiResponse<null>>("/auth/me"),
+
   forgotPassword: (payload: ForgotPasswordPayload) =>
     axiosInstance.post<ApiResponse<ForgotPasswordResponseData>>(
       "/auth/forgot-password",

@@ -40,7 +40,7 @@ const LegalLayout: React.FC<LegalLayoutProps> = ({
           <h1 className="text-3xl md:text-4xl font-bold mb-3">{title}</h1>
           <div className="flex items-center justify-between text-[var(--color-text-muted)] text-sm">
             <span>Son güncelleme: {lastUpdated}</span>
-            <span>Version: 1.0</span>
+            <span>Version: 1.0.0</span>
           </div>
         </div>
 
@@ -63,6 +63,9 @@ const LegalLayout: React.FC<LegalLayoutProps> = ({
               className="hover:text-white transition-colors"
             >
               Gizlilik Politikası
+            </Link>
+            <Link href="/explicit-consent" className="hover:text-white transition-colors">
+              Açık Rıza
             </Link>
           </div>
         </div>
