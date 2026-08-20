@@ -47,10 +47,7 @@ export default function PrivacyContent() {
 
       <LegalSection id="veri-sorumlusu" title="2. Veri Sorumlusu">
         <p>
-          Kişisel verileriniz bakımından veri sorumlusu, NamazGo platformunu
-          işleten [VERİ SORUMLUSUNUN TİCARİ UNVANI / AD-SOYAD] — [ADRES]
-          (&quot;NamazGo&quot;) olup veri sorumlusuna aşağıdaki kanallardan
-          ulaşabilirsiniz:
+          Kişisel verileriniz bakımından veri sorumlusu, NamazGo platformunu işleten Namazgo — İstanbul/Türkiye (&quot;NamazGo&quot;) olup veri sorumlusuna aşağıdaki kanallardan ulaşabilirsiniz:
         </p>
         <LegalList items={["E-posta: info@namazgo.com"]} />
       </LegalSection>
