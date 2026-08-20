@@ -145,7 +145,7 @@ export default function VerifyOtpPage() {
           href="/"
           className="text-2xl text-white hover:opacity-80 transition-opacity select-none"
           style={{
-            fontFamily: "'Fredoka One', cursive",
+            fontFamily: "var(--font-display)",
             letterSpacing: "0.5px",
           }}
         >
@@ -165,7 +165,7 @@ export default function VerifyOtpPage() {
             <h1 className="text-white text-2xl font-bold">E-posta Doğrulama</h1>
             <p
               className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {pendingEmail ? (
                 <>
@@ -189,7 +189,7 @@ export default function VerifyOtpPage() {
             <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
               <span
                 className="text-red-400 text-sm font-semibold"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {rootError}
               </span>
@@ -200,7 +200,7 @@ export default function VerifyOtpPage() {
             <div className="flex items-center gap-2 bg-[#25B49A]/10 border border-[#25B49A]/30 rounded-2xl px-4 py-3">
               <span
                 className="text-[#25B49A] text-sm font-semibold"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 ✓ Yeni kod e-posta adresinize gönderildi.
               </span>
@@ -241,7 +241,7 @@ export default function VerifyOtpPage() {
                         ? "border-[#25B49A]"
                         : "border-[#2a3d3b] focus:border-[#25B49A]",
                     ].join(" ")}
-                    style={{ fontFamily: "'Fredoka One', cursive" }}
+                    style={{ fontFamily: "var(--font-display)" }}
                     aria-label={`${index + 1}. hane`}
                   />
                 ))}
@@ -250,7 +250,7 @@ export default function VerifyOtpPage() {
               {fieldError && (
                 <p
                   className="flex items-center justify-center gap-1.5 text-red-400 text-[13px] font-semibold"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                   role="alert"
                 >
                   <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-red-500 text-white text-[10px] font-bold flex-shrink-0">
@@ -276,7 +276,7 @@ export default function VerifyOtpPage() {
             {resendError && (
               <p
                 className="text-red-400 text-[13px] font-semibold"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {resendError}
               </p>
@@ -284,7 +284,7 @@ export default function VerifyOtpPage() {
 
             <p
               className="text-[rgba(255,255,255,0.45)] text-[14px]"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               Kod gelmedi mi?{" "}
               <button

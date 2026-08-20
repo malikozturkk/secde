@@ -63,8 +63,6 @@ export interface RegisterPayload {
   gender: "MALE" | "FEMALE";
   country: string;
   city: string;
-  latitude: number;
-  longitude: number;
   madhab: "SHAFI" | "HANAFI";
   language: string;
   termsAccepted: boolean;
@@ -89,8 +87,6 @@ export interface UpdateProfilePayload {
   language?: string;
   country?: string;
   city?: string;
-  latitude?: number;
-  longitude?: number;
   madhab?: string;
 }
 

@@ -58,7 +58,7 @@ export default function ResetPasswordClient({
           href="/"
           className="text-2xl text-white hover:opacity-80 transition-opacity select-none"
           style={{
-            fontFamily: "'Fredoka One', cursive",
+            fontFamily: "var(--font-display)",
             letterSpacing: "0.5px",
           }}
         >
@@ -85,7 +85,7 @@ export default function ResetPasswordClient({
               </h1>
               <p
                 className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 Yeni şifrenle artık güvende giriş yapabilirsin.
               </p>
@@ -101,7 +101,7 @@ export default function ResetPasswordClient({
                 </p>
                 <p
                   className="text-[rgba(255,255,255,0.45)] text-[12px]"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Şifreni başarıyla sıfırladın.
                 </p>
@@ -127,7 +127,7 @@ export default function ResetPasswordClient({
               </h1>
               <p
                 className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 Güçlü bir şifre seçerek hesabını koruma altına al.
               </p>
@@ -137,7 +137,7 @@ export default function ResetPasswordClient({
               <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
                 <span
                   className="text-red-400 text-sm font-semibold"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {errors.root.message}
                 </span>
@@ -180,7 +180,7 @@ export default function ResetPasswordClient({
 
             <p
               className="text-center text-[rgba(255,255,255,0.45)] text-[14px]"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               Vazgeçtin mi?{" "}
               <Link

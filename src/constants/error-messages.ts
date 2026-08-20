@@ -11,7 +11,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   MADHAB_CHANGE_LIMIT_REACHED:
     "Mezhep değiştirme hakkını daha önce kullandın. Mezhebin artık değiştirilemez.",
   INCOMPLETE_LOCATION_UPDATE:
-    "Konum güncellenirken şehir ve koordinatlar birlikte gönderilmeli.",
+    "Konum güncellenirken ülke ve şehir birlikte gönderilmeli.",
   UNAUTHORIZED: "Oturumun süresi doldu. Lütfen tekrar giriş yap.",
   TOKEN_EXPIRED: "Oturumun süresi doldu. Lütfen tekrar giriş yap.",
   INVALID_TOKEN: "Oturumun geçersiz. Lütfen tekrar giriş yap.",

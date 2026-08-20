@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
           href="/"
           className="text-2xl text-white hover:opacity-80 transition-opacity select-none"
           style={{
-            fontFamily: "'Fredoka One', cursive",
+            fontFamily: "var(--font-display)",
             letterSpacing: "0.5px",
           }}
         >
@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
               <h1 className="text-white text-2xl font-bold">E-posta Yolda!</h1>
               <p
                 className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 <span className="text-[rgba(255,255,255,0.75)] font-bold">
                   {getValues("email")}
@@ -87,7 +87,7 @@ export default function ForgotPasswordPage() {
               </span>
               <p
                 className="text-[rgba(255,255,255,0.55)] text-[13px] leading-relaxed text-left"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 Mail gelmediyse spam klasörünü de kontrol etmeyi unutma!
               </p>
@@ -104,7 +104,7 @@ export default function ForgotPasswordPage() {
               <h1 className="text-white text-2xl font-bold">Şifremi unuttum</h1>
               <p
                 className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 E-posta adresini gir, sana sıfırlama bağlantısı gönderelim.
               </p>
@@ -113,7 +113,7 @@ export default function ForgotPasswordPage() {
               <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
                 <span
                   className="text-red-400 text-sm font-semibold"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {errors.root.message}
                 </span>
@@ -148,7 +148,7 @@ export default function ForgotPasswordPage() {
 
             <p
               className="text-center text-[rgba(255,255,255,0.45)] text-[14px]"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               Şifreni hatırladın mı?{" "}
               <Link

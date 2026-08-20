@@ -83,13 +83,13 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
           <h2
             id="consent-gate-title"
             className="text-white text-xl font-extrabold"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Yasal metinlerimiz güncellendi
           </h2>
           <p
             className="mt-2 text-[rgba(255,255,255,0.6)] text-[14px] leading-relaxed"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Devam edebilmen için aşağıdaki güncel metinleri incelemen; Kullanım
             Koşulları&apos;nı kabul etmen ve gerekliyse açık rızanı yenilemen
@@ -106,13 +106,13 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
               <div className="flex flex-col">
                 <span
                   className="text-white text-[14px] font-semibold"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {CONSENT_LABELS[item.type]}
                 </span>
                 <span
                   className="text-[rgba(255,255,255,0.45)] text-[12px]"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {ACTION_LABELS[item.type]} · v{item.acceptedVersion ?? "—"} →
                   v{item.currentVersion}
@@ -133,7 +133,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
           <div className="mx-6 mb-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
             <span
               className="text-red-400 text-sm font-semibold"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {error}
             </span>

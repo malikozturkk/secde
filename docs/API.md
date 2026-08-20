@@ -102,9 +102,7 @@ başarıda `clearAuth()` + `/` yönlendirmesi yapar. UI girişi `/settings/profi
   password: string; // min 8
   gender: "MALE" | "FEMALE";
   country: string; // şu an yalnızca "Türkiye"
-  city: string;
-  latitude: number; // -90..90
-  longitude: number; // -180..180
+  city: string; // 81 ilden biri — koordinat gönderilmez, backend ilden türetir
   madhab: "SHAFI" | "HANAFI";
   language: "tr";
   termsAccepted: boolean; // true olmalı
@@ -124,13 +122,14 @@ aynası değil, istemci ön kontrolüdür.
 ```ts
 {
   username?, avatar?, currentPassword?, newPassword?, language?,
-  country?, city?, latitude?, longitude?,
+  country?, city?,
   madhab?: "SHAFI" | "HANAFI"
 }
 ```
 
-`/settings/account` bu payload'ı kayıt formundaki `LocationField` bileşeniyle üretir — şehir
-seçimi koordinatları da beraberinde getirir.
+`/settings/account` bu payload'ı kayıt formundaki `LocationField` bileşeniyle üretir — kullanıcı
+yalnızca **il** seçer; `country` + `city` birlikte gönderilir, koordinat gönderilmez (backend ilden
+türetir). Yalnızca birini göndermek backend'de `INCOMPLETE_LOCATION_UPDATE` döndürür.
 
 ### `User` / `UserDetail`
 
@@ -244,9 +243,9 @@ WorshipData = {
 };
 ```
 
-Konum ve hesaplama yöntemi istekte gönderilmez — backend, kullanıcının kayıtlı
-konumu/mezhebi üzerinden hesaplar. İstemci tarafındaki konum (`useGeolocation`) kayıt ve
-konum güncelleme akışlarında kullanılır.
+Konum ve hesaplama yöntemi istekte gönderilmez — backend, kullanıcının kayıtlı ili/mezhebi
+üzerinden hesaplar. `meta.latitude`/`longitude`, backend'in seçilen ilden türettiği koordinatlardır
+(yalnızca gösterim amaçlı döner; istemci koordinat göndermez).
 
 ---
 
@@ -581,11 +580,9 @@ her iki harita da güncellenmelidir.
 
 ## 9. Harici servis
 
-| Servis                       | Kullanım                                       | Kaynak               |
-| ---------------------------- | ---------------------------------------------- | -------------------- |
-| BigDataCloud reverse-geocode | Koordinat → ülke/şehir (kayıt ve konum seçimi) | `src/lib/geocode.ts` |
-
-Bu çağrı `axiosInstance` üzerinden **geçmez**, anahtar gerektirmez ve 10 sn timeout'ludur.
+Backend API'si dışında çağrılan **üçüncü taraf harici servis yoktur.** (BigDataCloud ters coğrafi
+kodlama kaldırıldı; `lib/geocode.ts` artık yalnızca saf yerel yardımcılar içerir ve ağ isteği
+yapmaz — bkz. `docs/ARCHITECTURE.md` §10.)
 
 ---
 

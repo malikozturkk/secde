@@ -88,8 +88,8 @@ export default function NotFound({ username }: { username: string }) {
             y="43"
             fill="white"
             fontSize="24"
-            fontFamily="'Nunito', sans-serif"
             fontWeight="900"
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             ?
           </text>

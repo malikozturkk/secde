@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
-import { ArrowLeft, Compass, MapPin, RefreshCw } from "lucide-react";
+import React, { useMemo } from "react";
+import { ArrowLeft, Compass, MapPin } from "lucide-react";
 import Link from "next/link";
 import AppLayout from "@/src/components/layout/AppLayout";
 import { Button } from "@/src/components/ui/Button";
 import { CompassRose } from "@/src/components/tools/CompassRose";
 import { useAuthStore } from "@/src/store/auth.store";
-import { useGeolocation } from "@/src/hooks/worship/useGeolocation";
 import { useDeviceCompass } from "@/src/hooks/tools/useDeviceCompass";
 import { matchTrCity } from "@/src/lib/geocode";
 import {
@@ -19,25 +18,15 @@ import {
 } from "@/src/lib/qibla-utils";
 import { QIBLA_ALIGNED_TOLERANCE_DEGREES } from "@/src/constants/tools";
 import { CompassStatus } from "@/src/types/enums/tools.enums";
-import { GeolocationStatus } from "@/src/types/enums/worship.enums";
 import { cn } from "@/src/lib/utils";
 
 export const QiblaClient: React.FC = () => {
   const { user } = useAuthStore();
   const compass = useDeviceCompass();
-  const [useDeviceLocation, setUseDeviceLocation] = useState(false);
-  const geo = useGeolocation({ onSuccess: () => setUseDeviceLocation(true) });
 
   const registeredCity = useMemo(() => matchTrCity(user?.city), [user?.city]);
 
   const origin = useMemo(() => {
-    if (useDeviceLocation && geo.coords) {
-      return {
-        latitude: geo.coords.lat,
-        longitude: geo.coords.lng,
-        label: "Cihaz konumun",
-      };
-    }
     if (registeredCity) {
       return {
         latitude: registeredCity.latitude,
@@ -46,7 +35,7 @@ export const QiblaClient: React.FC = () => {
       };
     }
     return null;
-  }, [useDeviceLocation, geo.coords, registeredCity]);
+  }, [registeredCity]);
 
   const reading = useMemo(
     () =>
@@ -62,8 +51,6 @@ export const QiblaClient: React.FC = () => {
   const isAligned =
     delta !== null && Math.abs(delta) <= QIBLA_ALIGNED_TOLERANCE_DEGREES;
   const liveCompass = compass.status === CompassStatus.Active;
-
-  const handleUseDeviceLocation = useCallback(() => geo.request(), [geo]);
 
   const headline = useMemo(() => {
     if (delta === null) return null;
@@ -93,18 +80,12 @@ export const QiblaClient: React.FC = () => {
               Önce konum gerekli
             </h2>
             <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
-              Kıble yönü bulunduğun noktaya göre hesaplanır.
+              Kıble yönü kayıtlı iline göre hesaplanır. Önce ayarlardan ilini
+              seç.
             </p>
             <div className="flex flex-wrap gap-2">
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={handleUseDeviceLocation}
-              >
-                Konumumu kullan
-              </Button>
               <Link href="/settings/account">
-                <Button size="sm" variant="ghost">
+                <Button size="sm" variant="primary">
                   Şehrimi seç
                 </Button>
               </Link>
@@ -192,30 +173,15 @@ export const QiblaClient: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-white/[0.07] bg-[#1C2E35] px-4 py-3">
               <span className="text-[12px] font-black text-white/70">
                 {origin.label}
-                {!useDeviceLocation && (
-                  <span className="ml-1.5 font-bold text-white/35">
-                    kayıtlı şehrin
-                  </span>
-                )}
+                <span className="ml-1.5 font-bold text-white/35">
+                  kayıtlı şehrin
+                </span>
               </span>
-              <Button
-                size="xs"
-                variant="ghost"
-                icon={<RefreshCw size={13} strokeWidth={2.8} />}
-                onClick={handleUseDeviceLocation}
-                disabled={geo.status === GeolocationStatus.Loading}
-              >
-                {geo.status === GeolocationStatus.Loading
-                  ? "Alınıyor…"
-                  : useDeviceLocation
-                  ? "Yenile"
-                  : "Cihaz konumu"}
-              </Button>
-              {geo.error && (
-                <p className="m-0 w-full text-[12px] font-bold text-rose-300">
-                  {geo.error}
-                </p>
-              )}
+              <Link href="/settings/account">
+                <Button size="xs" variant="ghost">
+                  Şehrimi değiştir
+                </Button>
+              </Link>
             </div>
           </>
         )}

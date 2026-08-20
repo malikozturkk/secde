@@ -59,21 +59,17 @@ export default function AccountSettings() {
 
   const location = useWatch({
     control,
-    name: ["country", "city", "latitude", "longitude"],
+    name: ["country", "city"],
   });
 
   const locationValue: Partial<LocationValue> = {
     country: location?.[0],
     city: location?.[1],
-    latitude: location?.[2],
-    longitude: location?.[3],
   };
 
   const handleLocationChange = (next: LocationValue) => {
     setValue("country", next.country, { shouldDirty: true });
     setValue("city", next.city, { shouldDirty: true });
-    setValue("latitude", next.latitude, { shouldDirty: true });
-    setValue("longitude", next.longitude, { shouldDirty: true });
   };
 
   const { mutate: updateProfile, isPending } = useUpdateProfile({
@@ -87,15 +83,15 @@ export default function AccountSettings() {
   const onSubmit = (data: UpdateProfileFormValues) => {
     setSuccessMessage(null);
     const locationChanged =
-      data.latitude !== undefined && data.longitude !== undefined;
+      !!data.country &&
+      !!data.city &&
+      (data.country !== user?.country || data.city !== user?.city);
     updateProfile({
       language: data.language,
       ...(data.madhab && { madhab: data.madhab }),
       ...(locationChanged && {
         country: data.country,
         city: data.city,
-        latitude: data.latitude,
-        longitude: data.longitude,
       }),
     });
   };
@@ -140,8 +136,7 @@ export default function AccountSettings() {
                   error={errors.city?.message ?? errors.country?.message}
                 />
                 <p className="px-1 text-[12px] font-semibold text-white/40">
-                  Namaz vakitleri seçtiğin şehrin koordinatlarından hesaplanır.
-                  Konumunu{" "}
+                  Namaz vakitleri seçtiğin ile göre hesaplanır. Konumunu{" "}
                   <strong className="text-white/60">yalnızca bir kez</strong>{" "}
                   değiştirebilirsin.
                 </p>

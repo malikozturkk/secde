@@ -1,3 +1,4 @@
+import { Nunito, Fredoka } from "next/font/google";
 import { createRootMetadata } from "@/src/lib/metadata";
 import QueryProvider from "../providers/QueryProvider";
 import { ToastProvider } from "../components/ui/Toast";
@@ -5,6 +6,19 @@ import { ConsentGateProvider } from "../providers/ConsentGateProvider";
 import { CookieConsentProvider } from "../providers/CookieConsentProvider";
 import CookieBanner from "../components/cookie/CookieBanner";
 import "./globals.css";
+
+const nunito = Nunito({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-nunito",
+  display: "swap",
+});
+
+const fredoka = Fredoka({
+  subsets: ["latin", "latin-ext"],
+  weight: "600",
+  variable: "--font-fredoka",
+  display: "swap",
+});
 
 export const metadata = createRootMetadata();
 
@@ -14,19 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="tr" className={`${nunito.variable} ${fredoka.variable}`}>
       <body>
         <QueryProvider>
           <ToastProvider>

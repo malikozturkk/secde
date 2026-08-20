@@ -74,7 +74,7 @@ export const ConsentCheckbox = forwardRef<
         </span>
         <span
           className="text-[rgba(255,255,255,0.7)] text-[13px] leading-relaxed"
-          style={{ fontFamily: "'Nunito', sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           {labelByType[consentType]}
         </span>
@@ -85,7 +85,7 @@ export const ConsentCheckbox = forwardRef<
           id={errorId}
           role="alert"
           className="flex items-center gap-1.5 text-red-400 text-[12px] font-semibold pl-8"
-          style={{ fontFamily: "'Nunito', sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-red-500 text-white text-[10px] font-bold shrink-0">
             !

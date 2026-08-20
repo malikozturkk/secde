@@ -446,19 +446,23 @@ src/services/telemetry.service.ts fetch keepalive — bilerek axiosInstance DIŞ
 
 ---
 
-## 10. Konum (geolocation)
+## 10. Konum (il seçimi)
 
-`useGeolocation` (`hooks/worship/`) tarayıcı Geolocation API'sini sarar:
+Uygulama kullanıcıdan **hiçbir zaman** GPS/koordinat (enlem/boylam) almaz. Kayıt ve
+`/settings/account` ekranında kullanıcı yalnızca **ilini** seçer (`LocationField`, `TR_CITIES`
+listesi); backend'e sadece `country` + `city` gönderilir. Namaz vakti, kıble ve saat dilimi
+için gereken koordinatlar backend'de seçilen ilden türetilir.
 
-- Güvenli bağlam kontrolü (`isSecureContext`, `localhost`/`127.0.0.1`/`[::1]` istisnası).
-- İki aşamalı deneme: önce hızlı (`enableHighAccuracy: false`, 8 sn, 5 dk cache), başarısızsa
-  hassas (`true`, 15 sn, cache yok).
-- `navigator.permissions.query` ile izin durumu proaktif izlenir.
-- Tüm hata sebepleri `GeolocationStatus` enum'una ve Türkçe mesaja eşlenir.
+- Tarayıcı Geolocation API'si (`navigator.geolocation`) **kullanılmaz**; `useGeolocation` hook'u
+  kaldırılmıştır.
+- BigDataCloud ters coğrafi kodlama (reverse-geocode) **kaldırılmıştır**; `lib/geocode.ts` artık
+  yalnızca saf yerel yardımcılar içerir: `matchTrCity` (il adı normalize edip `TR_CITIES`'e eşler),
+  `nearestTrCity` / `haversineKm` (backend'in döndüğü koordinattan en yakın il etiketini bulmak
+  için worship ekranında kullanılır). Dışarıya ağ isteği yapılmaz.
+- `/tools/qibla` kıbleyi kayıtlı ile göre hesaplar (cihaz konumu seçeneği yoktur); pusula yönü
+  `useDeviceCompass` (`deviceorientation`) ile okunur — bu koordinat değil, yön sensörüdür.
 
-`lib/geocode.ts` BigDataCloud reverse-geocode servisiyle koordinatı ülke/şehre çevirir ve
-`TR_CITIES` listesine haversine mesafesiyle eşler. **Şu an yalnızca Türkiye desteklenir**
-(kayıt zod şeması `country`'yi `"Türkiye"` ile sınırlar).
+**Şu an yalnızca Türkiye desteklenir** (kayıt zod şeması `country`'yi `"Türkiye"` ile sınırlar).
 
 ---
 
@@ -476,21 +480,24 @@ src/services/telemetry.service.ts fetch keepalive — bilerek axiosInstance DIŞ
 | `Referrer-Policy`           | `strict-origin-when-cross-origin`                |
 | `Permissions-Policy`        | kamera/mikrofon/ödeme kapalı, sensörler `(self)` |
 
-`Permissions-Policy` içinde `geolocation`, `accelerometer`, `gyroscope` ve `magnetometer`
-**`(self)` bırakılmıştır**: ilki `useGeolocation` için, diğer üçü `useDeviceCompass`
-(`deviceorientation` / `deviceorientationabsolute`) için gerekir — tarayıcılar bu olayları üç
-sensör iznine birden bağlar, yani birini `()` yapmak `/tools/qibla` pusulasını sessizce öldürür.
-Kapalı olanlar: `camera`, `display-capture`, `microphone`, `payment`, `usb`.
+`Permissions-Policy` içinde `accelerometer`, `gyroscope` ve `magnetometer` **`(self)`
+bırakılmıştır**: üçü de `useDeviceCompass` (`deviceorientation` / `deviceorientationabsolute`) için
+gerekir — tarayıcılar bu olayları üç sensör iznine birden bağlar, yani birini `()` yapmak
+`/tools/qibla` pusulasını sessizce öldürür. `geolocation` artık **`()`** (kapalı): uygulama tarayıcı
+konum servisini hiç kullanmıyor. Kapalı olanlar: `camera`, `display-capture`, `geolocation`,
+`microphone`, `payment`, `usb`.
 
 CSP direktifleri:
 
 - `default-src 'self'`, `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'`,
   `object-src 'none'`, `upgrade-insecure-requests`
 - `img-src 'self' data: blob:` — avatar/OG üretimi data URI kullanıyor
-- `font-src`/`style-src` Google Fonts'a (`fonts.gstatic.com` / `fonts.googleapis.com`) izin verir
-- `connect-src` `'self'` + `https://api.bigdatacloud.net` (reverse-geocode) +
-  `NEXT_PUBLIC_API_URL`'in **origin**'i. Backend adresi değişirse başlık kendiliğinden uyar;
-  ortam değişkeni geçersizse origin boş kalır ve API çağrıları CSP'ye takılır.
+- `font-src 'self'` / `style-src 'self' 'unsafe-inline'` — fontlar `next/font` ile bundle'a
+  gömülü ve kendi origin'imizden servis edilir; Google Fonts'a (`fonts.gstatic.com` /
+  `fonts.googleapis.com`) artık istek gitmez, bu yüzden bu origin'ler CSP'den de çıkarıldı
+- `connect-src` `'self'` + `NEXT_PUBLIC_API_URL`'in **origin**'i. Backend adresi değişirse başlık
+  kendiliğinden uyar; ortam değişkeni geçersizse origin boş kalır ve API çağrıları CSP'ye takılır.
+  (BigDataCloud kaldırıldığı için artık `api.bigdatacloud.net` yoktur.)
 - `script-src 'self' 'unsafe-inline'`, dev'de ek olarak `'unsafe-eval'`
 
 `'unsafe-inline'` **bilinen bir tavizdir**: Next'in App Router'ı hidrasyon verisini satır içi

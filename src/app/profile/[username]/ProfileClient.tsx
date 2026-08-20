@@ -91,8 +91,6 @@ export default function ProfilePage({ params }: ProfilePageProps) {
       }
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
-
         @keyframes ng-up {
           from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -122,7 +120,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
       `}</style>
 
       <div
-        style={{ fontFamily: "'Nunito', 'Segoe UI', system-ui, sans-serif" }}
+        style={{ fontFamily: "var(--font-sans)" }}
         className="text-white"
       >
         {isLoading ? (

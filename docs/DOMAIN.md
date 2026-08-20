@@ -97,7 +97,10 @@ otomatik dönüşüm yoktur.
 - Kayıt formu `country` alanını `"Türkiye"` ile sınırlar (`COUNTRY_OPTIONS`,
   zod `refine`) — **şu an yalnızca Türkiye desteklenmektedir**.
 - Dil seçeneği tek: `tr` (`LANGUAGE_OPTIONS`).
-- Tarayıcı konumu `useGeolocation` ile alınır, `lib/geocode.ts` en yakın ile eşler.
+- Kullanıcı yalnızca **ilini seçer**; GPS/tarayıcı konumu (koordinat) **hiçbir zaman alınmaz**.
+  Backend'e sadece `country` + `city` gider, koordinatı seçilen ilden türetir. `lib/geocode.ts`
+  yardımcıları (`matchTrCity`, `nearestTrCity`) yalnızca il-adı eşleme/etiketleme için, ağ isteği
+  yapmadan kullanılır.
 
 ### Hicri / oruç
 

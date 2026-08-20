@@ -51,7 +51,7 @@ export default function TermsContent() {
           <p>
             NamazGo&apos;yu tam kapsamlı kullanabilmek için bir hesap
             oluşturmanız gerekmektedir. Kayıt sırasında kullanıcı adı, e-posta
-            adresi, şifre, cinsiyet (avatar için), konum (ülke/il/koordinat),
+            adresi, şifre, cinsiyet (avatar için), konum (ülke/il),
             mezhep ve dil bilgileri talep edilir. Bu verilerin işlenmesine
             ilişkin ayrıntılar Aydınlatma Metni&apos;nde ve Açık Rıza
             Metni&apos;nde açıklanmıştır. Sağladığınız tüm bilgilerin doğru,

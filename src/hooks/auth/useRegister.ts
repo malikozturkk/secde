@@ -45,8 +45,6 @@ const VALIDATION_FIELD_MAP: Record<
   INVALID_GENDER: { field: "gender", message: "Lütfen cinsiyet seçiniz" },
   INVALID_COUNTRY: { field: "country", message: LOCATION_MESSAGE },
   INVALID_CITY: { field: "city", message: "Lütfen geçerli bir şehir seçiniz" },
-  INVALID_LATITUDE: { field: "latitude", message: LOCATION_MESSAGE },
-  INVALID_LONGITUDE: { field: "longitude", message: LOCATION_MESSAGE },
   INVALID_MADHAB: { field: "madhab", message: "Lütfen mezhep seçiniz" },
   INVALID_LANGUAGE: { field: "language", message: "Lütfen dil seçiniz" },
   TERMS_NOT_ACCEPTED: {

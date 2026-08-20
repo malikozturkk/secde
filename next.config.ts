@@ -17,12 +17,10 @@ const contentSecurityPolicy = [
   "frame-ancestors 'none'",
   "object-src 'none'",
   "img-src 'self' data: blob:",
-  "font-src 'self' https://fonts.gstatic.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
-  ["connect-src 'self' https://api.bigdatacloud.net", apiOrigin]
-    .filter(Boolean)
-    .join(" "),
+  ["connect-src 'self'", apiOrigin].filter(Boolean).join(" "),
   "upgrade-insecure-requests",
 ].join("; ");
 
@@ -30,7 +28,7 @@ const permissionsPolicy = [
   "accelerometer=(self)",
   "camera=()",
   "display-capture=()",
-  "geolocation=(self)",
+  "geolocation=()",
   "gyroscope=(self)",
   "magnetometer=(self)",
   "microphone=()",

@@ -39,7 +39,7 @@ export const LocationNotSetDialog: React.FC<LocationNotSetDialogProps> = ({
 
         <p
           className="m-0 max-w-[320px] text-sm font-medium leading-relaxed text-[rgba(255,255,255,0.6)]"
-          style={{ fontFamily: "'Nunito', sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Namaz vakitlerini ve günlük görevlerini gösterebilmemiz için hesabında
           bir konum kayıtlı olmalı. Ayarlardan konumunu belirleyebilirsin.

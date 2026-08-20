@@ -1,28 +1,5 @@
 import { TR_CITIES, type TrCity } from "@/src/constants/registration";
 
-const REVERSE_GEOCODE_ENDPOINT =
-  "https://api.bigdatacloud.net/data/reverse-geocode-client";
-
-const REQUEST_TIMEOUT_MS = 10_000;
-
-export interface ReverseGeocodeResult {
-  countryName: string;
-  countryCode: string;
-  province: string;
-  city: string;
-}
-
-interface BigDataCloudResponse {
-  countryName?: string;
-  countryCode?: string;
-  principalSubdivision?: string;
-  city?: string;
-  locality?: string;
-}
-
-export const isTurkey = (countryCode: string | undefined | null): boolean =>
-  (countryCode ?? "").toUpperCase() === "TR";
-
 const normalizeTr = (value: string): string =>
   value
     .replace(/İ/g, "i")
@@ -88,29 +65,4 @@ export const matchTrCity = (
     if (found) return found;
   }
   return undefined;
-};
-
-export const reverseGeocode = async (
-  latitude: number,
-  longitude: number
-): Promise<ReverseGeocodeResult> => {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
-  try {
-    const url = `${REVERSE_GEOCODE_ENDPOINT}?latitude=${latitude}&longitude=${longitude}&localityLanguage=tr`;
-    const response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) {
-      throw new Error(`Reverse geocode failed: ${response.status}`);
-    }
-    const data = (await response.json()) as BigDataCloudResponse;
-    return {
-      countryName: data.countryName ?? "",
-      countryCode: data.countryCode ?? "",
-      province: data.principalSubdivision || data.city || data.locality || "",
-      city: data.city || data.locality || "",
-    };
-  } finally {
-    clearTimeout(timeout);
-  }
 };

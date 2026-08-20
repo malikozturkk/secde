@@ -128,7 +128,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
           <label
             htmlFor={buttonId}
             className="px-1 text-[13px] font-bold text-[rgba(255,255,255,0.6)]"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             {label}
           </label>
@@ -159,7 +159,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
               disabled && "cursor-not-allowed opacity-40",
               className
             )}
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             <span
               className={cn(
@@ -204,7 +204,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                           ? "bg-white/5 text-white"
                           : "text-[rgba(255,255,255,0.75)]"
                       )}
-                      style={{ fontFamily: "'Nunito', sans-serif" }}
+                      style={{ fontFamily: "var(--font-sans)" }}
                     >
                       <span className="min-w-0 flex-1 truncate">
                         {option.label}
@@ -225,7 +225,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
             id={errorId}
             role="alert"
             className="flex items-center gap-1.5 px-1 text-[13px] font-semibold text-red-400"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
               !

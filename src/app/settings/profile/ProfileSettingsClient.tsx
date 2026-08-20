@@ -202,7 +202,7 @@ export default function ProfileSettings() {
               <div className="flex flex-col gap-3 border border-[#ff4b4b]/40 rounded-2xl p-4">
                 <p
                   className="text-[13px] text-[rgba(255,255,255,0.7)] leading-relaxed"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Hesabını silersen tüm kişisel verilerin, ibadet ve seri
                   geçmişin, puanların ve avatar özelleştirmelerin kalıcı olarak
@@ -211,7 +211,7 @@ export default function ProfileSettings() {
                 {deleteFailed && (
                   <p
                     className="text-[13px] font-semibold text-red-400"
-                    style={{ fontFamily: "'Nunito', sans-serif" }}
+                    style={{ fontFamily: "var(--font-sans)" }}
                   >
                     Hesap silinemedi. Lütfen tekrar dene veya info@namazgo.com
                     adresine yaz.

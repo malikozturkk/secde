@@ -149,7 +149,7 @@ build üretiyor.
 
 ### `yarn lint` mevcut durumu (31 Tem 2026 itibarıyla çalıştırılıp doğrulandı)
 
-**Lint şu an başarısız: 7 error, 10 warning.** Bunlar mevcut teknik borçtur, senin
+**Lint şu an başarısız: 7 error, 9 warning.** Bunlar mevcut teknik borçtur, senin
 değişikliğinden kaynaklanmaz. Kural: _dokunduğun dosyada_ yeni ihlal üretme, mevcutları
 temizlemek istiyorsan ayrı iş olarak yap.
 
@@ -160,13 +160,12 @@ temizlemek istiyorsan ayrı iş olarak yap.
 | `react-hooks/set-state-in-effect` (6) | `app/page.tsx:13` · `app/profile/[username]/components/FollowListDialog.tsx:41` · `app/settings/avatar/AvatarSettingsClient.tsx:252` · `components/learn/DynamicPath.tsx:54` · `components/settings/avatar/HexInput.tsx:26` · `hooks/useCookieConsent.ts:75` |
 | `react/no-unescaped-entities` (1)     | `app/profile/[username]/components/InviteCard.tsx:19`                                                                                                                                                                                                        |
 
-**Warning'ler (10):**
+**Warning'ler (9):**
 
 | Kural                                   | Konumlar                                                                                                                               |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `@typescript-eslint/no-unused-vars` (6) | `app/(auth)/reset-password/ResetPasswordClient.tsx:16,17,19,21` · `components/ui/Sparkle.tsx:2` · `hooks/auth/useForgotPassword.ts:25` |
 | `react-hooks/exhaustive-deps` (3)       | `app/settings/avatar/AvatarSettingsClient.tsx:254,256` · `components/learn/DynamicPath.tsx:70`                                         |
-| `@next/next/no-page-custom-font` (1)    | `app/layout.tsx:25` (Google Fonts `<link>`)                                                                                            |
 
 ---
 
@@ -310,7 +309,7 @@ Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yaz
 
 - `any` kullanma. Ortak zarf `ApiResponse<T>` (`src/types/api.types.ts`).
 - Sabit değer kümeleri `src/types/enums/*.enums.ts` içinde **TypeScript enum**'dur
-  (`PrayerType`, `PrayerKey`, `Madhab`, `GeolocationStatus`, `PrayerQuizStatus`, ...).
+  (`PrayerType`, `PrayerKey`, `Madhab`, `PrayerQuizStatus`, ...).
   String literal yerine bu enum'ları kullan.
 
 ---
@@ -409,8 +408,9 @@ Doğrulanmış farklar:
 | `src/features/**` feature-based yapı        | `src/app` + `src/components` + katman klasörleri |
 | Açık tema paleti (`--color-bg: #F7F4EF`)    | Koyu tema (`--color-bg: #070f12`)                |
 
-Hâlâ geçerli olan kısımlar: ürün konsepti, Duolingo tarzı 3D buton dili, Fredoka One +
-Nunito tipografisi, primary/secondary/streak renk ailesi, animasyon önceliği,
+Hâlâ geçerli olan kısımlar: ürün konsepti, Duolingo tarzı 3D buton dili, Fredoka (display)
++ Nunito tipografisi (her ikisi de `next/font` ile self-host, bundle'a gömülü),
+primary/secondary/streak renk ailesi, animasyon önceliği,
 `any` yasağı, servis katmanı zorunluluğu.
 
 ---

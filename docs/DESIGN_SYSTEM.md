@@ -10,10 +10,11 @@ Görsel dil: **koyu tema + Duolingo tarzı 3B (kabartma) bileşenler**. Kaynakla
 - `tailwind.config.js/ts` **yoktur**. Tailwind v4 CSS-first modda çalışır.
 - Giriş noktası `src/app/globals.css`:
   ```css
-  @import url("...Fredoka+One...Nunito..."); /* Google Fonts */
   @import "../styles/learn.css";
   @import "tailwindcss";
   ```
+  Fontlar buradan `@import url(...)` ile **yüklenmez**; `next/font` ile bundle'a gömülür
+  (bkz. §3).
 - PostCSS eklentisi: `@tailwindcss/postcss` (`postcss.config.mjs`).
 - Tema `@theme inline { ... }` bloğunda tanımlanır; buradaki her anahtar Tailwind utility'si
   üretir (`bg-surface`, `text-text-muted`, `font-display`, `animate-shake`, ...).
@@ -91,20 +92,27 @@ zaten taşmadığı için dolgu görünür bir etki yaratmıyor, butonlar banner
 
 | Rol           | Font                         | Tailwind       |
 | ------------- | ---------------------------- | -------------- |
-| Başlık / sayı | **Fredoka One**              | `font-display` |
+| Başlık / sayı | **Fredoka** (600)            | `font-display` |
 | Gövde         | **Nunito** (400/600/700/800) | `font-sans`    |
 
 `body` varsayılanı Nunito'dur.
+
+> Not: Display fontu eskiden **Fredoka One**'dı. `next/font` geçişinde Google, Fredoka One'ı
+> yeni API'de sunmadığı için yerine **Fredoka** ailesinin 600 ağırlığı kullanıldı — görsel
+> olarak çok yakın, hafif bir fark vardır.
 
 **Başlık hiyerarşisi.** Her sayfada tam olarak bir `<h1>` olmalıdır. Dashboard/araç bölümlerinde
 başlık `SectionHead` (`components/dashboard/parts/SectionHead.tsx`) ile basılır; bileşen
 varsayılan olarak `<h2>` üretir ve sayfanın _ilk_ başlığında `as="h1"` verilmelidir. Görsel stil
 iki değerde de aynıdır — prop yalnızca semantiği değiştirir.
 
-**Bilinen durum:** Google Fonts iki yerden yüklenir — `src/app/layout.tsx` içindeki `<link>`
-etiketleri **ve** `globals.css` başındaki `@import`. `layout.tsx`'teki `<link>` ESLint
-`next/no-page-custom-font` uyarısını üretir. Font yükleme stratejisini değiştirecek olursan
-(örn. `next/font`) her iki noktayı birden ele al.
+**Font yükleme:** Her iki font da `src/app/layout.tsx` içinde `next/font/google`
+(`Nunito`, `Fredoka`) ile build zamanında indirilip **bundle'a gömülür** ve kendi
+origin'imizden servis edilir — çalışma zamanında Google'a hiçbir istek gitmez. Fontlar
+`--font-nunito` / `--font-fredoka` CSS değişkenleri olarak `<html>`'e bağlanır; `globals.css`
+`@theme inline` bloğu bunları `--font-sans` / `--font-display`'e eşler. Artık ne `<link>`
+etiketi ne de `globals.css` içinde `@import url(...)` vardır (bu yüzden
+`next/no-page-custom-font` uyarısı da kalktı).
 
 ---
 

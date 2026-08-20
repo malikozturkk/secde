@@ -51,14 +51,6 @@ export const registerSchema = z.object({
       message: "Şu an yalnızca Türkiye destekleniyor",
     }),
   city: z.string().min(1, "Şehir seçiniz"),
-  latitude: z
-    .number({ error: "Lütfen bir konum belirleyin" })
-    .min(-90, "Geçersiz konum")
-    .max(90, "Geçersiz konum"),
-  longitude: z
-    .number({ error: "Lütfen bir konum belirleyin" })
-    .min(-180, "Geçersiz konum")
-    .max(180, "Geçersiz konum"),
   madhab: z.enum(["SHAFI", "HANAFI"], { error: "Lütfen mezhep seçiniz" }),
   language: z.literal("tr", { error: "Lütfen dil seçiniz" }),
   termsAccepted: z.boolean().refine((v) => v === true, {
@@ -127,8 +119,6 @@ export const updateProfileSchema = z
     language: z.string().optional(),
     country: z.string().optional(),
     city: z.string().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
     madhab: z.enum(["SHAFI", "HANAFI"]).optional(),
   })
   .refine(

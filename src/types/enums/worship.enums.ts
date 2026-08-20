@@ -18,15 +18,6 @@ export enum Madhab {
   Hanafi = "Hanafi",
 }
 
-export enum GeolocationStatus {
-  Idle = "idle",
-  Loading = "loading",
-  Granted = "granted",
-  Denied = "denied",
-  Unsupported = "unsupported",
-  Failed = "failed",
-}
-
 export enum WorshipPageState {
   Normal = "normal",
   Loading = "loading",

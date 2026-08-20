@@ -87,14 +87,16 @@ export default function PrivacyContent() {
         <LegalSubSection title="3.3. Konum Verileri">
           <LegalList
             items={[
-              "Ülke ve il bilgisi",
-              "Enlem ve boylam (koordinat) bilgisi — namaz vakitlerinin ve saat diliminizin konumunuza göre hesaplanması için kayıt sırasında alınır ve profilinizde saklanır",
+              "Ülke ve il (şehir) bilgisi — namaz vakitlerinin, kıble yönünün ve saat diliminizin hesaplanabilmesi için kayıt sırasında seçtiğiniz ilden ibarettir",
             ]}
           />
           <p>
-            Koordinat bilgileriniz diğer kullanıcılara hiçbir şekilde
-            gösterilmez. İl bilginiz, liderlik tablosunun il bazlı
-            görünümünde diğer kullanıcılar tarafından görülebilir.
+            NamazGo, cihazınızın GPS/konum servisini veya kesin
+            koordinatlarınızı (enlem/boylam) <strong>toplamaz ve
+            sizden istemez</strong>; namaz vakitleri, kıble ve saat dilimi
+            yalnızca seçtiğiniz il üzerinden hesaplanır. İl bilginiz,
+            liderlik tablosunun il bazlı görünümünde diğer kullanıcılar
+            tarafından görülebilir.
           </p>
         </LegalSubSection>
 
@@ -176,19 +178,15 @@ export default function PrivacyContent() {
                 </td>
               </tr>
               <tr>
-                <td className={tdClass}>Ülke, il, koordinat</td>
+                <td className={tdClass}>Ülke, il (şehir)</td>
                 <td className={tdClass}>
                   Namaz vakitlerinin, kıble yönünün ve saat diliminin
-                  konumunuza göre hesaplanması
+                  seçtiğiniz ile göre hesaplanması
                 </td>
                 <td className={tdClass}>
                   KVKK m.5/2-c — sözleşmenin ifası
                 </td>
-                <td className={tdClass}>
-                  &quot;Konumumu kullan&quot; özelliğini seçerseniz koordinat,
-                  il adının bulunması için BigDataCloud servisine iletilir
-                  (bkz. Bölüm 5); aksi hâlde aktarım yok
-                </td>
+                <td className={tdClass}>Aktarılmaz</td>
               </tr>
               <tr>
                 <td className={tdClass}>Mezhep tercihi</td>
@@ -279,8 +277,6 @@ export default function PrivacyContent() {
         <LegalList
           items={[
             "Mailjet (e-posta iletim hizmeti): Hesap doğrulama kodu ve şifre sıfırlama e-postalarının gönderilebilmesi için e-posta adresiniz ve kullanıcı adınız iletilir. Sunucuları yurt dışındadır.",
-            "BigDataCloud (ters coğrafi kodlama): Yalnızca kayıt/ayarlar ekranında \"Konumumu kullan\" seçeneğini kullandığınızda, koordinatınızdan il adının bulunması için koordinat bilgisi bu servise iletilir. Sunucuları yurt dışındadır. Bu özelliği kullanmak zorunlu değildir; ilinizi elle de seçebilirsiniz.",
-            "Google Fonts (yazı tipi servisi): Uygulama yazı tiplerini Google sunucularından yükler; bu sırada IP adresiniz ve tarayıcı bilgileriniz teknik zorunluluk gereği Google'a iletilir.",
             "Barındırma altyapısı: Uygulama ve veritabanı, Bulutova'nın Türkiye/Bursa'daki sunucuları üzerinde barındırılmaktadır.",
             "Yetkili kamu kurum ve kuruluşları: Yalnızca hukuka uygun ve usulüne göre yapılmış talepler hâlinde (KVKK m.8/2, m.28).",
           ]}

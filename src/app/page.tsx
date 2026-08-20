@@ -18,7 +18,7 @@ export default function Home() {
       <div className="min-h-screen bg-[#070F12] flex items-center justify-center">
         <span
           className="text-3xl text-white animate-pulse"
-          style={{ fontFamily: "'Fredoka One', cursive" }}
+          style={{ fontFamily: "var(--font-display)" }}
         >
           NamazGo
         </span>

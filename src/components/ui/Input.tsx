@@ -20,7 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <label
             htmlFor={inputId}
             className="text-[rgba(255,255,255,0.6)] text-[13px] font-bold px-1"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             {label}
           </label>
@@ -54,7 +54,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               "text-[15px] font-medium outline-none",
               "disabled:opacity-40 disabled:cursor-not-allowed",
             ].join(" ")}
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
             {...props}
           />
 
@@ -66,7 +66,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {error && (
           <p
             className="flex items-center gap-1.5 text-red-400 text-[13px] font-semibold px-1"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
             role="alert"
           >
             <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-red-500 text-white text-[10px] font-bold flex-shrink-0">

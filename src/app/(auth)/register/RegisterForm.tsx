@@ -59,7 +59,7 @@ export default function RegisterForm() {
   });
   const location = useWatch({
     control,
-    name: ["country", "city", "latitude", "longitude"],
+    name: ["country", "city"],
   });
   const consentsMissing =
     !termsAccepted || !privacyAccepted || !specialCategoryAccepted;
@@ -67,21 +67,13 @@ export default function RegisterForm() {
   const locationValue: Partial<LocationValue> = {
     country: location?.[0],
     city: location?.[1],
-    latitude: location?.[2],
-    longitude: location?.[3],
   };
 
-  const locationError =
-    errors.city?.message ??
-    errors.country?.message ??
-    errors.latitude?.message ??
-    errors.longitude?.message;
+  const locationError = errors.city?.message ?? errors.country?.message;
 
   const handleLocationChange = (next: LocationValue) => {
     setValue("country", next.country, { shouldValidate: true });
     setValue("city", next.city, { shouldValidate: true });
-    setValue("latitude", next.latitude, { shouldValidate: true });
-    setValue("longitude", next.longitude, { shouldValidate: true });
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -96,7 +88,7 @@ export default function RegisterForm() {
           href="/"
           className="text-2xl text-white hover:opacity-80 transition-opacity select-none"
           style={{
-            fontFamily: "'Fredoka One', cursive",
+            fontFamily: "var(--font-display)",
             letterSpacing: "0.5px",
           }}
         >
@@ -120,7 +112,7 @@ export default function RegisterForm() {
             <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
               <span
                 className="text-red-400 text-sm font-semibold"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {errors.root.message}
               </span>
@@ -182,7 +174,7 @@ export default function RegisterForm() {
                 <p
                   role="alert"
                   className="flex items-center gap-1.5 px-1 text-[13px] font-semibold text-red-400"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                     !
@@ -273,7 +265,7 @@ export default function RegisterForm() {
             <div className="flex-1 h-px bg-[rgba(255,255,255,0.1)]" />
             <span
               className="text-[rgba(255,255,255,0.4)] text-[13px] font-bold tracking-widest"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               VEYA
             </span>
@@ -282,7 +274,7 @@ export default function RegisterForm() {
 
           <p
             className="text-center text-[rgba(255,255,255,0.45)] text-[14px]"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Zaten hesabın var mı?{" "}
             <Link

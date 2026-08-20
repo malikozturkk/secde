@@ -38,7 +38,7 @@ export default function LoginPage() {
           href="/"
           className="text-2xl text-white hover:opacity-80 transition-opacity select-none"
           style={{
-            fontFamily: "'Fredoka One', cursive",
+            fontFamily: "var(--font-display)",
             letterSpacing: "0.5px",
           }}
         >
@@ -62,7 +62,7 @@ export default function LoginPage() {
             <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
               <span
                 className="text-red-400 text-sm font-semibold"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {errors.root.message}
               </span>
@@ -91,7 +91,7 @@ export default function LoginPage() {
                 <Link
                   href="/forgot-password"
                   className="text-[#25B49A] text-[12px] font-extrabold tracking-widest hover:text-[#4FC3F7] transition-colors"
-                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                   onClick={(e) => e.stopPropagation()}
                 >
                   UNUTTUM
@@ -117,7 +117,7 @@ export default function LoginPage() {
             <div className="flex-1 h-px bg-[rgba(255,255,255,0.1)]" />
             <span
               className="text-[rgba(255,255,255,0.4)] text-[13px] font-bold tracking-widest"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               VEYA
             </span>
@@ -126,7 +126,7 @@ export default function LoginPage() {
 
           <p
             className="text-center text-[rgba(255,255,255,0.45)] text-[14px]"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Hesabın yok mu?{" "}
             <Link
@@ -139,7 +139,7 @@ export default function LoginPage() {
 
           <p
             className="text-center text-[rgba(255,255,255,0.25)] text-[12px] leading-relaxed px-4"
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Hizmetin kullanımı, kayıt sırasında kabul ettiğin{" "}
             <Link
