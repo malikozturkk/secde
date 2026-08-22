@@ -341,6 +341,10 @@ Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yaz
   açılıyordu.
 - Kayıt akışı parola ile giriş akışından ayrıdır: `POST /auth/register` → **`tempToken`** →
   `setTempToken` → `/verify-otp` → `POST /otp/verify` (Authorization: `Bearer <tempToken>`).
+  Doğrulama başarılıysa `setAuth()` + `router.replace("/")` ile kullanıcı **giriş yapmış**
+  olarak ana sayfaya gider. `/verify-otp`'nin "tempToken yoksa /register'a at" koruması
+  `accessToken` doluyken **çalışmamalıdır** — `setAuth()` tempToken'ı temizlediği için bu
+  koruma bir kez başarılı doğrulamayı kayıt formuna geri atıyordu.
 
 ### 7.2 İki ayrı "consent" sistemi vardır — karıştırma
 
@@ -368,6 +372,13 @@ QueryProvider → ToastProvider → CookieConsentProvider → ConsentGateProvide
 ```
 
 `ConsentGateProvider` React Query kullandığı için `QueryProvider` içinde kalmalıdır.
+
+`QueryProvider` ayrıca `AuthScopedCacheReset`'i render eder: `user.id` değiştiğinde
+`queryClient.clear()` çağırır. Query key'ler kullanıcıya göre isimlendirilmediği için
+(`USER_STATS_QUERY_KEYS.me()`, `CONSENT_QUERY_KEYS.status` …) bu temizlik olmadan hesap
+değiştiren kullanıcı önceki kullanıcının verisini görüyordu. **Yeni bir query key eklerken ya
+bu davranışa güven ya da anahtarı kullanıcıya göre isimlendir** — ikisinden birini yap.
+Detay: `docs/ARCHITECTURE.md` §4.
 
 ### 7.5 Hata raporlama tek kanaldan geçer
 

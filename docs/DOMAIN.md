@@ -147,6 +147,12 @@ Bir namaz, **bir sonraki günlük vakit başlayana kadar** işaretlenebilir:
   ve XP'nin yarısı kazanılır (`lateXpReward`). Günün ilk namaz bonusu cezalandırılmaz.
 - Sonraki vakit girince artık işaretlenemez (`missed`).
 
+**İstisna — cemaatle kılınan üç namaz.** `jumuah`, `eid_fitr` ve `eid_adha` için backend
+`markWindowEndsAt`'i `windowEndsAt` ile aynı gönderir: bu vakitler yalnızca `scheduledAt`
+etrafında ±15 dakika işaretlenebilir ve **kaza penceresi yoktur** (`late` durumuna hiç
+düşmezler, doğrudan `current` → `missed`). İstemci tarafında ayrı bir kod yolu gerekmez;
+`buildPrayerCardViewModel` iki uç çakıştığında `inLateWindow`'u zaten `false` üretir.
+
 Kart bu durumu üç yerde gösterir: `StatusChip` (çip metni), `PrayerCard` (kaza penceresinde
 "KAZA ET" butonu + üstü çizili tam XP) ve `QuizSuccess` (kazanılan XP + "vaktinde kılamadın"
 açıklaması). **Seri her iki durumda da aynı şekilde ilerler** — fark yalnızca XP'dedir.

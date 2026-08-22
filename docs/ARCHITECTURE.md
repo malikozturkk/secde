@@ -114,6 +114,26 @@ Varsayılanlar `src/providers/QueryProvider.tsx` içinde:
 
 `QueryClient` `useState` içinde oluşturulur (her render'da yeniden yaratılmaz).
 
+### Hesap değişiminde önbellek sıfırlama
+
+`QueryProvider` içindeki `AuthScopedCacheReset` bileşeni `useAuthStore`'daki `user.id`'yi izler
+ve kimlik değiştiğinde `queryClient.clear()` çağırır.
+
+Gerekçe: query key'ler kullanıcıya göre isimlendirilmez — `USER_STATS_QUERY_KEYS.me()`,
+`CONSENT_QUERY_KEYS.status`, `GAMIFICATION_QUERY_KEYS.dailyPrayers({ date })` her kullanıcı için
+aynı anahtardır. Bir hesaptan çıkıp başka hesaba girildiğinde önbellek aynı anahtarları taşıdığı
+için yeni kullanıcı, sayfa elle yenilenene kadar **önceki kullanıcının** serisini,
+istatistiklerini ve consent durumunu görüyordu.
+
+Ayrıntılar:
+
+- Hidrasyon (`useAuthHydrated()`) beklenir; persist hidre olmadan `user` daima `null` görünür ve
+  her açılışta gereksiz bir temizlik tetiklenirdi.
+- Hidrasyondan sonraki ilk `user.id` yalnızca referans olarak saklanır, temizlik yapılmaz.
+- Token yenileme de `setAuth()` çağırır ama `user.id` değişmediği için önbellek korunur.
+- Çıkış (`user.id → null`) de bir kimlik değişimidir: önceki kullanıcının verisi bellekte
+  bırakılmaz.
+
 Sorguya özel ayarlar ilgili `constants` dosyasından gelir:
 
 | Sabit                                            | Değer | Kaynak                                                |
@@ -258,8 +278,12 @@ POST /auth/register  →  { tempToken }
    /verify-otp  ──  POST /otp/verify   (Authorization: Bearer <tempToken>)
                 └─  POST /otp/resend   (Authorization: Bearer <tempToken>)
         ↓
-   oturum tokenları  →  setAuth()
+   oturum tokenları  →  setAuth()  →  router.replace("/")  (oturum açık)
 ```
+
+`useOtpVerify` başarı sonrası `push` değil **`replace`** kullanır: `/verify-otp` geçmişte
+kalsaydı geri tuşu `tempToken`'ı tüketilmiş sayfaya döner ve kullanıcıyı `/register`'a
+düşürürdü.
 
 `tempToken` isteğe **açıkça** header olarak verilir (`otp.service.ts`), interceptor'dan
 gelmez. Şifre sıfırlama ayrı akıştır: `/auth/forgot-password` →
@@ -285,6 +309,11 @@ Persist edilmiş bir değerin **yokluğuna** bakıp yönlendirme yapan her yer b
 
 - **QA B6** — `/verify-otp` beklemiyordu, bu yüzden ilk client render'da `tempToken` hâlâ null
   görünüyor ve sayfa `/register`'a atıyordu. Kullanıcı 10 dakika kilitleniyordu.
+- Aynı yönlendirme **başarılı doğrulamadan sonra** da yanlış tetikleniyordu: `setAuth()`
+  `tempToken`'ı `null` yapınca efekt yeniden çalışıp `router.replace("/register")` diyor ve
+  `useOtpVerify`'ın ana sayfaya yönlendirmesini eziyordu. Kullanıcı gerçekte giriş yapmış
+  olmasına rağmen kayıt formuna dönüyordu. Efekt artık `accessToken` doluysa hiç yönlendirmez —
+  yani "kimliği doğrulanmış kullanıcı" durumu `tempToken` yokluğundan önce gelir.
 - **QA M4** — `/settings/account` `user`'a göre `<Select>` mi düz `<div>` mi render edeceğine karar
   veriyordu. `Select` `useId()` çağırdığı için sunucu ve istemci farklı hook sırası yürütüyor ve
   React "This won't be patched up" hydration hatası veriyordu.

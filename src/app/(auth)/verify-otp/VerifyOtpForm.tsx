@@ -15,7 +15,7 @@ const OTP_LENGTH = 6;
 
 export default function VerifyOtpPage() {
   const router = useRouter();
-  const { tempToken, pendingEmail } = useAuthStore();
+  const { tempToken, pendingEmail, accessToken } = useAuthStore();
   const hydrated = useAuthHydrated();
 
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(""));
@@ -30,8 +30,10 @@ export default function VerifyOtpPage() {
   );
 
   useEffect(() => {
-    if (hydrated && !tempToken) router.replace("/register");
-  }, [hydrated, tempToken, router]);
+    if (!hydrated) return;
+    if (accessToken) return;
+    if (!tempToken) router.replace("/register");
+  }, [hydrated, tempToken, accessToken, router]);
 
   useEffect(() => {
     if (cooldown <= 0) return;

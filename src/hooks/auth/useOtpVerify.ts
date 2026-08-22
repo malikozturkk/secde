@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import { otpService } from "@/src/services/otp.service";
 import { useAuthStore } from "@/src/store/auth.store";
 import { AuthErrorCode } from "@/src/types/enums/auth.enums";
+import { DEFAULT_AUTHENTICATED_REDIRECT } from "@/src/constants/routes";
 import { OtpFormValues } from "@/src/validations/auth.validation";
 import type { OtpVerifyResponseData } from "@/src/types/otp.types";
 import type { ApiResponse } from "@/src/types/api.types";
@@ -27,7 +28,7 @@ export const useOtpVerify = ({ setError }: UseOtpVerifyOptions) => {
     onSuccess: ({ data }) => {
       if (data.data) {
         setAuth(data.data);
-        router.push("/");
+        router.replace(DEFAULT_AUTHENTICATED_REDIRECT);
       }
     },
     onError: (error: AxiosError<ApiResponse<OtpVerifyResponseData>>) => {
