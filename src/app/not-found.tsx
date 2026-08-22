@@ -23,9 +23,8 @@ export default function NotFound() {
       </h1>
 
       <p className="m-0 max-w-[42ch] text-sm font-bold leading-relaxed text-white/55">
-        Bağlantının süresi dolmuş ya da adres yanlış yazılmış olabilir. Şifre
-        sıfırlama bağlantıları kısa süre sonra geçersiz olur — gerekiyorsa yeni
-        bir tane iste.
+        Adres yanlış yazılmış ya da sayfa taşınmış olabilir. Buradan devam
+        edebilirsin.
       </p>
 
       <div className="mt-2 flex flex-wrap items-center justify-center gap-2.5">
@@ -36,10 +35,10 @@ export default function NotFound() {
           Ana sayfaya dön
         </Link>
         <Link
-          href="/forgot-password"
+          href="/learn"
           className="inline-flex items-center rounded-2xl border border-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.10em] text-white/75 transition-colors hover:text-white"
         >
-          Yeni bağlantı iste
+          Rehberlere göz at
         </Link>
       </div>
     </main>

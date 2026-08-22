@@ -43,6 +43,10 @@ const LocationCardComponent: React.FC<LocationCardProps> = ({
           </span>
         </div>
       </div>
+      <p className="m-0 text-[10px] font-bold leading-snug text-white/35">
+        Bu koordinatlar seçtiğin ilin merkez noktasıdır; cihazının GPS konumu
+        kullanılmaz.
+      </p>
       <div className="flex items-center gap-1.5 text-xs font-extrabold text-[var(--color-text-muted)] [&_svg]:text-[var(--color-primary-light)]">
         <Globe width={14} height={14} />
         {meta.timezone}

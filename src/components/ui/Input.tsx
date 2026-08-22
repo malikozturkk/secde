@@ -13,6 +13,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, suffix, leftIcon, className = "", id, ...props }, ref) => {
     const generatedId = useId();
     const inputId = id ?? generatedId;
+    const errorId = `${inputId}-error`;
+    const accessibleLabel =
+      props["aria-label"] ?? (label ? undefined : props.placeholder);
 
     return (
       <div className="flex flex-col gap-1 w-full">
@@ -48,6 +51,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             id={inputId}
+            aria-label={accessibleLabel}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
             className={[
               "flex-1 min-w-0 bg-transparent",
               "text-white placeholder-[rgba(255,255,255,0.35)]",
@@ -65,6 +71,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {error && (
           <p
+            id={errorId}
             className="flex items-center gap-1.5 text-red-400 text-[13px] font-semibold px-1"
             style={{ fontFamily: "var(--font-sans)" }}
             role="alert"
