@@ -48,22 +48,22 @@ Türkçe karşılıkları: `src/constants/error-messages.ts`.
 
 ## 2. Auth — `src/services/auth.service.ts`
 
-| Metot | Uç                           | Gövde / Parametre                                 | `data` yanıtı                                 |
-| ----- | ---------------------------- | ------------------------------------------------- | --------------------------------------------- |
-| POST  | `/auth/register`             | `RegisterPayload`                                 | `{ tempToken: string }`                       |
-| POST  | `/auth/login`                | `{ identifier, password }`                        | `{ accessToken, refreshToken, user }`         |
-| POST  | `/auth/refresh`              | `{ refreshToken }`                                | `{ accessToken, refreshToken, user }`         |
-| GET   | `/auth/{username}`           | —                                                 | `UserDetail`                                  |
-| PATCH | `/auth/profile`              | `UpdateProfilePayload`                            | `User & { tokens? }` — bkz. QA B3             |
-| POST  | `/auth/logout`               | `{ refreshToken }`                                | `null`                                        |
-| POST  | `/auth/resume-registration`  | `{ email }`                                       | `{ tempToken: string }` — bkz. QA B6          |
-| POST  | `/auth/forgot-password`      | `{ email }`                                       | `{ message: "FORGOT_PASSWORD_EMAIL_SENT" }`   |
-| POST  | `/auth/validate-reset-token` | `{ userId, token }`                               | `boolean`                                     |
-| POST  | `/auth/reset-password`       | `{ userId, token, newPassword, confirmPassword }` | `null`                                        |
-| DELETE | `/auth/me`                  | —                                                 | `null` — hesabı kalıcı olarak siler           |
-| POST  | `/auth/{username}/follow`    | —                                                 | `{ following: boolean }` (toggle)             |
-| GET   | `/auth/{username}/followers` | —                                                 | `{ username, avatar, avatarCustomization }[]` |
-| GET   | `/auth/{username}/following` | —                                                 | `{ username, avatar, avatarCustomization }[]` |
+| Metot  | Uç                           | Gövde / Parametre                                 | `data` yanıtı                                    |
+| ------ | ---------------------------- | ------------------------------------------------- | ------------------------------------------------ |
+| POST   | `/auth/register`             | `RegisterPayload`                                 | `{ tempToken: string }`                          |
+| POST   | `/auth/login`                | `{ identifier, password }`                        | `{ accessToken, user }` + `refresh_token` çerezi |
+| POST   | `/auth/refresh`              | — (gövdesiz; çerez)                               | `{ accessToken, user }` + yeni çerez             |
+| GET    | `/auth/{username}`           | —                                                 | `UserDetail`                                     |
+| PATCH  | `/auth/profile`              | `UpdateProfilePayload`                            | `User & { tokens? }` — bkz. QA B3                |
+| POST   | `/auth/logout`               | — (gövdesiz; çerez)                               | `null` — çerezi de temizler                      |
+| POST   | `/auth/forgot-password`      | `{ email }`                                       | `{ message: "FORGOT_PASSWORD_EMAIL_SENT" }`      |
+| POST   | `/auth/validate-reset-token` | `{ userId, token }`                               | `boolean`                                        |
+| POST   | `/auth/reset-password`       | `{ userId, token, newPassword, confirmPassword }` | `null`                                           |
+| DELETE | `/auth/me`                   | —                                                 | `null` — hesabı kalıcı olarak siler              |
+| POST   | `/auth/{username}/follow`    | —                                                 | `{ following: boolean }` (toggle)                |
+| GET    | `/auth/{username}/followers` | `?page&pageSize` (varsayılan 20, en fazla 50)     | `{ items: FollowListItem[], meta: PageMeta }`    |
+| GET    | `/auth/{username}/following` | `?page&pageSize` (varsayılan 20, en fazla 50)     | `{ items: FollowListItem[], meta: PageMeta }`    |
+| GET    | `/users/me/export`           | —                                                 | KVKK m.11 veri kopyası (JSON) — saatte 3 istek   |
 
 ### Oturum güvenliği (QA B2 / B3 / B6)
 
@@ -73,20 +73,37 @@ Türkçe karşılıkları: `src/constants/error-messages.ts`.
 3/saat, `/otp/verify` 5/dk. Ayrıca 10 ardışık hatalı girişten sonra hesap 15 dakika kilitlenir ve
 doğru şifre bile `ACCOUNT_TEMPORARILY_LOCKED` alır.
 
+> Bu cümle 22 Ağu 2026'ya kadar **yanlıştı**: `useLogin`, `useRegister`, `useOtpVerify`,
+> `useResetPassword`, `useUpdateProfile` ve `useForgotPassword` sözlüğü hiç çağırmıyor, `switch`
+> bloklarının `default` dalında sabit bir "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+> metni yazıyordu. Sonuç: 429 alan kullanıcı sebebi göremiyor, hemen tekrar deniyor ve sınırı
+> daha da kötüleştiriyordu; 15 dakikalık hesap kilidi de aynı şekilde görünmez oluyordu. Altı
+> hook artık `resolveApiErrorMessage(error, <eski metin>)` çağırıyor — gerçekten bilinmeyen kod
+> hâlâ eski metne düşer. **Yeni bir auth hook'u yazarken `default` dalına serbest metin yazma.**
+
+**Refresh token yanıt gövdesinde dönmez.** `/auth/login`, `/otp/verify`, `/auth/refresh` ve
+`PATCH /auth/profile` onu `refresh_token` adlı **httpOnly** çereze yazar. İstemci tarafında
+okunamaz ve gönderilmesi gerekmez; `axiosInstance` `withCredentials: true` olduğu için tarayıcı
+otomatik taşır. `/auth/refresh` ve `/auth/logout` bu yüzden **gövdesiz** çağrılır.
+
 **Şifre değişimi tüm oturumları kapatır.** `PATCH /auth/profile` şifreyi değiştirdiğinde yanıt
-`tokens: { accessToken, refreshToken }` taşır. Backend o anda mevcut **tüm** access ve refresh
-token'ları geçersiz kılar; bu çifti almazsan bir sonraki istek `401` alır ve axios interceptor'ı
-kullanıcıyı `/login`'e atar. `useUpdateProfile` bunu `setAuth` ile devralır.
+`tokens: { accessToken }` taşır ve çerezdeki refresh token yenilenir. Backend o anda mevcut
+**tüm** access ve refresh token'ları geçersiz kılar; yeni access token'ı almazsan bir sonraki
+istek `401` alır. `useUpdateProfile` bunu `setAccessToken()` ile devralır.
+Aynı şifreyi yeniden göndermek `NEW_PASSWORD_MUST_DIFFER` ile 400 döner.
 
-**Refresh token'lar rotate ediliyor.** `/auth/refresh` sunulan token'ı iptal eder; aynı token ikinci
-kez kullanılamaz. Interceptor'daki tek-uçuşlu (single-flight) kuyruk bu yüzden önemli — paralel
-401'ler tek bir refresh doğurmazsa ikinci istek iptal edilmiş bir token gönderir.
+**Refresh token'lar rotate ediliyor ve aile bazlı iptal ediliyor.** `/auth/refresh` sunulan
+token'ı iptal eder; aynı token ikinci kez kullanılırsa backend bunu hırsızlık sinyali sayar ve
+**o ailedeki tüm** token'ları iptal eder — yani çalınan token da, meşru kullanıcının elindeki
+güncel token da geçersiz olur ve yeniden giriş gerekir. Interceptor'daki tek-uçuşlu
+(single-flight) kuyruk bu yüzden kritik: paralel 401'ler tek bir refresh doğurmazsa ikinci istek
+kullanılmış bir token gönderir ve kullanıcı kendi oturumunu düşürür.
 
-**Kayıt kurtarma.** `POST /auth/resume-registration` bekleyen bir kayıt için yeni `tempToken` üretir.
-Yeni kayıt oluşturmaz, e-posta göndermez, OTP kodunu ve süresini değiştirmez. `useRegister`
-`ACTIVE_REGISTRATION_EXISTS` aldığında bunu otomatik çağırır ve kullanıcıyı `/verify-otp`'ye
-döndürür. `tempToken` ayrıca artık localStorage'a persist ediliyor, yani sayfa yenilemesi tek başına
-akışı bozmuyor.
+**Kayıt kurtarma `register()` içinde.** Ayrı bir `/auth/resume-registration` ucu **yoktur**
+(kaldırıldı — kimlik doğrulaması olmayan, yalnızca e-posta bilen birine `tempToken` veriyordu).
+Bekleyen bir kayıt varken `POST /auth/register` aynı e-posta + kullanıcı adı + **doğru parola**
+ile çağrılırsa mevcut kayıt sürdürülür ve yeni `tempToken` döner. `tempToken` localStorage'a
+persist edilir, yani sayfa yenilemesi tek başına akışı bozmaz.
 
 **Hesap silme.** `DELETE /auth/me` kullanıcı hesabını kalıcı olarak siler (KVKK m.11-e).
 İstemcide tek çağıran `useDeleteAccount` hook'udur (`hooks/auth/useDeleteAccount.ts`);
@@ -136,8 +153,7 @@ türetir). Yalnızca birini göndermek backend'de `INCOMPLETE_LOCATION_UPDATE` d
 ```ts
 User = {
   id, username, email,
-  avatar: string | null,
-  avatarCustomization: AvatarCustomization,
+  avatarCustomization: AvatarCustomization,   // avatar URL alanı kaldırıldı (NG-22)
   country, city,
   madhab: "SHAFI" | "HANAFI",
   language: string
@@ -174,10 +190,11 @@ OTP kodu: 6 haneli, yalnızca rakam (zod `otpSchema`).
 
 ## 4. Consent — `src/services/consent.service.ts`
 
-| Metot | Uç                | Gövde               | `data`                                             |
-| ----- | ----------------- | ------------------- | -------------------------------------------------- |
-| GET   | `/consent/status` | —                   | `{ items: ConsentStatusItem[], blocked: boolean }` |
-| POST  | `/consent/accept` | `{ type, version }` | `null`                                             |
+| Metot | Uç                  | Gövde               | `data`                                             |
+| ----- | ------------------- | ------------------- | -------------------------------------------------- |
+| GET   | `/consent/status`   | —                   | `{ items: ConsentStatusItem[], blocked: boolean }` |
+| POST  | `/consent/accept`   | `{ type, version }` | `null`                                             |
+| POST  | `/consent/withdraw` | `{ type }`          | `null` — yalnızca `SPECIAL_CATEGORY_DATA`          |
 
 ```ts
 ConsentStatusItem = {
@@ -194,6 +211,23 @@ sayfasındadır (etiketler/yollar: `constants/consent.ts`).
 
 `blocked === true` veya herhangi bir maddede `requiresReaccept === true` ise istemci
 uygulamayı engelleyici modal ile kilitler.
+
+**Rıza geri çekme (KVKK m.6).** `POST /consent/withdraw` yalnızca `SPECIAL_CATEGORY_DATA`
+kabul eder — diğer ikisi hukuken açık rıza değildir (`PRIVACY_POLICY` bir aydınlatma teyidi,
+`TERMS_OF_SERVICE` sözleşmenin kendisi) ve `CONSENT_NOT_WITHDRAWABLE` ile 400 döner; kayıt yoksa
+`CONSENT_NOT_FOUND`. Geri çekme **yıkıcıdır**: backend mezhep tercihini sıfırlar, ibadet/quiz/
+oruç/kaza kayıtlarını ve seri istatistiklerini siler. `useWithdrawConsent` bu yüzden başarıda
+`queryClient.clear()` çağırır. UI girişi `/settings/data` ekranındadır ve "GERİ ÇEKİYORUM"
+yazılmadan onay butonu pasiftir.
+
+**Veri kopyası (KVKK m.11/d).** `GET /users/me/export` hesabın tüm kullanıcı verisini tek bir
+JSON olarak döner (`meta, profile, account, consents, avatarConfig, gamification, prayers,
+quizzes, fasting, social, notifications`). Parola özeti, token özetleri, OTP kodları ve
+push anahtarları **bilinçli olarak dışarıda** bırakılır. Saatte 3 istekle sınırlıdır. İstemci
+tarafında `useExportMyData` yanıtı bir Blob'a çevirip indirir; hiçbir yerde saklanmaz.
+
+Her iki uç da `@ConsentBypass()` ile işaretlidir — rıza duvarının arkasında kalsalardı rızasını
+geri çekmiş kullanıcı kendi verisine erişemezdi.
 
 ---
 
@@ -269,14 +303,14 @@ Yol parametreleri `encodeURIComponent` ile kodlanır.
 backend `currentStreak` alanını `lastActiveDate` ile bugün arasındaki farka göre türetir, yani
 kopmuş bir seri kullanıcı namaz işaretlemeyi beklemeden **0** okunur.
 
-| Alan                  | Anlamı                                                                                                                             |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `isBroken`            | Boşluk ≥ 2 gün — seri kopmuş                                                                                                        |
-| `recoverableStreak`   | Dondurma hakkı kullanılırsa geri gelecek gün sayısı; kopmadan sonra yeniden başlanmışsa da (pencere açıkken) sıfırdan büyük döner |
-| `atRisk`              | Boşluk = 1 — seri ayakta ama bugün işaretlenmezse gece yarısı kopacak                                                               |
+| Alan                  | Anlamı                                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `isBroken`            | Boşluk ≥ 2 gün — seri kopmuş                                                                                                          |
+| `recoverableStreak`   | Dondurma hakkı kullanılırsa geri gelecek gün sayısı; kopmadan sonra yeniden başlanmışsa da (pencere açıkken) sıfırdan büyük döner     |
+| `atRisk`              | Boşluk = 1 — seri ayakta ama bugün işaretlenmezse gece yarısı kopacak                                                                 |
 | `canFreezeNow`        | Dondurma şu an başarılı olur: kopmuş ve 3 günlük pencere içinde, **veya** saklanmış kurtarılabilir seri var — her iki durumda hak > 0 |
-| `freezeWindowExpired` | Kopmuş ama pencere kapanmış, geri alınamaz                                                                                          |
-| `lastFreezeUsedAt`    | En son korunan gün (`null` = hiç kullanılmamış)                                                                                     |
+| `freezeWindowExpired` | Kopmuş ama pencere kapanmış, geri alınamaz                                                                                            |
+| `lastFreezeUsedAt`    | En son korunan gün (`null` = hiç kullanılmamış)                                                                                       |
 
 Geri alma ayrı bir uç değildir: `POST /gamification/action` +
 `actionType: STREAK_FREEZE` kullanılır. `useGamificationAction` başarıda bu sorguyu
@@ -435,7 +469,6 @@ LeaderboardData = {
     rank: number;
     username: string;
     city: string | null;            // yalnızca şehir — koordinat asla gelmez
-    avatar: string | null;
     avatarCustomization: AvatarCustomization;
     score: number;                  // metric'in ima ettiği birimde
     isCurrentUser: boolean;         // backend işaretler
@@ -552,8 +585,12 @@ GuideData = {
 ```ts
 POST /question/guide/check
   body     { questionId: string; optionId: string }
-  response { isCorrect: boolean; correctOptionId: string }
+  response { isCorrect: boolean; correctOptionId: string; explanation: string | null }
 ```
+
+`explanation` sorunun veritabanındaki açıklamasıdır; `QuestionCard` bunu hem doğru hem yanlış
+cevaptan sonra "Neden?" kutusunda gösterir. Yalnızca doğru şıkkı yeşile boyamak "neden"
+sorusunu cevaplamıyordu.
 
 Doğrulama **şık id'si** üzerinden yapılır; metin karşılaştırması yoktur. `correctOptionId` her
 çağrıda döner, böylece yanlış cevapta doğru şık işaretlenebilir (`QuestionCard`).

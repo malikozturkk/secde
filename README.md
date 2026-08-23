@@ -78,16 +78,22 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 |---|---|---|
 | `/` | Herkese açık | Oturum varsa Dashboard (seri/günlük vakitler), yoksa Landing |
 | `/login`, `/register`, `/forgot-password`, `/reset-password`, `/verify-otp` | Herkese açık | Kimlik doğrulama akışı |
-| `/learn` | Korumalı | Rehber yol haritası (abdest, gusül, beş vakit, cuma) |
-| `/learn/[id]` | Korumalı | Adım adım interaktif rehber |
+| `/learn` | Herkese açık | Rehber yol haritası (abdest, gusül, beş vakit, cuma) |
+| `/learn/[id]` | Herkese açık | Adım adım interaktif rehber |
+| `/tools` | Herkese açık | Araç merkezi |
+| `/tools/qibla`, `/tools/dhikr`, `/tools/zakat` | Herkese açık | Kıble pusulası, zikirmatik, zekât hesaplayıcı |
 | `/worship` | Korumalı | Günün namaz vakitleri, geri sayım, hicri tarih, oruç bilgisi |
 | `/profile/[username]` | Korumalı | Profil, istatistikler, takip/takipçi |
 | `/search` | Korumalı | Kullanıcı arama |
 | `/settings/profile`, `/settings/account`, `/settings/avatar` | Korumalı | Ayarlar |
+| `/settings/data` | Korumalı | KVKK: veri kopyası indirme (m.11) ve açık rıza geri çekme (m.6) |
 | `/terms`, `/privacy` | Herkese açık | Yasal metinler: Kullanım Koşulları ve "Kişisel Verilere İlişkin Aydınlatma Metni" |
 | `/explicit-consent` | Herkese açık | KVKK m.6 açık rıza metni (özel nitelikli veriler: mezhep + ibadet kayıtları). Kayıt formundan linklenir; `PUBLIC_ROUTES` içindedir |
 
 Erişim kontrolü `src/middleware.ts` içinde `auth-token` cookie'sinin varlığına göre yapılır.
+Rehberler ve araçlar bilinçli olarak herkese açıktır — arama motorlarından gelen ziyaretçi
+kayıt olmadan içeriği görebilir. Hiçbir prefix'e uymayan yol yönlendirilmez, Next'in 404'ü
+render edilir.
 
 ---
 

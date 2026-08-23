@@ -186,15 +186,20 @@ tekrarlanır. Yeni sorgular için varsayılan bu olmalı.
 
 ### 5.1 Durum nerede tutulur
 
-| Veri           | Yer                                           | Kalıcı mı                      |
-| -------------- | --------------------------------------------- | ------------------------------ |
-| `accessToken`  | Zustand state + `auth-token` cookie           | localStorage'a **yazılmaz**    |
-| `refreshToken` | Zustand state + localStorage (`auth-storage`) | Evet                           |
-| `user`         | Zustand state + localStorage                  | Evet                           |
-| `tempToken`    | Zustand state + localStorage (`auth-storage`) | Evet (kayıt/OTP akışı boyunca) |
-| `pendingEmail` | Zustand state + localStorage (`auth-storage`) | Evet (kayıt/OTP akışı boyunca) |
+| Veri           | Yer                                                    | Kalıcı mı                      |
+| -------------- | ------------------------------------------------------ | ------------------------------ |
+| `accessToken`  | Zustand state + `auth-token` cookie                    | localStorage'a **yazılmaz**    |
+| `refreshToken` | Backend'in yazdığı `refresh_token` **httpOnly** çerezi | İstemci hiç görmez             |
+| `user`         | Zustand state + localStorage                           | Evet                           |
+| `tempToken`    | Zustand state + localStorage (`auth-storage`)          | Evet (kayıt/OTP akışı boyunca) |
+| `pendingEmail` | Zustand state + localStorage (`auth-storage`)          | Evet (kayıt/OTP akışı boyunca) |
 
-`partialize` `refreshToken`, `user`, `tempToken` ve `pendingEmail`'i persist eder.
+`partialize` yalnızca `user`, `tempToken` ve `pendingEmail`'i persist eder.
+
+Refresh token istemci koduna **hiç ulaşmaz**: `/auth/login`, `/otp/verify` ve `/auth/refresh`
+yanıt gövdesinde göndermez, `Set-Cookie: refresh_token=…; HttpOnly` ile yazar. Bu yüzden
+`axiosInstance` `withCredentials: true` ile kurulur ve `/auth/refresh` ile `/auth/logout`
+**gövdesiz** çağrılır. Bir XSS artık uzun ömürlü oturumu çalamaz.
 
 `pendingEmail`, `/verify-otp` ekranının kodun hangi adrese gittiğini yazabilmesi için tutulur;
 `setTempToken(token, email)` ile yazılır, `setAuth` / `clearTempToken` / `clearAuth` üçünde de
@@ -214,14 +219,16 @@ Auth akışına dokunacak değişikliklerde bu kısıtı göz önünde bulundur.
 ```
 401/403 geldi
  ├─ zaten retry edildi? ──────────────┐
- ├─ istek /auth/refresh mi? ──────────┤→ hatayı olduğu gibi fırlat
- ├─ istek /auth/login mi? ────────────┘
+ ├─ istek /auth/refresh mi? ──────────┤
+ ├─ istek /auth/login mi? ────────────┤→ hatayı olduğu gibi fırlat
+ ├─ hata kodu CONSENT_REQUIRED /  ────┘
+ │  CONSENT_OUTDATED mı?
  │
  ├─ şu an başka bir refresh sürüyor? → isteği failedQueue'ya koy, token gelince tekrar dene
  │
  └─ değilse: isRefreshing = true
-      POST /auth/refresh { refreshToken }
-        ├─ başarılı → setAuth(tokens), kuyruğu boşalt, orijinal isteği tekrar dene
+      POST /auth/refresh   (gövdesiz — refresh_token çerezi otomatik gider)
+        ├─ başarılı → setAuth({ accessToken, user }), kuyruğu boşalt, isteği tekrar dene
         └─ başarısız → kuyruğu reddet, clearAuth(), window.location.href = "/login"
 ```
 
@@ -243,14 +250,40 @@ PUBLIC_ROUTES = [
   "/terms",
   "/privacy",
   "/explicit-consent",
+  "/learn",
+  "/tools",
 ];
+PROTECTED_ROUTES = ["/worship", "/search", "/profile", "/settings"];
+KNOWN_ROUTE_PREFIXES = [...PUBLIC_ROUTES, ...PROTECTED_ROUTES];
 AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
 DEFAULT_AUTHENTICATED_REDIRECT = "/";
 DEFAULT_UNAUTHENTICATED_REDIRECT = "/";
 ```
 
 - Oturumlu kullanıcı `AUTH_ROUTES`'a girerse → `/`
-- Oturumsuz kullanıcı public olmayan bir yola girerse → `/?callbackUrl=<path>`
+- Oturumsuz kullanıcı public olmayan **bilinen** bir yola girerse → `/?callbackUrl=<path>`
+- Hiçbir prefix'e uymayan yol → `NextResponse.next()`, yani Next'in kendi 404'ü
+
+**Bilinmeyen yol 404 döner, yönlendirilmez.** Eskiden "public değilse korumalıdır" mantığı
+`/asdf` gibi hiç var olmayan adresleri de yakalıyordu; oturumsuz ziyaretçi 404 yerine
+`307 → /` alıyordu (soft-404) ve `not-found.tsx` pratikte hiç görünmüyordu. Yeni bir route
+eklerken **`PUBLIC_ROUTES` veya `PROTECTED_ROUTES`'a da ekle** — yoksa sayfa var olsa bile
+oturumsuz ziyaretçiye açık kalır ya da 404 sanılır. Tersi de geçerli: **henüz `src/app/` altında
+karşılığı olmayan bir kökü önden ekleme.** `/ramadan` bir süre `PROTECTED_ROUTES`'ta duruyordu ve
+sayfa yokken oturumsuz ziyaretçiye `404` yerine `307 → /?callbackUrl=/ramadan` dönüyordu —
+yani var olmayan bir sayfayı var gibi gösterip route envanterini sızdırıyordu. Çıkarıldı; Ramazan
+modu sayfası yazıldığında geri eklenecek.
+
+`sanitizeCallbackUrl()` (`src/constants/routes.ts`) `callbackUrl`'i yalnızca tek `/` ile
+başlayan yollara izin verir; `//evil.com`, `/\evil.com` ve mutlak URL'ler
+`DEFAULT_AUTHENTICATED_REDIRECT`'e düşer. Açık yönlendirme (open redirect) buradan kapatıldı —
+`useLogin` ve `LoginForm` bu fonksiyondan geçmeden `router.push` yapmamalı.
+
+**Content-Security-Policy middleware'de üretilir.** Politika `src/lib/csp.ts` içinde tanımlıdır ve
+`middleware.ts` her yanıta `Content-Security-Policy` başlığı olarak koyar. `next.config.ts` artık
+CSP yayınlamaz — iki politika birden yayınlanırsa tarayıcı ikisini de uygular ve kesişimlerini alır;
+sıkılaştırmayı tek yerden yönetmek için kaynak tektir. **Nonce kullanılmıyor**: denendi ve üretim
+build'inde uygulamayı tamamen kırdığı için geri alındı; gerekçesi §11'de.
 
 **Not:** `DEFAULT_UNAUTHENTICATED_REDIRECT` `/login` değil `/`'dir; `/` oturumsuzken Landing
 gösterdiği için akış tutarlıdır. Buna karşılık axios refresh hatası `/login`'e yönlendirir.
@@ -346,7 +379,7 @@ Consent tipi **üçtür** (`types/consent.types.ts` → `ConsentType`):
 | ----------------------- | ------------------------- | ---------------------------- | ------------------------------------- |
 | `TERMS_OF_SERVICE`      | Kullanım Koşulları        | `/terms`                     | "Kabulünüz gerekiyor"                 |
 | `PRIVACY_POLICY`        | Aydınlatma Metni          | `/privacy`                   | "Bilgilendirme — okumanız yeterli"    |
-| `SPECIAL_CATEGORY_DATA` | Açık Rıza Metni           | `/explicit-consent`                 | "Açık rızanız gerekiyor"              |
+| `SPECIAL_CATEGORY_DATA` | Açık Rıza Metni           | `/explicit-consent`          | "Açık rızanız gerekiyor"              |
 
 KVKK 2026/347 İlke Kararı ayrımı koda işlenmiştir: aydınlatma metni "kabul" edilmez —
 `ConsentCheckbox` PRIVACY_POLICY için yalnızca "okudum" teyidi gösterir; açık rıza
@@ -406,22 +439,22 @@ diğerleri için `startsWith`. Navigasyonda `Puan Tabloları`, `Görevler`, `Ma�
 
 ## 8. Route envanteri
 
-| Route                                | Dosya                         | Tip                                                                  |
-| ------------------------------------ | ----------------------------- | -------------------------------------------------------------------- |
-| `/`                                  | `app/page.tsx`                | Client — hidrasyon sonrası Landing / Dashboard                       |
-| `/login`                             | `app/(auth)/login/`           | Server page + `LoginForm`                                            |
-| `/register`                          | `app/(auth)/register/`        | Server page + `RegisterForm`, `LocationField`                        |
-| `/verify-otp`                        | `app/(auth)/verify-otp/`      | Server page + `VerifyOtpForm`                                        |
-| `/forgot-password`                   | `app/(auth)/forgot-password/` | Server page + form                                                   |
-| `/reset-password`                    | `app/(auth)/reset-password/`  | Server page + `ResetPasswordClient`                                  |
-| `/learn`                             | `app/learn/page.tsx`          | Server, `revalidate = 3600`, `LEARN_NODES` statik listesinden render |
-| `/learn/[id]`                        | `app/learn/[id]/`             | `generateMetadata` + `GuideClient`                                   |
-| `/worship`                           | `app/worship/page.tsx`        | Server page + `WorshipView`                                          |
-| `/profile/[username]`                | `app/profile/[username]/`     | `generateMetadata` + `ProfileClient`                                 |
-| `/search`                            | `app/search/page.tsx`         | Server page + `Suspense` fallback + `SearchPageContent`              |
-| `/settings/profile\|account\|avatar` | `app/settings/*/`             | Server page (`noIndex`) + `*Client`                                  |
-| `/terms`, `/privacy`                 | `app/terms/`, `app/privacy/`  | Server page + içerik bileşeni                                        |
-| `/explicit-consent`                         | `app/explicit-consent/`              | Server page + `ExplicitConsentContent` (`LegalLayout`) — `PUBLIC_ROUTES`'ta, kayıt öncesi de okunabilir |
+| Route                                | Dosya                         | Tip                                                                                                     |
+| ------------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `/`                                  | `app/page.tsx`                | Client — hidrasyon sonrası Landing / Dashboard                                                          |
+| `/login`                             | `app/(auth)/login/`           | Server page + `LoginForm`                                                                               |
+| `/register`                          | `app/(auth)/register/`        | Server page + `RegisterForm`, `LocationField`                                                           |
+| `/verify-otp`                        | `app/(auth)/verify-otp/`      | Server page + `VerifyOtpForm`                                                                           |
+| `/forgot-password`                   | `app/(auth)/forgot-password/` | Server page + form                                                                                      |
+| `/reset-password`                    | `app/(auth)/reset-password/`  | Server page + `ResetPasswordClient`                                                                     |
+| `/learn`                             | `app/learn/page.tsx`          | Server, `revalidate = 3600`, `LEARN_NODES` statik listesinden render                                    |
+| `/learn/[id]`                        | `app/learn/[id]/`             | `generateMetadata` + `GuideClient`                                                                      |
+| `/worship`                           | `app/worship/page.tsx`        | Server page + `WorshipView`                                                                             |
+| `/profile/[username]`                | `app/profile/[username]/`     | `generateMetadata` + `ProfileClient`                                                                    |
+| `/search`                            | `app/search/page.tsx`         | Server page + `Suspense` fallback + `SearchPageContent`                                                 |
+| `/settings/profile\|account\|avatar` | `app/settings/*/`             | Server page (`noIndex`) + `*Client`                                                                     |
+| `/terms`, `/privacy`                 | `app/terms/`, `app/privacy/`  | Server page + içerik bileşeni                                                                           |
+| `/explicit-consent`                  | `app/explicit-consent/`       | Server page + `ExplicitConsentContent` (`LegalLayout`) — `PUBLIC_ROUTES`'ta, kayıt öncesi de okunabilir |
 
 `/learn/[id]` içeriği `useGuide(id)` hook'unda `switch` ile ilgili `learnService` metoduna
 yönlenir; geçersiz id `Error("Invalid guide ID")` fırlatır. Yeni rehber eklerken hem
@@ -529,7 +562,25 @@ CSP direktifleri:
   (BigDataCloud kaldırıldığı için artık `api.bigdatacloud.net` yoktur.)
 - `script-src 'self' 'unsafe-inline'`, dev'de ek olarak `'unsafe-eval'`
 
-`'unsafe-inline'` **bilinen bir tavizdir**: Next'in App Router'ı hidrasyon verisini satır içi
-`<script>` ile gönderir. Kaldırmanın doğru yolu `middleware.ts` içinde istek başına nonce üretip
-CSP'ye `'nonce-…'` eklemektir; yapılmadı. Yeni bir üçüncü taraf origin'i (analitik, harita, font)
-eklemeden önce ilgili direktifi burada güncelle — aksi halde tarayıcı isteği sessizce bloklar.
+`script-src 'unsafe-inline'` **bilinen ve açık bir tavizdir**: Next'in App Router'ı hidrasyon
+verisini satır içi `<script>` ile gönderir.
+
+**Nonce denendi ve geri alındı — tekrar denemeden önce oku.** `middleware.ts` bir süre istek başına
+nonce üretip `script-src 'nonce-…' 'strict-dynamic'` yayınladı. `next dev`'de doğru çalışıyordu,
+çünkü dev sunucusu her sayfayı istek anında render eder. **Üretim build'inde uygulama bembeyaz
+açılıyordu:** Next nonce'u yalnızca dinamik render edilen (`ƒ`) yanıtların HTML'ine basar, bu
+uygulamanın sayfalarının neredeyse tamamı ise statik ön-render'dır (`○` / `●` — `/`, `/login`,
+`/learn`, `/tools/*`, `/terms`, `/settings/*` …). Statik HTML build anında üretildiği için
+içindeki script etiketlerinde nonce yoktur, oysa middleware her yanıta taze bir nonce yazar; üstelik
+`'strict-dynamic'` varken tarayıcı `'self'`i yok sayar, dolayısıyla **tüm** script'ler bloklanır.
+Ölçüm: `next start` + `/login` → 22 script, 0'ında nonce; dinamik render edilen `/reset-password`
+→ 14 script, 14'ünde nonce. Statik ön-render'dan vazgeçmek de çözüm değil — `/learn` ve `/tools/*`
+bilinçli olarak statik ve indekslenebilir. Bu boşluğu kapatmanın yolu nonce değil; satır içi
+script'i tamamen ortadan kaldıran bir render stratejisi ya da `require-trusted-types-for 'script'`.
+
+Buna karşılık politikanın geri kalanı gerçek koruma sağlar: `script-src 'self'` dış kaynaklı script
+yüklenmesini engeller (`<script src="//saldirgan">` kapalı), `object-src 'none'` + `base-uri 'self'`
+
+- `form-action 'self'` + `frame-ancestors 'none'` klasik kaçış yollarını kapatır, dar `connect-src`
+  veri sızdırma kanalını daraltır. Yeni bir üçüncü taraf origin'i (analitik, harita, font) eklemeden
+  önce ilgili direktifi burada güncelle — aksi halde tarayıcı isteği sessizce bloklar.

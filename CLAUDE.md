@@ -147,9 +147,9 @@ build üretiyor.
 
 `yarn build` artık **gerçek bir regresyon sinyalidir** — kırıldıysa senin değişikliğindendir.
 
-### `yarn lint` mevcut durumu (31 Tem 2026 itibarıyla çalıştırılıp doğrulandı)
+### `yarn lint` mevcut durumu (22 Ağu 2026 itibarıyla çalıştırılıp doğrulandı)
 
-**Lint şu an başarısız: 7 error, 9 warning.** Bunlar mevcut teknik borçtur, senin
+**Lint şu an başarısız: 7 error, 8 warning.** Bunlar mevcut teknik borçtur, senin
 değişikliğinden kaynaklanmaz. Kural: _dokunduğun dosyada_ yeni ihlal üretme, mevcutları
 temizlemek istiyorsan ayrı iş olarak yap.
 
@@ -160,12 +160,12 @@ temizlemek istiyorsan ayrı iş olarak yap.
 | `react-hooks/set-state-in-effect` (6) | `app/page.tsx:13` · `app/profile/[username]/components/FollowListDialog.tsx:41` · `app/settings/avatar/AvatarSettingsClient.tsx:252` · `components/learn/DynamicPath.tsx:54` · `components/settings/avatar/HexInput.tsx:26` · `hooks/useCookieConsent.ts:75` |
 | `react/no-unescaped-entities` (1)     | `app/profile/[username]/components/InviteCard.tsx:19`                                                                                                                                                                                                        |
 
-**Warning'ler (9):**
+**Warning'ler (8):**
 
-| Kural                                   | Konumlar                                                                                                                               |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `@typescript-eslint/no-unused-vars` (6) | `app/(auth)/reset-password/ResetPasswordClient.tsx:16,17,19,21` · `components/ui/Sparkle.tsx:2` · `hooks/auth/useForgotPassword.ts:25` |
-| `react-hooks/exhaustive-deps` (3)       | `app/settings/avatar/AvatarSettingsClient.tsx:254,256` · `components/learn/DynamicPath.tsx:70`                                         |
+| Kural                                   | Konumlar                                                                                        |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `@typescript-eslint/no-unused-vars` (5) | `app/(auth)/reset-password/ResetPasswordClient.tsx:16,17,19,21` · `components/ui/Sparkle.tsx:2` |
+| `react-hooks/exhaustive-deps` (3)       | `app/settings/avatar/AvatarSettingsClient.tsx:254,256` · `components/learn/DynamicPath.tsx:70`  |
 
 ---
 
@@ -305,6 +305,12 @@ Backend `UPPER_SNAKE_CASE` hata kodu döner. Kullanıcıya gösterilecek Türkç
 `getValidationCodes`, `getHttpStatus`, `retryOnServerError`).
 Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yazma.
 
+**`switch (errorCode)` bloklarının `default` dalı da sözlükten geçmeli.** Auth hook'larının altısı
+bir süre `default`'ta sabit "Beklenmeyen bir hata oluştu." yazıyordu; bu yüzden `TOO_MANY_REQUESTS`
+(429) ve `ACCOUNT_TEMPORARILY_LOCKED` gibi karşılığı **olan** kodlar kullanıcıya "bilinmeyen hata"
+olarak görünüyor, kullanıcı da boşuna tekrar deniyordu. Doğru kalıp:
+`setError("root", { message: resolveApiErrorMessage(error, "<gerçekten bilinmeyen için fallback>") })`.
+
 ### 6.7 Tipler
 
 - `any` kullanma. Ortak zarf `ApiResponse<T>` (`src/types/api.types.ts`).
@@ -318,18 +324,28 @@ Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yaz
 
 ### 7.1 Kimlik doğrulama iki katmanlıdır
 
-| Katman                              | Kaynak                                | Not                                                                     |
-| ----------------------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
-| Middleware (`src/middleware.ts`)    | `auth-token` **cookie**'sinin varlığı | Sadece varlığa bakar, doğrulama yapmaz                                  |
-| İstemci (`src/store/auth.store.ts`) | Zustand state                         | `partialize`: localStorage'a **sadece** `refreshToken` + `user` yazılır |
+| Katman                              | Kaynak                                | Not                                                                                 |
+| ----------------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------- |
+| Middleware (`src/middleware.ts`)    | `auth-token` **cookie**'sinin varlığı | Sadece varlığa bakar, doğrulama yapmaz                                              |
+| İstemci (`src/store/auth.store.ts`) | Zustand state                         | `partialize`: localStorage'a **sadece** `user`, `tempToken`, `pendingEmail` yazılır |
 
+- **Refresh token istemciye hiç ulaşmaz.** Backend onu `refresh_token` adlı **httpOnly**
+  çereze yazar; JavaScript okuyamaz, store'da ve localStorage'da yoktur. `/auth/refresh` ve
+  `/auth/logout` gövdesiz çağrılır, çerez tarayıcı tarafından gönderilir. Bu yüzden axios
+  instance'ı `withCredentials: true` ile kurulur — kaldırırsan oturum yenileme sessizce ölür.
 - `accessToken` **persist edilmez**; bellekte ve `auth-token` cookie'sinde durur.
-- Cookie `js-cookie` ile **client-side** yazılır → `httpOnly` **değildir**, JS ile okunabilir.
-  Auth akışına dokunacaksan bu kısıtı bilerek çalış.
+- `auth-token` cookie'si `js-cookie` ile **client-side** yazılır → `httpOnly` **değildir**,
+  JS ile okunabilir. Middleware'in okuyabilmesi için bilinçli bir kısıt; ömrü kısa olduğu
+  için refresh token'la aynı riski taşımaz. Auth akışına dokunacaksan bunu bilerek çalış.
 - axios request interceptor sırası: store'daki `accessToken` → yoksa cookie.
 - axios response interceptor: 401/403'te **tek uçuşlu (single-flight)** refresh yapar
   (`isRefreshing` + `failedQueue`), `/auth/refresh` ve `/auth/login` bu akıştan muaftır;
   refresh başarısızsa `clearAuth()` + `window.location.href = "/login"`.
+  **`CONSENT_REQUIRED` / `CONSENT_OUTDATED` kodlu 403'ler bu akıştan hariçtir** — rıza duvarı
+  bir kimlik hatası değildir; refresh denemek geçerli oturumu boşuna yeniler ve
+  `ConsentGateProvider` modalını açamadan kullanıcıyı `/login`'e atardı.
+- Parola değişimi backend'de `tokenVersion`'ı artırır ve yanıtta yeni bir `accessToken`
+  döner; `useUpdateProfile` bunu `setAccessToken()` ile alır (refresh token çerezde yenilenir).
 - Middleware yönlendirmeleri `src/constants/routes.ts`'ten okunur.
   **Dikkat:** `DEFAULT_UNAUTHENTICATED_REDIRECT` `/login` değil **`/`**'dir; giriş yapmamış
   kullanıcı korumalı bir sayfaya giderse `/?callbackUrl=<path>` adresine yönlenir ve `/`
@@ -348,13 +364,13 @@ Yeni bir hata kodu ele alırken **sözlüğe ekle**, bileşene serbest metin yaz
 
 ### 7.2 İki ayrı "consent" sistemi vardır — karıştırma
 
-|         | Yasal onay (blocking)                                               | Çerez onayı                                                                              |
-| ------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Kaynak  | Backend `/consent/status`, `/consent/accept`                        | Tamamen client, `js-cookie` çerezi (versiyonlu, `COOKIE_CONSENT_VERSION = "1.0.0"`)        |
-| Kod     | `providers/ConsentGateProvider.tsx`, `components/consent/`          | `hooks/useCookieConsent.ts`, `providers/CookieConsentProvider.tsx`, `components/cookie/` |
+|                      | Yasal onay (blocking)                                                                                                                                                                                                  | Çerez onayı                                                                                      |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Kaynak               | Backend `/consent/status`, `/consent/accept`                                                                                                                                                                           | Tamamen client, `js-cookie` çerezi (versiyonlu, `COOKIE_CONSENT_VERSION = "1.0.0"`)              |
+| Kod                  | `providers/ConsentGateProvider.tsx`, `components/consent/`                                                                                                                                                             | `hooks/useCookieConsent.ts`, `providers/CookieConsentProvider.tsx`, `components/cookie/`         |
 | Tipler / kategoriler | 3 tip (`ConsentType`): `TERMS_OF_SERVICE` "Kullanım Koşulları" (`/terms`), `PRIVACY_POLICY` "Aydınlatma Metni" (`/privacy`, yalnızca "okudum" teyidi), `SPECIAL_CATEGORY_DATA` "Açık Rıza Metni" (`/explicit-consent`) | 2 kategori: `essential` (hep `true`) + `personalization` — analitik/pazarlama v2.0'da kaldırıldı |
-| Etki    | `blocked` veya `requiresReaccept` ise modal ile uygulamayı kilitler | Alt banner gösterir                                                                      |
-| İstisna | `/terms`, `/privacy` ve `/explicit-consent` yollarında gate gösterilmez (`CONSENT_GATE_EXCLUDED_PATHS`) | —                                                                       |
+| Etki                 | `blocked` veya `requiresReaccept` ise modal ile uygulamayı kilitler                                                                                                                                                    | Alt banner gösterir                                                                              |
+| İstisna              | `/terms`, `/privacy` ve `/explicit-consent` yollarında gate gösterilmez (`CONSENT_GATE_EXCLUDED_PATHS`)                                                                                                                | —                                                                                                |
 
 ### 7.3 Hidrasyon
 
@@ -420,9 +436,10 @@ Doğrulanmış farklar:
 | Açık tema paleti (`--color-bg: #F7F4EF`)    | Koyu tema (`--color-bg: #070f12`)                |
 
 Hâlâ geçerli olan kısımlar: ürün konsepti, Duolingo tarzı 3D buton dili, Fredoka (display)
-+ Nunito tipografisi (her ikisi de `next/font` ile self-host, bundle'a gömülü),
-primary/secondary/streak renk ailesi, animasyon önceliği,
-`any` yasağı, servis katmanı zorunluluğu.
+
+- Nunito tipografisi (her ikisi de `next/font` ile self-host, bundle'a gömülü),
+  primary/secondary/streak renk ailesi, animasyon önceliği,
+  `any` yasağı, servis katmanı zorunluluğu.
 
 ---
 
