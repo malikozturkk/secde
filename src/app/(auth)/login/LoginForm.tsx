@@ -11,10 +11,11 @@ import {
 } from "@/src/validations/auth.validation";
 import { Button } from "@/src/components/ui/Button";
 import { Input } from "@/src/components/ui/Input";
+import { sanitizeCallbackUrl } from "@/src/constants/routes";
 
 export default function LoginPage() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/";
+  const callbackUrl = sanitizeCallbackUrl(searchParams.get("callbackUrl"));
 
   const {
     register,
@@ -85,7 +86,7 @@ export default function LoginPage() {
             <Input
               type="password"
               autoComplete="current-password"
-              placeholder="Parola"
+              placeholder="Şifre"
               error={errors.password?.message}
               suffix={
                 <Link

@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   AUTH_COOKIE_NAME,
   AUTH_ROUTES,
+  KNOWN_ROUTE_PREFIXES,
   PUBLIC_ROUTES,
   DEFAULT_AUTHENTICATED_REDIRECT,
   DEFAULT_UNAUTHENTICATED_REDIRECT,
+  matchesRoute,
 } from "./constants/routes";
 
 export function middleware(request: NextRequest) {
@@ -12,15 +14,18 @@ export function middleware(request: NextRequest) {
   const authToken = request.cookies.get(AUTH_COOKIE_NAME)?.value;
   const isAuthenticated = !!authToken;
 
-  const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
-  const isPublicRoute = PUBLIC_ROUTES.some((route) =>
-    route === "/" ? pathname === "/" : pathname.startsWith(route)
-  );
+  const isAuthRoute = matchesRoute(pathname, AUTH_ROUTES);
+  const isPublicRoute = matchesRoute(pathname, PUBLIC_ROUTES);
+  const isKnownRoute = matchesRoute(pathname, KNOWN_ROUTE_PREFIXES);
 
   if (isAuthenticated && isAuthRoute) {
     return NextResponse.redirect(
       new URL(DEFAULT_AUTHENTICATED_REDIRECT, request.url)
     );
+  }
+
+  if (!isKnownRoute) {
+    return withCsp(NextResponse.next());
   }
 
   if (!isAuthenticated && !isPublicRoute) {
