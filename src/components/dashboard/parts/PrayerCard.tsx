@@ -240,6 +240,11 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
             +{prayer.xpReward} XP
           </span>
         )}
+        {prayer.hasFirstOfDayBonus && !prayer.isCompleted && (
+          <Pill tone="violet" size="sm">
+            GÜNÜN İLKİ
+          </Pill>
+        )}
         {prayer.streakContribution && (
           <Pill
             tone="streak"
@@ -433,6 +438,7 @@ const arePropsEqual = (
     a.completionStatus === b.completionStatus &&
     a.effectiveXpReward === b.effectiveXpReward &&
     a.totalXpOnCompletion === b.totalXpOnCompletion &&
+    a.hasFirstOfDayBonus === b.hasFirstOfDayBonus &&
     a.xpAwarded === b.xpAwarded &&
     a.secondsUntilOpens === b.secondsUntilOpens &&
     a.secondsUntilCloses === b.secondsUntilCloses &&

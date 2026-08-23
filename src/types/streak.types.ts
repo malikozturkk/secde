@@ -190,6 +190,7 @@ export interface PrayerCardViewModel {
   pendingQuizId: string | null;
   isLocked: boolean;
   totalXpOnCompletion: number;
+  hasFirstOfDayBonus: boolean;
   xpAwarded: number | null;
   state: PrayerCardState;
   secondsUntilOpens: number;
