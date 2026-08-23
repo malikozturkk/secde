@@ -44,6 +44,7 @@ import { StreakBrokenDialog } from "@/src/components/dashboard/parts/StreakBroke
 import { useStreakRisk } from "@/src/hooks/streak/useStreakRisk";
 import { useStreakBreakNotice } from "@/src/hooks/streak/useStreakBreakNotice";
 import { formatFreezeUsageLabel } from "@/src/lib/dashboard-utils";
+import { upperTr } from "@/src/lib/turkish";
 
 const EMPTY_HISTORY: readonly PrayerHistoryDay[] = [];
 
@@ -179,7 +180,7 @@ export const DashboardView: React.FC = () => {
 
   const todayLabel = useMemo(
     () =>
-      new Date().toLocaleDateString("tr-TR", TODAY_LABEL_FORMAT).toUpperCase(),
+      upperTr(new Date().toLocaleDateString("tr-TR", TODAY_LABEL_FORMAT)),
     []
   );
 

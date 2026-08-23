@@ -12,6 +12,7 @@ import { Fire, XpStar } from "@/src/icons/tsx/dashboard";
 import { ConfettiBurst } from "./ConfettiBurst";
 import { PRAYER_COLORWAY } from "../styles";
 import { cn } from "@/src/lib/utils";
+import { upperTr } from "@/src/lib/turkish";
 
 interface QuizSuccessProps {
   prayerType: PrayerType;
@@ -47,7 +48,7 @@ const SuccessComponent: React.FC<QuizSuccessProps> = ({
           colorway.textAccent
         )}
       >
-        {prayerLabel.toUpperCase()} {isLate ? "KAZA EDİLDİ" : "TAMAMLANDI"}
+        {upperTr(prayerLabel)} {isLate ? "KAZA EDİLDİ" : "TAMAMLANDI"}
       </div>
       <h2 className="font-display text-[42px] leading-none tracking-[0.02em] text-[#FF6B35] [text-shadow:0_4px_0_rgba(124,39,8,0.5),0_0_30px_rgba(255,107,53,0.5)]">
         Maşallah!

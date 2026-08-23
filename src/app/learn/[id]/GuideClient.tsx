@@ -13,6 +13,8 @@ import { Button } from "@/src/components/ui/Button";
 import { ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
 import CompletionScreen from "@/src/components/learn/guide/CompletionScreen";
 import { LEARN_NODES } from "@/src/app/learn/learnNodes";
+import { upperTr } from "@/src/lib/turkish";
+import type { GuideCheckQuestionResponse } from "@/src/types/learn.types";
 
 export default function GuideRunnerPage({
   params,
@@ -26,7 +28,7 @@ export default function GuideRunnerPage({
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answeredSteps, setAnsweredSteps] = useState<
-    Record<number, { isCorrect: boolean; correctOptionId: string }>
+    Record<number, GuideCheckQuestionResponse>
   >({});
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<number, string>
@@ -190,7 +192,7 @@ export default function GuideRunnerPage({
         <div className="flex flex-col gap-4 lg:gap-8 h-full">
           <div className="flex items-center gap-3 flex-col lg:flex-row">
             <span className="bg-[#006C52] text-[#3DF2C0] text-[10px] lg:text-xs rounded-full px-3 py-1 whitespace-nowrap">
-              {data?.title?.toUpperCase() ?? ""}
+              {data?.title ? upperTr(data.title) : ""}
             </span>
             <h1 className="text-[#F0F8FC] text-2xl lg:text-3xl font-bold">
               {data?.title ?? ""} Rehberi

@@ -40,6 +40,7 @@ import { QuizOption } from "./QuizOption";
 import { QuizSuccess } from "./QuizSuccess";
 import { useNowMs } from "@/src/hooks/streak/useNowTicker";
 import { cn } from "@/src/lib/utils";
+import { upperTr } from "@/src/lib/turkish";
 
 interface PrayerQuizModalProps {
   isOpen: boolean;
@@ -410,7 +411,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
                         colorway.textAccent
                       )}
                     >
-                      {meta.label.toUpperCase()} · BİLGİ TESTİ
+                      {upperTr(meta.label)} · BİLGİ TESTİ
                     </div>
                     <h2 className="mt-1.5 text-[22px] font-black leading-tight tracking-[-0.01em] text-white">
                       {currentQuestion.prompt}
@@ -526,7 +527,7 @@ const QuizLockedView: React.FC<QuizLockedViewProps> = ({
       <Lock className="h-10 w-10 text-rose-300" />
     </div>
     <div className="text-[10px] font-black uppercase tracking-[0.16em] text-rose-300">
-      {prayerLabel.toUpperCase()} · KİLİTLİ
+      {upperTr(prayerLabel)} · KİLİTLİ
     </div>
     <h2 className="text-[22px] font-black leading-tight tracking-[-0.01em] text-white">
       {reason.title}

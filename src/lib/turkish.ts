@@ -1,3 +1,7 @@
+export function upperTr(value: string): string {
+  return value.toLocaleUpperCase("tr-TR");
+}
+
 const UNIT_LOCATIVE = ["da", "de", "de", "te", "te", "te", "da", "de", "de", "da"];
 const TENS_LOCATIVE = ["da", "da", "de", "da", "ta", "de"];
 
