@@ -26,6 +26,7 @@ import {
 import { PRAYER_COLORWAY } from "../styles";
 import { cn } from "@/src/lib/utils";
 import type { PrayerCardViewModel } from "@/src/types/streak.types";
+import { timeLocativeSuffix } from "@/src/lib/turkish";
 
 const PRAYER_TYPE_TO_ICON_KEY: Record<PrayerType, PrayerKey> = {
   [PrayerType.Fajr]: PrayerKey.Fajr,
@@ -381,7 +382,7 @@ const PrayerCardComponent: React.FC<PrayerCardProps> = ({
             <strong className="font-black text-white/55">
               {prayer.completedAtLabel}
             </strong>
-            &apos;da{" "}
+            &apos;{timeLocativeSuffix(prayer.completedAtLabel)}{" "}
             {prayer.completionStatus === PrayerCompletionStatus.Late
               ? "kaza olarak işaretlendi"
               : "işaretlendi"}

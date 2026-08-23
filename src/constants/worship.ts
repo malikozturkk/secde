@@ -689,8 +689,8 @@ export const TURKISH_CITIES: readonly City[] = [
 ] as const;
 
 export const MADHAB_LABEL: Record<string, string> = {
-  [Madhab.Shafi]: "Şafi",
-  [Madhab.Hanafi]: "Hanefi",
+  [Madhab.Shafi]: "Şâfiî",
+  [Madhab.Hanafi]: "Hanefî",
 };
 
 export const WORSHIP_QUERY_KEYS = {
