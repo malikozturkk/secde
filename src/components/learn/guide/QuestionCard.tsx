@@ -2,7 +2,10 @@ import React from "react";
 import { Button } from "../../ui/Button";
 import { Question } from "@/src/icons/tsx/learn";
 import { XCircle } from "lucide-react";
-import type { RandomQuestionOption } from "@/src/types/learn.types";
+import type {
+  GuideCheckQuestionResponse,
+  RandomQuestionOption,
+} from "@/src/types/learn.types";
 
 interface QuestionCardProps {
   question: string;
@@ -12,7 +15,7 @@ interface QuestionCardProps {
   selected: string | null;
   onSelect: (optionId: string) => void;
   onSubmit?: (optionId: string) => void;
-  answerResult?: { isCorrect: boolean; correctOptionId: string } | null;
+  answerResult?: GuideCheckQuestionResponse | null;
   isPending?: boolean;
   shake?: boolean;
 }
@@ -136,6 +139,17 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <XCircle width={16} height={16} className="text-[#ff5c5c] shrink-0" />
           <p className="text-[#ff5c5c] text-sm">
             Yanlış cevap. Devam etmek için eğitimi tekrar başlatın.
+          </p>
+        </div>
+      )}
+
+      {answerResult?.explanation && (
+        <div className="rounded-xl border border-[#2b5f52] bg-[#14231f] px-4 py-3">
+          <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-[#3dffc0]">
+            Neden?
+          </span>
+          <p className="mt-1 text-sm leading-relaxed text-[#cfe6df]">
+            {answerResult.explanation}
           </p>
         </div>
       )}

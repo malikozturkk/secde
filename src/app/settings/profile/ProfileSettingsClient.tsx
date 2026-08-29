@@ -42,7 +42,6 @@ export default function ProfileSettings() {
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       username: user?.username ?? "",
-      avatar: user?.avatar ?? "",
       currentPassword: "",
       newPassword: "",
     },
@@ -51,7 +50,6 @@ export default function ProfileSettings() {
   useEffect(() => {
     reset({
       username: user?.username ?? "",
-      avatar: user?.avatar ?? "",
       currentPassword: "",
       newPassword: "",
     });
@@ -135,9 +133,9 @@ export default function ProfileSettings() {
 
           <Input
             id="currentPassword"
-            label="Mevcut parola"
+            label="Mevcut şifre"
             type={showCurrentPassword ? "text" : "password"}
-            placeholder="Mevcut parola"
+            placeholder="Mevcut şifre"
             autoComplete="current-password"
             error={errors.currentPassword?.message}
             suffix={
@@ -154,9 +152,9 @@ export default function ProfileSettings() {
 
           <Input
             id="newPassword"
-            label="Yeni parola"
+            label="Yeni şifre"
             type={showNewPassword ? "text" : "password"}
-            placeholder="Yeni parola"
+            placeholder="Yeni şifre"
             autoComplete="new-password"
             error={errors.newPassword?.message}
             suffix={

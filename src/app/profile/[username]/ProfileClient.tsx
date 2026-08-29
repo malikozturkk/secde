@@ -33,10 +33,16 @@ export default function ProfilePage({ params }: ProfilePageProps) {
     isLoading: isProfileLoading,
     isError,
   } = useProfile(username);
-  const { data: followersData } = useGetFollowers(username);
-  const { data: followingData } = useGetFollowing(username);
+  const profileExists = !!profile && !isError;
+  const { data: followersData } = useGetFollowers(username, {
+    enabled: profileExists,
+  });
+  const { data: followingData } = useGetFollowing(username, {
+    enabled: profileExists,
+  });
   const { data: myFollowingData } = useGetFollowing(
-    currentUser?.username || ""
+    currentUser?.username || "",
+    { enabled: profileExists }
   );
 
   const {
@@ -44,7 +50,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
     isLoading: isStatsLoading,
     isError: isStatsError,
     refetch: refetchStats,
-  } = useUserStats(username);
+  } = useUserStats(username, { enabled: profileExists });
 
   const isOwnProfile = currentUser?.username === username;
   const { data: selfStats } = useSelfStats({ enabled: isOwnProfile });
@@ -79,15 +85,17 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   return (
     <AppLayout
       rightPanel={
-        <div className="w-full flex flex-col">
-          <FollowNetworkCard
-            followers={followers}
-            following={following}
-            myFollowing={myFollowing}
-            currentUsername={currentUser?.username}
-          />
-          <AddFriendCard />
-        </div>
+        profileExists ? (
+          <div className="w-full flex flex-col">
+            <FollowNetworkCard
+              followers={followers}
+              following={following}
+              myFollowing={myFollowing}
+              currentUsername={currentUser?.username}
+            />
+            <AddFriendCard />
+          </div>
+        ) : undefined
       }
     >
       <style>{`

@@ -86,7 +86,7 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 | `/profile/[username]` | Korumalı | Profil, istatistikler, takip/takipçi |
 | `/search` | Korumalı | Kullanıcı arama |
 | `/settings/profile`, `/settings/account`, `/settings/avatar` | Korumalı | Ayarlar |
-| `/settings/data` | Korumalı | KVKK: veri kopyası indirme (m.11) ve açık rıza geri çekme (m.6) |
+| `/settings/data` | Korumalı | KVKK: veri kopyası indirme (m.11) |
 | `/terms`, `/privacy` | Herkese açık | Yasal metinler: Kullanım Koşulları ve "Kişisel Verilere İlişkin Aydınlatma Metni" |
 | `/explicit-consent` | Herkese açık | KVKK m.6 açık rıza metni (özel nitelikli veriler: mezhep + ibadet kayıtları). Kayıt formundan linklenir; `PUBLIC_ROUTES` içindedir |
 

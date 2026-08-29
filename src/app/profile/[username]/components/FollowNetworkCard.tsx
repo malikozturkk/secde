@@ -9,15 +9,13 @@ import { AvatarCustomization } from "@/src/types/auth.types";
 interface FollowNetworkCardProps {
   followers: {
     username: string;
-    avatar: string | null;
     avatarCustomization: AvatarCustomization;
   }[];
   following: {
     username: string;
-    avatar: string | null;
     avatarCustomization: AvatarCustomization;
   }[];
-  myFollowing: { username: string; avatar: string | null }[];
+  myFollowing: { username: string }[];
   currentUsername?: string;
 }
 

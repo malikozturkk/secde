@@ -64,6 +64,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 
   CANNOT_FOLLOW_YOURSELF: "Kendini takip edemezsin.",
   CONSENT_OUTDATED: "Bu metnin güncel sürümünü onaylaman gerekiyor.",
+NEW_PASSWORD_MUST_DIFFER: "Yeni şifren mevcut şifrenle aynı olamaz.",
 
   INVALID_CURRENT_PASSWORD: "Mevcut şifren hatalı.",
   PASSWORD_FIELDS_REQUIRED: "Mevcut ve yeni şifreyi birlikte girmelisin.",

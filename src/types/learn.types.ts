@@ -80,6 +80,7 @@ export interface GuideCheckQuestionPayload {
 export interface GuideCheckQuestionResponse {
   isCorrect: boolean;
   correctOptionId: string;
+  explanation: string | null;
 }
 
 export type StepType =

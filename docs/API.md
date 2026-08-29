@@ -190,11 +190,10 @@ OTP kodu: 6 haneli, yalnızca rakam (zod `otpSchema`).
 
 ## 4. Consent — `src/services/consent.service.ts`
 
-| Metot | Uç                  | Gövde               | `data`                                             |
-| ----- | ------------------- | ------------------- | -------------------------------------------------- |
-| GET   | `/consent/status`   | —                   | `{ items: ConsentStatusItem[], blocked: boolean }` |
-| POST  | `/consent/accept`   | `{ type, version }` | `null`                                             |
-| POST  | `/consent/withdraw` | `{ type }`          | `null` — yalnızca `SPECIAL_CATEGORY_DATA`          |
+| Metot | Uç                | Gövde               | `data`                                             |
+| ----- | ----------------- | ------------------- | -------------------------------------------------- |
+| GET   | `/consent/status` | —                   | `{ items: ConsentStatusItem[], blocked: boolean }` |
+| POST  | `/consent/accept` | `{ type, version }` | `null`                                             |
 
 ```ts
 ConsentStatusItem = {
@@ -212,13 +211,11 @@ sayfasındadır (etiketler/yollar: `constants/consent.ts`).
 `blocked === true` veya herhangi bir maddede `requiresReaccept === true` ise istemci
 uygulamayı engelleyici modal ile kilitler.
 
-**Rıza geri çekme (KVKK m.6).** `POST /consent/withdraw` yalnızca `SPECIAL_CATEGORY_DATA`
-kabul eder — diğer ikisi hukuken açık rıza değildir (`PRIVACY_POLICY` bir aydınlatma teyidi,
-`TERMS_OF_SERVICE` sözleşmenin kendisi) ve `CONSENT_NOT_WITHDRAWABLE` ile 400 döner; kayıt yoksa
-`CONSENT_NOT_FOUND`. Geri çekme **yıkıcıdır**: backend mezhep tercihini sıfırlar, ibadet/quiz/
-oruç/kaza kayıtlarını ve seri istatistiklerini siler. `useWithdrawConsent` bu yüzden başarıda
-`queryClient.clear()` çağırır. UI girişi `/settings/data` ekranındadır ve "GERİ ÇEKİYORUM"
-yazılmadan onay butonu pasiftir.
+**Rıza geri çekme için uç yoktur.** Açık rıza (`SPECIAL_CATEGORY_DATA`) yalnızca hesabı
+silerek geri çekilir (`DELETE /auth/me`, `/settings/profile` ekranı). Mezhep ve ibadet
+kayıtları uygulamanın temel işlevi olduğu için kısmi geri çekme mümkün değildir; `/privacy`
+§10 ve `/explicit-consent` §3 de bunu söyler. Backend'de `POST /consent/withdraw` diye bir
+uç **bulunmuyor** — yeniden eklemeden önce iki repoda da hukuki metinlerle uyumunu doğrula.
 
 **Veri kopyası (KVKK m.11/d).** `GET /users/me/export` hesabın tüm kullanıcı verisini tek bir
 JSON olarak döner (`meta, profile, account, consents, avatarConfig, gamification, prayers,
@@ -226,8 +223,8 @@ quizzes, fasting, social, notifications`). Parola özeti, token özetleri, OTP k
 push anahtarları **bilinçli olarak dışarıda** bırakılır. Saatte 3 istekle sınırlıdır. İstemci
 tarafında `useExportMyData` yanıtı bir Blob'a çevirip indirir; hiçbir yerde saklanmaz.
 
-Her iki uç da `@ConsentBypass()` ile işaretlidir — rıza duvarının arkasında kalsalardı rızasını
-geri çekmiş kullanıcı kendi verisine erişemezdi.
+Rıza uçları ve `GET /users/me/export` `@ConsentBypass()` ile işaretlidir — bekleyen bir
+yeniden onay, kullanıcıyı kendi verisinden veya çıkış yollarından etmemeli.
 
 ---
 

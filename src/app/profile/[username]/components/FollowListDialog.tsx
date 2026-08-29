@@ -10,15 +10,13 @@ interface FollowListDialogProps {
   onClose: () => void;
   followers: {
     username: string;
-    avatar: string | null;
     avatarCustomization: AvatarCustomization;
   }[];
   following: {
     username: string;
-    avatar: string | null;
     avatarCustomization: AvatarCustomization;
   }[];
-  myFollowing: { username: string; avatar: string | null }[];
+  myFollowing: { username: string }[];
   currentUsername?: string;
   defaultTab?: "following" | "followers";
 }
