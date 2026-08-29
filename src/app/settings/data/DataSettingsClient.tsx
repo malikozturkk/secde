@@ -44,14 +44,15 @@ export default function DataSettingsClient() {
             </h2>
           </div>
           <p className="mb-4 text-sm font-medium leading-relaxed text-[var(--ng-text-3)]">
-            Hesabın, profilin, rıza kayıtların, ibadet ve quiz geçmişin, kaza
-            defterin, oruç kayıtların, sosyal bağlantıların ve bildirim
-            tercihlerin tek bir JSON dosyasında iner. Dosya yalnızca senin
-            tarayıcında oluşturulur; hiçbir yerde saklanmaz.
+            Hesabın, profilin, rıza kayıtların, ibadet ve quiz geçmişin,
+            sosyal bağlantıların ve bildirim tercihlerin tek bir JSON dosyasında
+            iner. Dosya yalnızca senin tarayıcında oluşturulur; hiçbir yerde
+            saklanmaz.
           </p>
           <p className="mb-4 text-[12px] font-semibold text-[var(--ng-text-3)]">
-            Parola özetin, oturum anahtarların ve doğrulama kodların güvenlik
-            materyalidir ve dosyaya dahil edilmez.
+            Parola özetin, oturum anahtarların, doğrulama kodların ve bildirim
+            abonelik anahtarların güvenlik materyalidir ve dosyaya dahil
+            edilmez.
           </p>
           <Button
             onClick={() => exportData()}

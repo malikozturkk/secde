@@ -23,7 +23,7 @@ const ACCOUNT_LINKS: ReadonlyArray<{
 }> = [
   { key: "preferences", label: "Tercihler", href: "/settings/account" },
   { key: "profile", label: "Profil", href: "/settings/profile" },
-  { key: "notifications", label: "Bildirimler", comingSoon: true },
+  { key: "notifications", label: "Bildirimler", href: "/settings/notifications" },
   { key: "data", label: "Verilerim", href: "/settings/data" },
   { key: "social", label: "Sosyal hesaplar", comingSoon: true },
   { key: "privacy", label: "Gizlilik Politikası", href: "/privacy" },

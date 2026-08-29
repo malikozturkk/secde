@@ -4,7 +4,7 @@ const DAY = 24 * HOUR;
 const MONTH = 30 * DAY;
 const YEAR = 365 * DAY;
 
-const formatDistanceToNowTr = (iso: string, now: Date = new Date()): string => {
+export const formatDistanceToNowTr = (iso: string, now: Date = new Date()): string => {
   const then = new Date(iso).getTime();
   if (!Number.isFinite(then)) return "";
 

@@ -9,6 +9,7 @@ import styles from "./Sidebar.module.css";
 import { useAuthStore } from "@/src/store/auth.store";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
 import { Series, Settings, Worship } from "@/src/icons/tsx/sidebar";
+import NotificationBell from "@/src/components/notifications/NotificationBell";
 
 interface NavItemConfig {
   label: string;
@@ -132,6 +133,15 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         </ul>
 
         <div className={styles.bottomSection}>
+          <NotificationBell
+            variant="sidebar"
+            classNames={{
+              trigger: styles.settingsItem,
+              icon: styles.settingsIcon,
+              label: styles.settingsLabel,
+            }}
+          />
+
           <Link
             href="/settings/profile"
             className={styles.settingsItem}
@@ -156,6 +166,15 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             hideOnMobile={item.hideOnMobile}
           />
         ))}
+
+        <NotificationBell
+          variant="mobile"
+          classNames={{
+            trigger: styles.mobileNavItem,
+            triggerActive: styles.mobileNavItemActive,
+            icon: styles.mobileNavItemIcon,
+          }}
+        />
       </nav>
     </LayoutGroup>
   );

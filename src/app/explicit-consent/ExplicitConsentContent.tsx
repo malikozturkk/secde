@@ -31,7 +31,7 @@ export default function ExplicitConsentContent() {
       <LegalSection id="amac" title="2. İşleme Amaçları">
         <LegalList
           items={[
-            "Namaz vakitlerinin (özellikle ikindi vaktinin) mezhep tercihinize göre hesaplanması",
+            "İbadet rehberi içeriğinin (rekât sayıları, adım adım anlatımlar) mezhep tercihinize göre gösterilmesi",
             "İbadetlerinizin takibi ve size ibadet geçmişinizin/istatistiklerinizin gösterilmesi",
             "Oyunlaştırma özelliklerinin (seri, XP, seviye, quiz) çalıştırılması",
             "İbadet istatistiklerinizin (seri, XP, namaz sayısı — ibadet kayıtlarınızın detayı değil) liderlik tablosunda ve profil sayfanızda diğer kullanıcılara gösterilmesi",
@@ -39,12 +39,35 @@ export default function ExplicitConsentContent() {
         />
         <p>
           Mezhep tercihiniz hiçbir zaman diğer kullanıcılara veya üçüncü
-          taraflara açıklanmaz. Bu veriler yurt dışına aktarılmaz, pazarlama
-          veya profilleme amacıyla kullanılmaz.
+          taraflara açıklanmaz. Bu veriler pazarlama veya profilleme amacıyla
+          kullanılmaz ve yurt dışına aktarılmaz. Tek istisnası, aşağıdaki 3.
+          bölümde açıklanan ve tamamen isteğe bağlı olan bildirim
+          özelliğidir.
         </p>
       </LegalSection>
 
-      <LegalSection id="rizanin-niteligi" title="3. Rızanın Niteliği ve Geri Çekme">
+      <LegalSection
+        id="bildirimler"
+        title="3. Bildirimler — Ayrı ve İsteğe Bağlı Rıza"
+      >
+        <p>
+          Namaz vakti ve işaretleme hatırlatması bildirimleri de dinî
+          pratiğinize ilişkin olduğu için özel nitelikli veri işleme sayılır.
+          Ancak bu, <strong>bu metinle verdiğiniz rızanın kapsamı dışındadır</strong>{" "}
+          ve uygulamanın temel işlevi için zorunlu değildir:
+        </p>
+        <LegalList
+          items={[
+            "Bildirimler varsayılan olarak kapalıdır. Kayıt olurken bildirimlere rıza vermiş olmazsınız.",
+            "Her bildirim başlığı için ayrı ayrı rıza verirsiniz; yalnızca istediklerinizi açabilirsiniz.",
+            "Rızanızı Ayarlar › Bildirimler bölümünden tek tıkla geri çekebilirsiniz. Geri çekmek hesabınızı etkilemez, hiçbir veri silinmez ve gönderim derhâl durur.",
+            "Bildirim açtığınızda, bildirim iletisi tarayıcınızın bildirim sağlayıcısına (Google, Mozilla veya Apple) iletilir; bu sağlayıcıların sunucuları yurt dışındadır. İletinin içeriği RFC 8291 uyarınca uçtan uca şifrelenir, sağlayıcı içeriği okuyamaz.",
+            "Bildirimleri hiç açmazsanız bu aktarım hiç gerçekleşmez.",
+          ]}
+        />
+      </LegalSection>
+
+      <LegalSection id="rizanin-niteligi" title="4. Rızanın Niteliği ve Geri Çekme">
         <p>
           Bu verilerin işlenmesi, uygulamanın temel işlevinin (ibadet takibi)
           sunulabilmesi için zorunludur; bu verileri işlemeden NamazGo
@@ -73,7 +96,7 @@ export default function ExplicitConsentContent() {
         </p>
       </LegalSection>
 
-      <LegalSection id="beyan" title="4. Rıza Beyanı">
+      <LegalSection id="beyan" title="5. Rıza Beyanı">
         <p>
           Kayıt ekranındaki &quot;Açık Rıza Metni&apos;nde açıklanan özel
           nitelikli kişisel verilerimin (mezhep tercihim ve ibadet kayıtlarım)

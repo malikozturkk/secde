@@ -151,7 +151,23 @@ export default function PrivacyContent() {
           />
         </LegalSubSection>
 
-        <LegalSubSection title="3.6. İşlem Güvenliği ve Teknik Veriler">
+        <LegalSubSection title="3.6. Bildirim Verileri">
+          <LegalList
+            items={[
+              "Bildirim tercihleriniz (hangi bildirim başlığını açtığınız/kapattığınız ve bu tercihi ne zaman değiştirdiğiniz)",
+              "Tarayıcı bildirim aboneliğiniz (bildirim sağlayıcısının ürettiği abonelik adresi, şifreleme anahtarları ve cihazınızın tarayıcı bilgisi — user-agent)",
+              "Gönderim kayıtları (hangi bildirim başlığının size ne zaman gönderildiği; bildirimin içeriği saklanmaz)",
+            ]}
+          />
+          <p>
+            Namaz vakti ve işaretleme hatırlatmaları, dinî pratiğinize ilişkin
+            olduğu için özel nitelikli kişisel veri niteliğindedir ve yalnızca
+            açık rızanızla gönderilir. Bildirimler varsayılan olarak kapalıdır;
+            hiçbir bildirim, siz açıkça açmadan gönderilmez.
+          </p>
+        </LegalSubSection>
+
+        <LegalSubSection title="3.7. İşlem Güvenliği ve Teknik Veriler">
           <LegalList
             items={[
               "IP adresi ve istek kayıtları (erişim logları: istek yolu, zaman damgası, istek kimliği, kullanıcı kimliği)",
@@ -268,6 +284,22 @@ export default function PrivacyContent() {
                 </td>
               </tr>
               <tr>
+                <td className={tdClass}>
+                  Bildirim tercihleri, abonelik ve gönderim kayıtları
+                </td>
+                <td className={tdClass}>
+                  Namaz vakti, işaretleme süresi, seri ve takipçi
+                  bildirimlerinin gönderilmesi
+                </td>
+                <td className={tdClass}>
+                  KVKK m.5/1 ve m.6/2 — açık rıza (bildirimler varsayılan
+                  olarak kapalıdır)
+                </td>
+                <td className={tdClass}>
+                  Tarayıcınızın bildirim sağlayıcısı (bkz. 5. bölüm)
+                </td>
+              </tr>
+              <tr>
                 <td className={tdClass}>Hata raporları</td>
                 <td className={tdClass}>
                   Uygulama hatalarının tespiti ve giderilmesi
@@ -295,6 +327,7 @@ export default function PrivacyContent() {
         <LegalList
           items={[
             "Mailjet (e-posta iletim hizmeti): Hesap doğrulama kodu ve şifre sıfırlama e-postalarının gönderilebilmesi için e-posta adresiniz ve kullanıcı adınız iletilir. Sunucuları yurt dışındadır.",
+            "Tarayıcınızın bildirim (push) sağlayıcısı: Bildirimleri açmanız hâlinde, bildirim iletisi tarayıcınızın bağlı olduğu sağlayıcıya (Chrome/Edge için Google, Firefox için Mozilla, Safari için Apple) iletilir. Bildirim içeriği RFC 8291 uyarınca uçtan uca şifrelenir; sağlayıcı içeriği okuyamaz, yalnızca cihazınıza iletir. Bu sağlayıcıların sunucuları yurt dışındadır. Bildirimleri kapattığınızda bu aktarım tamamen sona erer.",
             "Barındırma altyapısı: Uygulama ve veritabanı, Bulutova'nın Türkiye/Bursa'daki sunucuları üzerinde barındırılmaktadır.",
             "Yetkili kamu kurum ve kuruluşları: Yalnızca hukuka uygun ve usulüne göre yapılmış talepler hâlinde (KVKK m.8/2, m.28).",
           ]}
@@ -354,6 +387,28 @@ export default function PrivacyContent() {
                 <td className={tdClass}>
                   En fazla 1 gün; süresi dolan kayıtlar saatlik otomatik
                   temizlikle silinir
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Bildirim tercihleri</td>
+                <td className={tdClass}>
+                  Hesabınız var olduğu sürece; rızanızı geri çektiğinizde kayıt
+                  silinmez, rızanın geri alındığı an işlenir (rıza geçmişinin
+                  ispatı için) ve bildirim gönderimi derhâl durur
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Bildirim aboneliği (cihaz kaydı)</td>
+                <td className={tdClass}>
+                  Aboneliği kaldırana kadar; bildirim sağlayıcısı aboneliği
+                  geçersiz kıldığında kayıt otomatik silinir
+                </td>
+              </tr>
+              <tr>
+                <td className={tdClass}>Bildirim gönderim kayıtları</td>
+                <td className={tdClass}>
+                  30 gün; aynı bildirimin iki kez gönderilmemesi için tutulur ve
+                  günlük otomatik temizlikle silinir
                 </td>
               </tr>
               <tr>

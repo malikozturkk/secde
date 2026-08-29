@@ -337,7 +337,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
             currentStreak={completionResult.currentStreak}
             leveledUp={completionResult.leveledUp}
           />
-          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas-deep)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             <Button
               variant="orange"
               size="lg"
@@ -351,7 +351,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
       ) : effectiveLock && lockedView ? (
         <>
           <QuizLockedView reason={lockedView} prayerLabel={meta.label} />
-          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas-deep)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             <Button
               variant="primary"
               size="lg"
@@ -457,7 +457,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
             )}
           </div>
 
-          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas-deep)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             {errorMessage ? (
               <div
                 className="mb-3 flex items-center gap-2.5 rounded-[var(--ng-radius)] border border-[rgba(239,68,68,0.30)] bg-[rgba(239,68,68,0.10)] p-3 text-[13px] font-black text-rose-300"
