@@ -9,7 +9,9 @@ import React, {
   useState,
 } from "react";
 import { Check, ChevronDown } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
+import { MOTION_REDUCED, MOTION_SPRING } from "@/src/constants/motion";
 
 export interface SelectOption {
   value: string;
@@ -55,6 +57,10 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
     const [open, setOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number>(-1);
     const containerRef = useRef<HTMLDivElement>(null);
+    const prefersReduced = useReducedMotion();
+    const popoverHidden = prefersReduced
+      ? { opacity: 0, scale: 1, y: 0 }
+      : { opacity: 0, scale: 0.96, y: -6 };
 
     const selected = options.find((o) => o.value === value);
 
@@ -127,7 +133,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
         {label && (
           <label
             htmlFor={buttonId}
-            className="px-1 text-[13px] font-bold text-[rgba(255,255,255,0.6)]"
+            className="px-1 text-[13px] font-bold text-[var(--ng-text-2)]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             {label}
@@ -151,8 +157,8 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
               if (!open) onBlur?.();
             }}
             className={cn(
-              "flex h-14 w-full items-center justify-between gap-2 rounded-2xl border-2 bg-[#1a2b2a] px-4 text-left transition-colors duration-150",
-              "outline-none focus-visible:border-[#25B49A]",
+              "flex h-14 w-full items-center justify-between gap-2 rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] bg-[var(--ng-surface-deep)] px-4 text-left transition-colors duration-[var(--motion-press)]",
+              "outline-none focus-visible:border-[var(--ng-green)]",
               error
                 ? "border-red-500"
                 : "border-[#2a3d3b] hover:border-[rgba(255,255,255,0.25)]",
@@ -164,7 +170,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
             <span
               className={cn(
                 "min-w-0 flex-1 truncate text-[15px] font-medium",
-                selected ? "text-white" : "text-[rgba(255,255,255,0.35)]"
+                selected ? "text-white" : "text-[var(--ng-text-3)]"
               )}
             >
               {selected ? selected.label : placeholder}
@@ -172,18 +178,23 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
             <ChevronDown
               size={18}
               className={cn(
-                "shrink-0 text-[rgba(255,255,255,0.4)] transition-transform duration-150",
+                "shrink-0 text-[var(--ng-text-3)] transition-transform duration-[var(--motion-fast)] ease-[var(--ease-out)]",
                 open && "rotate-180"
               )}
             />
           </button>
 
-          {open && (
-            <ul
+          <AnimatePresence>
+            {open && (
+            <motion.ul
               id={listId}
               role="listbox"
               tabIndex={-1}
-              className="absolute z-50 mt-2 max-h-64 w-full overflow-y-auto rounded-2xl border-2 border-[#2a3d3b] bg-[#11201f] p-1.5 shadow-2xl"
+              initial={popoverHidden}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={popoverHidden}
+              transition={prefersReduced ? MOTION_REDUCED : MOTION_SPRING.press}
+              className="absolute z-[var(--z-tooltip)] mt-2 max-h-64 w-full origin-top overflow-y-auto rounded-[var(--ng-radius)] border-2 border-[var(--ng-edge-strong)] bg-[var(--ng-surface-high)] p-1.5 shadow-2xl"
             >
               {options.map((option, index) => {
                 const isSelected = option.value === value;
@@ -199,7 +210,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                       className={cn(
                         "flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium transition-colors",
                         isSelected
-                          ? "bg-[#25B49A]/15 text-white"
+                          ? "bg-[var(--ng-green)]/15 text-white"
                           : isActive
                           ? "bg-white/5 text-white"
                           : "text-[rgba(255,255,255,0.75)]"
@@ -210,14 +221,15 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                         {option.label}
                       </span>
                       {isSelected && (
-                        <Check size={16} className="shrink-0 text-[#25B49A]" />
+                        <Check size={16} className="shrink-0 text-[var(--ng-green)]" />
                       )}
                     </button>
                   </li>
                 );
               })}
-            </ul>
-          )}
+            </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
 
         {error && (

@@ -36,7 +36,7 @@ export function CircleButton({
     <button
       onClick={!disabled ? onClick : undefined}
       className={cn(
-        "rounded-full p-3 transition-all",
+        "rounded-full p-3 transition-[transform,box-shadow,filter,opacity] duration-[var(--motion-press)] ease-[var(--ease-out)]",
         "shadow-[0_20px_0_0_var(--btn-shadow)]",
         !disabled &&
           "active:translate-y-[20px] active:shadow-none cursor-pointer",

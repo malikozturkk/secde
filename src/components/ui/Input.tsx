@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-[rgba(255,255,255,0.6)] text-[13px] font-bold px-1"
+            className="text-[var(--ng-text-2)] text-[13px] font-bold px-1"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             {label}
@@ -32,18 +32,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           htmlFor={inputId}
           className={[
             "flex items-center gap-2 cursor-text",
-            "bg-[#1a2b2a] border-2 rounded-2xl px-4 h-14",
-            "transition-colors duration-150",
+            "bg-[var(--ng-surface-deep)] border-[length:var(--ng-stroke)] rounded-[var(--ng-radius)] px-4 h-14",
+            "transition-colors duration-[var(--motion-press)]",
             error
-              ? "border-red-500"
-              : "border-[#2a3d3b] focus-within:border-[#25B49A]",
+              ? "border-[var(--ng-rose)]"
+              : "border-[var(--ng-edge)] focus-within:border-[var(--ng-green)]",
             className,
           ]
             .filter(Boolean)
             .join(" ")}
         >
           {leftIcon && (
-            <span className="text-[rgba(255,255,255,0.35)] flex-shrink-0 flex items-center">
+            <span className="text-[var(--ng-text-3)] flex-shrink-0 flex items-center">
               {leftIcon}
             </span>
           )}

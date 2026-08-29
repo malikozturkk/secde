@@ -23,7 +23,7 @@ export default function SearchUserRow({
 
   return (
     <div
-      className="group border-2 border-white/10 hover:border-[#25b49a]/40 rounded-2xl bg-white/[0.03] hover:bg-[#25b49a]/[0.04] shadow-sm hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-all duration-200 hover:-translate-y-0.5 overflow-hidden"
+      className="group border-2 border-white/10 hover:border-[var(--ng-green)]/40 rounded-[var(--ng-radius)] bg-white/[0.03] hover:bg-[var(--ng-green)]/[0.04] shadow-sm hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-all duration-200 hover:-translate-y-0.5 overflow-hidden"
       style={{ animationDelay: `${Math.min(index, 14) * 0.04}s` }}
     >
       <div className="flex items-center gap-4 px-4 py-3.5">
@@ -32,7 +32,7 @@ export default function SearchUserRow({
           className="flex items-center gap-3 flex-1 min-w-0 no-underline"
         >
           <div
-            className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#25b49a]/50 shrink-0 transition-all duration-200 group-hover:scale-105"
+            className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[var(--ng-green)]/50 shrink-0 transition-all duration-200 group-hover:scale-105"
             style={{
               backgroundColor: user.avatarCustomization.colors.background,
             }}
@@ -43,7 +43,7 @@ export default function SearchUserRow({
             />
           </div>
           <div className="flex flex-col gap-1 min-w-0 flex-1">
-            <span className="font-extrabold text-[15px] text-white group-hover:text-[#25b49a] tracking-tight truncate transition-colors duration-150">
+            <span className="font-extrabold text-[15px] text-white group-hover:text-[var(--ng-green)] tracking-tight truncate transition-colors duration-150">
               {user.username}
             </span>
             {!isOwner && count > 0 && (
@@ -66,7 +66,7 @@ export default function SearchUserRow({
                     </div>
                   ))}
                 </div>
-                <p className="text-[12px] font-semibold text-white/40 m-0 truncate">
+                <p className="text-[12px] font-semibold text-[var(--ng-text-3)] m-0 truncate">
                   {preview
                     .slice(0, 2)
                     .map((p) => p.username)
@@ -79,7 +79,7 @@ export default function SearchUserRow({
         </Link>
 
         {isOwner ? (
-          <span className="shrink-0 text-[11px] font-bold text-[#25b49a] bg-[#25b49a]/10 border border-[#25b49a]/25 rounded-full px-3 py-1">
+          <span className="shrink-0 text-[11px] font-bold text-[var(--ng-green)] bg-[var(--ng-green)]/10 border border-[var(--ng-green)]/25 rounded-full px-3 py-1">
             Sen
           </span>
         ) : currentUsername ? (

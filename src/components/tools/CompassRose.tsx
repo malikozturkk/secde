@@ -39,15 +39,15 @@ const CompassRoseComponent: React.FC<CompassRoseProps> = ({
         className={cn(
           "absolute inset-0 rounded-full border-[3px] transition-colors duration-300",
           isAligned
-            ? "border-[var(--color-primary-light)] bg-[radial-gradient(closest-side,rgba(37,180,154,0.22),rgba(18,34,40,0.9))] shadow-[0_10px_0_0_#0F5048,0_0_44px_rgba(37,180,154,0.4)]"
-            : "border-white/12 bg-[radial-gradient(closest-side,rgba(255,255,255,0.05),rgba(18,34,40,0.9))] shadow-[0_10px_0_0_rgba(0,0,0,0.35)]"
+            ? "border-[var(--ng-green)] bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--ng-green)_16%,transparent),var(--ng-surface))] shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
+            : "border-[var(--ng-edge)] bg-[radial-gradient(closest-side,rgba(255,255,255,0.05),var(--ng-surface))] shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
         )}
       />
 
       {isAligned && (
         <div
           aria-hidden="true"
-          className="absolute -inset-2 animate-[pulse-ring_2.4s_ease-in-out_infinite] rounded-full border-2 border-[var(--color-primary-light)] opacity-35 motion-reduce:animate-none"
+          className="absolute -inset-2 animate-[pulse-ring_2.4s_ease-in-out_infinite] rounded-full border-2 border-[var(--ng-green)] opacity-35 motion-reduce:animate-none"
         />
       )}
 
@@ -65,7 +65,7 @@ const CompassRoseComponent: React.FC<CompassRoseProps> = ({
             <span
               className={cn(
                 "absolute left-1/2 top-[18px] text-[13px] font-black tracking-[0.08em]",
-                label === "K" ? "text-[#FF6B35]" : "text-white/35"
+                label === "K" ? "text-[var(--ng-flame)]" : "text-[var(--ng-text-3)]"
               )}
               style={{
                 transform: `translateX(-50%) rotate(${
@@ -90,14 +90,14 @@ const CompassRoseComponent: React.FC<CompassRoseProps> = ({
               className={cn(
                 "h-0 w-0 border-x-[11px] border-b-[20px] border-x-transparent transition-colors duration-300",
                 isAligned
-                  ? "border-b-[var(--color-primary-light)]"
-                  : "border-b-[#FFCA6B]"
+                  ? "border-b-[var(--ng-green)]"
+                  : "border-b-[var(--ng-sky)]"
               )}
             />
             <div
               className={cn(
                 "w-[4px] rounded-full transition-colors duration-300",
-                isAligned ? "bg-[var(--color-primary-light)]" : "bg-[#FFCA6B]"
+                isAligned ? "bg-[var(--ng-green)]" : "bg-[var(--ng-sky)]"
               )}
               style={{ height: 84 }}
             />
@@ -108,10 +108,10 @@ const CompassRoseComponent: React.FC<CompassRoseProps> = ({
       <div
         aria-hidden="true"
         className={cn(
-          "absolute left-1/2 top-1/2 grid h-[74px] w-[74px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl border-2 transition-colors duration-300",
+          "absolute left-1/2 top-1/2 grid h-[74px] w-[74px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] transition-colors duration-[var(--motion-base)]",
           isAligned
-            ? "border-[var(--color-primary-light)] bg-[#0F2A28] shadow-[0_5px_0_0_#0F5048]"
-            : "border-white/12 bg-[#12222B] shadow-[0_5px_0_0_rgba(0,0,0,0.4)]"
+            ? "border-[var(--ng-green)] bg-[color-mix(in_srgb,var(--ng-green)_16%,transparent)] "
+            : "border-[var(--ng-edge)] bg-[var(--ng-surface)] "
         )}
       >
         <Kaaba className="h-11 w-11" />

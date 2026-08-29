@@ -16,12 +16,12 @@ const LegalLayout: React.FC<LegalLayoutProps> = ({
   children,
 }) => {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-white font-sans">
-      <header className="border-b border-[var(--color-border)]">
+    <div className="min-h-screen bg-[var(--ng-canvas)] text-white font-sans">
+      <header className="border-b border-[var(--ng-edge)]">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
           <Link
             href="/"
-            className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-white hover:border-[var(--color-primary-light)] transition-colors"
+            className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--ng-edge)] text-[var(--ng-text-3)] hover:text-white hover:border-[var(--ng-green)] transition-colors"
             aria-label="Ana sayfaya dön"
           >
             <ArrowLeft size={18} />
@@ -38,7 +38,7 @@ const LegalLayout: React.FC<LegalLayoutProps> = ({
       <main className="max-w-4xl mx-auto px-6 py-12">
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">{title}</h1>
-          <div className="flex items-center justify-between text-[var(--color-text-muted)] text-sm">
+          <div className="flex items-center justify-between text-[var(--ng-text-3)] text-sm">
             <span>Son güncelleme: {lastUpdated}</span>
             <span>Version: 1.0.0</span>
           </div>
@@ -49,8 +49,8 @@ const LegalLayout: React.FC<LegalLayoutProps> = ({
         </article>
       </main>
 
-      <footer className="border-t border-[var(--color-border)] mt-16">
-        <div className="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-text-muted)]">
+      <footer className="border-t border-[var(--ng-edge)] mt-16">
+        <div className="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--ng-text-3)]">
           <span>
             © {new Date().getFullYear()} NamazGo. Tüm hakları saklıdır.
           </span>

@@ -16,11 +16,11 @@ interface QuizAccuracyCardProps {
 
 const donutColors = (percent: number): { from: string; to: string } => {
   if (percent >= 70)
-    return { from: "var(--color-primary)", to: "var(--color-primary-light)" };
+    return { from: "var(--ng-green)", to: "var(--ng-green)" };
   if (percent >= 40)
     return {
-      from: "var(--color-secondary)",
-      to: "var(--color-secondary-light)",
+      from: "var(--ng-gold)",
+      to: "var(--ng-gold)",
     };
   return { from: "#E11D48", to: "#FB7185" };
 };
@@ -48,7 +48,7 @@ const QuizAccuracyCardComponent: React.FC<QuizAccuracyCardProps> = ({
           <GraduationCap
             size={18}
             strokeWidth={2.4}
-            className="text-[#9AE0FF]"
+            className="text-[var(--ng-sky)]"
           />
           Quiz Doğruluğu
         </h3>
@@ -58,7 +58,7 @@ const QuizAccuracyCardComponent: React.FC<QuizAccuracyCardProps> = ({
             <div className="text-sm font-black text-white">
               Henüz quiz çözülmedi
             </div>
-            <div className="mt-1 text-[13px] font-bold leading-snug text-white/55">
+            <div className="mt-1 text-[13px] font-bold leading-snug text-[var(--ng-text-2)]">
               Bir vakti işaretlerken çıkan soruları yanıtla.
             </div>
           </div>
@@ -90,7 +90,7 @@ const QuizAccuracyCardComponent: React.FC<QuizAccuracyCardProps> = ({
                   <XCircle
                     size={15}
                     strokeWidth={2.5}
-                    className="text-[#FCA5A5]"
+                    className="text-[var(--ng-rose)]"
                   />
                 }
               />

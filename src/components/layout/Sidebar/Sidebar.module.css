@@ -4,8 +4,8 @@
   top: 0;
   bottom: 0;
   width: var(--sidebar-width);
-  background: #070f12;
-  border-right: 2px solid rgba(255, 255, 255, 0.05);
+  background: var(--ng-canvas);
+  border-right: var(--ng-stroke) solid var(--ng-edge);
   padding: 0 14px 20px;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
 .logo {
   font-family: var(--font-display);
   font-size: 26px;
-  color: #25b49a;
+  color: var(--ng-green);
   text-decoration: none;
   letter-spacing: 0.5px;
   display: flex;
@@ -63,7 +63,7 @@
   border: none;
   outline: none;
   background: transparent;
-  transition: background 150ms ease;
+  transition: background var(--motion-press) var(--ease-out);
 }
 
 .navItemIcon {
@@ -87,18 +87,18 @@
   font-size: 14px;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--ng-text-3);
   white-space: nowrap;
-  transition: color 150ms ease;
+  transition: color var(--motion-press) var(--ease-out);
 }
 
 @media (hover: hover) {
   .navItem:hover:not(.navItemActive) {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .navItem:hover:not(.navItemActive) .navItemLabel {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--ng-text);
   }
 
   .navItem:hover:not(.navItemActive) .navItemIcon {
@@ -107,7 +107,7 @@
 }
 
 .navItem:focus-visible {
-  outline: 2px solid var(--color-primary-light);
+  outline: 2px solid var(--ng-green);
   outline-offset: 2px;
 }
 
@@ -118,8 +118,8 @@
 .activePill {
   position: absolute;
   inset: 0;
-  color: #1cb0f6;
-  border: 2px solid #1cb0f6;
+  color: var(--ng-sky);
+  border: var(--ng-stroke) solid var(--ng-sky);
   border-radius: var(--radius-sm);
   z-index: 0;
   pointer-events: none;
@@ -134,14 +134,14 @@
 .navItemActive .navItemLabel {
   position: relative;
   z-index: 1;
-  color: #1cb0f6;
+  color: var(--ng-sky);
   font-weight: 800;
 }
 
 .bottomSection {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: var(--ng-stroke) solid var(--ng-edge);
   flex-shrink: 0;
 }
 
@@ -156,19 +156,19 @@
   background: transparent;
   border: none;
   outline: none;
-  color: rgba(255, 255, 255, 0.45);
-  transition: color 150ms ease, background 150ms ease;
+  color: var(--ng-text-3);
+  transition: color var(--motion-press) var(--ease-out), background var(--motion-press) var(--ease-out);
 }
 
 @media (hover: hover) {
   .settingsItem:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ng-text);
   }
 }
 
 .settingsItem:focus-visible {
-  outline: 2px solid var(--color-primary-light);
+  outline: 2px solid var(--ng-green);
   outline-offset: 2px;
 }
 
@@ -179,7 +179,7 @@
   width: 32px;
   height: 32px;
   color: inherit;
-  transition: color 150ms ease;
+  transition: color var(--motion-press) var(--ease-out);
 }
 
 .settingsIcon svg {
@@ -194,7 +194,7 @@
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: inherit;
-  transition: color 150ms ease;
+  transition: color var(--motion-press) var(--ease-out);
 }
 
 .mobileBar {
@@ -213,8 +213,8 @@
     right: 0;
     height: var(--mobile-bar-height);
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: #070f12;
-    border-top: 2px solid rgba(255, 255, 255, 0.08);
+    background: var(--ng-canvas);
+    border-top: var(--ng-stroke) solid var(--ng-edge);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -243,7 +243,7 @@
   }
 
   .mobileNavItem:focus-visible {
-    outline: 2px solid var(--color-primary-light);
+    outline: 2px solid var(--ng-green);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
   }

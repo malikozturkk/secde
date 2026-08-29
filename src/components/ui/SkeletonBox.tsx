@@ -18,10 +18,10 @@ export const SkeletonBox: React.FC<SkeletonBoxProps> = ({
     <div
       aria-hidden="true"
       className={cn(
-        "bg-white/[0.06]",
+        "bg-white/[0.07]",
         shape === "circle" && "rounded-full",
         shape === "pill" && "rounded-full",
-        shape === "default" && "rounded-2xl",
+        shape === "default" && "rounded-[var(--ng-radius)]",
         !flat && "animate-[shimmer_2s_ease-in-out_infinite]",
         className
       )}

@@ -47,12 +47,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({
       >
         <main
           className={[
-            "flex-1 overflow-y-auto overflow-x-hidden bg-transparent",
+            "flex-1 bg-transparent",
             "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
             "px-4 py-6 min-w-0",
             isGuest
               ? "h-auto overflow-visible"
-              : "[height:calc(100vh-var(--cookie-banner-offset,0px))]",
+              : "overflow-y-auto overflow-x-hidden [height:calc(100vh-var(--cookie-banner-offset,0px))]",
             rightPanel ? "max-w-[860px]" : "",
             "max-lg:max-w-full max-lg:h-auto max-lg:overflow-visible max-lg:px-4 max-lg:py-0",
             mainClassName ?? "",

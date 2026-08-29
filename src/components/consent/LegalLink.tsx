@@ -28,7 +28,7 @@ export function LegalLink({
       rel="noopener noreferrer"
       className={
         className ??
-        "text-[#25B49A] underline hover:text-[#4FC3F7] transition-colors"
+        "text-[var(--ng-green)] underline hover:text-[var(--ng-sky)] transition-colors"
       }
     >
       {children ?? CONSENT_LABELS[type]}

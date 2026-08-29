@@ -7,6 +7,8 @@ import SettingsRightPanel from "@/src/components/settings/SettingsRightPanel";
 import { Button } from "@/src/components/ui/Button";
 import { useExportMyData } from "@/src/hooks/users/useExportMyData";
 import { getApiErrorMessage } from "@/src/lib/api-error";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 export default function DataSettingsClient() {
   const {
@@ -18,10 +20,10 @@ export default function DataSettingsClient() {
 
   return (
     <AppLayout rightPanel={<SettingsRightPanel active="data" />}>
-      <h1 className="mb-2 font-sans text-2xl font-extrabold text-white">
+      <h1 className={cn(TEXT.h2, "mb-2")}>
         Verilerim
       </h1>
-      <p className="mb-6 max-w-[560px] text-sm font-medium leading-relaxed text-white/50">
+      <p className="mb-6 max-w-[560px] text-sm font-medium leading-relaxed text-[var(--ng-text-3)]">
         6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamındaki haklarını
         buradan kullanabilirsin. Ayrıntılar için{" "}
         <Link
@@ -34,20 +36,20 @@ export default function DataSettingsClient() {
       </p>
 
       <div className="flex flex-col gap-4">
-        <section className="rounded-3xl border-2 border-white/[0.12] bg-[#1a2b2a] p-5">
+        <section className="rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] p-5">
           <div className="mb-2 flex items-center gap-2.5">
             <Download size={18} className="text-[#4fc3f7]" />
             <h2 className="font-sans text-base font-extrabold text-white">
               Verilerimin kopyasını indir
             </h2>
           </div>
-          <p className="mb-4 text-sm font-medium leading-relaxed text-white/50">
+          <p className="mb-4 text-sm font-medium leading-relaxed text-[var(--ng-text-3)]">
             Hesabın, profilin, rıza kayıtların, ibadet ve quiz geçmişin, kaza
             defterin, oruç kayıtların, sosyal bağlantıların ve bildirim
             tercihlerin tek bir JSON dosyasında iner. Dosya yalnızca senin
             tarayıcında oluşturulur; hiçbir yerde saklanmaz.
           </p>
-          <p className="mb-4 text-[12px] font-semibold text-white/35">
+          <p className="mb-4 text-[12px] font-semibold text-[var(--ng-text-3)]">
             Parola özetin, oturum anahtarların ve doğrulama kodların güvenlik
             materyalidir ve dosyaya dahil edilmez.
           </p>
@@ -60,7 +62,7 @@ export default function DataSettingsClient() {
             {isExporting ? "HAZIRLANIYOR..." : "JSON OLARAK İNDİR"}
           </Button>
           {isExported && (
-            <p className="mt-3 text-sm font-bold text-[var(--color-primary-light)]">
+            <p className="mt-3 text-sm font-bold text-[var(--ng-green)]">
               Dosya indirildi.
             </p>
           )}
@@ -71,11 +73,11 @@ export default function DataSettingsClient() {
           )}
         </section>
 
-        <section className="rounded-3xl border-2 border-white/[0.12] bg-[#1a2b2a] p-5">
+        <section className="rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] p-5">
           <h2 className="mb-2 font-sans text-base font-extrabold text-white">
             Hesabımı sil ve rızamı geri çek
           </h2>
-          <p className="text-sm font-medium leading-relaxed text-white/50">
+          <p className="text-sm font-medium leading-relaxed text-[var(--ng-text-3)]">
             Mezhep tercihin ve ibadet kayıtların KVKK m.6 anlamında özel
             nitelikli kişisel veridir ve yalnızca açık rızanla işlenir. Bu
             veriler olmadan NamazGo hizmetini sunmak mümkün olmadığı için

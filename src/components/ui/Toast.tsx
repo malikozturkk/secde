@@ -8,9 +8,19 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type PanInfo,
+} from "framer-motion";
 import { CheckCircle2, Info, XCircle, AlertTriangle, X } from "lucide-react";
 import { cn } from "@/src/lib/utils";
+import {
+  MOTION_REDUCED,
+  MOTION_SPRING,
+  projectMomentum,
+} from "@/src/constants/motion";
 
 type ToastTone = "success" | "error" | "info" | "warning";
 
@@ -69,29 +79,32 @@ const TONE_META: Record<
 > = {
   success: {
     icon: CheckCircle2,
-    accent: "text-[var(--color-primary-light)]",
-    ring: "border-[rgba(37,180,154,0.40)] shadow-[0_6px_0_0_rgba(15,80,72,0.45)]",
+    accent: "text-[var(--ng-green)]",
+    ring: "border-[var(--ng-green)]",
   },
   error: {
     icon: XCircle,
-    accent: "text-[#FCA5A5]",
-    ring: "border-[rgba(239,68,68,0.40)] shadow-[0_6px_0_0_rgba(76,5,25,0.5)]",
+    accent: "text-[var(--ng-rose)]",
+    ring: "border-[var(--ng-rose)]",
   },
   warning: {
     icon: AlertTriangle,
-    accent: "text-[var(--color-secondary-light)]",
-    ring: "border-[rgba(245,166,35,0.40)] shadow-[0_6px_0_0_rgba(124,83,0,0.45)]",
+    accent: "text-[var(--ng-gold)]",
+    ring: "border-[var(--ng-gold)]",
   },
   info: {
     icon: Info,
-    accent: "text-[#9AE0FF]",
-    ring: "border-[rgba(79,195,247,0.40)] shadow-[0_6px_0_0_rgba(7,47,75,0.5)]",
+    accent: "text-[var(--ng-sky)]",
+    ring: "border-[var(--ng-sky)]",
   },
 };
+
+const SWIPE_DISMISS_PX = 80;
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const prefersReduced = useReducedMotion();
   const [items, setItems] = useState<ToastItem[]>([]);
   const idRef = useRef(0);
   const timers = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
@@ -137,6 +150,10 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     [show, dismiss]
   );
 
+  const hidden = prefersReduced
+    ? { opacity: 0, x: 0, scale: 1 }
+    : { opacity: 0, x: 40, scale: 0.96 };
+
   return (
     <ToastContext.Provider value={api}>
       {children}
@@ -153,13 +170,28 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
               <motion.div
                 key={item.id}
                 layout
-                initial={{ opacity: 0, y: 16, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 40, scale: 0.96 }}
-                transition={{ duration: 0.28, ease: [0.34, 1.56, 0.64, 1] }}
+                initial={hidden}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={hidden}
+                transition={
+                  prefersReduced ? MOTION_REDUCED : MOTION_SPRING.momentum
+                }
+                drag={prefersReduced ? false : "x"}
+                dragDirectionLock
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={{ left: 0.12, right: 1 }}
+                dragMomentum={false}
+                onDragEnd={(_: unknown, info: PanInfo) => {
+                  const projected =
+                    info.offset.x + projectMomentum(info.velocity.x);
+                  if (projected > SWIPE_DISMISS_PX) dismiss(item.id);
+                }}
                 role="alert"
                 className={cn(
-                  "pointer-events-auto flex items-start gap-3 rounded-2xl border-[1.5px] bg-[#1C2E35] p-3.5 pr-2.5",
+                  "pointer-events-auto flex items-start gap-3 rounded-[var(--ng-radius)] p-3.5 pr-2.5",
+                  "border-[length:var(--ng-stroke)] bg-[var(--ng-surface-high)]",
+                  "shadow-[0_16px_40px_rgba(0,0,0,0.55)]",
+                  !prefersReduced && "cursor-grab active:cursor-grabbing",
                   meta.ring
                 )}
               >
@@ -172,7 +204,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                       {item.title}
                     </div>
                   )}
-                  <div className="text-[13px] font-bold leading-snug text-white/70">
+                  <div className="text-[13px] font-bold leading-snug text-[var(--ng-text-2)]">
                     {item.message}
                   </div>
                 </div>
@@ -180,7 +212,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                   type="button"
                   aria-label="Kapat"
                   onClick={() => dismiss(item.id)}
-                  className="shrink-0 rounded-full p-1 text-white/40 transition-colors hover:text-white"
+                  className="shrink-0 rounded-full p-1 text-[var(--ng-text-3)] transition-colors duration-[var(--motion-press)] hover:text-white"
                 >
                   <X size={16} strokeWidth={2.5} />
                 </button>

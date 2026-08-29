@@ -19,14 +19,14 @@ export const StatsError: React.FC<StatsErrorProps> = ({ message, onRetry }) => (
     className="border-dashed border-white/[0.12]"
   >
     <div className="flex items-center gap-3.5">
-      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[rgba(239,68,68,0.12)] text-[#FCA5A5]">
+      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[var(--ng-radius)] bg-[rgba(239,68,68,0.12)] text-[var(--ng-rose)]">
         <AlertTriangle size={22} strokeWidth={2.4} />
       </span>
       <div className="min-w-0 flex-1">
         <div className="text-sm font-black text-white">
           İstatistikler yüklenemedi
         </div>
-        <div className="mt-0.5 text-[13px] font-bold leading-snug text-white/55">
+        <div className="mt-0.5 text-[13px] font-bold leading-snug text-[var(--ng-text-2)]">
           {message ?? "Veriler şu an alınamadı. Birazdan tekrar dene."}
         </div>
       </div>

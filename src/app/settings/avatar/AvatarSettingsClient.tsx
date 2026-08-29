@@ -26,6 +26,7 @@ import {
   INACTIVE_COLOR,
 } from "@/src/types/settings/avatar.types";
 import HexInput from "@/src/components/settings/avatar/HexInput";
+import { TEXT } from "@/src/constants/surface";
 
 const TabIcons: Record<AvatarColorKey, React.FC<{ color: string }>> = {
   skin: ({ color }) => (
@@ -306,7 +307,7 @@ export default function AvatarSettingsPage() {
           <Button onClick={() => router.back()} variant="ghost" size="xs">
             <ArrowLeft size={18} />
           </Button>
-          <h1 className="text-2xl font-extrabold text-white">
+          <h1 className={TEXT.h2}>
             Avatarı Düzenle
           </h1>
         </div>
@@ -314,7 +315,7 @@ export default function AvatarSettingsPage() {
         <div className="flex min-h-0 flex-1 flex-col gap-6 md:flex-row md:items-start lg:flex-1 lg:items-stretch">
           <div className="flex w-full shrink-0 flex-col items-center gap-4 md:sticky md:top-6 md:w-1/2 md:pb-1.5 lg:static lg:max-h-full lg:min-h-0 lg:self-stretch lg:justify-between">
             <div
-              className="flex h-80 w-full min-h-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl md:h-auto md:min-h-[280px] lg:h-auto lg:min-h-0 lg:max-h-full lg:flex-1"
+              className="flex h-80 w-full min-h-0 items-center justify-center overflow-hidden rounded-[var(--ng-radius)] border-2 border-white/10 shadow-2xl md:h-auto md:min-h-[280px] lg:h-auto lg:min-h-0 lg:max-h-full lg:flex-1"
               style={{ backgroundColor: colors.background }}
             >
               {user && (
@@ -336,7 +337,7 @@ export default function AvatarSettingsPage() {
             {successMessage && (
               <p
                 className="shrink-0 text-center text-sm font-bold"
-                style={{ color: "#25B49A" }}
+                style={{ color: "var(--ng-green)" }}
               >
                 {successMessage}
               </p>
@@ -354,7 +355,7 @@ export default function AvatarSettingsPage() {
           </div>
 
           <div
-            className="flex max-w-full min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border-2 border-white/10 lg:min-h-0"
+            className="flex max-w-full min-h-0 flex-1 flex-col overflow-hidden rounded-[var(--ng-radius)] border-2 border-white/10 lg:min-h-0"
             style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
           >
             <div
@@ -376,7 +377,7 @@ export default function AvatarSettingsPage() {
                       className="relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl transition-all"
                       style={{
                         backgroundColor: isActive
-                          ? "rgba(79,195,247,0.12)"
+                          ? "rgba(44,200,255,0.12)"
                           : "transparent",
                       }}
                     >

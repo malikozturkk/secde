@@ -12,7 +12,7 @@ export function CookiePreferencesLink({
   return (
     <button
       onClick={resetConsent}
-      className={`hover:text-white transition-colors cursor-pointer text-[var(--color-text-muted)] ${className}`}
+      className={`hover:text-white transition-colors cursor-pointer text-[var(--ng-text-3)] ${className}`}
     >
       Çerez Tercihleri
     </button>

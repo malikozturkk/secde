@@ -18,10 +18,10 @@ const PrayerListComponent: React.FC<PrayerListProps> = ({
     <section className="flex flex-col gap-4">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h3 className="m-0 text-[22px] font-black tracking-[-0.01em] text-[var(--color-text)]">
+          <h3 className="m-0 text-[22px] font-black tracking-[-0.01em] text-[var(--ng-text)]">
             Bugünün Vakitleri
           </h3>
-          <p className="mt-1 text-[13px] font-bold text-[var(--color-text-muted)]">
+          <p className="mt-1 text-[13px] font-bold text-[var(--ng-text-3)]">
             Sabah&apos;tan yatsıya günün altı vakti.
           </p>
         </div>

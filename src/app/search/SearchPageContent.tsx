@@ -16,6 +16,8 @@ import { SearchNotFound } from "@/src/icons/tsx/mascot";
 import { Search, Users, X } from "lucide-react";
 import InviteCard from "../profile/[username]/components/InviteCard";
 import { AllCharacters } from "@/src/icons/tsx/characters";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 export default function SearchPageContent() {
   const router = useRouter();
@@ -110,7 +112,7 @@ export default function SearchPageContent() {
     <AppLayout rightPanel={rightPanel}>
       <div className="text-white w-full">
         <div className="mb-6">
-          <h1 className="text-2xl font-black tracking-tight text-white mb-1">
+          <h1 className={cn(TEXT.h2, "mb-1")}>
             Arkadaş ara
           </h1>
         </div>
@@ -127,7 +129,7 @@ export default function SearchPageContent() {
                 <button
                   onClick={() => setInputValue("")}
                   aria-label="Temizle"
-                  className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/40 hover:text-white transition-all duration-150 cursor-pointer"
+                  className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-[var(--ng-text-3)] hover:text-white transition-all duration-150 cursor-pointer"
                 >
                   <X width={10} height={10} />
                 </button>
@@ -143,7 +145,7 @@ export default function SearchPageContent() {
           flatUsers.length > 0 &&
           typeof totalCount === "number" && (
             <div className="mb-4">
-              <span className="inline-flex items-center gap-1.5 bg-[#25b49a]/10 border border-[#25b49a]/25 rounded-full px-3 py-1 text-xs font-extrabold text-[#25b49a]">
+              <span className="inline-flex items-center gap-1.5 bg-[var(--ng-green)]/10 border border-[var(--ng-green)]/25 rounded-full px-3 py-1 text-xs font-extrabold text-[var(--ng-green)]">
                 <Users width={12} height={12} />
                 {totalCount.toLocaleString()} sonuç
               </span>
@@ -172,14 +174,14 @@ export default function SearchPageContent() {
               {[0, 1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="h-20 w-full rounded-2xl animate-pulse bg-white/5"
+                  className="h-20 w-full rounded-[var(--ng-radius)] animate-pulse bg-white/5"
                 />
               ))}
             </div>
           )}
 
           {hasDebouncedQuery && isError && !awaitingDebounce && (
-            <div className="rounded-2xl border-2 border-red-500/30 bg-red-500/5 px-6 py-8 text-center">
+            <div className="rounded-[var(--ng-radius)] border-2 border-red-500/30 bg-red-500/5 px-6 py-8 text-center">
               <p className="text-sm font-bold text-red-300 mb-4">
                 {error instanceof Error ? error.message : "Arama yapılamadı."}
               </p>
@@ -202,7 +204,7 @@ export default function SearchPageContent() {
                 <div className="mb-5">
                   <SearchNotFound width={150} height={150} />
                 </div>
-                <p className="text-lg leading-6 font-semibold text-white/60 max-w-80">
+                <p className="text-lg leading-6 font-semibold text-[var(--ng-text-2)] max-w-80">
                   Maalesef hiçbir eşleşme bulamadık. Lütfen yeniden aramayı
                   deneyin.
                 </p>

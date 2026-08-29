@@ -59,14 +59,14 @@ const PrayerBreakdownCardComponent: React.FC<PrayerBreakdownCardProps> = ({
 
         {isEmpty ? (
           <div className="flex flex-col items-center gap-3 py-4 text-center">
-            <span className="grid h-14 w-14 place-items-center rounded-2xl bg-white/[0.05] text-[var(--color-primary-light)]">
+            <span className="grid h-14 w-14 place-items-center rounded-[var(--ng-radius)] bg-white/[0.05] text-[var(--ng-green)]">
               <Sparkles size={26} strokeWidth={2.2} />
             </span>
             <div>
               <div className="text-sm font-black text-white">
                 Henüz namaz tamamlanmadı
               </div>
-              <div className="mt-1 text-[13px] font-bold leading-snug text-white/55">
+              <div className="mt-1 text-[13px] font-bold leading-snug text-[var(--ng-text-2)]">
                 {showCta
                   ? "İlk vaktini kıl, dağılımın burada belirsin."
                   : "Bu kullanıcı henüz bir vakit tamamlamamış."}

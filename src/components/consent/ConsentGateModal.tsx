@@ -76,7 +76,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
       />
 
       <div
-        className="relative w-full max-w-md bg-[#070F12] border-2 border-[rgba(255,255,255,0.15)] rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+        className="relative w-full max-w-md bg-[var(--ng-canvas)] border-2 border-[rgba(255,255,255,0.15)] rounded-[var(--ng-radius-lg)] shadow-2xl overflow-hidden flex flex-col"
         onPointerDownCapture={(e) => e.stopPropagation()}
       >
         <div className="px-6 pt-6 pb-2">
@@ -88,7 +88,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
             Yasal metinlerimiz güncellendi
           </h2>
           <p
-            className="mt-2 text-[rgba(255,255,255,0.6)] text-[14px] leading-relaxed"
+            className="mt-2 text-[var(--ng-text-2)] text-[14px] leading-relaxed"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Devam edebilmen için aşağıdaki güncel metinleri incelemen; Kullanım
@@ -101,7 +101,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
           {items.map((item) => (
             <li
               key={item.type}
-              className="flex items-center justify-between gap-3 bg-[#1a2b2a] border border-[#2a3d3b] rounded-2xl px-4 py-3"
+              className="flex items-center justify-between gap-3 bg-[var(--ng-surface-deep)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] rounded-[var(--ng-radius)] px-4 py-3"
             >
               <div className="flex flex-col">
                 <span
@@ -121,7 +121,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
               <LegalLink
                 type={item.type}
                 version={item.currentVersion}
-                className="text-[#25B49A] text-[13px] font-bold underline hover:text-[#4FC3F7]"
+                className="text-[var(--ng-green)] text-[13px] font-bold underline hover:text-[var(--ng-sky)]"
               >
                 Oku
               </LegalLink>
@@ -130,7 +130,7 @@ export function ConsentGateModal({ items }: ConsentGateModalProps) {
         </ul>
 
         {error && (
-          <div className="mx-6 mb-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
+          <div className="mx-6 mb-2 bg-red-500/10 border border-red-500/30 rounded-[var(--ng-radius)] px-4 py-3">
             <span
               className="text-red-400 text-sm font-semibold"
               style={{ fontFamily: "var(--font-sans)" }}

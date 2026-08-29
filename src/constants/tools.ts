@@ -8,12 +8,7 @@ export const TOOLS: readonly ToolMeta[] = [
     label: "Kıble Bulucu",
     description: "Bulunduğun yerden Kâbe'nin hangi yönde olduğunu gösterir.",
     eyebrow: "YÖN",
-    nodeBg: "bg-gradient-to-b from-[#25B49A] to-[#12796A]",
-    nodeShadow: "shadow-[0_6px_0_0_#0F5048]",
-    ring: "border-[rgba(37,180,154,0.40)]",
-    surface:
-      "bg-gradient-to-b from-[rgba(37,180,154,0.12)] to-[#1C2E35] to-60%",
-    accent: "var(--color-primary-light)",
+    accent: "sky",
   },
   {
     id: ToolId.Dhikr,
@@ -21,12 +16,7 @@ export const TOOLS: readonly ToolMeta[] = [
     label: "Zikirmatik",
     description: "Tesbihatını say, hedefe ulaşınca haber ver.",
     eyebrow: "TESBİHAT",
-    nodeBg: "bg-gradient-to-b from-[#8A5A2E] to-[#3E2515]",
-    nodeShadow: "shadow-[0_6px_0_0_#241109]",
-    ring: "border-[rgba(176,123,74,0.42)]",
-    surface:
-      "bg-gradient-to-b from-[rgba(176,123,74,0.13)] to-[#1C2E35] to-60%",
-    accent: "#E0B487",
+    accent: "violet",
   },
   {
     id: ToolId.Zakat,
@@ -35,12 +25,7 @@ export const TOOLS: readonly ToolMeta[] = [
     description:
       "Varlığını gir, nisabı aşıyor musun ve ne kadar zekât düşüyor gör.",
     eyebrow: "HESAP",
-    nodeBg: "bg-gradient-to-b from-[#FFCA6B] to-[#D98A0B]",
-    nodeShadow: "shadow-[0_6px_0_0_#7A5A0D]",
-    ring: "border-[rgba(245,166,35,0.40)]",
-    surface:
-      "bg-gradient-to-b from-[rgba(245,166,35,0.12)] to-[#1C2E35] to-60%",
-    accent: "var(--color-secondary-light)",
+    accent: "gold",
   },
 ] as const;
 

@@ -13,7 +13,9 @@ import {
   ChevronRight,
   Calendar as CalendarIcon,
 } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
+import { MOTION_REDUCED, MOTION_SPRING } from "@/src/constants/motion";
 
 export type DateString = string;
 
@@ -129,13 +131,13 @@ const formatRange = (range: DateRange | null): string => {
 
 const TRIGGER_VARIANTS: Record<DatePickerVariant, string> = {
   default:
-    "bg-[#1c2e35] border border-white/10 text-white shadow-[0_3px_0_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-0.5 active:shadow-[0_1px_0_0_rgba(0,0,0,0.3)] rounded-full",
+    "bg-[var(--ng-surface)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] text-white shadow-[0_3px_0_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-0.5 active:shadow-[0_1px_0_0_rgba(0,0,0,0.3)] rounded-full",
   ghost:
     "bg-transparent text-white hover:bg-white/5 rounded-full border border-transparent",
   outline:
-    "bg-transparent border-2 border-white/15 text-white hover:border-[var(--color-primary-light)]/60 rounded-2xl",
+    "bg-transparent border-2 border-white/15 text-white hover:border-[var(--ng-green)]/60 rounded-[var(--ng-radius)]",
   minimal:
-    "bg-transparent border-0 text-white hover:text-[var(--color-primary-light)] px-0",
+    "bg-transparent border-0 text-white hover:text-[var(--ng-green)] px-0",
 };
 
 const TRIGGER_SIZES: Record<DatePickerSize, string> = {
@@ -182,7 +184,7 @@ const Calendar: React.FC<CalendarProps> = ({
       <div className="flex items-center justify-between">
         <button
           type="button"
-          className="grid h-8 w-8 place-items-center rounded-full text-white/70 transition hover:bg-white/5 hover:text-white"
+          className="grid h-8 w-8 place-items-center rounded-full text-[var(--ng-text-2)] transition hover:bg-white/5 hover:text-white"
           onClick={() => onChangeMonth(addMonths(monthCursor, -1))}
           aria-label="Önceki ay"
         >
@@ -193,7 +195,7 @@ const Calendar: React.FC<CalendarProps> = ({
         </div>
         <button
           type="button"
-          className="grid h-8 w-8 place-items-center rounded-full text-white/70 transition hover:bg-white/5 hover:text-white"
+          className="grid h-8 w-8 place-items-center rounded-full text-[var(--ng-text-2)] transition hover:bg-white/5 hover:text-white"
           onClick={() => onChangeMonth(addMonths(monthCursor, 1))}
           aria-label="Sonraki ay"
         >
@@ -201,7 +203,7 @@ const Calendar: React.FC<CalendarProps> = ({
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-black uppercase tracking-[0.12em] text-white/40">
+      <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-black uppercase tracking-[0.12em] text-[var(--ng-text-3)]">
         {DAYS_SHORT_TR.map((d) => (
           <span key={d}>{d}</span>
         ))}
@@ -224,17 +226,17 @@ const Calendar: React.FC<CalendarProps> = ({
               className={cn(
                 "relative h-9 rounded-lg text-sm font-bold transition focus:outline-none",
                 "focus-visible:ring-2",
-                inMonth ? "text-white" : "text-white/30",
+                inMonth ? "text-white" : "text-[var(--ng-text-3)]",
                 disabled
                   ? "cursor-not-allowed opacity-30"
                   : "cursor-pointer hover:bg-white/5",
-                inRange && !edge && "bg-[var(--color-primary)]/15 text-white",
+                inRange && !edge && "bg-[var(--ng-green)]/15 text-white",
                 (selected || edge) &&
-                  "bg-[var(--color-primary)] text-white shadow-[0_3px_0_0_var(--color-primary-dark)] hover:brightness-110",
+                  "bg-[var(--ng-green)] text-white shadow-[0_3px_0_0_var(--ng-green-deep)] hover:brightness-110",
                 isToday &&
                   !selected &&
                   !edge &&
-                  "ring-1 ring-inset ring-[var(--color-primary-light)]/70"
+                  "ring-1 ring-inset ring-[var(--ng-green)]/70"
               )}
               aria-pressed={selected || edge}
               aria-label={toIso(cell)}
@@ -271,7 +273,7 @@ const CalendarSurface: React.FC<CalendarSurfaceProps> = ({
 }) => {
   const [monthCursor, setMonthCursor] = useState<Date>(initialCursor);
   return (
-    <div className="flex w-72 flex-col gap-3 rounded-2xl border border-white/10 bg-[#0E181C] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.55)]">
+    <div className="flex w-72 flex-col gap-3 rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[#0E181C] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.55)]">
       <Calendar
         monthCursor={monthCursor}
         onChangeMonth={setMonthCursor}
@@ -282,11 +284,11 @@ const CalendarSurface: React.FC<CalendarSurfaceProps> = ({
         onPick={onPick}
       />
       {todayAction && (
-        <div className="flex items-center justify-between border-t border-dashed border-white/10 pt-2 text-[11px] font-bold uppercase tracking-[0.1em] text-white/50">
+        <div className="flex items-center justify-between border-t border-dashed border-white/10 pt-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--ng-text-3)]">
           <span>Hızlı erişim</span>
           <button
             type="button"
-            className="rounded-md px-2 py-1 text-[var(--color-accent)] transition hover:bg-[var(--color-accent)]/10"
+            className="rounded-md px-2 py-1 text-[var(--ng-sky)] transition hover:bg-[var(--ng-sky)]/10"
             onClick={() => {
               todayAction.onClick();
               onTodayClicked?.();
@@ -317,6 +319,10 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
 
   const isRange = props.mode === "range";
   const [open, setOpen] = useState<boolean>(inline);
+  const prefersReduced = useReducedMotion();
+  const popoverHidden = prefersReduced
+    ? { opacity: 0, scale: 1, y: 0 }
+    : { opacity: 0, scale: 0.96, y: -6 };
   const triggerRef = useRef<HTMLButtonElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const popoverId = useId();
@@ -469,30 +475,37 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
         aria-controls={popoverId}
         aria-label={ariaLabel ?? triggerLabel}
         className={cn(
-          "inline-flex cursor-pointer items-center font-bold transition-all duration-100 disabled:cursor-not-allowed disabled:opacity-50",
+          "inline-flex cursor-pointer items-center font-bold transition-[transform,box-shadow,filter,opacity] duration-[var(--motion-press)] ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-50",
           TRIGGER_VARIANTS[variant],
           TRIGGER_SIZES[size],
           className
         )}
       >
         <CalendarIcon
-          className="shrink-0 text-[var(--color-primary-light)]"
+          className="shrink-0 text-[var(--ng-green)]"
           size={size === "lg" ? 16 : 14}
         />
         <span className="truncate">{triggerLabel}</span>
       </button>
 
-      {open && (
-        <div
-          id={popoverId}
-          ref={popoverRef}
-          role="dialog"
-          aria-label="Tarih seçici"
-          className="absolute left-1/2 top-[calc(100%+8px)] z-40 -translate-x-1/2 animate-[fadeSlideUp_180ms_ease-out_forwards]"
-        >
-          {surface}
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id={popoverId}
+            ref={popoverRef}
+            role="dialog"
+            aria-label="Tarih seçici"
+            initial={popoverHidden}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={popoverHidden}
+            transition={prefersReduced ? MOTION_REDUCED : MOTION_SPRING.press}
+            style={{ x: "-50%" }}
+            className="absolute left-1/2 top-[calc(100%+8px)] z-[var(--z-tooltip)] origin-top"
+          >
+            {surface}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

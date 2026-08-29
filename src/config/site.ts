@@ -10,5 +10,5 @@ export const siteConfig = {
   ),
   locale: "tr_TR",
   ogImage: "/og-default.png",
-  themeColor: "#25b49a",
+  themeColor: "var(--ng-green)",
 } as const;

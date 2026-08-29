@@ -157,25 +157,25 @@ const SIZE_INDICATOR_DOT: Record<RadioSize, string> = {
 };
 
 const VARIANT_BASE: Record<RadioVariant, string> = {
-  card: "rounded-2xl border-2",
+  card: "rounded-[var(--ng-radius)] border-2",
   outline: "rounded-xl border",
-  solid: "rounded-2xl border-2",
+  solid: "rounded-[var(--ng-radius)] border-2",
 };
 
 const VARIANT_ACTIVE: Record<RadioVariant, string> = {
-  card: "border-[var(--color-primary-light)] bg-[var(--color-primary)]/15 text-white shadow-[0_4px_0_0_var(--color-primary-dark)] active:shadow-[0_0_0_0_var(--color-primary-dark)]",
+  card: "border-[var(--ng-green)] bg-[var(--ng-green)]/15 text-white shadow-[0_4px_0_0_var(--ng-green-deep)] active:shadow-[0_0_0_0_var(--ng-green-deep)]",
   outline:
-    "border-[var(--color-primary-light)] text-white bg-[var(--color-primary)]/10 shadow-[0_4px_0_0_var(--color-primary-dark)] active:shadow-[0_0_0_0_var(--color-primary-dark)]",
+    "border-[var(--ng-green)] text-white bg-[var(--ng-green)]/10 shadow-[0_4px_0_0_var(--ng-green-deep)] active:shadow-[0_0_0_0_var(--ng-green-deep)]",
   solid:
-    "border-[var(--color-primary-light)] bg-[var(--color-primary)] text-white shadow-[0_4px_0_0_var(--color-primary-dark)] active:shadow-[0_0_0_0_var(--color-primary-dark)]",
+    "border-[var(--ng-green)] bg-[var(--ng-green)] text-white shadow-[0_4px_0_0_var(--ng-green-deep)] active:shadow-[0_0_0_0_var(--ng-green-deep)]",
 };
 
 const VARIANT_INACTIVE: Record<RadioVariant, string> = {
-  card: "border-white/10 bg-[#1a2b2a] text-white/80 shadow-[0_4px_0_0_rgba(0,0,0,0.4)] hover:border-white/25 hover:bg-white/5 active:shadow-[0_0_0_0_rgba(0,0,0,0.4)]",
+  card: "border-[var(--ng-edge)] bg-[var(--ng-surface)] text-[var(--ng-text-2)] shadow-[0_4px_0_0_rgba(0,0,0,0.4)] hover:border-white/25 hover:bg-white/5 active:shadow-[0_0_0_0_rgba(0,0,0,0.4)]",
   outline:
-    "border-white/15 bg-transparent text-white/80 shadow-[0_4px_0_0_rgba(0,0,0,0.3)] hover:border-white/30 hover:bg-white/5 active:shadow-[0_0_0_0_rgba(0,0,0,0.3)]",
+    "border-white/15 bg-transparent text-[var(--ng-text-2)] shadow-[0_4px_0_0_rgba(0,0,0,0.3)] hover:border-white/30 hover:bg-white/5 active:shadow-[0_0_0_0_rgba(0,0,0,0.3)]",
   solid:
-    "border-white/10 bg-[#152624] text-white/80 shadow-[0_4px_0_0_rgba(0,0,0,0.4)] hover:border-white/25 hover:bg-white/5 active:shadow-[0_0_0_0_rgba(0,0,0,0.4)]",
+    "border-white/10 bg-[#152624] text-[var(--ng-text-2)] shadow-[0_4px_0_0_rgba(0,0,0,0.4)] hover:border-white/25 hover:bg-white/5 active:shadow-[0_0_0_0_rgba(0,0,0,0.4)]",
 };
 
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
@@ -231,7 +231,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       <label
         htmlFor={inputId}
         className={cn(
-          "group relative flex items-center justify-between gap-3 text-left font-bold transition-all duration-100",
+          "group relative flex items-center justify-between gap-3 text-left font-bold transition-[transform,box-shadow,border-color,background-color] duration-[var(--motion-press)] ease-[var(--ease-out)]",
           "cursor-pointer select-none active:translate-y-[4px]",
           SIZE_PADDING[resolvedSize],
           VARIANT_BASE[resolvedVariant],
@@ -262,17 +262,17 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
             {trailing}
           </span>
           {description && (
-            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-white/40">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--ng-text-3)]">
               {description}
             </span>
           )}
         </span>
         <span
           className={cn(
-            "grid shrink-0 place-items-center rounded-full border-2 transition",
+            "grid shrink-0 place-items-center rounded-full border-2 transition-[border-color,background-color] duration-[var(--motion-press)] ease-[var(--ease-out)]",
             SIZE_INDICATOR[resolvedSize],
             isChecked
-              ? "border-[var(--color-primary-light)] bg-[var(--color-primary-light)]"
+              ? "border-[var(--ng-green)] bg-[var(--ng-green)]"
               : "border-white/25"
           )}
           aria-hidden="true"
@@ -280,7 +280,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           {isChecked && (
             <span
               className={cn(
-                "rounded-full bg-[#070F12]",
+                "rounded-full bg-[var(--ng-canvas)]",
                 SIZE_INDICATOR_DOT[resolvedSize]
               )}
             />

@@ -18,7 +18,7 @@ function ColorSwatch({ color, isSelected, onClick }: ColorSwatchProps) {
       style={{
         backgroundColor: color,
         borderColor: isSelected ? ACTIVE_COLOR : "rgba(255,255,255,0.1)",
-        boxShadow: isSelected ? `0 0 0 2px rgba(79,195,247,0.35)` : "none",
+        boxShadow: isSelected ? `0 0 0 2px rgba(44,200,255,0.35)` : "none",
       }}
     >
       {isSelected && (

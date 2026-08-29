@@ -37,14 +37,14 @@ const StreakStatCardComponent: React.FC<StreakStatCardProps> = ({
       glow
       padding="md"
       className={cn(
-        "border-[rgba(255,107,53,0.22)] bg-gradient-to-br from-[rgba(255,107,53,0.14)] via-[#1C2E35] to-[#1C2E35] to-70%",
+        "border-[rgba(255,122,41,0.22)] bg-gradient-to-br from-[rgba(255,122,41,0.14)] via-[var(--ng-surface)] to-[var(--ng-surface)] to-70%",
         className
       )}
       aria-label={`Güncel seri ${current} gün, en uzun ${longest} gün`}
     >
       <div className="flex flex-col gap-3.5">
         <div className="flex items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.10em] text-[var(--color-streak)]">
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.10em] text-[var(--ng-flame)]">
             <Flame size={14} strokeWidth={2.5} />
             GÜNCEL SERİ
           </span>
@@ -66,12 +66,12 @@ const StreakStatCardComponent: React.FC<StreakStatCardProps> = ({
             <span
               className={cn(
                 "font-display tabular-nums leading-[0.9] text-[56px]",
-                current === 0 ? "text-white/40" : "text-white"
+                current === 0 ? "text-[var(--ng-text-3)]" : "text-white"
               )}
             >
               {animatedCurrent}
             </span>
-            <span className="mt-1 text-[10px] font-black uppercase tracking-[0.10em] text-white/45">
+            <span className="mt-1 text-[10px] font-black uppercase tracking-[0.10em] text-[var(--ng-text-3)]">
               GÜN
             </span>
           </div>
@@ -85,13 +85,13 @@ const StreakStatCardComponent: React.FC<StreakStatCardProps> = ({
         </div>
 
         {showRisk && (
-          <div className="flex items-center gap-2 rounded-2xl border border-[rgba(245,166,35,0.30)] bg-[rgba(245,166,35,0.10)] px-3 py-2">
+          <div className="flex items-center gap-2 rounded-[var(--ng-radius)] border border-[rgba(255,199,44,0.30)] bg-[rgba(255,199,44,0.10)] px-3 py-2">
             <AlertTriangle
               size={16}
               strokeWidth={2.5}
-              className="shrink-0 text-[var(--color-secondary-light)]"
+              className="shrink-0 text-[var(--ng-gold)]"
             />
-            <span className="text-[12px] font-bold text-[var(--color-secondary-light)]">
+            <span className="text-[12px] font-bold text-[var(--ng-gold)]">
               Streak risk altında — bugün bir vakit kıl.
             </span>
           </div>

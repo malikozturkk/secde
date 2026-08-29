@@ -17,6 +17,8 @@ import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
 import SettingsRightPanel from "@/src/components/settings/SettingsRightPanel";
 import { Pencil, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 export default function ProfileSettings() {
   const { user } = useAuthStore();
@@ -75,7 +77,7 @@ export default function ProfileSettings() {
 
   return (
     <AppLayout rightPanel={<SettingsRightPanel active="profile" />}>
-      <h1 className="text-2xl font-extrabold text-white mb-6 font-sans">
+      <h1 className={cn(TEXT.h2, "mb-6")}>
         Profil
       </h1>
 
@@ -98,7 +100,7 @@ export default function ProfileSettings() {
             </div>
           )}
           <Link
-            className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#4fc3f7] flex items-center justify-center border-2 border-[#070F12] text-white"
+            className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#4fc3f7] flex items-center justify-center border-2 border-[var(--ng-canvas)] text-white"
             aria-label="Edit Avatar"
             href="/settings/avatar"
           >
@@ -178,7 +180,7 @@ export default function ProfileSettings() {
         {successMessage && (
           <p
             style={{
-              color: "var(--color-primary-light)",
+              color: "var(--ng-green)",
               fontSize: "14px",
               marginBottom: "16px",
               fontWeight: "bold",
@@ -197,7 +199,7 @@ export default function ProfileSettings() {
 
           <div className="flex flex-col gap-4 mt-8">
             {confirmingDelete ? (
-              <div className="flex flex-col gap-3 border border-[#ff4b4b]/40 rounded-2xl p-4">
+              <div className="flex flex-col gap-3 border border-[#ff4b4b]/40 rounded-[var(--ng-radius)] p-4">
                 <p
                   className="text-[13px] text-[rgba(255,255,255,0.7)] leading-relaxed"
                   style={{ fontFamily: "var(--font-sans)" }}
@@ -228,7 +230,7 @@ export default function ProfileSettings() {
                     type="button"
                     disabled={isDeleting}
                     onClick={() => setConfirmingDelete(false)}
-                    className="text-[13px] font-extrabold text-[rgba(255,255,255,0.55)] uppercase bg-transparent border-none cursor-pointer text-left p-0 tracking-wide hover:text-white"
+                    className="text-[13px] font-extrabold text-[var(--ng-text-2)] uppercase bg-transparent border-none cursor-pointer text-left p-0 tracking-wide hover:text-white"
                   >
                     VAZGEÇ
                   </button>

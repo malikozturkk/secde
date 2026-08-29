@@ -10,7 +10,7 @@ interface StepProgressCardProps {
 const StepProgressCard = ({ step }: StepProgressCardProps) => {
   const TopicIcon = stepIconMap[step.type];
   return (
-    <div className="bg-[#0C1518] p-4 lg:p-8 rounded-2xl flex flex-col gap-6 border border-[#1b2529] flex-1">
+    <div className="bg-[#0C1518] p-4 lg:p-8 rounded-[var(--ng-radius)] flex flex-col gap-6 border border-[#1b2529] flex-1">
       <div className="flex items-center justify-between">
         <div>
           <span className="text-[#3DF2C0] text-xl font-bold">

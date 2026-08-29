@@ -28,35 +28,35 @@ interface SpeechBubbleProps
 
 const TONE_STYLES: Record<SpeechBubbleTone, string> = {
   primary:
-    "bg-[#1c2e35] border-[var(--color-primary-light)]/40 text-white shadow-[0_8px_24px_rgba(0,0,0,0.45)]",
+    "bg-[var(--ng-surface)] border-[var(--ng-green)]/40 text-white shadow-[0_8px_24px_rgba(0,0,0,0.45)]",
   neutral:
-    "bg-[#1c2e35] border-white/10 text-white shadow-[0_8px_24px_rgba(0,0,0,0.4)]",
+    "bg-[var(--ng-surface)] border-white/10 text-white shadow-[0_8px_24px_rgba(0,0,0,0.4)]",
   accent:
-    "bg-[#1c2e35] border-[var(--color-accent)]/45 text-white shadow-[0_8px_22px_rgba(79,195,247,0.18)]",
+    "bg-[var(--ng-surface)] border-[var(--ng-sky)]/45 text-white shadow-[0_8px_22px_rgba(44,200,255,0.18)]",
   warning:
     "bg-[#2a1f0f] border-amber-400/50 text-amber-50 shadow-[0_8px_24px_rgba(0,0,0,0.45)]",
   white:
-    "bg-white border-white text-[#1c2e35] shadow-[0_10px_28px_rgba(0,0,0,0.45),0_3px_10px_rgba(0,0,0,0.25)]",
+    "bg-white border-white text-[var(--ng-surface)] shadow-[0_10px_28px_rgba(0,0,0,0.45),0_3px_10px_rgba(0,0,0,0.25)]",
 };
 
 const TAIL_TONE: Record<SpeechBubbleTone, string> = {
-  primary: "bg-[#1c2e35] border-[var(--color-primary-light)]/40",
-  neutral: "bg-[#1c2e35] border-white/10",
-  accent: "bg-[#1c2e35] border-[var(--color-accent)]/45",
+  primary: "bg-[var(--ng-surface)] border-[var(--ng-green)]/40",
+  neutral: "bg-[var(--ng-surface)] border-white/10",
+  accent: "bg-[var(--ng-surface)] border-[var(--ng-sky)]/45",
   warning: "bg-[#2a1f0f] border-amber-400/50",
   white: "bg-white border-white",
 };
 
 const SIZE_STYLES: Record<SpeechBubbleSize, string> = {
   sm: "px-3 py-1.5 text-[11px] rounded-xl",
-  md: "px-4 py-2.5 text-[13px] rounded-2xl",
-  lg: "px-5 py-3 text-[15px] rounded-2xl",
+  md: "px-4 py-2.5 text-[13px] rounded-[var(--ng-radius)]",
+  lg: "px-5 py-3 text-[15px] rounded-[var(--ng-radius)]",
 };
 
 const TITLE_TONE: Record<SpeechBubbleTone, string> = {
-  primary: "text-[var(--color-text-muted)]",
-  neutral: "text-[var(--color-text-muted)]",
-  accent: "text-[var(--color-text-muted)]",
+  primary: "text-[var(--ng-text-3)]",
+  neutral: "text-[var(--ng-text-3)]",
+  accent: "text-[var(--ng-text-3)]",
   warning: "text-amber-200/80",
   white: "text-[#3d5158]",
 };
@@ -66,7 +66,7 @@ const BODY_TONE: Record<SpeechBubbleTone, string> = {
   neutral: "text-white",
   accent: "text-white",
   warning: "text-amber-50",
-  white: "text-[#1c2e35]",
+  white: "text-[var(--ng-surface)]",
 };
 
 const TAIL_BASE = "absolute h-3 w-3 rotate-45 border";
@@ -95,13 +95,13 @@ export const SpeechBubble: React.FC<SpeechBubbleProps> = ({
   return (
     <div
       className={cn(
-        "relative inline-flex max-w-3xs items-start gap-2 border font-semibold leading-tight backdrop-blur-sm transition-transform duration-200",
+        "relative inline-flex max-w-3xs items-start gap-2 border font-semibold leading-tight backdrop-blur-sm transition-transform duration-[var(--motion-fast)] ease-[var(--ease-out)]",
         TONE_STYLES[tone],
         SIZE_STYLES[size],
         pulse && "wsh-bubble-pulse",
         className
       )}
-      style={{ boxShadow: "0 6px 0 0 rgba(0,0,0,0.35)" }}
+      style={{ boxShadow: "0 12px 30px rgba(0,0,0,0.50)" }}
       {...rest}
     >
       {icon && (

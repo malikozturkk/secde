@@ -17,6 +17,8 @@ import {
 } from "@/src/lib/qibla-utils";
 import { matchTrCity } from "@/src/lib/geocode";
 import { ToolId } from "@/src/types/enums/tools.enums";
+import { ELEVATION, TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 const BREADCRUMBS = [
   { name: "Ana sayfa", path: "/" },
@@ -48,23 +50,31 @@ export const ToolsHubClient: React.FC = () => {
   return (
     <SeoPageShell
       publicShell
+      className="ng-calm"
       breadcrumbs={BREADCRUMBS}
       eyebrow={TOOLS_PAGE_TITLE}
       title="İbadetinde işine yarayacak yardımcılar"
       lede={TOOLS_PAGE_SUBTITLE}
     >
-      <ul className="flex list-none flex-col gap-3 p-0">
+      <ul className="grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-3">
         {TOOLS.map((tool) => (
-          <li key={tool.id}>
+          <li key={tool.id} className="flex">
             <ToolCard tool={tool} hint={hints[tool.id]} />
           </li>
         ))}
       </ul>
 
-      <p className="px-1 text-[11px] font-bold leading-relaxed text-white/35">
-        Bu araçlar seri veya XP kazandırmaz; namaz takibinden bağımsız
-        çalışırlar.
-      </p>
+      <section className={cn(ELEVATION.surface, "flex flex-col gap-1.5 p-4")}>
+        <h2 className={cn(TEXT.eyebrow, "text-[var(--ng-text-3)]")}>
+          NASIL ÇALIŞIR?
+        </h2>
+        <p className={TEXT.body}>
+          Üç araç da tamamen tarayıcında çalışır: girdiğin rakamlar, seçtiğin
+          şehir ve zikir sayacın sunucuya gönderilmez. Seri veya XP
+          kazandırmazlar, namaz takibinden bağımsızdırlar.
+        </p>
+      </section>
+
     </SeoPageShell>
   );
 };

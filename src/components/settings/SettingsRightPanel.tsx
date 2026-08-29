@@ -30,16 +30,16 @@ const ACCOUNT_LINKS: ReadonlyArray<{
 ];
 
 const baseItemClass =
-  "py-3 px-6 text-[15px] font-bold cursor-pointer block no-underline transition-all text-left hover:bg-[#1a2b2a]";
+  "py-3 px-6 text-[15px] font-bold cursor-pointer block no-underline transition-all text-left hover:bg-[var(--ng-surface-high)]";
 
 const activeClass = "text-white bg-white/5 border-none";
 const inactiveClass =
-  "text-[rgba(255,255,255,0.55)] bg-transparent border-none";
+  "text-[var(--ng-text-2)] bg-transparent border-none";
 const comingSoonClass =
   "text-[rgba(255,255,255,0.3)] bg-transparent border-none cursor-not-allowed hover:bg-transparent flex items-center justify-between gap-2";
 
 const ComingSoonBadge = () => (
-  <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.08em] text-white/35">
+  <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--ng-text-3)]">
     Yakında
   </span>
 );
@@ -51,7 +51,7 @@ export default function SettingsRightPanel({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
+      <div className="border-2 border-[var(--ng-edge-strong)] rounded-[var(--ng-radius)] flex flex-col py-2 overflow-hidden">
         <div className="py-2 px-6 text-xl font-extrabold text-white">Hesap</div>
         <div className="list-none m-0 flex flex-col gap-1 pt-0 p-4">
           {ACCOUNT_LINKS.map((item) => {
@@ -84,7 +84,7 @@ export default function SettingsRightPanel({
         </div>
       </div>
 
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
+      <div className="border-2 border-[var(--ng-edge-strong)] rounded-[var(--ng-radius)] flex flex-col py-2 overflow-hidden">
         <div className="py-2 px-6 text-xl font-extrabold text-white">
           Abonelik
         </div>
@@ -101,7 +101,7 @@ export default function SettingsRightPanel({
         </div>
       </div>
 
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col py-2 overflow-hidden">
+      <div className="border-2 border-[var(--ng-edge-strong)] rounded-[var(--ng-radius)] flex flex-col py-2 overflow-hidden">
         <div className="py-2 px-6 text-xl font-extrabold text-white">
           Destek
         </div>
@@ -120,7 +120,7 @@ export default function SettingsRightPanel({
 
       <button
         type="button"
-        className="w-full py-4 bg-transparent text-[#4fc3f7] font-extrabold text-sm border-2 border-[rgba(255,255,255,0.15)] rounded-2xl cursor-pointer uppercase tracking-wide transition-colors hover:bg-[#1a2b2a]"
+        className="w-full py-4 bg-transparent text-[var(--ng-sky)] font-extrabold text-sm border-2 border-[var(--ng-edge-strong)] rounded-[var(--ng-radius)] cursor-pointer uppercase tracking-wide transition-colors hover:bg-[var(--ng-surface-high)]"
         onClick={() => logout()}
       >
         OTURUMU KAPAT

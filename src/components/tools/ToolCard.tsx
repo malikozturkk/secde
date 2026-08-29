@@ -2,9 +2,10 @@
 
 import React, { memo } from "react";
 import Link from "next/link";
-import { ChevronRight } from "@/src/icons/tsx/dashboard";
+import { ArrowRight } from "lucide-react";
 import { Dhikr, Qibla, Zakat } from "@/src/icons/tsx/tools";
 import { ToolId } from "@/src/types/enums/tools.enums";
+import { ACCENT, ELEVATION, TEXT } from "@/src/constants/surface";
 import { cn } from "@/src/lib/utils";
 import type { ToolMeta } from "@/src/types/tools.types";
 
@@ -21,59 +22,67 @@ interface ToolCardProps {
 
 const ToolCardComponent: React.FC<ToolCardProps> = ({ tool, hint }) => {
   const Icon = TOOL_ICON[tool.id];
+  const accent = ACCENT[tool.accent];
 
   return (
     <Link
       href={tool.href}
       aria-label={`${tool.label} — ${tool.description}`}
-      className="group flex items-stretch gap-3.5 rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary-light)]"
+      className={cn(
+        "group flex h-full w-full flex-col gap-3 p-4",
+        ELEVATION.surface,
+        "transition-[transform,border-color] duration-[var(--motion-fast)] ease-[var(--ease-out)]",
+        "hover:-translate-y-0.5 hover:border-[var(--ng-edge-strong)] active:translate-y-0",
+        "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ng-edge-strong)]"
+      )}
     >
-      <div className="relative flex w-[86px] shrink-0 items-center justify-center">
-        <div
+      <div className="flex items-start justify-between gap-2">
+        <span
           className={cn(
-            "grid h-[86px] w-[86px] place-items-center rounded-full",
-            "transition-transform duration-100 ease-out",
-            "group-active:translate-y-1 group-active:shadow-[0_2px_0_0_currentColor]",
-            "motion-reduce:transition-none",
-            tool.nodeBg,
-            tool.nodeShadow
+            "grid h-[54px] w-[54px] shrink-0 place-items-center rounded-[var(--ng-radius)]",
+            "border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface-deep)]"
           )}
         >
-          <Icon className="h-[38px] w-[38px] [filter:drop-shadow(0_2px_0_rgba(0,0,0,0.25))]" />
-        </div>
+          <Icon className="h-8 w-8" />
+        </span>
+        <span
+          className={cn(
+            "inline-flex items-center rounded-full px-2.5 py-1",
+            accent.chip,
+            TEXT.eyebrow,
+            "text-[10px] tracking-[0.14em]"
+          )}
+        >
+          {tool.eyebrow}
+        </span>
       </div>
 
-      <div
-        className={cn(
-          "flex min-w-0 flex-1 flex-col justify-center gap-1 rounded-3xl border p-4",
-          "transition-transform duration-100 ease-out group-active:translate-y-1 motion-reduce:transition-none",
-          tool.ring,
-          tool.surface
-        )}
-      >
-        <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-1 flex-col gap-1.5">
+        <h3 className={TEXT.h3}>{tool.label}</h3>
+        <p className={cn(TEXT.body, "text-[13px]")}>{tool.description}</p>
+      </div>
+
+      {hint && (
+        <div className="flex items-center justify-between gap-2 border-t-[length:var(--ng-stroke)] border-[var(--ng-edge)] pt-3">
           <span
-            className="text-[10px] font-black uppercase tracking-[0.16em]"
-            style={{ color: tool.accent }}
+            className={cn(
+              "min-w-0 truncate text-[11px] font-black uppercase tracking-[0.08em]",
+              accent.text
+            )}
           >
-            {tool.eyebrow}
-          </span>
-          <ChevronRight className="h-3 w-3 shrink-0 text-white/30" />
-        </div>
-
-        <h3 className="text-[17px] font-black tracking-[-0.01em] text-white">
-          {tool.label}
-        </h3>
-        <p className="text-[13px] font-bold leading-snug text-white/55">
-          {tool.description}
-        </p>
-
-        {hint && (
-          <div className="mt-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-white/40">
             {hint}
-          </div>
-        )}
-      </div>
+          </span>
+          <ArrowRight
+            size={16}
+            strokeWidth={3}
+            aria-hidden="true"
+            className={cn(
+              "shrink-0 transition-transform duration-[var(--motion-fast)] ease-[var(--ease-out)] group-hover:translate-x-1",
+              accent.text
+            )}
+          />
+        </div>
+      )}
     </Link>
   );
 };

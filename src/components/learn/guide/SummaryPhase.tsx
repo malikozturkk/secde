@@ -34,7 +34,7 @@ const SummaryPhase = ({
         </p>
       </div>
 
-      <div className="bg-[#0e1e18] border border-[#1e3a2e] rounded-2xl overflow-hidden max-h-80 overflow-y-auto">
+      <div className="bg-[#0e1e18] border border-[#1e3a2e] rounded-[var(--ng-radius)] overflow-hidden max-h-80 overflow-y-auto">
         {steps.map((step, i) => (
           <div
             key={step.number}

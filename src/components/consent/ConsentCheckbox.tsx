@@ -62,12 +62,12 @@ export const ConsentCheckbox = forwardRef<
           aria-hidden="true"
           className={[
             "shrink-0 mt-0.5 flex items-center justify-center",
-            "w-5 h-5 rounded-xs border-2 bg-[#1a2b2a] transition-colors duration-150",
+            "w-5 h-5 rounded-xs border-2 bg-[var(--ng-surface-deep)] transition-colors duration-150",
             "[&>svg]:opacity-0 peer-checked:[&>svg]:opacity-100",
-            "peer-focus-visible:ring-2 peer-focus-visible:ring-[#25B49A]/60",
+            "peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--ng-green)]/60",
             error
               ? "border-red-500 peer-checked:border-red-500 peer-checked:bg-red-500"
-              : "border-[#2a3d3b] peer-checked:border-[#25B49A] peer-checked:bg-[#25B49A] hover:border-[rgba(255,255,255,0.35)]",
+              : "border-[#2a3d3b] peer-checked:border-[var(--ng-green)] peer-checked:bg-[var(--ng-green)] hover:border-[rgba(255,255,255,0.35)]",
           ].join(" ")}
         >
           <Check size={14} strokeWidth={3} className="text-white" />

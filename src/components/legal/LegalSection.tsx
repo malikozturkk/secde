@@ -30,7 +30,7 @@ export const LegalSubSection: React.FC<LegalSubSectionProps> = ({
 }) => {
   return (
     <div className="space-y-2 pl-1">
-      <h3 className="text-base font-semibold text-[var(--color-primary-light)]">
+      <h3 className="text-base font-semibold text-[var(--ng-green)]">
         {title}
       </h3>
       <div className="space-y-2">{children}</div>
@@ -48,7 +48,7 @@ export const LegalList: React.FC<LegalListProps> = ({ items }) => {
       {items.map((item, i) => (
         <li
           key={i}
-          className="relative before:content-['•'] before:absolute before:-left-4 before:text-[var(--color-primary-light)]"
+          className="relative before:content-['•'] before:absolute before:-left-4 before:text-[var(--ng-green)]"
         >
           {item}
         </li>

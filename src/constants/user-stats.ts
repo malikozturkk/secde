@@ -83,7 +83,7 @@ export const PRAYER_BREAKDOWN_META: readonly PrayerBreakdownMeta[] = [
     label: "Yatsı",
     short: "Yatsı",
     color: "#6366F1",
-    shadow: "#1E1B4B",
+    shadow: "var(--ng-violet-deep)",
   },
   {
     key: "jumuah",

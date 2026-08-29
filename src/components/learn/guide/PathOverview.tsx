@@ -29,7 +29,7 @@ const PathOverview: React.FC<PathOverviewProps> = ({
   return (
     <div
       className={[
-        "bg-[#0C1518] rounded-2xl px-5 py-5 w-full flex flex-col gap-1 border border-[#1b2529] overflow-scroll",
+        "bg-[#0C1518] rounded-[var(--ng-radius)] px-5 py-5 w-full flex flex-col gap-1 border border-[#1b2529] overflow-scroll",
         className,
       ].join(" ")}
     >

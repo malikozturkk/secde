@@ -1,3 +1,4 @@
+import type { AccentName } from "@/src/constants/surface";
 import type { NisabBasis, ToolId } from "./enums/tools.enums";
 
 export interface ToolMeta {
@@ -6,11 +7,7 @@ export interface ToolMeta {
   label: string;
   description: string;
   eyebrow: string;
-  nodeBg: string;
-  nodeShadow: string;
-  ring: string;
-  surface: string;
-  accent: string;
+  accent: AccentName;
 }
 
 export interface QiblaReading {

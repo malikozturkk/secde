@@ -80,15 +80,15 @@ export default function CookieBanner() {
           onClick={closeDetails}
         />
 
-        <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-[#0d1b1e] border border-[var(--color-border)] rounded-t-2xl sm:rounded-2xl shadow-2xl">
-          <div className="sticky top-0 z-10 bg-[#0d1b1e] border-b border-[var(--color-border)] px-6 py-4 flex items-center justify-between">
+        <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-[#0d1b1e] border border-[var(--ng-edge)] rounded-t-2xl sm:rounded-[var(--ng-radius)] shadow-2xl">
+          <div className="sticky top-0 z-10 bg-[#0d1b1e] border-b border-[var(--ng-edge)] px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield size={18} className="text-[var(--color-primary-light)]" />
+              <Shield size={18} className="text-[var(--ng-green)]" />
               <h2 className="text-lg font-bold text-white">Çerez Tercihleri</h2>
             </div>
             <button
               onClick={closeDetails}
-              className="p-1.5 rounded-full hover:bg-white/10 transition-colors text-[var(--color-text-muted)]"
+              className="p-1.5 rounded-full hover:bg-white/10 transition-colors text-[var(--ng-text-3)]"
               aria-label="Kapat"
             >
               <X size={18} />
@@ -96,12 +96,12 @@ export default function CookieBanner() {
           </div>
 
           <div className="px-6 py-4 space-y-3">
-            <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
+            <p className="text-sm text-[var(--ng-text-3)] leading-relaxed">
               Hangi çerez kategorilerinin kullanılacağını aşağıdan
               belirleyebilirsiniz. Detaylı bilgi için{" "}
               <Link
                 href="/privacy#cerezler"
-                className="text-[var(--color-primary-light)] underline underline-offset-2"
+                className="text-[var(--ng-green)] underline underline-offset-2"
               >
                 Aydınlatma Metnimizi
               </Link>{" "}
@@ -111,7 +111,7 @@ export default function CookieBanner() {
             {CATEGORIES.map((cat) => (
               <div
                 key={cat.key}
-                className="border border-[var(--color-border)] rounded-xl overflow-hidden"
+                className="border border-[var(--ng-edge)] rounded-xl overflow-hidden"
               >
                 <div
                   className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-white/[0.03] transition-colors"
@@ -125,12 +125,12 @@ export default function CookieBanner() {
                     {expandedCategory === cat.key ? (
                       <ChevronUp
                         size={16}
-                        className="text-[var(--color-text-muted)] shrink-0"
+                        className="text-[var(--ng-text-3)] shrink-0"
                       />
                     ) : (
                       <ChevronDown
                         size={16}
-                        className="text-[var(--color-text-muted)] shrink-0"
+                        className="text-[var(--ng-text-3)] shrink-0"
                       />
                     )}
                     <span className="text-sm font-semibold text-white">
@@ -146,9 +146,9 @@ export default function CookieBanner() {
                     disabled={cat.locked}
                     className={`relative w-11 h-6 rounded-full transition-colors shrink-0 ${
                       cat.locked
-                        ? "bg-[var(--color-primary)] opacity-60 cursor-not-allowed"
+                        ? "bg-[var(--ng-green)] opacity-60 cursor-not-allowed"
                         : localPrefs[cat.key]
-                        ? "bg-[var(--color-primary)]"
+                        ? "bg-[var(--ng-green)]"
                         : "bg-white/15"
                     }`}
                     aria-label={`${cat.label} ${
@@ -165,7 +165,7 @@ export default function CookieBanner() {
 
                 {expandedCategory === cat.key && (
                   <div className="px-4 pb-3 pt-0">
-                    <p className="text-xs text-[var(--color-text-muted)] leading-relaxed pl-7">
+                    <p className="text-xs text-[var(--ng-text-3)] leading-relaxed pl-7">
                       {cat.description}
                     </p>
                   </div>
@@ -174,16 +174,16 @@ export default function CookieBanner() {
             ))}
           </div>
 
-          <div className="sticky bottom-0 bg-[#0d1b1e] border-t border-[var(--color-border)] px-6 py-4 flex gap-3">
+          <div className="sticky bottom-0 bg-[#0d1b1e] border-t border-[var(--ng-edge)] px-6 py-4 flex gap-3">
             <button
               onClick={handleSave}
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white border border-[var(--color-border)] rounded-xl hover:bg-white/5 transition-colors"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white border border-[var(--ng-edge)] rounded-xl hover:bg-white/5 transition-colors"
             >
               Seçimleri Onayla
             </button>
             <button
               onClick={acceptAll}
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-110 transition-all"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-[var(--ng-green)] rounded-xl hover:brightness-110 transition-all"
             >
               Tümünü Kaydet
             </button>
@@ -198,24 +198,24 @@ export default function CookieBanner() {
       ref={barRef}
       className="fixed bottom-0 left-0 right-0 z-[var(--z-cookie-banner)] p-4 sm:p-6"
     >
-      <div className="max-w-2xl mx-auto bg-[#0d1b1e] border border-[var(--color-border)] rounded-2xl shadow-2xl overflow-hidden">
+      <div className="max-w-2xl mx-auto bg-[#0d1b1e] border border-[var(--ng-edge)] rounded-[var(--ng-radius)] shadow-2xl overflow-hidden">
         <div className="px-5 py-4 sm:px-6 sm:py-5">
           <div className="flex items-start gap-3 mb-4">
             <Shield
               size={20}
-              className="text-[var(--color-primary-light)] shrink-0 mt-0.5"
+              className="text-[var(--ng-green)] shrink-0 mt-0.5"
             />
             <div>
               <h3 className="text-sm font-bold text-white mb-1">
                 Çerez Kullanımı
               </h3>
-              <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
+              <p className="text-xs text-[var(--ng-text-3)] leading-relaxed">
                 NamazGo, hizmetin çalışması için zorunlu çerezler ile araç
                 tercihlerinizi hatırlayan yerel kayıtlar kullanır; analitik veya
                 pazarlama çerezi kullanmaz. Detaylar için{" "}
                 <Link
                   href="/privacy#cerezler"
-                  className="text-[var(--color-primary-light)] underline underline-offset-2"
+                  className="text-[var(--ng-green)] underline underline-offset-2"
                 >
                   Aydınlatma Metnimizi
                 </Link>{" "}
@@ -227,19 +227,19 @@ export default function CookieBanner() {
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <button
               onClick={acceptAll}
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-110 transition-all"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-[var(--ng-green)] rounded-xl hover:brightness-110 transition-all"
             >
               Kabul Et
             </button>
             <button
               onClick={openDetails}
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white border border-[var(--color-border)] rounded-xl hover:bg-white/5 transition-colors"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white border border-[var(--ng-edge)] rounded-xl hover:bg-white/5 transition-colors"
             >
               Tercihler
             </button>
             <button
               onClick={rejectAll}
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-[var(--color-text-muted)] hover:text-white transition-colors"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-[var(--ng-text-3)] hover:text-white transition-colors"
             >
               Reddet
             </button>

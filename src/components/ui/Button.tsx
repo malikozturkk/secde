@@ -26,37 +26,37 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "relative cursor-pointer inline-flex items-center justify-center font-bold tracking-wide uppercase transition-all duration-100 active:translate-y-[4px] disabled:opacity-50 disabled:cursor-not-allowed";
+      "relative cursor-pointer inline-flex items-center justify-center font-black uppercase transition-[transform,box-shadow,filter,opacity] duration-[var(--motion-press)] ease-[var(--ease-out)] active:translate-y-[4px] disabled:opacity-50 disabled:cursor-not-allowed";
 
-    const variants = {
+    const variants: Record<ButtonVariant, string> = {
       primary:
-        "bg-[var(--color-primary)] text-white shadow-[0_6px_0px_#0F5048] active:shadow-[0_0px_0px_#0F5048] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-[var(--ng-green)] text-[#04241B] shadow-[0_6px_0_0_var(--ng-green-deep)] active:shadow-[0_0px_0px_var(--ng-green-deep)] rounded-[var(--ng-radius)] hover:brightness-110",
       ghost:
-        "bg-transparent text-white shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2),0_6px_0px_rgba(255,255,255,0.1)] active:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2),0_0px_0px_rgba(255,255,255,0.1)] rounded-[var(--radius-md)] hover:bg-[rgba(255,255,255,0.05)]",
-      cyan: "bg-cyan-500 text-cyan-950 shadow-[0_6px_0px_#083344] active:shadow-[0_0px_0px_#083344] rounded-[var(--radius-md)] hover:brightness-110",
-      blue: "bg-blue-500 text-blue-950 shadow-[0_6px_0px_#1e3a8a] active:shadow-[0_0px_0px_#1e3a8a] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-transparent text-white shadow-[inset_0_0_0_2px_var(--ng-edge-strong),0_6px_0_0_var(--ng-surface-deep)] active:shadow-[inset_0_0_0_2px_var(--ng-edge-strong),0_0px_0px_var(--ng-surface-deep)] rounded-[var(--ng-radius)] hover:bg-white/[0.07]",
+      cyan: "bg-[var(--ng-sky)] text-[#04303F] shadow-[0_6px_0_0_var(--ng-sky-deep)] active:shadow-[0_0px_0px_var(--ng-sky-deep)] rounded-[var(--ng-radius)] hover:brightness-110",
+      blue: "bg-[#3D8BFF] text-[#041C42] shadow-[0_6px_0_0_#0F3C86] active:shadow-[0_0px_0px_#0F3C86] rounded-[var(--ng-radius)] hover:brightness-110",
       lightBlue:
-        "bg-[#3EBBFF] text-[#00283D] shadow-[0_6px_0px_#133b56] active:shadow-[0_0px_0px_#133b56] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-[#5AD3FF] text-[#032F42] shadow-[0_6px_0_0_#0A6E96] active:shadow-[0_0px_0px_#0A6E96] rounded-[var(--ng-radius)] hover:brightness-110",
       amber:
-        "bg-amber-500 text-amber-950 shadow-[0_6px_0px_#451a03] active:shadow-[0_0px_0px_#451a03] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-[#FFA51F] text-[#2A1A03] shadow-[0_6px_0_0_#8A5300] active:shadow-[0_0px_0px_#8A5300] rounded-[var(--ng-radius)] hover:brightness-110",
       yellow:
-        "bg-yellow-400 text-yellow-950 shadow-[0_6px_0px_#713f12] active:shadow-[0_0px_0px_#713f12] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-[var(--ng-gold)] text-[#2A1D06] shadow-[0_6px_0_0_var(--ng-gold-deep)] active:shadow-[0_0px_0px_var(--ng-gold-deep)] rounded-[var(--ng-radius)] hover:brightness-110",
       orange:
-        "bg-orange-500 text-orange-950 shadow-[0_6px_0px_#7c2d12] active:shadow-[0_0px_0px_#7c2d12] rounded-[var(--radius-md)] hover:brightness-110",
-      rose: "bg-rose-600 text-white shadow-[0_6px_0px_#4c0519] active:shadow-[0_0px_0px_#4c0519] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-[var(--ng-flame)] text-[#2A1006] shadow-[0_6px_0_0_var(--ng-flame-deep)] active:shadow-[0_0px_0px_var(--ng-flame-deep)] rounded-[var(--ng-radius)] hover:brightness-110",
+      rose: "bg-[var(--ng-rose)] text-[#2C0410] shadow-[0_6px_0_0_var(--ng-rose-deep)] active:shadow-[0_0px_0px_var(--ng-rose-deep)] rounded-[var(--ng-radius)] hover:brightness-110",
       indigo:
-        "bg-indigo-700 text-indigo-50 shadow-[0_6px_0px_#1e1b4b] active:shadow-[0_0px_0px_#1e1b4b] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-[#7C5CF0] text-[#160A3A] shadow-[0_6px_0_0_var(--ng-violet-deep)] active:shadow-[0_0px_0px_var(--ng-violet-deep)] rounded-[var(--ng-radius)] hover:brightness-110",
       emerald:
-        "bg-emerald-600 text-white shadow-[0_6px_0px_#022c22] active:shadow-[0_0px_0px_#022c22] rounded-[var(--radius-md)] hover:brightness-110",
-      gray: "bg-[#1C272C] text-white shadow-[0_6px_0px_#111c1e] active:shadow-[0_0px_0px_#111c1e] rounded-[var(--radius-md)] hover:brightness-110",
+        "bg-[var(--ng-green)] text-[#04241B] shadow-[0_6px_0_0_var(--ng-green-deep)] active:shadow-[0_0px_0px_var(--ng-green-deep)] rounded-[var(--ng-radius)] hover:brightness-110",
+      gray: "bg-[var(--ng-surface-high)] text-white shadow-[0_6px_0_0_var(--ng-surface-deep)] active:shadow-[0_0px_0px_var(--ng-surface-deep)] rounded-[var(--ng-radius)] hover:brightness-125",
     };
 
     const sizes = {
-      xs: "px-2 py-1 text-xs",
-      sm: "px-4 py-2 text-sm",
-      md: "px-6 py-3 text-base",
-      lg: "px-8 py-4 text-lg",
-      xl: "px-10 py-5 text-xl",
+      xs: "px-2.5 py-1.5 text-[11px] tracking-[0.08em]",
+      sm: "px-4 py-2.5 text-[13px] tracking-[0.08em]",
+      md: "px-6 py-3.5 text-[15px] tracking-[0.08em]",
+      lg: "px-8 py-4 text-[17px] tracking-[0.06em]",
+      xl: "px-10 py-5 text-[20px] tracking-[0.04em]",
     };
 
     const iconPositionStyles = {
@@ -74,7 +74,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variants[variant],
           sizes[size],
           icon && iconPositionStyles[iconPosition],
-          "font-display font-sans",
+          "font-display",
           className
         )}
         {...props}

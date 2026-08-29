@@ -15,11 +15,11 @@ interface PunctualityCardProps {
 
 const donutColors = (percent: number): { from: string; to: string } => {
   if (percent >= 70)
-    return { from: "var(--color-primary)", to: "var(--color-primary-light)" };
+    return { from: "var(--ng-green)", to: "var(--ng-green)" };
   if (percent >= 40)
     return {
-      from: "var(--color-secondary)",
-      to: "var(--color-secondary-light)",
+      from: "var(--ng-gold)",
+      to: "var(--ng-gold)",
     };
   return { from: "#E11D48", to: "#FB7185" };
 };
@@ -43,7 +43,7 @@ const PunctualityCardComponent: React.FC<PunctualityCardProps> = ({
     >
       <div className="flex flex-col gap-4">
         <h3 className="flex items-center gap-2 text-base font-black tracking-[-0.01em] text-white">
-          <Clock size={18} strokeWidth={2.4} className="text-[#9AE0FF]" />
+          <Clock size={18} strokeWidth={2.4} className="text-[var(--ng-sky)]" />
           Vaktinde Kılınan Namaz Oranı
         </h3>
 
@@ -52,7 +52,7 @@ const PunctualityCardComponent: React.FC<PunctualityCardProps> = ({
             <div className="text-sm font-black text-white">
               Henüz namaz işaretlenmedi
             </div>
-            <div className="mt-1 text-[13px] font-bold leading-snug text-white/55">
+            <div className="mt-1 text-[13px] font-bold leading-snug text-[var(--ng-text-2)]">
               Vaktinde işaretlediğin namazlar burada görünecek.
             </div>
           </div>
@@ -86,7 +86,7 @@ const PunctualityCardComponent: React.FC<PunctualityCardProps> = ({
                   <AlarmClock
                     size={15}
                     strokeWidth={2.5}
-                    className="text-[var(--color-secondary-light)]"
+                    className="text-[var(--ng-gold)]"
                   />
                 }
               />

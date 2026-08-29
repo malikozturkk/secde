@@ -1,7 +1,9 @@
 "use client";
 
 import React, { memo, useId } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
+import { MOTION_REDUCED, MOTION_SPRING } from "@/src/constants/motion";
 
 export interface BarDatum {
   key: string;
@@ -28,6 +30,7 @@ const BarChartComponent: React.FC<BarChartProps> = ({
   "aria-label": ariaLabel,
 }) => {
   const reactId = useId();
+  const prefersReduced = useReducedMotion();
   const max = Math.max(1, ...data.map((d) => d.value));
   const total = data.reduce((sum, d) => sum + d.value, 0);
 
@@ -57,7 +60,7 @@ const BarChartComponent: React.FC<BarChartProps> = ({
               <span
                 className={cn(
                   "text-[11px] font-black tabular-nums leading-none",
-                  isEmpty ? "text-white/25" : "text-white/80"
+                  isEmpty ? "text-[var(--ng-text-3)]" : "text-[var(--ng-text-2)]"
                 )}
               >
                 {d.value}
@@ -67,16 +70,21 @@ const BarChartComponent: React.FC<BarChartProps> = ({
               className="flex w-full items-end justify-center"
               style={{ height }}
             >
-              <div
+              <motion.div
                 className={cn(
-                  "w-full max-w-[34px] rounded-t-lg transition-[height] duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+                  "w-full max-w-[34px] origin-bottom rounded-t-lg will-change-transform",
                   isEmpty && "bg-white/[0.06]"
                 )}
+                initial={false}
+                animate={{ scaleY: barHeight / height }}
+                transition={
+                  prefersReduced ? MOTION_REDUCED : MOTION_SPRING.ui
+                }
                 style={
                   isEmpty
-                    ? { height: barHeight }
+                    ? { height }
                     : {
-                        height: barHeight,
+                        height,
                         background: d.color,
                         boxShadow: `0 3px 0 0 ${
                           d.shadow ?? "rgba(0,0,0,0.4)"
@@ -85,7 +93,7 @@ const BarChartComponent: React.FC<BarChartProps> = ({
                 }
               />
             </div>
-            <span className="w-full truncate text-center text-[9px] font-bold uppercase tracking-[0.04em] text-white/45">
+            <span className="w-full truncate text-center text-[9px] font-bold uppercase tracking-[0.04em] text-[var(--ng-text-3)]">
               {d.short ?? d.label}
             </span>
           </div>

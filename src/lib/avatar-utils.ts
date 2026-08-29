@@ -159,7 +159,7 @@ export const COLOR_FIELD_CONFIGS: ColorFieldConfig[] = [
     label: "Kıyafet",
     palette: [
       "#2d3a4a",
-      "#25B49A",
+      "var(--ng-green)",
       "#6b3fa0",
       "#1a5a7a",
       "#2a4a2a",
@@ -176,7 +176,7 @@ export const COLOR_FIELD_CONFIGS: ColorFieldConfig[] = [
     key: "background",
     label: "Arka plan rengi",
     palette: [
-      "#25B49A",
+      "var(--ng-green)",
       "#4682b4",
       "#6b3fa0",
       "#2d3a4a",

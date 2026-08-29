@@ -34,7 +34,7 @@ function HexInput({ value, onChange }: HexInputProps) {
         style={{ backgroundColor: error ? value : inputValue }}
       />
       <div className="flex flex-col gap-0.5 flex-1">
-        <span className="text-xs text-white/40 font-bold uppercase tracking-widest">
+        <span className="text-xs text-[var(--ng-text-3)] font-bold uppercase tracking-widest">
           Özel renk
         </span>
         <input

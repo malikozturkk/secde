@@ -49,12 +49,12 @@ const HeroCardComponent: React.FC<HeroCardProps> = ({ worship }) => {
   const heroStyle = {
     "--wsh-hero": config.color,
     "--wsh-hero-shadow": config.shadow,
-    background: `radial-gradient(700px 380px at 20% 5%, color-mix(in srgb, var(--wsh-hero) 26%, transparent), transparent 65%), radial-gradient(500px 320px at 90% 110%, color-mix(in srgb, var(--wsh-hero) 18%, transparent), transparent 70%), linear-gradient(160deg, #1a2b2a 0%, #0f1a1f 100%)`,
+    background: `radial-gradient(700px 380px at 20% 5%, color-mix(in srgb, var(--wsh-hero) 26%, transparent), transparent 65%), radial-gradient(500px 320px at 90% 110%, color-mix(in srgb, var(--wsh-hero) 18%, transparent), transparent 70%), linear-gradient(160deg, var(--ng-surface-high) 0%, var(--ng-surface-deep) 100%)`,
   } as React.CSSProperties;
 
   return (
     <section
-      className="relative isolate overflow-hidden rounded-[28px] border border-white/[0.06] px-[22px] py-6 shadow-[0_30px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] min-[900px]:px-8 min-[900px]:py-7"
+      className="relative isolate overflow-hidden rounded-[28px] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] px-[22px] py-6 shadow-[0_30px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] min-[900px]:px-8 min-[900px]:py-7"
       style={heroStyle}
     >
       <div
@@ -79,7 +79,7 @@ const HeroCardComponent: React.FC<HeroCardProps> = ({ worship }) => {
             <span className="block whitespace-nowrap text-[10px] font-extrabold uppercase tracking-[0.1em] text-[#3d5158]">
               Sıradaki
             </span>
-            <span className="block whitespace-nowrap text-[12px] font-black text-[#1c2e35]">
+            <span className="block whitespace-nowrap text-[12px] font-black text-[var(--ng-surface)]">
               {config.label} · {timeLabel}
             </span>
           </SpeechBubble>
@@ -90,15 +90,15 @@ const HeroCardComponent: React.FC<HeroCardProps> = ({ worship }) => {
         </div>
 
         <div className="flex min-w-0 flex-col gap-3.5">
-          <span className="inline-flex w-fit items-center whitespace-nowrap rounded-full border border-white/10 bg-white/[0.08] px-3 py-[5px] text-[11px] font-black uppercase tracking-[0.18em] text-[var(--wsh-hero)]">
+          <span className="inline-flex w-fit items-center whitespace-nowrap rounded-full border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-white/[0.08] px-3 py-[5px] text-[11px] font-black uppercase tracking-[0.18em] text-[var(--wsh-hero)]">
             SIRADAKİ NAMAZ · {whenLabel}
           </span>
-          <h2 className="m-0 text-[44px] font-black leading-[0.95] tracking-[-0.03em] text-[var(--color-text)] min-[900px]:text-[62px]">
+          <h2 className="m-0 text-[44px] font-black leading-[0.95] tracking-[-0.03em] text-[var(--ng-text)] min-[900px]:text-[62px]">
             {config.label}
           </h2>
           <div className="inline-flex items-baseline gap-3.5 font-display text-[34px] leading-none tabular-nums text-[var(--wsh-hero)] [text-shadow:0_0_30px_color-mix(in_srgb,var(--wsh-hero)_45%,transparent)] min-[900px]:text-[44px]">
             {timeLabel}
-            <small className="font-sans text-[13px] font-black uppercase tracking-[0.14em] text-white/35">
+            <small className="font-sans text-[13px] font-black uppercase tracking-[0.14em] text-[var(--ng-text-3)]">
               · {dayName}
             </small>
           </div>
@@ -107,33 +107,33 @@ const HeroCardComponent: React.FC<HeroCardProps> = ({ worship }) => {
             role="timer"
             aria-label={`${config.label} sıradaki namaz`}
           >
-            <div className="flex min-w-[64px] flex-col items-center gap-1 rounded-[18px] border border-white/10 bg-white/[0.05] px-3 py-2.5 shadow-[0_5px_0_0_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] min-[521px]:min-w-[86px] min-[521px]:px-[18px] min-[521px]:py-3.5">
-              <span className="font-display text-[26px] leading-none tabular-nums text-[var(--color-text)] min-[521px]:text-[34px]">
+            <div className="flex min-w-[64px] flex-col items-center gap-1 rounded-[18px] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface-high)] px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] min-[521px]:min-w-[86px] min-[521px]:px-[18px] min-[521px]:py-3.5">
+              <span className="font-display text-[26px] leading-none tabular-nums text-[var(--ng-text)] min-[521px]:text-[34px]">
                 {padNumber(dur.h)}
               </span>
-              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-white/35">
+              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[var(--ng-text-3)]">
                 Saat
               </span>
             </div>
             <span className="font-display text-[28px] text-[var(--wsh-hero)] opacity-[0.55]">
               :
             </span>
-            <div className="flex min-w-[64px] flex-col items-center gap-1 rounded-[18px] border border-white/10 bg-white/[0.05] px-3 py-2.5 shadow-[0_5px_0_0_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] min-[521px]:min-w-[86px] min-[521px]:px-[18px] min-[521px]:py-3.5">
-              <span className="font-display text-[26px] leading-none tabular-nums text-[var(--color-text)] min-[521px]:text-[34px]">
+            <div className="flex min-w-[64px] flex-col items-center gap-1 rounded-[18px] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface-high)] px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] min-[521px]:min-w-[86px] min-[521px]:px-[18px] min-[521px]:py-3.5">
+              <span className="font-display text-[26px] leading-none tabular-nums text-[var(--ng-text)] min-[521px]:text-[34px]">
                 {padNumber(dur.m)}
               </span>
-              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-white/35">
+              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[var(--ng-text-3)]">
                 Dakika
               </span>
             </div>
             <span className="font-display text-[28px] text-[var(--wsh-hero)] opacity-[0.55]">
               :
             </span>
-            <div className="flex min-w-[64px] flex-col items-center gap-1 rounded-[18px] border border-white/10 bg-white/[0.05] px-3 py-2.5 shadow-[0_5px_0_0_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] min-[521px]:min-w-[86px] min-[521px]:px-[18px] min-[521px]:py-3.5">
-              <span className="font-display text-[26px] leading-none tabular-nums text-[var(--color-text)] min-[521px]:text-[34px]">
+            <div className="flex min-w-[64px] flex-col items-center gap-1 rounded-[18px] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface-high)] px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] min-[521px]:min-w-[86px] min-[521px]:px-[18px] min-[521px]:py-3.5">
+              <span className="font-display text-[26px] leading-none tabular-nums text-[var(--ng-text)] min-[521px]:text-[34px]">
                 {padNumber(dur.s)}
               </span>
-              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-white/35">
+              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[var(--ng-text-3)]">
                 Saniye
               </span>
             </div>

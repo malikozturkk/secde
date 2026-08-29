@@ -23,6 +23,8 @@ import {
   LANGUAGE_OPTIONS,
   MADHAB_OPTIONS,
 } from "@/src/constants/registration";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 export default function AccountSettings() {
   const { user } = useAuthStore();
@@ -99,14 +101,14 @@ export default function AccountSettings() {
   if (!hydrated) {
     return (
       <AppLayout rightPanel={<SettingsRightPanel active="preferences" />}>
-        <h1 className="text-2xl font-extrabold text-white mb-6 font-sans">
+        <h1 className={cn(TEXT.h2, "mb-6")}>
           Tercihler
         </h1>
         <div aria-hidden="true" className="flex flex-col gap-4">
           <div className="h-6 w-40 animate-pulse rounded-lg bg-white/[0.06]" />
-          <div className="h-14 w-full animate-pulse rounded-2xl bg-white/[0.06]" />
-          <div className="h-14 w-full animate-pulse rounded-2xl bg-white/[0.06]" />
-          <div className="h-14 w-full animate-pulse rounded-2xl bg-white/[0.06]" />
+          <div className="h-14 w-full animate-pulse rounded-[var(--ng-radius)] bg-white/[0.06]" />
+          <div className="h-14 w-full animate-pulse rounded-[var(--ng-radius)] bg-white/[0.06]" />
+          <div className="h-14 w-full animate-pulse rounded-[var(--ng-radius)] bg-white/[0.06]" />
         </div>
       </AppLayout>
     );
@@ -114,7 +116,7 @@ export default function AccountSettings() {
 
   return (
     <AppLayout rightPanel={<SettingsRightPanel active="preferences" />}>
-      <h1 className="text-2xl font-extrabold text-white mb-6 font-sans">
+      <h1 className={cn(TEXT.h2, "mb-6")}>
         Tercihler
       </h1>
 
@@ -125,7 +127,7 @@ export default function AccountSettings() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <span className="text-sm font-bold text-white/55 font-sans">
+            <span className="text-sm font-bold text-[var(--ng-text-2)] font-sans">
               Konum
             </span>
             {canChangeLocation ? (
@@ -135,18 +137,18 @@ export default function AccountSettings() {
                   onChange={handleLocationChange}
                   error={errors.city?.message ?? errors.country?.message}
                 />
-                <p className="px-1 text-[12px] font-semibold text-white/40">
+                <p className="px-1 text-[12px] font-semibold text-[var(--ng-text-3)]">
                   Namaz vakitleri seçtiğin ile göre hesaplanır. Konumunu{" "}
-                  <strong className="text-white/60">yalnızca bir kez</strong>{" "}
+                  <strong className="text-[var(--ng-text-2)]">yalnızca bir kez</strong>{" "}
                   değiştirebilirsin.
                 </p>
               </>
             ) : (
               <>
-                <div className="flex h-14 items-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-white/70">
+                <div className="flex h-14 items-center rounded-[var(--ng-radius)] border border-[var(--ng-edge)] bg-[var(--ng-surface-high)] px-4 text-[var(--ng-text-2)]">
                   {user?.city ?? "—"}, {user?.country ?? "—"}
                 </div>
-                <p className="px-1 text-[12px] font-semibold text-white/40">
+                <p className="px-1 text-[12px] font-semibold text-[var(--ng-text-3)]">
                   Konum değiştirme hakkını kullandın.
                 </p>
               </>
@@ -172,14 +174,14 @@ export default function AccountSettings() {
               />
             ) : (
               <div className="flex flex-col gap-1.5">
-                <span className="text-sm font-bold text-white/55 font-sans">
+                <span className="text-sm font-bold text-[var(--ng-text-2)] font-sans">
                   Mezhep
                 </span>
-                <div className="flex h-14 items-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-white/70">
+                <div className="flex h-14 items-center rounded-[var(--ng-radius)] border border-[var(--ng-edge)] bg-[var(--ng-surface-high)] px-4 text-[var(--ng-text-2)]">
                   {MADHAB_OPTIONS.find((o) => o.value === user?.madhab)
                     ?.label ?? "—"}
                 </div>
-                <p className="px-1 text-[12px] font-semibold text-white/40">
+                <p className="px-1 text-[12px] font-semibold text-[var(--ng-text-3)]">
                   Mezhep değiştirme hakkını kullandın.
                 </p>
               </div>
@@ -210,7 +212,7 @@ export default function AccountSettings() {
         {successMessage && (
           <p
             style={{
-              color: "var(--color-primary-light)",
+              color: "var(--ng-green)",
               fontSize: "14px",
               marginBottom: "16px",
               fontWeight: "bold",

@@ -41,7 +41,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   const getOptionStyle = (optionId: string) => {
     const base = [
       "flex items-center justify-between cursor-pointer",
-      "p-4 rounded-2xl border transition-all duration-150",
+      "p-4 rounded-[var(--ng-radius)] border transition-all duration-150",
       "text-sm font-medium text-left",
     ];
 
@@ -95,7 +95,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   return (
     <div
       className={[
-        "relative flex flex-col gap-5 bg-[#172125] rounded-2xl px-5 pt-5 pb-6 font-sans w-full border border-[#1b2529]",
+        "relative flex flex-col gap-5 bg-[#172125] rounded-[var(--ng-radius)] px-5 pt-5 pb-6 font-sans w-full border border-[#1b2529]",
         shake ? "animate-shake border-[#ff5c5c]" : "",
       ].join(" ")}
     >

@@ -29,7 +29,7 @@ export const LocationNotSetDialog: React.FC<LocationNotSetDialogProps> = ({
       }
     >
       <div className="flex flex-col items-center gap-4 px-6 py-7 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-[20px] border-2 border-[#25B49A]/30 bg-[#25B49A]/10 text-[#25B49A]">
+        <div className="flex h-16 w-16 items-center justify-center rounded-[20px] border-2 border-[var(--ng-green)]/30 bg-[var(--ng-green)]/10 text-[var(--ng-green)]">
           <MapPin size={28} />
         </div>
 
@@ -38,7 +38,7 @@ export const LocationNotSetDialog: React.FC<LocationNotSetDialogProps> = ({
         </h2>
 
         <p
-          className="m-0 max-w-[320px] text-sm font-medium leading-relaxed text-[rgba(255,255,255,0.6)]"
+          className="m-0 max-w-[320px] text-sm font-medium leading-relaxed text-[var(--ng-text-2)]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Namaz vakitlerini ve günlük görevlerini gösterebilmemiz için hesabında

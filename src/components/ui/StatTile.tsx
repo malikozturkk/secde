@@ -23,11 +23,11 @@ interface StatTileProps {
 
 const VALUE_TONE: Record<StatTileTone, string> = {
   default: "text-white",
-  streak: "text-[var(--color-streak)]",
-  primary: "text-[var(--color-primary-light)]",
-  violet: "text-[#C7B9FF]",
-  ice: "text-[#9AE0FF]",
-  gold: "text-[var(--color-secondary-light)]",
+  streak: "text-[var(--ng-flame)]",
+  primary: "text-[var(--ng-green)]",
+  violet: "text-[var(--ng-violet)]",
+  ice: "text-[var(--ng-sky)]",
+  gold: "text-[var(--ng-gold)]",
 };
 
 const StatTileComponent: React.FC<StatTileProps> = ({
@@ -46,9 +46,10 @@ const StatTileComponent: React.FC<StatTileProps> = ({
       type={interactive ? "button" : undefined}
       onClick={onClick}
       className={cn(
-        "flex flex-col items-start gap-0.5 rounded-2xl border border-white/[0.06] bg-white/[0.03] px-3.5 py-3 text-left",
+        "flex flex-col items-start gap-1 rounded-[var(--ng-radius)] px-3.5 py-3 text-left",
+        "border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface-high)]",
         interactive &&
-          "cursor-pointer transition-transform duration-100 hover:bg-white/[0.06] active:translate-y-[2px]",
+          "cursor-pointer transition-[transform,background-color] duration-[var(--motion-press)] ease-[var(--ease-out)] hover:bg-white/[0.06] active:translate-y-[2px]",
         className
       )}
     >
@@ -66,7 +67,7 @@ const StatTileComponent: React.FC<StatTileProps> = ({
           {value}
         </span>
       </span>
-      <span className="text-[10px] font-black uppercase tracking-[0.10em] text-white/45">
+      <span className="text-[10px] font-black uppercase tracking-[0.10em] text-[var(--ng-text-3)]">
         {label}
       </span>
     </Element>

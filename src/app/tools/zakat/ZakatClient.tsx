@@ -19,6 +19,7 @@ import {
 } from "@/src/constants/tools";
 import { NisabBasis } from "@/src/types/enums/tools.enums";
 import { cn } from "@/src/lib/utils";
+import { ACCENT, ELEVATION, TEXT } from "@/src/constants/surface";
 
 type FieldKey =
   | "cash"
@@ -109,6 +110,7 @@ export const ZakatClient: React.FC = () => {
   return (
     <SeoPageShell
       publicShell
+      className="ng-calm"
       breadcrumbs={BREADCRUMBS}
       eyebrow="Zekât hesaplayıcı"
       title="Nisabı aşıyor musun, ne kadar zekât düşüyor?"
@@ -116,22 +118,21 @@ export const ZakatClient: React.FC = () => {
     >
         <section
           className={cn(
-            "flex flex-col items-center gap-3 rounded-3xl border p-5 transition-colors duration-300",
-            showResult && result.isLiable
-              ? "border-[rgba(37,180,154,0.45)] bg-gradient-to-b from-[rgba(37,180,154,0.14)] to-[#1C2E35] to-60%"
-              : "border-[rgba(245,166,35,0.30)] bg-gradient-to-b from-[rgba(245,166,35,0.10)] to-[#1C2E35] to-60%"
+            ELEVATION.surface,
+            "flex flex-col items-center gap-3 p-5 transition-colors duration-[var(--motion-base)] sm:p-6",
+            showResult &&
+              result.isLiable &&
+              "border-[color-mix(in_srgb,var(--ng-green)_55%,transparent)]"
           )}
         >
-          <div className="grid h-[72px] w-[72px] place-items-center rounded-2xl border-2 border-[rgba(245,166,35,0.35)] bg-[#12222B] shadow-[0_5px_0_0_#7A5A0D]">
+          <div className="grid h-[68px] w-[68px] place-items-center rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface-deep)]">
             <Zakat className="h-11 w-11" />
           </div>
 
           {!showResult ? (
             <>
-              <span className="font-display text-[24px] leading-none tracking-[0.02em] text-white">
-                Zekât Hesaplayıcı
-              </span>
-              <p className="m-0 max-w-[38ch] text-center text-[12px] font-bold leading-snug text-white/45">
+              <span className={TEXT.h2}>Zekât Hesaplayıcı</span>
+              <p className={cn(TEXT.muted, "m-0 max-w-[38ch] text-center")}>
                 {result.hasInput
                   ? "Nisap eşiğini bulmak için seçtiğin madenin gram fiyatını gir."
                   : "Aşağıdaki alanları doldur, kırkta bir olarak ne düştüğünü gör."}
@@ -139,23 +140,27 @@ export const ZakatClient: React.FC = () => {
             </>
           ) : result.isLiable ? (
             <>
-              <span className="text-[11px] font-black uppercase tracking-[0.14em] text-[var(--color-primary-light)]">
-                Ödenecek zekât
+              <span
+                className={cn(
+                  "inline-flex items-center rounded-full px-3 py-1.5",
+                  ACCENT.green.chip,
+                  TEXT.eyebrow
+                )}
+              >
+                ÖDENECEK ZEKÂT
               </span>
-              <span className="font-display text-[44px] leading-none tracking-[0.02em] text-white tabular-nums [text-shadow:0_4px_0_rgba(15,80,72,0.5)]">
+              <span className={cn(TEXT.num, "text-[52px]")}>
                 {formatCurrency(result.zakatDue)}
               </span>
-              <span className="text-[12px] font-black text-white/45">
+              <span className={TEXT.muted}>
                 TL · net varlığın %{(ZAKAT_RATE * 100).toLocaleString("tr-TR")}
                 &apos;i
               </span>
             </>
           ) : (
             <>
-              <span className="font-display text-[24px] leading-none tracking-[0.02em] text-white">
-                Nisabın altındasın
-              </span>
-              <span className="text-[12px] font-bold text-white/45">
+              <span className={TEXT.h2}>Nisabın altındasın</span>
+              <span className={TEXT.muted}>
                 Nisaba {formatCurrency(result.remainingToNisab)} TL kaldı
               </span>
             </>
@@ -169,7 +174,7 @@ export const ZakatClient: React.FC = () => {
                 size="sm"
                 aria-label="Nisaba göre durum"
               />
-              <div className="mt-1.5 flex justify-between text-[10px] font-black uppercase tracking-[0.1em] text-white/35">
+              <div className="mt-2 flex justify-between text-[10px] font-black uppercase tracking-[0.1em] text-[var(--ng-text-3)]">
                 <span>Net {formatCurrency(result.netWealth)}</span>
                 <span>Nisap {formatCurrency(result.nisabValue)}</span>
               </div>
@@ -177,8 +182,8 @@ export const ZakatClient: React.FC = () => {
           )}
         </section>
 
-        <section className="flex flex-col gap-3 rounded-3xl border border-white/[0.07] bg-[#1C2E35] p-4">
-          <h2 className="m-0 text-sm font-black text-white">Nisap ölçüsü</h2>
+        <section className={cn(ELEVATION.surface, "flex flex-col gap-3.5 p-4 sm:p-5")}>
+          <h2 className={cn(TEXT.h3, "m-0")}>Nisap ölçüsü</h2>
           <div className="grid grid-cols-2 gap-2">
             {(Object.values(NisabBasis) as NisabBasis[]).map((option) => (
               <button
@@ -187,17 +192,18 @@ export const ZakatClient: React.FC = () => {
                 onClick={() => setChosenBasis(option)}
                 aria-pressed={basis === option}
                 className={cn(
-                  "rounded-2xl border px-3 py-2.5 text-left transition-transform duration-100",
-                  "active:translate-y-[3px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-secondary)]",
+                  "rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] px-3.5 py-3 text-left",
+                  "transition-colors duration-[var(--motion-fast)] ease-[var(--ease-out)]",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ng-gold)]",
                   basis === option
-                    ? "border-[rgba(245,166,35,0.6)] bg-[rgba(245,166,35,0.16)] shadow-[0_4px_0_0_#7A5A0D] active:shadow-[0_1px_0_0_#7A5A0D]"
-                    : "border-white/[0.08] bg-[#16252C] shadow-[0_4px_0_0_rgba(0,0,0,0.3)] active:shadow-[0_1px_0_0_rgba(0,0,0,0.3)]"
+                    ? "border-[var(--ng-gold)] bg-[color-mix(in_srgb,var(--ng-gold)_14%,transparent)]"
+                    : "border-[var(--ng-edge)] bg-[var(--ng-surface-high)] hover:border-[var(--ng-edge-strong)]"
                 )}
               >
-                <span className="block text-[13px] font-black text-white">
+                <span className="block text-[14px] font-black text-white">
                   {NISAB_LABELS[option]}
                 </span>
-                <span className="mt-0.5 block text-[11px] font-bold text-white/40">
+                <span className={cn(TEXT.muted, "mt-0.5 block")}>
                   {NISAB_GRAMS[option].toLocaleString("tr-TR")} gr karşılığı
                 </span>
               </button>
@@ -222,13 +228,13 @@ export const ZakatClient: React.FC = () => {
               onChange={(e) => setField("silverPerGram", e.target.value)}
             />
           </div>
-          <p className="m-0 text-[11px] font-bold leading-relaxed text-white/35">
+          <p className={cn(TEXT.muted, "m-0")}>
             Fiyatlar kaydedilmez; hesap gününün güncel değerlerini gir.
           </p>
         </section>
 
-        <section className="flex flex-col gap-3 rounded-3xl border border-white/[0.07] bg-[#1C2E35] p-4">
-          <h2 className="m-0 text-sm font-black text-white">Varlıkların</h2>
+        <section className={cn(ELEVATION.surface, "flex flex-col gap-3.5 p-4 sm:p-5")}>
+          <h2 className={cn(TEXT.h3, "m-0")}>Varlıkların</h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {ASSET_FIELDS.map((field) => (
               <Input
@@ -244,9 +250,7 @@ export const ZakatClient: React.FC = () => {
           </div>
         </section>
 
-        <p className="px-1 text-[11px] font-bold leading-relaxed text-white/35">
-          {ZAKAT_DISCLAIMER}
-        </p>
+        <p className={cn(TEXT.muted, "px-1")}>{ZAKAT_DISCLAIMER}</p>
     </SeoPageShell>
   );
 };
