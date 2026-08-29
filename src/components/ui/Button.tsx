@@ -32,7 +32,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       primary:
         "bg-[var(--color-primary)] text-white shadow-[0_6px_0px_#0F5048] active:shadow-[0_0px_0px_#0F5048] rounded-[var(--radius-md)] hover:brightness-110",
       ghost:
-        "bg-transparent text-white border-2 border-[rgba(255,255,255,0.2)] shadow-[0_6px_0px_rgba(255,255,255,0.1)] active:shadow-[0_0px_0px_rgba(255,255,255,0.1)] rounded-[var(--radius-md)] hover:bg-[rgba(255,255,255,0.05)]",
+        "bg-transparent text-white shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2),0_6px_0px_rgba(255,255,255,0.1)] active:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2),0_0px_0px_rgba(255,255,255,0.1)] rounded-[var(--radius-md)] hover:bg-[rgba(255,255,255,0.05)]",
       cyan: "bg-cyan-500 text-cyan-950 shadow-[0_6px_0px_#083344] active:shadow-[0_0px_0px_#083344] rounded-[var(--radius-md)] hover:brightness-110",
       blue: "bg-blue-500 text-blue-950 shadow-[0_6px_0px_#1e3a8a] active:shadow-[0_0px_0px_#1e3a8a] rounded-[var(--radius-md)] hover:brightness-110",
       lightBlue:
