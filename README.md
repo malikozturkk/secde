@@ -82,6 +82,11 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 | `/learn/[id]` | Herkese açık | Adım adım interaktif rehber |
 | `/tools` | Herkese açık | Araç merkezi |
 | `/tools/qibla`, `/tools/dhikr`, `/tools/zakat` | Herkese açık | Kıble pusulası, zikirmatik, zekât hesaplayıcı |
+| `/faq` | Herkese açık | 5 başlık altında 36 soru-cevap; `FAQPage` yapısal verisiyle |
+| `/prayer-times` | Herkese açık | 81 ilin listelendiği hub |
+| `/prayer-times/[city]` | Herkese açık | İl bazlı günlük + 7 günlük vakit takvimi, kıble açısı, ile özel SSS (ISR, 1 saat) |
+| `/duas` | Herkese açık | Namaz duaları, tesbihler ve kısa sûreler hub'ı |
+| `/duas/[slug]` | Herkese açık | Duanın Arapçası, okunuşu, anlamı ve SSS'i (15 sayfa) |
 | `/worship` | Korumalı | Günün namaz vakitleri, geri sayım, hicri tarih, oruç bilgisi |
 | `/profile/[username]` | Korumalı | Profil, istatistikler, takip/takipçi |
 | `/search` | Korumalı | Kullanıcı arama |
@@ -91,8 +96,8 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 | `/explicit-consent` | Herkese açık | KVKK m.6 açık rıza metni (özel nitelikli veriler: mezhep + ibadet kayıtları). Kayıt formundan linklenir; `PUBLIC_ROUTES` içindedir |
 
 Erişim kontrolü `src/middleware.ts` içinde `auth-token` cookie'sinin varlığına göre yapılır.
-Rehberler ve araçlar bilinçli olarak herkese açıktır — arama motorlarından gelen ziyaretçi
-kayıt olmadan içeriği görebilir. Hiçbir prefix'e uymayan yol yönlendirilmez, Next'in 404'ü
+Rehberler, araçlar ve SEO içerik sayfaları (`/faq`, `/prayer-times`, `/duas`) bilinçli
+olarak herkese açıktır — arama motorlarından gelen ziyaretçi kayıt olmadan içeriği görebilir. Hiçbir prefix'e uymayan yol yönlendirilmez, Next'in 404'ü
 render edilir.
 
 ---

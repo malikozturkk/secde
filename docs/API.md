@@ -278,6 +278,42 @@ Konum ve hesaplama yöntemi istekte gönderilmez — backend, kullanıcının ka
 üzerinden hesaplar. `meta.latitude`/`longitude`, backend'in seçilen ilden türettiği koordinatlardır
 (yalnızca gösterim amaçlı döner; istemci koordinat göndermez).
 
+### 5.1 Halka açık vakitler — `src/services/public-prayer-times.service.ts`
+
+| Metot | Uç                              | Query                                   | `data`               |
+| ----- | ------------------------------- | --------------------------------------- | -------------------- |
+| GET   | `/worship/public/prayer-times`  | `city` (zorunlu), `date`, `days`, `madhab` | `PublicPrayerTimes` |
+
+Oturum gerektirmeyen tek vakit ucudur; `/prayer-times/[city]` sayfaları bunu **sunucu
+tarafında** (build + ISR) tüketir. Bu yüzden servis `axiosInstance` değil düz `fetch` kullanır ve
+`next: { revalidate }` ile önbelleğe alır — ayrıntılı gerekçe `ARCHITECTURE.md` §8.1'de.
+
+```ts
+PublicPrayerTimes = {
+  city: string;
+  latitude: number,
+  longitude: number,
+  timezone: string,
+  calculationMethod: string,
+  madhab: string,
+  today: PublicPrayerDay,      // days[0] ile aynı nesne
+  days: PublicPrayerDay[],     // varsayılan 7 gün
+};
+
+PublicPrayerDay = {
+  date: string;          // "2026-08-27", ilin kendi saat diliminde
+  weekdayName: string;   // "Perşembe"
+  gregorianLabel: string;// "27 Ağustos 2026"
+  hijriDate: string,
+  hijriMonthName: string,
+  times: Record<"fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha", string>; // "HH:mm"
+};
+```
+
+Oturumlu `/worship`ten farkı: geri sayım, oruç ve gün ilerlemesi yoktur, saatler ISO instant değil
+`HH:mm` metnidir ve hesaplanamayan vakit `--:--` döner. Bilinmeyen il **404 `CITY_NOT_FOUND`**
+verir. Servis hata durumunda fırlatmaz, `null` döner (bkz. `ARCHITECTURE.md` §8.1).
+
 ---
 
 ## 6. Gamification (seri & quiz) — `src/services/gamification.service.ts`

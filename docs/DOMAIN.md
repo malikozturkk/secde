@@ -301,6 +301,51 @@ Namazı"`, …) ve başlık `"{ad} Rehberi"` olur. Değerler backend'in
 
 ---
 
+## 6.5 SEO içerik kümeleri (`/faq`, `/duas`, `/prayer-times`)
+
+Backend'den gelmeyen, kod içinde sabit duran üç Türkçe içerik kümesi vardır. Üçü de hem
+sayfada görünür hem JSON-LD şemasına yazılır.
+
+| Sabit             | Dosya                        | İçerik                                                          |
+| ----------------- | ---------------------------- | --------------------------------------------------------------- |
+| `FAQ_CATEGORIES`  | `src/constants/faq.ts`       | 5 kategori, 36 soru-cevap (`FAQ_ITEMS` düzleştirilmiş hâlidir)  |
+| `DUAS`            | `src/constants/duas.ts`      | 15 dua/sûre; kategori: `prayer-dua`, `tasbih`, `surah`          |
+| `CITY_ROUTES`     | `src/constants/cities.ts`    | 81 il; `TR_CITIES`'ten `slugify()` ile türetilir                |
+
+Kurallar:
+
+- **`answer` alanları düz metindir.** HTML etiketi, markdown veya kısaltma koyma — aynı dize
+  hem akordiyonda hem `FAQPage` şemasında ham olarak kullanılır.
+- **`DUAS` içindeki `arabic`, `transliteration` ve `meaning` dizilerinin uzunlukları eşit
+  olmalıdır**; sayfa bunları satır satır eşleştirerek gösterir.
+- **Dinî metinler bağlayıcıdır.** Arapça satırları, okunuşları ve mealleri hafızadan
+  "düzeltme"; basılı/resmî bir kaynakla karşılaştırmadan değiştirme. Cevaplar yaygın Diyanet/
+  çoğunluk görüşünü özetler ve fetva iddiası taşımaz; mezhep farkı varsa açıkça yazılır.
+- **Slug'lar ve kategori id'leri İngilizcedir, etiketler Türkçe.** `DUAS[].slug`
+  (`surah-al-fatiha`, `prayer-tasbih`), `DuaCategory` değerleri (`prayer-dua`, `tasbih`,
+  `surah`) ve `FAQ_CATEGORIES[].id` (`prayer-basics`, `ablution`, `qibla`, `prayer-times`,
+  `namazgo`) doğrudan adrese girer — biri `/duas/[slug]` yolu, diğerleri `#anchor` olarak.
+  Kullanıcıya gösterilen `title` / `shortTitle` / `DUA_CATEGORY_LABELS` alanları Türkçe
+  kalır. Kural: `CLAUDE.md` §0.2/13.
+- **`CITY_ROUTES` slug'ları yayınlanmış URL'dir.** `src/lib/slug.ts` içindeki Türkçe karakter
+  eşlemesini değiştirmek `/prayer-times/*` adreslerini kırar. Slug'lar `TR_CITIES`'ten
+  türediği için yeni il eklendiğinde sayfa kendiliğinden oluşur.
+
+### Türkçe ek üretimi
+
+81 il ve değişken saatler için ekler elle yazılamaz; `src/lib/turkish.ts` iki yardımcı sunar:
+
+| Fonksiyon              | Girdi → Çıktı                                | Kural                                          |
+| ---------------------- | -------------------------------------------- | ---------------------------------------------- |
+| `locative(name)`       | `"Gaziantep"` → `"Gaziantep'te"`             | Ünlü uyumu + ünsüz sertleşmesi (fıstıkçı şahap) |
+| `timeLocativeSuffix()` | `"19:35"` → `"te"`, `"20:59"` → `"da"`       | Okunan son sayıya göre; dakika 00 ise saate    |
+
+`buildCityFaq()` saat eklerini **her zaman** `timeLocativeSuffix` ile üretir — sabit `'de`
+yazmak "19:35'de" gibi yanlış metinler doğurur. `Kırklareli` gibi iyelik ekiyle biten adlar
+`LOCATIVE_EXCEPTIONS` tablosundadır.
+
+---
+
 ## 7. Seviye, XP ve rozetler
 
 - `SelfStats.level`: `level`, `badgeKey`, `progressPercent`, `xp`, `totalXp`,

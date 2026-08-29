@@ -157,6 +157,30 @@ toast.error(mesaj, { duration: 6000 });
 
 ---
 
+## 4.5 SEO içerik bileşenleri (`src/components/seo/`)
+
+İçerik sayfalarının (`/faq`, `/prayer-times*`, `/duas*`) kabuğu. Hepsi **server
+component**tir; `"use client"` eklemek içeriği hidrasyona bağlar ve amacını bozar.
+
+| Bileşen             | Görevi                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `SeoPageShell`      | `AppLayout` + kırıntı + `h1` + girizgâh; `BreadcrumbList` şemasını otomatik basar    |
+| `Breadcrumbs`       | Görünür kırıntı; `breadcrumbJsonLd()` ile **aynı** diziden beslenmeli                |
+| `JsonLd`            | `<script type="application/ld+json">` — `<` kaçırılır                                |
+| `FaqAccordion`      | Native `<details>` akordiyon, sıfır client JS                                        |
+| `PrayerTimesTable`  | Haftalık `<table>`; bugünün satırı vurgulu                                           |
+| `TodayPrayerTimes`  | Günün 6 vakti, `primary` tonlu kart                                                  |
+| `DuaText`           | Arapça (`dir="rtl" lang="ar"`) / okunuş / anlam üçlüsü, satır satır hizalı           |
+| `RelatedLinks`      | İç linkleme bloğu — her SEO sayfası en az bir tane içermeli                          |
+| `SeoCta`            | Kayıt dönüşüm bloğu, sayfanın sonunda                                                |
+
+Bu bileşenler `Card` ve `Button` primitive'lerini kullanmaz; ikisi de `"use client"` taşır ve
+bu sayfaların client JS'siz kalması bilinçli bir tercihtir. Yüzeyleri (`rounded-3xl`,
+`border-white/[0.06]`, `bg-[#1C2E35]`) `Card`'ın `plain`/`primary` tonlarıyla görsel olarak
+eşleştirilmiştir; `Card` tonları değişirse burayı da güncelle.
+
+---
+
 ## 5. Animasyon
 
 İki yöntem bir arada kullanılır:

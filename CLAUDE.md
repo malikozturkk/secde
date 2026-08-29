@@ -44,15 +44,26 @@ Bu bölüm istisnasız her görev için geçerlidir. Detaylı protokol ve kontro
     Gördüğün ilgisiz sorunu düzeltme — raporla.
 11. **Yeni bağımlılık ekleme.** Gerekli olduğunu düşünüyorsan önce sor.
 12. Yeni sayfa eklerken `metadata` ekle; oturum arkasındaki sayfalarda `noIndex: true`.
+13. **URL'lerde Türkçe yoktur — istisnasız.** Route klasörü, dinamik parametre adı, içerik
+    slug'ı, query parametresi ve `#anchor` id'si dahil kullanıcının adres çubuğunda
+    görebileceği her parça İngilizcedir: `/faq`, `/duas`,
+    `/prayer-times`, `[city]`,
+    `#prayer-basics`. Bu kural **arayüz dilini etkilemez** —
+    sayfadaki metin Türkçe kalır (§0.2/7), yalnızca adres İngilizcedir.
+    Tek istisna, İngilizce karşılığı olmayan **özel adlar**: il slug'ları
+    (`/prayer-times/kahramanmaras`) `slugify()` çıktısıdır ve olduğu gibi kalır.
+    Dinamik route'ta klasör adı ile `params` alanı **aynı** olmalıdır — `[city]` klasörünü
+    `params: Promise<{ sehir: string }>` ile okursan alan `undefined` gelir, sayfa
+    `notFound()`'a düşer ve route sessizce 404 verir.
 
 ### 0.3 İşi bitirmeden önce — GÜNCELLE
 
-13. **Doküman senkronizasyonu zorunludur.** Aşağıdaki tabloda karşılığı olan bir değişiklik
+14. **Doküman senkronizasyonu zorunludur.** Aşağıdaki tabloda karşılığı olan bir değişiklik
     yaptıysan ilgili dokümanı **aynı görev içinde** güncelle. Kod değişip doküman değişmediyse
     iş **bitmemiştir**. (Genişletilmiş matris: `docs/AGENT_WORKFLOW.md` §3)
-14. Dokümana **yalnızca kodda doğruladığın** bilgiyi yaz. Varsayım, plan ve "ileride şöyle
+15. Dokümana **yalnızca kodda doğruladığın** bilgiyi yaz. Varsayım, plan ve "ileride şöyle
     olacak" cümlesi yazma. Bir şey ölü kod veya bilinen borçsa **öyle etiketle**.
-15. Değiştirdiğin dosyalarda **yeni lint ihlali bırakma.** `yarn lint` çalıştır ve çıktıyı
+16. Değiştirdiğin dosyalarda **yeni lint ihlali bırakma.** `yarn lint` çalıştır ve çıktıyı
     §3'teki bilinen durumla karşılaştır.
 
 | Yaptığın değişiklik                                                  | Güncellenecek doküman                                            |
@@ -72,13 +83,13 @@ Bu bölüm istisnasız her görev için geçerlidir. Detaylı protokol ve kontro
 
 ### 0.4 Raporlarken — DÜRÜST OL
 
-16. **Çalıştırmadığın hiçbir şeyi "çalışıyor" diye raporlama.** Bu projede test yoktur; tek
+17. **Çalıştırmadığın hiçbir şeyi "çalışıyor" diye raporlama.** Bu projede test yoktur; tek
     otomatik kanıt `yarn lint` ve `yarn build`'dir. Şu üçünü ayır:
     _çalıştırarak doğruladım_ / _kodu okuyarak çıkardım_ / _önerdim, doğrulamadım_.
-17. Kapsamın bir kısmını yapamadıysan **açıkça söyle**; sessizce daraltma.
-18. Şu alanlara dokunuyorsan riski **önce** belirt: token/oturum akışı (`lib/axios.ts`,
+18. Kapsamın bir kısmını yapamadıysan **açıkça söyle**; sessizce daraltma.
+19. Şu alanlara dokunuyorsan riski **önce** belirt: token/oturum akışı (`lib/axios.ts`,
     `store/auth.store.ts`, `middleware.ts`), consent gate, kişisel veri, yasal metinler.
-19. Commit/push **sadece istendiğinde**. İstenmeden `git commit`, `git push`, branch veya PR
+20. Commit/push **sadece istendiğinde**. İstenmeden `git commit`, `git push`, branch veya PR
     açma.
 
 ---
@@ -195,6 +206,9 @@ src/
 │   ├── profile/[username]/
 │   ├── settings/{profile,account,avatar}/
 │   ├── search/  worship/  terms/  privacy/  explicit-consent/
+│   ├── faq/            # SSS — 36 soru, FAQPage şeması (server, client JS yok)
+│   ├── prayer-times/[city]/ # 81 il, ISR 1 saat, backend'in halka açık ucundan
+│   ├── duas/[slug]/     # 15 dua/sûre — Arapça, okunuş, anlam
 │   ├── layout.tsx      # root layout + provider zinciri
 │   ├── error.tsx       # route seviyesinde hata sınırı — hatayı backend'e raporlar
 │   ├── global-error.tsx# kök layout çökerse; kendi <html>/<body>'sini render eder
@@ -203,11 +217,13 @@ src/
 │   ├── ui/             # paylaşılan primitive'ler (Button, Card, Dialog, Input, ...)
 │   ├── dashboard/  worship/  learn/  stats/  settings/  layout/
 │   ├── consent/  cookie/  legal/  landing/  common/
+│   ├── seo/            # içerik sayfası kabuğu + JSON-LD (hepsi server component)
 ├── config/site.ts      # site adı, başlık şablonu, OG, tema rengi
 ├── constants/          # sabitler + React Query key fabrikaları + hata mesajı sözlüğü
 ├── hooks/              # React Query hook'ları + UI hook'ları (domain alt klasörleri)
 ├── icons/              # ham .svg  →  icons/tsx/ üretilmiş bileşenler (commit'li)
 ├── lib/                # axios, api-error, error-reporter, utils(cn), metadata, domain util'leri
+│                       # + jsonld (şema üreticileri), slug, turkish (Türkçe ek), city-faq
 ├── providers/          # QueryProvider, CookieConsentProvider, ConsentGateProvider
 ├── services/           # axios çağrıları (endpoint katmanı)
 ├── store/auth.store.ts # tek Zustand store
@@ -279,6 +295,23 @@ Statik sayfalar `createMetadata({ title, description, path, noIndex? })` kullan�
 (`src/lib/metadata.ts`). Dinamik sayfalar `generateMetadata` içinde `siteConfig.url` ile
 canonical üretir. Root metadata `createRootMetadata()`. Yeni sayfa eklerken metadata ekle;
 oturum arkasındaki özel sayfalarda `noIndex: true` kullan (örn. `/settings/account`).
+
+**İndekslenmesini istediğin içerik sayfası yazıyorsan** (`/faq`, `/prayer-times*`,
+`/duas*` gibi) üç kural daha geçerlidir — ayrıntı `docs/ARCHITECTURE.md` §8.1:
+
+1. Sayfa ve içerik bileşeni **server component** kalır. `"use client"` eklersen metin
+   hidrasyona bağlanır; akordiyon gerekiyorsa native `<details>` kullan (`FaqAccordion`).
+2. Yapısal veriyi `src/lib/jsonld.ts` üreticileriyle kur, `SeoPageShell`'in `jsonLd`
+   prop'una ver. Kırıntı şeması kabuk tarafından zaten basılır.
+3. **JSON-LD'ye yazdığın her şey sayfada da görünür olmalıdır.** Yalnızca şemada duran
+   içerik Google'ın politikasını ihlal eder ve zengin sonucu tamamen kapattırır.
+4. Yeni route'u `PUBLIC_ROUTES` (`constants/routes.ts`) ve `app/sitemap.ts`'e eklemeyi unutma;
+   ikisi de elle güncellenir.
+5. **Adres İngilizce, içerik Türkçe.** Route segmenti, `[param]` adı, içerik slug'ı ve
+   `#anchor` id'si İngilizce olur (§0.2/13); sayfadaki metin Türkçe kalır. Dua slug'ları
+   (`surah-al-fatiha`, `prayer-tasbih`) ve SSS kategori id'leri (`prayer-basics`,
+   `ablution`, `qibla`) bu kurala göre yazılmıştır — il slug'ları özel ad olduğu için
+   istisnadır.
 
 ### 6.4 Stil
 

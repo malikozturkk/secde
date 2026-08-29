@@ -455,10 +455,42 @@ diğerleri için `startsWith`. Navigasyonda `Puan Tabloları`, `Görevler`, `Ma�
 | `/settings/profile\|account\|avatar` | `app/settings/*/`             | Server page (`noIndex`) + `*Client`                                                                     |
 | `/terms`, `/privacy`                 | `app/terms/`, `app/privacy/`  | Server page + içerik bileşeni                                                                           |
 | `/explicit-consent`                  | `app/explicit-consent/`       | Server page + `ExplicitConsentContent` (`LegalLayout`) — `PUBLIC_ROUTES`'ta, kayıt öncesi de okunabilir |
+| `/faq`                               | `app/faq/`                    | Server, `revalidate = 86400`, `FAQ_CATEGORIES` sabitinden render — client JS yok                        |
+| `/prayer-times`                   | `app/prayer-times/`        | Server, `revalidate = 3600`, `CITY_ROUTES` listesi + hub SSS                                            |
+| `/prayer-times/[city]`           | `app/prayer-times/[city]/`| `generateStaticParams` (81 il) + `generateMetadata`; vakitleri sunucuda `fetch` ile çeker, ISR 1 saat    |
+| `/duas`                            | `app/duas/`                 | Server, `revalidate = 86400`, `DUAS` sabitinden render                                                  |
+| `/duas/[slug]`                     | `app/duas/[slug]/`          | `generateStaticParams` (15 dua) + `generateMetadata`                                                    |
 
 `/learn/[id]` içeriği `useGuide(id)` hook'unda `switch` ile ilgili `learnService` metoduna
 yönlenir; geçersiz id `Error("Invalid guide ID")` fırlatır. Yeni rehber eklerken hem
 `learn.service.ts`, hem `useGuide` switch'i, hem de `app/learn/learnNodes.tsx` güncellenmelidir.
+
+### 8.1 SEO içerik sayfaları
+
+`/faq`, `/prayer-times*` ve `/duas*` diğer sayfalardan iki noktada ayrılır:
+
+1. **Tamamen server component'tirler.** İçerik `"use client"` görmez, akordiyonlar native
+   `<details>` ile çalışır, hiç client JS yüklemezler. Amaç metnin **ilk HTML'de** bulunmasıdır —
+   hidrasyona bağlı içerik arama motoru için garanti değildir. Bu sayfalara `"use client"` ekleme.
+2. **Yapısal veri (JSON-LD) taşırlar.** `src/lib/jsonld.ts` şema üreticilerini,
+   `components/seo/JsonLd.tsx` bunları `<script type="application/ld+json">` olarak basar.
+   Kök layout `Organization` + `WebSite`, `SeoPageShell` ise `BreadcrumbList` şemasını otomatik
+   ekler; sayfa kendi `FAQPage`/`ItemList` şemasını `jsonLd` prop'uyla verir.
+
+**Değişmez kural:** JSON-LD'ye yazılan her soru-cevap sayfada da **görünür** olmalıdır. Yalnızca
+şemada bulunan içerik Google'ın yapısal veri politikasını ihlal eder ve zengin sonucun tamamen
+kapatılmasına yol açar. Bu yüzden `FaqAccordion` cevabı kısaltmaz ve `buildCityFaq()` çıktısı hem
+şemaya hem gövdeye aynı diziden verilir.
+
+Vakit sayfaları backend'in oturumsuz `GET /worship/public/prayer-times` ucunu **sunucu tarafında**
+tüketir (`services/public-prayer-times.service.ts`). Bu servis bilinçli olarak `axiosInstance`
+kullanmaz: çağrı tarayıcıda değil render/ISR sürecinde yapılır ve auth interceptor'ları orada
+anlamsızdır (aynı gerekçe `telemetry.service.ts` için de geçerlidir). Ağ hatasında `null` döner,
+fırlatmaz — tek bir hata tüm production build'i düşürmemelidir; sayfa bilgilendirme gösterir ve
+bir sonraki revalidate turunda kendini onarır.
+
+`export const revalidate` değeri Next tarafından **statik olarak** okunur; sabit import edilemez,
+birebir sayı olmalıdır. `PRAYER_TIMES_REVALIDATE_SECONDS` ile sayfa literalleri elle eşit tutulur.
 
 ---
 
