@@ -39,6 +39,10 @@ export const KAABA_COORDINATES = {
 } as const;
 
 export const COMPASS_SMOOTHING = 0.15;
+export const TR_MAGNETIC_DECLINATION_DEG = 5.9;
+export const GEOLOCATION_TIMEOUT_MS = 15000;
+export const GEOLOCATION_MAX_AGE_MS = 60000;
+export const GEOLOCATION_COARSE_ACCURACY_M = 5000;
 
 export const QIBLA_ALIGNED_TOLERANCE_DEGREES = 5;
 

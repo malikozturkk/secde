@@ -24,7 +24,7 @@ export const LandingView = () => {
             <div className="absolute inset-[-22px] rounded-full border-[1.5px] border-[var(--ng-green)] animate-ring-outer pointer-events-none" />
             <div className="absolute inset-[-12px] rounded-full border-[2.5px] border-violet-500 animate-ring-inner pointer-events-none" />
             <div className="animate-float-bounce">
-              <AllCharacters width={500} height={500} />
+              <AllCharacters width={400} height={400} />
             </div>
             <span className="absolute -top-5 right-8 animate-star-1 text-amber-400">
               ★
@@ -65,24 +65,9 @@ export const LandingView = () => {
             </h1>
             <p className={cn("max-w-[46ch]", TEXT.lede)}>
               Vakitleri işaretle, serini büyüt, kısa quizlerle öğren. Her gün bir
-              adım — abartısız, oyun gibi.
+              adım.
             </p>
           </div>
-
-          <dl className="grid w-full max-w-sm grid-cols-3 gap-2.5">
-            <div className={STAT_TILE}>
-              <dt className={TEXT.muted}>Vakit</dt>
-              <dd className={cn(TEXT.num, "text-[22px]")}>5</dd>
-            </div>
-            <div className={STAT_TILE}>
-              <dt className={TEXT.muted}>Rehber</dt>
-              <dd className={cn(TEXT.num, "text-[22px]")}>8</dd>
-            </div>
-            <div className={STAT_TILE}>
-              <dt className={TEXT.muted}>İl</dt>
-              <dd className={cn(TEXT.num, "text-[22px]")}>81</dd>
-            </div>
-          </dl>
 
           <div className="flex flex-col w-full max-w-sm space-y-4">
             <Link href="/login" className="w-full">

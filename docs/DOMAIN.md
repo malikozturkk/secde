@@ -311,6 +311,7 @@ sayfada görünür hem JSON-LD şemasına yazılır.
 | `FAQ_CATEGORIES`  | `src/constants/faq.ts`       | 5 kategori, 36 soru-cevap (`FAQ_ITEMS` düzleştirilmiş hâlidir)  |
 | `DUAS`            | `src/constants/duas.ts`      | 15 dua/sûre; kategori: `prayer-dua`, `tasbih`, `surah`          |
 | `CITY_ROUTES`     | `src/constants/cities.ts`    | 81 il; `TR_CITIES`'ten `slugify()` ile türetilir                |
+| `QIBLA_FAQ` / `QIBLA_HOW_TO_STEPS` | `src/constants/qibla.ts` | 15 soru-cevap + 4 adımlık rehber; `/tools/qibla` sayfasının metin kaynağı |
 
 Kurallar:
 

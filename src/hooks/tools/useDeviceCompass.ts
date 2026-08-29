@@ -9,7 +9,10 @@ import {
 } from "react";
 import { COMPASS_SMOOTHING } from "@/src/constants/tools";
 import { normalizeDegrees, shortestAngleDelta } from "@/src/lib/qibla-utils";
-import { CompassStatus } from "@/src/types/enums/tools.enums";
+import {
+  CompassStatus,
+  HeadingReference,
+} from "@/src/types/enums/tools.enums";
 
 type OrientationEventClass = typeof DeviceOrientationEvent & {
   requestPermission?: () => Promise<"granted" | "denied">;
@@ -57,6 +60,8 @@ const screenAngle = (): number => {
 interface HeadingReading {
   heading: number;
   isAbsolute: boolean;
+  reference: HeadingReference;
+  accuracyDeg: number | null;
 }
 
 const readHeading = (event: WebkitOrientationEvent): HeadingReading | null => {
@@ -67,6 +72,11 @@ const readHeading = (event: WebkitOrientationEvent): HeadingReading | null => {
     return {
       heading: normalizeDegrees(event.webkitCompassHeading),
       isAbsolute: true,
+      reference: HeadingReference.True,
+      accuracyDeg:
+        typeof event.webkitCompassAccuracy === "number"
+          ? event.webkitCompassAccuracy
+          : null,
     };
   }
   if (typeof event.alpha === "number" && !Number.isNaN(event.alpha)) {
@@ -74,6 +84,8 @@ const readHeading = (event: WebkitOrientationEvent): HeadingReading | null => {
       heading: normalizeDegrees(360 - event.alpha + screenAngle()),
       isAbsolute:
         event.absolute === true || event.type === "deviceorientationabsolute",
+      reference: HeadingReference.Magnetic,
+      accuracyDeg: null,
     };
   }
   return null;
@@ -83,6 +95,8 @@ export interface DeviceCompass {
   status: CompassStatus;
   heading: number | null;
   isAbsolute: boolean;
+  reference: HeadingReference;
+  accuracyDeg: number | null;
   needsPermission: boolean;
   requestAccess: () => Promise<void>;
 }
@@ -96,6 +110,10 @@ export const useDeviceCompass = (): DeviceCompass => {
 
   const [heading, setHeading] = useState<number | null>(null);
   const [isAbsolute, setIsAbsolute] = useState(true);
+  const [reference, setReference] = useState<HeadingReference>(
+    HeadingReference.Magnetic
+  );
+  const [accuracyDeg, setAccuracyDeg] = useState<number | null>(null);
   const [permissionDenied, setPermissionDenied] = useState(false);
   const [granted, setGranted] = useState(false);
   const [probeExpired, setProbeExpired] = useState(false);
@@ -117,6 +135,8 @@ export const useDeviceCompass = (): DeviceCompass => {
     smoothed.current = next;
     setHeading(next);
     setIsAbsolute(reading.isAbsolute);
+    setReference(reading.reference);
+    setAccuracyDeg(reading.accuracyDeg);
   }, []);
 
   const listening = capability === Capability.Ready || granted;
@@ -176,6 +196,8 @@ export const useDeviceCompass = (): DeviceCompass => {
     status,
     heading,
     isAbsolute,
+    reference,
+    accuracyDeg,
     needsPermission: capability === Capability.NeedsPermission && !granted,
     requestAccess,
   };

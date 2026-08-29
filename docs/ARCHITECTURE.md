@@ -500,6 +500,34 @@ birebir sayı olmalıdır. `PRAYER_TIMES_REVALIDATE_SECONDS` ile sayfa literalle
 
 ---
 
+## 8.9 Tarayıcı API'lerini render sırasında okuma
+
+`navigator`, `window`, `DeviceOrientationEvent`, `localStorage` gibi yalnızca tarayıcıda var
+olan değerleri **render gövdesinde okuma.** Sunucu `false`/`undefined` görür, istemci gerçek
+değeri görür ve React hidrasyonu "server rendered HTML didn't match the client" hatasıyla
+düşer; ağaç istemcide baştan üretilir.
+
+Doğru kalıp `useSyncExternalStore`'dur — üç argümanın da sabit referans olması gerekir:
+
+```ts
+const subscribeNever = () => () => {};
+const getSnapshot = () => typeof navigator !== "undefined" && "geolocation" in navigator;
+const getServerSnapshot = () => true;
+
+const supported = useSyncExternalStore(subscribeNever, getSnapshot, getServerSnapshot);
+```
+
+`useEffect` + `setState` ile de çözülebilir ama `react-hooks/set-state-in-effect` kuralını
+ihlal eder (CLAUDE.md §3'teki mevcut 6 hatanın kaynağı budur) — yeni kodda kullanma.
+
+**Sunucu anlık görüntüsünü iyimser seç.** `getServerSnapshot` hidrasyon render'ında da
+kullanılır; yeteneğin yok sayıldığı bir değer dönersen kullanıcı bir kare boyunca
+"desteklenmiyor" durumunu görür. `useDeviceLocation` bu yüzden sunucuda `true` döner ve
+gerçek kontrolü `request()` içinde yapar.
+
+Bu kalıbı kullanan hook'lar: `useDeviceLocation`, `useDeviceCompass`, `useGuestCity`,
+`ConsentGateProvider` (Zustand persist hidrasyonu için).
+
 ## 9. Hata yönetimi
 
 ```
@@ -553,14 +581,38 @@ Uygulama kullanıcıdan **hiçbir zaman** GPS/koordinat (enlem/boylam) almaz. Ka
 listesi); backend'e sadece `country` + `city` gönderilir. Namaz vakti, kıble ve saat dilimi
 için gereken koordinatlar backend'de seçilen ilden türetilir.
 
-- Tarayıcı Geolocation API'si (`navigator.geolocation`) **kullanılmaz**; `useGeolocation` hook'u
-  kaldırılmıştır.
+- Tarayıcı Geolocation API'si **yalnızca `/tools/qibla` içinde**, yalnızca kullanıcı açık bir
+  eylemle istediğinde kullanılır (`useDeviceLocation`). Koordinat React state'inde durur; ağa
+  gönderilmez, `localStorage`'a yazılmaz, çereze konmaz. Sekme kapanınca kaybolur. Hesabın
+  tamamı istemcidedir. Bu değişmezleri bozan bir düzenleme `/privacy` §3.3 metnini de
+  yanlışlar — ikisi birlikte değişir.
+- Hesaba bağlı hiçbir akış (namaz vakti, saat dilimi, profil) GPS kullanmaz; onlar hâlâ yalnızca
+  seçilen ilden türer.
 - BigDataCloud ters coğrafi kodlama (reverse-geocode) **kaldırılmıştır**; `lib/geocode.ts` artık
   yalnızca saf yerel yardımcılar içerir: `matchTrCity` (il adı normalize edip `TR_CITIES`'e eşler),
   `nearestTrCity` / `haversineKm` (backend'in döndüğü koordinattan en yakın il etiketini bulmak
   için worship ekranında kullanılır). Dışarıya ağ isteği yapılmaz.
-- `/tools/qibla` kıbleyi kayıtlı ile göre hesaplar (cihaz konumu seçeneği yoktur); pusula yönü
-  `useDeviceCompass` (`deviceorientation`) ile okunur — bu koordinat değil, yön sensörüdür.
+- `/tools/qibla` konum kaynağını şu sırayla seçer (`useQiblaFinder`): **cihaz konumu (GPS)** >
+  profildeki il > misafirin seçtiği il. Pusula yönü `useDeviceCompass` ile okunur — bu koordinat
+  değil, yön sensörüdür.
+
+**Kıble doğruluğu — iki ayrı kuzey vardır, karıştırma.** `calculateQiblaBearing` **coğrafi**
+(gerçek kuzeye göre) bir azimut üretir. Cihaz pusulası ise platforma göre farklı kuzeyi
+referans alır:
+
+| Platform                                             | Okuma                 | Referans       |
+| ---------------------------------------------------- | --------------------- | -------------- |
+| iOS Safari                                           | `webkitCompassHeading` | coğrafi kuzey  |
+| Android Chrome                                       | `deviceorientationabsolute`.`alpha` | manyetik kuzey |
+
+`useDeviceCompass` bunu `HeadingReference` ile bildirir; `bearingForHeadingReference()` manyetik
+referanslı okumada kıble açısından `TR_MAGNETIC_DECLINATION_DEG` (Türkiye için ~5,9°) düşer.
+Bu düzeltme olmadan Android'de sabit ~6° hata oluşur. Kullanıcıya **yazıyla** gösterilen derece
+her zaman coğrafi olandır; düzeltme yalnızca ekrandaki iğneye uygulanır.
+
+Doğruluk bütçesi (sayfada da tablo hâlinde yayımlanıyor): il merkezi yerine GPS 0–2°, düzeltilmemiş
+manyetik sapma ~6°, telefon manyetometresi 5–15°. Yani **zayıf halka GPS değil pusuladır** — UX bu
+gerçeğe göre kurgulandı, derece öne çıkar, pusula yardımcıdır.
 
 **Şu an yalnızca Türkiye desteklenir** (kayıt zod şeması `country`'yi `"Türkiye"` ile sınırlar).
 
@@ -583,9 +635,10 @@ için gereken koordinatlar backend'de seçilen ilden türetilir.
 `Permissions-Policy` içinde `accelerometer`, `gyroscope` ve `magnetometer` **`(self)`
 bırakılmıştır**: üçü de `useDeviceCompass` (`deviceorientation` / `deviceorientationabsolute`) için
 gerekir — tarayıcılar bu olayları üç sensör iznine birden bağlar, yani birini `()` yapmak
-`/tools/qibla` pusulasını sessizce öldürür. `geolocation` artık **`()`** (kapalı): uygulama tarayıcı
-konum servisini hiç kullanmıyor. Kapalı olanlar: `camera`, `display-capture`, `geolocation`,
-`microphone`, `payment`, `usb`.
+`/tools/qibla` pusulasını sessizce öldürür. `geolocation` de aynı sebeple **`(self)`**'tir —
+Kıble Bulucu konumu kullanıcı isteğiyle okur ve `()` bırakılırsa tarayıcı izin kutusunu hiç
+göstermeden API'yi reddeder. Kapalı olanlar: `camera`, `display-capture`, `microphone`,
+`payment`, `usb`.
 
 CSP direktifleri:
 

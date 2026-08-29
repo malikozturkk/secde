@@ -374,6 +374,11 @@ Bu sayfalar `SeoPageShell`'e `publicShell` verir; kabuk bunu `AppLayout`'un
 | `RelatedLinks`      | İç linkleme bloğu — her SEO sayfası en az bir tane içermeli                          |
 | `SeoCta`            | Kayıt dönüşüm bloğu, sayfanın sonunda                                                |
 
+`src/components/tools/qibla/QiblaCompass.tsx` bunlardan ayrıdır: SVG tabanlı kadran, `"use client"`.
+İki modu vardır — pusula canlıysa kadran cihaz yönüne göre döner, değilse kuzey yukarı sabitlenir.
+Ekrandaki iğne pusula referansına çevrilmiş açıyı, ortadaki yazı ise her zaman coğrafi dereceyi
+gösterir (`docs/ARCHITECTURE.md` §10).
+
 Bu bileşenler `Card` ve `Button` primitive'lerini kullanmaz; ikisi de `"use client"` taşır ve
 bu sayfaların client JS'siz kalması bilinçli bir tercihtir. Yüzeyleri (`rounded-3xl`,
 `border-white/[0.06]`, `bg-[#1C2E35]`) `Card`'ın `plain`/`primary` tonlarıyla görsel olarak

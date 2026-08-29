@@ -81,7 +81,8 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 | `/learn` | Herkese açık | Rehber yol haritası (abdest, gusül, beş vakit, cuma). Public alana ait; Sidebar'da yok |
 | `/learn/[id]` | Herkese açık | Adım adım interaktif rehber |
 | `/tools` | Herkese açık | Araç merkezi. Public alana ait; Sidebar'da yok |
-| `/tools/qibla`, `/tools/dhikr`, `/tools/zakat` | Herkese açık | Kıble pusulası, zikirmatik, zekât hesaplayıcı |
+| `/tools/qibla` | Herkese açık | Kıble Bulucu: GPS/il konumundan kıble açısı, canlı pusula, 81 ilin açı tablosu, SSS. Koordinat cihazdan çıkmaz |
+| `/tools/dhikr`, `/tools/zakat` | Herkese açık | Zikirmatik, zekât hesaplayıcı |
 | `/faq` | Herkese açık | 5 başlık altında 36 soru-cevap; `FAQPage` yapısal verisiyle |
 | `/prayer-times` | Herkese açık | 81 ilin listelendiği hub |
 | `/prayer-times/[city]` | Herkese açık | İl bazlı günlük + 7 günlük vakit takvimi, kıble açısı, ile özel SSS (ISR, 1 saat) |

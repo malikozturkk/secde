@@ -88,12 +88,33 @@ export default function PrivacyContent() {
             ]}
           />
           <p>
-            NamazGo, cihazınızın GPS/konum servisini veya kesin
-            koordinatlarınızı (enlem/boylam) <strong>toplamaz ve
-            sizden istemez</strong>; namaz vakitleri, kıble ve saat dilimi
-            yalnızca seçtiğiniz il üzerinden hesaplanır. İl bilginiz,
-            liderlik tablosunun il bazlı görünümünde diğer kullanıcılar
-            tarafından görülebilir.
+            NamazGo, kesin konumunuzu (GPS enlem/boylam){" "}
+            <strong>toplamaz, sunucularına iletmez ve saklamaz</strong>. Namaz
+            vakitleri, saat dilimi ve hesabınıza bağlı tüm hesaplamalar yalnızca
+            seçtiğiniz il üzerinden yapılır. İl bilginiz, liderlik tablosunun il
+            bazlı görünümünde diğer kullanıcılar tarafından görülebilir.
+          </p>
+          <p>
+            Tek istisna, <strong>Kıble Bulucu aracıdır</strong> (
+            <strong>/tools/qibla</strong>). Bu sayfada, yalnızca siz
+            &quot;Konumumu kullan&quot; düğmesine bastığınızda ve tarayıcınızın
+            izin kutusunu onayladığınızda, cihazınızın anlık koordinatları
+            tarayıcının Geolocation API&apos;si üzerinden okunur. Bu veriye
+            ilişkin kurallarımız şunlardır:
+          </p>
+          <LegalList
+            items={[
+              "Koordinat yalnızca açık olan sekmede, tarayıcınızın belleğinde tutulur; sayfayı kapattığınızda veya yenilediğinizde silinir",
+              "Koordinat NamazGo sunucularına gönderilmez, veritabanına yazılmaz, çerezde veya tarayıcı deposunda (localStorage) saklanmaz",
+              "Kıble açısı hesabının tamamı cihazınızda yapılır; bu işlem için hiçbir ağ isteği atılmaz",
+              "Konum izni vermek zorunda değilsiniz — izni reddederseniz il seçerek aracı kullanmaya devam edebilirsiniz, bu durumda yalnızca seçtiğiniz ilin adı tarayıcınızda saklanır",
+            ]}
+          />
+          <p>
+            Koordinat sunucularımıza hiç ulaşmadığı ve tarafımızca kaydedilmediği
+            için bu işlem üzerinde bir veri sorumlusu sıfatıyla saklama yapmıyoruz;
+            veri cihazınızdan çıkmaz. Konum izni tarayıcı ayarlarınızdan istediğiniz
+            an geri alınabilir.
           </p>
         </LegalSubSection>
 

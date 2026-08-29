@@ -1,4 +1,8 @@
-import { KAABA_COORDINATES } from "@/src/constants/tools";
+import {
+  KAABA_COORDINATES,
+  TR_MAGNETIC_DECLINATION_DEG,
+} from "@/src/constants/tools";
+import { HeadingReference } from "@/src/types/enums/tools.enums";
 import type { QiblaReading } from "@/src/types/tools.types";
 
 const EARTH_RADIUS_KM = 6371;
@@ -45,6 +49,23 @@ export function calculateKaabaDistance(
   return EARTH_RADIUS_KM * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
 }
 
+export function bearingForHeadingReference(
+  trueBearing: number,
+  reference: HeadingReference
+): number {
+  return reference === HeadingReference.True
+    ? normalizeDegrees(trueBearing)
+    : normalizeDegrees(trueBearing - TR_MAGNETIC_DECLINATION_DEG);
+}
+
+export function bearingErrorForOffset(
+  offsetKm: number,
+  distanceKm: number
+): number {
+  if (distanceKm <= 0) return 0;
+  return toDeg(Math.atan(offsetKm / distanceKm));
+}
+
 export function buildQiblaReading(
   latitude: number,
   longitude: number
@@ -80,4 +101,18 @@ export function formatDistance(km: number): string {
 
 export function formatBearing(bearing: number): string {
   return `${Math.round(normalizeDegrees(bearing))}°`;
+}
+
+export function formatCoordinate(
+  value: number,
+  axis: "lat" | "lon"
+): string {
+  const hemisphere =
+    axis === "lat" ? (value >= 0 ? "K" : "G") : value >= 0 ? "D" : "B";
+  return `${Math.abs(value).toFixed(4).replace(".", ",")}° ${hemisphere}`;
+}
+
+export function formatAccuracy(meters: number): string {
+  if (meters < 1000) return `±${Math.round(meters)} m`;
+  return `±${(meters / 1000).toFixed(1).replace(".", ",")} km`;
 }

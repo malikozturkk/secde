@@ -1,5 +1,9 @@
 import type { AccentName } from "@/src/constants/surface";
-import type { NisabBasis, ToolId } from "./enums/tools.enums";
+import type {
+  NisabBasis,
+  QiblaOriginSource,
+  ToolId,
+} from "./enums/tools.enums";
 
 export interface ToolMeta {
   id: ToolId;
@@ -13,6 +17,20 @@ export interface ToolMeta {
 export interface QiblaReading {
   bearing: number;
   distanceKm: number;
+}
+
+export interface DeviceLocation {
+  latitude: number;
+  longitude: number;
+  accuracyM: number;
+}
+
+export interface QiblaOrigin {
+  latitude: number;
+  longitude: number;
+  label: string;
+  source: QiblaOriginSource;
+  accuracyM?: number;
 }
 
 export interface DhikrPreset {
