@@ -212,6 +212,18 @@ tüm projeye yaymak istenirse sınıf `<body>`'ye taşınır, bileşenlerde değ
 
 `--sidebar-width: 256px` · `--mobile-bar-height: 80px` — `AppLayout` ve `Sidebar` bunlara bağlıdır.
 
+**`AppLayout > main` public kabukta hiçbir eksende kırpmaz.** Oturum içi kabukta `main` kendi
+kaydırma kabıdır (`overflow-y-auto overflow-x-hidden` + sabit yükseklik); public kabukta
+sayfanın kendisi kaydığı için `overflow-visible` kalır.
+
+Bu ayrım `isGuest` dalının **içinde** yapılmalıdır — taban sınıf listesine `overflow-x-hidden`
+yazıp guest dalına `overflow-visible` eklemek işe yaramaz: Tailwind'in üretilen CSS'inde
+`.overflow-visible` `.overflow-x-hidden`'dan önce geldiği için `overflow-visible` ölü koda
+döner. Üstelik **tek bir eksende `hidden` yeterlidir**: CSS'e göre bir eksen `hidden` ise
+diğerinin `visible` değeri `auto`'ya döner, yani `main` yine kırpan bir kaydırma kabı olur.
+Bir süre öyleydi; `/tools/qibla`'daki şehir `Select`'inin açılır listesi alttan kesiliyordu.
+`absolute` konumlu her açılır yüzey (Select, Tooltip, DatePicker) bu davranışa bağımlıdır.
+
 ### Katman sırası (z-index)
 
 Üst üste binen her yüzey bu token'lardan birini kullanır. **Bileşen dosyasına ham z-index yazma.**
