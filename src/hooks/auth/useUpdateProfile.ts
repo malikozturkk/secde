@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
+import { resolveApiErrorMessage } from "@/src/constants/error-messages";
 import { authService } from "@/src/services/auth.service";
 import { useAuthStore } from "@/src/store/auth.store";
 import { AuthErrorCode } from "@/src/types/enums/auth.enums";
@@ -17,7 +18,7 @@ export const useUpdateProfile = ({
   setError,
   onSuccess,
 }: UseUpdateProfileOptions) => {
-  const { setUser, setAuth } = useAuthStore();
+  const { setUser, setAccessToken } = useAuthStore();
 
   return useMutation({
     mutationFn: (payload: UpdateProfileFormValues) => {
@@ -31,10 +32,9 @@ export const useUpdateProfile = ({
     onSuccess: ({ data }) => {
       if (data.data) {
         const { tokens, ...user } = data.data;
-        if (tokens) {
-          setAuth({ ...tokens, user });
-        } else {
-          setUser(user);
+        setUser(user);
+        if (tokens?.accessToken) {
+          setAccessToken(tokens.accessToken);
         }
         onSuccess?.();
       }
@@ -71,7 +71,10 @@ export const useUpdateProfile = ({
           break;
         default:
           setError("root", {
-            message: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+            message: resolveApiErrorMessage(
+              error,
+              "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+            ),
           });
       }
     },

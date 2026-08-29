@@ -2,12 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
+import { resolveApiErrorMessage } from "@/src/constants/error-messages";
 import { authService } from "@/src/services/auth.service";
 import { useAuthStore } from "@/src/store/auth.store";
 import { AuthErrorCode } from "@/src/types/enums/auth.enums";
 import { LoginFormValues } from "@/src/validations/auth.validation";
 import type { ApiResponse } from "@/src/types/api.types";
 import type { LoginResponseData } from "@/src/types/auth.types";
+import { sanitizeCallbackUrl } from "@/src/constants/routes";
 
 interface UseLoginOptions {
   setError: UseFormSetError<LoginFormValues>;
@@ -23,7 +25,7 @@ export const useLogin = ({ setError, callbackUrl = "/" }: UseLoginOptions) => {
     onSuccess: ({ data }) => {
       if (data.data) {
         setAuth(data.data);
-        router.push(callbackUrl);
+        router.push(sanitizeCallbackUrl(callbackUrl));
       }
     },
     onError: (error: AxiosError<ApiResponse<LoginResponseData>>) => {
@@ -42,7 +44,10 @@ export const useLogin = ({ setError, callbackUrl = "/" }: UseLoginOptions) => {
           break;
         default:
           setError("root", {
-            message: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+            message: resolveApiErrorMessage(
+              error,
+              "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+            ),
           });
       }
     },

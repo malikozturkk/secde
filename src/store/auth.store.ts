@@ -6,34 +6,36 @@ import { AUTH_COOKIE_NAME } from "../constants/routes";
 
 interface AuthState {
   accessToken: string | null;
-  refreshToken: string | null;
   tempToken: string | null;
   pendingEmail: string | null;
   user: User | null;
   setAuth: (data: AuthTokensWithUser) => void;
   setUser: (user: User) => void;
+  setAccessToken: (accessToken: string) => void;
   setTempToken: (token: string, email?: string | null) => void;
   clearTempToken: () => void;
   clearAuth: () => void;
 }
 
+const writeAuthCookie = (accessToken: string): void => {
+  Cookies.set(AUTH_COOKIE_NAME, accessToken, {
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+};
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       accessToken: null,
-      refreshToken: null,
       tempToken: null,
       pendingEmail: null,
       user: null,
 
-      setAuth: ({ accessToken, refreshToken, user }) => {
-        Cookies.set(AUTH_COOKIE_NAME, accessToken, {
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "lax",
-        });
+      setAuth: ({ accessToken, user }) => {
+        writeAuthCookie(accessToken);
         set({
           accessToken,
-          refreshToken,
           user,
           tempToken: null,
           pendingEmail: null,
@@ -41,6 +43,11 @@ export const useAuthStore = create<AuthState>()(
       },
 
       setUser: (user) => set({ user }),
+
+      setAccessToken: (accessToken) => {
+        writeAuthCookie(accessToken);
+        set({ accessToken });
+      },
 
       setTempToken: (token, email) =>
         set((state) => ({
@@ -54,7 +61,6 @@ export const useAuthStore = create<AuthState>()(
         Cookies.remove(AUTH_COOKIE_NAME);
         set({
           accessToken: null,
-          refreshToken: null,
           tempToken: null,
           pendingEmail: null,
           user: null,
@@ -64,7 +70,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "auth-storage",
       partialize: (state) => ({
-        refreshToken: state.refreshToken,
         user: state.user,
         tempToken: state.tempToken,
         pendingEmail: state.pendingEmail,

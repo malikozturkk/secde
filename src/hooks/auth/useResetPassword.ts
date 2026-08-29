@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
+import { resolveApiErrorMessage } from "@/src/constants/error-messages";
 import { authService } from "@/src/services/auth.service";
 import { AuthErrorCode } from "@/src/types/enums/auth.enums";
 import { ResetPasswordFormValues } from "@/src/validations/auth.validation";
@@ -36,7 +37,10 @@ export const useResetPassword = ({
           break;
         default:
           setError("root", {
-            message: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+            message: resolveApiErrorMessage(
+              error,
+              "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+            ),
           });
       }
     },

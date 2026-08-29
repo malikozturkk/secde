@@ -9,7 +9,10 @@ import {
 import { retryOnServerError } from "@/src/lib/api-error";
 import type { PublicStats } from "@/src/types/user-stats.types";
 
-export const useUserStats = (username: string): UseQueryResult<PublicStats> => {
+export const useUserStats = (
+  username: string,
+  options?: { enabled?: boolean }
+): UseQueryResult<PublicStats> => {
   return useQuery<PublicStats>({
     queryKey: USER_STATS_QUERY_KEYS.user(username),
     queryFn: async () => {
@@ -18,7 +21,7 @@ export const useUserStats = (username: string): UseQueryResult<PublicStats> => {
       if (!payload) throw new Error("user/stats response missing data");
       return payload;
     },
-    enabled: !!username,
+    enabled: !!username && (options?.enabled ?? true),
     staleTime: USER_STATS_STALE_TIME_MS,
     retry: retryOnServerError(),
   });

@@ -10,6 +10,9 @@ export const PUBLIC_ROUTES = [
   "/explicit-consent",
   "/learn",
   "/tools",
+  "/faq",
+  "/prayer-times",
+  "/duas",
 ];
 export const PROTECTED_ROUTES = ["/worship", "/search", "/profile", "/settings"];
 export const KNOWN_ROUTE_PREFIXES = [...PUBLIC_ROUTES, ...PROTECTED_ROUTES];

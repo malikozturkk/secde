@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
+import { resolveApiErrorMessage } from "@/src/constants/error-messages";
 import { otpService } from "@/src/services/otp.service";
 import { useAuthStore } from "@/src/store/auth.store";
 import { AuthErrorCode } from "@/src/types/enums/auth.enums";
@@ -70,7 +71,10 @@ export const useOtpVerify = ({ setError }: UseOtpVerifyOptions) => {
           break;
         default:
           setError("root", {
-            message: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+            message: resolveApiErrorMessage(
+              error,
+              "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+            ),
           });
       }
     },

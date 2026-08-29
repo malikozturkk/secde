@@ -103,7 +103,7 @@ export default function PrayerTimesHubContent() {
         </ul>
       </section>
 
-      <section id="sss" className="scroll-mt-24">
+      <section id="faq" className="scroll-mt-24">
         <header className="mb-3 px-1">
           <h2 className="text-[21px] font-black leading-tight text-white">
             Namaz vakitleri hakkında sık sorulanlar
@@ -116,12 +116,12 @@ export default function PrayerTimesHubContent() {
         title="Devamı"
         links={[
           {
-            href: "/sss",
+            href: "/faq",
             label: "Sıkça sorulan sorular",
             description: "Namaz, abdest ve kıble hakkında 36 soru",
           },
           {
-            href: "/dualar",
+            href: "/duas",
             label: "Namaz duaları",
             description: "Sübhâneke, Ettehiyyâtü ve diğerleri",
           },

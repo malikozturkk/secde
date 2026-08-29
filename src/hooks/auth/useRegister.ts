@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
+import { resolveApiErrorMessage } from "@/src/constants/error-messages";
 import { getValidationCodes } from "@/src/lib/api-error";
 import { authService } from "@/src/services/auth.service";
 import { useAuthStore } from "@/src/store/auth.store";
@@ -70,31 +71,6 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
   const router = useRouter();
   const { setTempToken } = useAuthStore();
 
-  const resumePendingRegistration = async (requestBody: unknown) => {
-    const email =
-      typeof requestBody === "string"
-        ? (JSON.parse(requestBody) as { email?: string }).email
-        : undefined;
-
-    if (email) {
-      try {
-        const response = await authService.resumeRegistration(email);
-        const tempToken = response.data.data?.tempToken;
-        if (tempToken) {
-          setTempToken(tempToken, email);
-          router.push("/verify-otp");
-          return;
-        }
-      } catch {
-      }
-    }
-
-    setError("root", {
-      message:
-        "Bu hesap için zaten aktif bir kayıt süreci başlatılmış. Lütfen e-postanızı kontrol edin.",
-    });
-  };
-
   return useMutation({
     mutationFn: (payload: RegisterFormValues) => authService.register(payload),
     onSuccess: ({ data }, payload) => {
@@ -147,7 +123,10 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
           setError("password", { message: "Şifre en az 8 karakter olmalıdır" });
           break;
         case AuthErrorCode.ACTIVE_REGISTRATION_EXISTS:
-          void resumePendingRegistration(error.config?.data);
+          setError("root", {
+            message:
+              "Bu bilgilerle zaten bir kayıt süreci başlatılmış. E-postanı kontrol et ya da aynı bilgilerle tekrar dene.",
+          });
           break;
         case AuthErrorCode.EMAIL_REQUIRED:
           setError("email", { message: "E-posta adresi zorunludur" });
@@ -170,7 +149,10 @@ export const useRegister = ({ setError }: UseRegisterOptions) => {
           break;
         default:
           setError("root", {
-            message: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+            message: resolveApiErrorMessage(
+              error,
+              "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+            ),
           });
       }
     },

@@ -109,11 +109,6 @@ export const updateProfileSchema = z
       )
       .optional()
       .or(z.literal("")),
-    avatar: z
-      .string()
-      .url("Geçerli bir URL giriniz")
-      .optional()
-      .or(z.literal("")),
     currentPassword: z.string().optional().or(z.literal("")),
     newPassword: passwordSchema.optional().or(z.literal("")),
     language: z.string().optional(),

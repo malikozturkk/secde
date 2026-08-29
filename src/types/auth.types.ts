@@ -2,7 +2,6 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  avatar: string | null;
   avatarCustomization: AvatarCustomization;
   country: string;
   city: string;
@@ -38,7 +37,6 @@ export interface UserDetail extends Omit<User, "madhab"> {
     count: number;
     preview: {
       username: string;
-      avatar: string | null;
       avatarCustomization: AvatarCustomization;
     }[];
   };
@@ -49,7 +47,6 @@ export interface UserDetail extends Omit<User, "madhab"> {
 
 interface AuthTokens {
   accessToken: string;
-  refreshToken: string;
 }
 
 export interface AuthTokensWithUser extends AuthTokens {
@@ -75,13 +72,8 @@ export interface LoginPayload {
   password: string;
 }
 
-export interface RefreshTokenPayload {
-  refreshToken: string;
-}
-
 export interface UpdateProfilePayload {
   username?: string;
-  avatar?: string;
   currentPassword?: string;
   newPassword?: string;
   language?: string;
@@ -106,10 +98,6 @@ export interface ResetPasswordPayload {
   confirmPassword: string;
 }
 
-export interface LogoutPayload {
-  refreshToken: string;
-}
-
 export interface RegisterResponseData {
   tempToken: string;
 }
@@ -121,7 +109,6 @@ export type ProfileResponseData = UserDetail;
 export type UpdateProfileResponseData = User & {
   tokens?: {
     accessToken: string;
-    refreshToken: string;
   };
 };
 
@@ -135,3 +122,26 @@ export interface ForgotPasswordResponseData {
 }
 
 export type ValidateResetTokenResponseData = boolean;
+
+export interface FollowListParams {
+  page?: number;
+  pageSize?: number;
+}
+
+export interface FollowListItem {
+  username: string;
+  avatarCustomization: AvatarCustomization;
+}
+
+export interface PageMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+}
+
+export interface FollowListResponseData {
+  items: FollowListItem[];
+  meta: PageMeta;
+}

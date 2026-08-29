@@ -5,6 +5,8 @@ import { ToastProvider } from "../components/ui/Toast";
 import { ConsentGateProvider } from "../providers/ConsentGateProvider";
 import { CookieConsentProvider } from "../providers/CookieConsentProvider";
 import CookieBanner from "../components/cookie/CookieBanner";
+import { JsonLd } from "../components/seo/JsonLd";
+import { organizationJsonLd, websiteJsonLd } from "../lib/jsonld";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -30,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="tr" className={`${nunito.variable} ${fredoka.variable}`}>
       <body>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <QueryProvider>
           <ToastProvider>
             <CookieConsentProvider>

@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { UseFormSetError } from "react-hook-form";
 import { AxiosError } from "axios";
+import { resolveApiErrorMessage } from "@/src/constants/error-messages";
 import { authService } from "@/src/services/auth.service";
 import type { ForgotPasswordFormValues } from "@/src/validations/auth.validation";
 import type { ApiResponse } from "@/src/types/api.types";
@@ -24,7 +25,10 @@ export const useForgotPassword = ({
     },
     onError: (error: AxiosError<ApiResponse<ForgotPasswordResponseData>>) => {
       setError("root", {
-        message: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+        message: resolveApiErrorMessage(
+          error,
+          "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+        ),
       });
     },
   });

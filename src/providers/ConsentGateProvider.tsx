@@ -21,10 +21,10 @@ export function ConsentGateProvider({
 }) {
   const pathname = usePathname();
   const isExcludedPath = isConsentGateExcludedPath(pathname);
-  const refreshToken = useAuthStore((s) => s.refreshToken);
+  const user = useAuthStore((s) => s.user);
   const hydrated = useAuthHydrated();
 
-  const isAuthenticated = hydrated && !!refreshToken;
+  const isAuthenticated = hydrated && !!user;
 
   const { data, isLoading, isError } = useConsentStatus({
     enabled: isAuthenticated,

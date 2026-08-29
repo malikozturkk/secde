@@ -32,11 +32,20 @@ const processQueue = (error: unknown, token: string | null = null): void => {
   failedQueue = [];
 };
 
+const CONSENT_ERROR_CODES = new Set(["CONSENT_REQUIRED", "CONSENT_OUTDATED"]);
+
+const isConsentError = (error: AxiosError): boolean => {
+  const body = error.response?.data as ApiResponse<unknown> | undefined;
+  const code = body?.error?.message;
+  return typeof code === "string" && CONSENT_ERROR_CODES.has(code);
+};
+
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
@@ -64,6 +73,7 @@ axiosInstance.interceptors.response.use(
 
     if (
       !isAuthExpired ||
+      isConsentError(error) ||
       alreadyRetried ||
       isRefreshEndpoint ||
       isLoginEndpoint
@@ -85,12 +95,13 @@ axiosInstance.interceptors.response.use(
     originalRequest._retry = true;
     isRefreshing = true;
 
-    const { refreshToken, clearAuth, setAuth } = useAuthStore.getState();
+    const { clearAuth, setAuth } = useAuthStore.getState();
 
     try {
       const { data } = await axios.post<ApiResponse<AuthTokensWithUser>>(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-        { refreshToken }
+        undefined,
+        { withCredentials: true }
       );
 
       const tokens = data.data!;

@@ -5,7 +5,6 @@ import type {
   RegisterResponseData,
   LoginPayload,
   LoginResponseData,
-  RefreshTokenPayload,
   RefreshTokenResponseData,
   UpdateProfilePayload,
   UpdateProfileResponseData,
@@ -14,9 +13,12 @@ import type {
   ValidateResetTokenPayload,
   ValidateResetTokenResponseData,
   ResetPasswordPayload,
-  LogoutPayload,
 } from "@/src/types/auth.types";
-import { AvatarCustomization, ProfileResponseData } from "../types/auth.types";
+import type {
+  FollowListParams,
+  FollowListResponseData,
+} from "@/src/types/auth.types";
+import { ProfileResponseData } from "../types/auth.types";
 
 export const authService = {
   register: (payload: RegisterPayload) =>
@@ -25,23 +27,14 @@ export const authService = {
       payload
     ),
 
-  resumeRegistration: (email: string) =>
-    axiosInstance.post<ApiResponse<RegisterResponseData>>(
-      "/auth/resume-registration",
-      { email }
-    ),
-
   login: (payload: LoginPayload) =>
     axiosInstance.post<ApiResponse<LoginResponseData>>("/auth/login", payload),
 
   getProfile: (username: string) =>
     axiosInstance.get<ApiResponse<ProfileResponseData>>(`/auth/${username}`),
 
-  refresh: (payload: RefreshTokenPayload) =>
-    axiosInstance.post<ApiResponse<RefreshTokenResponseData>>(
-      "/auth/refresh",
-      payload
-    ),
+  refresh: () =>
+    axiosInstance.post<ApiResponse<RefreshTokenResponseData>>("/auth/refresh"),
 
   updateProfile: (payload: UpdateProfilePayload) =>
     axiosInstance.patch<ApiResponse<UpdateProfileResponseData>>(
@@ -49,8 +42,7 @@ export const authService = {
       payload
     ),
 
-  logout: (payload: LogoutPayload) =>
-    axiosInstance.post<ApiResponse<null>>("/auth/logout", payload),
+  logout: () => axiosInstance.post<ApiResponse<null>>("/auth/logout"),
 
   deleteAccount: () => axiosInstance.delete<ApiResponse<null>>("/auth/me"),
 
@@ -74,25 +66,18 @@ export const authService = {
       `/auth/${username}/follow`
     ),
 
-  getFollowers: (username: string) =>
-    axiosInstance.get<
-      ApiResponse<
-        {
-          username: string;
-          avatar: string | null;
-          avatarCustomization: AvatarCustomization;
-        }[]
-      >
-    >(`/auth/${username}/followers`),
+  getFollowers: (username: string, params?: FollowListParams) =>
+    axiosInstance.get<ApiResponse<FollowListResponseData>>(
+      `/auth/${username}/followers`,
+      { params }
+    ),
 
-  getFollowing: (username: string) =>
-    axiosInstance.get<
-      ApiResponse<
-        {
-          username: string;
-          avatar: string | null;
-          avatarCustomization: AvatarCustomization;
-        }[]
-      >
-    >(`/auth/${username}/following`),
+  getFollowing: (username: string, params?: FollowListParams) =>
+    axiosInstance.get<ApiResponse<FollowListResponseData>>(
+      `/auth/${username}/following`,
+      { params }
+    ),
+
+  exportMyData: () =>
+    axiosInstance.get<ApiResponse<Record<string, unknown>>>("/users/me/export"),
 };

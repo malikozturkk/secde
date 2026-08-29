@@ -69,6 +69,26 @@ export const LandingView = () => {
       </main>
 
       <footer className="py-8 border-t border-[var(--color-border)]">
+        <nav
+          aria-label="İçerik sayfaları"
+          className="container mx-auto px-6 pb-6 flex flex-wrap items-center justify-end gap-x-6 gap-y-2 text-sm text-[var(--color-text-muted)]"
+        >
+          <Link href="/prayer-times" className="hover:text-white transition-colors">
+            Namaz Vakitleri
+          </Link>
+          <Link href="/learn" className="hover:text-white transition-colors">
+            Namaz Rehberleri
+          </Link>
+          <Link href="/duas" className="hover:text-white transition-colors">
+            Namaz Duaları
+          </Link>
+          <Link href="/tools" className="hover:text-white transition-colors">
+            Araçlar
+          </Link>
+          <Link href="/faq" className="hover:text-white transition-colors">
+            Sıkça Sorulan Sorular
+          </Link>
+        </nav>
         <div className="container mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-text-muted)]">
           <span>
             © {new Date().getFullYear()} NamazGo. Tüm hakları saklıdır.

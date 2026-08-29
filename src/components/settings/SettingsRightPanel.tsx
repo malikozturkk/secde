@@ -8,6 +8,7 @@ type SettingsNavKey =
   | "profile"
   | "notifications"
   | "social"
+  | "data"
   | "privacy";
 
 interface SettingsRightPanelProps {
@@ -23,6 +24,7 @@ const ACCOUNT_LINKS: ReadonlyArray<{
   { key: "preferences", label: "Tercihler", href: "/settings/account" },
   { key: "profile", label: "Profil", href: "/settings/profile" },
   { key: "notifications", label: "Bildirimler", comingSoon: true },
+  { key: "data", label: "Verilerim", href: "/settings/data" },
   { key: "social", label: "Sosyal hesaplar", comingSoon: true },
   { key: "privacy", label: "Gizlilik Politikası", href: "/privacy" },
 ];

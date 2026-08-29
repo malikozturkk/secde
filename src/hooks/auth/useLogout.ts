@@ -6,13 +6,11 @@ import { DEFAULT_UNAUTHENTICATED_REDIRECT } from "@/src/constants/routes";
 
 export const useLogout = () => {
   const router = useRouter();
-  const { refreshToken, clearAuth } = useAuthStore();
+  const { clearAuth } = useAuthStore();
 
   return useMutation({
     mutationFn: async () => {
-      if (!refreshToken) return;
-
-      await authService.logout({ refreshToken });
+      await authService.logout();
     },
     onSettled: () => {
       clearAuth();
