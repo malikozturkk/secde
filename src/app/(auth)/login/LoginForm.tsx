@@ -12,6 +12,8 @@ import {
 import { Button } from "@/src/components/ui/Button";
 import { Input } from "@/src/components/ui/Input";
 import { sanitizeCallbackUrl } from "@/src/constants/routes";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 export default function LoginPage() {
   const searchParams = useSearchParams();
@@ -33,7 +35,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070F12] flex flex-col">
+    <div className="min-h-screen bg-[var(--ng-canvas)] flex flex-col">
       <header className="w-full flex items-center justify-between px-6 py-5 shrink-0">
         <Link
           href="/"
@@ -55,12 +57,12 @@ export default function LoginPage() {
 
       <main className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-[400px] flex flex-col gap-6">
-          <h1 className="text-center text-white text-2xl font-bold">
+          <h1 className={cn(TEXT.h2, "text-center")}>
             Oturum Aç
           </h1>
 
           {errors.root && (
-            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
+            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-[var(--ng-radius)] px-4 py-3">
               <span
                 className="text-red-400 text-sm font-semibold"
                 style={{ fontFamily: "var(--font-sans)" }}
@@ -91,7 +93,7 @@ export default function LoginPage() {
               suffix={
                 <Link
                   href="/forgot-password"
-                  className="text-[#25B49A] text-[12px] font-extrabold tracking-widest hover:text-[#4FC3F7] transition-colors"
+                  className="text-[var(--ng-green)] text-[12px] font-extrabold tracking-widest hover:text-[var(--ng-sky)] transition-colors"
                   style={{ fontFamily: "var(--font-sans)" }}
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -117,7 +119,7 @@ export default function LoginPage() {
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px bg-[rgba(255,255,255,0.1)]" />
             <span
-              className="text-[rgba(255,255,255,0.4)] text-[13px] font-bold tracking-widest"
+              className="text-[var(--ng-text-3)] text-[13px] font-bold tracking-widest"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               VEYA
@@ -132,7 +134,7 @@ export default function LoginPage() {
             Hesabın yok mu?{" "}
             <Link
               href="/register"
-              className="text-[#25B49A] font-extrabold hover:text-[#4FC3F7] transition-colors"
+              className="text-[var(--ng-green)] font-extrabold hover:text-[var(--ng-sky)] transition-colors"
             >
               Kayıt ol
             </Link>

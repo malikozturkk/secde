@@ -21,9 +21,11 @@ import {
   MADHAB_OPTIONS,
 } from "@/src/constants/registration";
 import { LocationField, type LocationValue } from "./LocationField";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 const fieldLabelClass =
-  "px-1 text-[13px] font-bold text-[rgba(255,255,255,0.6)]";
+  "px-1 text-[13px] font-bold text-[var(--ng-text-2)]";
 
 export default function RegisterForm() {
   const {
@@ -82,7 +84,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070F12] flex flex-col">
+    <div className="min-h-screen bg-[var(--ng-canvas)] flex flex-col">
       <header className="w-full flex items-center justify-between px-6 py-5 flex-shrink-0">
         <Link
           href="/"
@@ -104,12 +106,12 @@ export default function RegisterForm() {
 
       <main className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-[400px] flex flex-col gap-6">
-          <h1 className="text-center text-white text-2xl font-bold">
+          <h1 className={cn(TEXT.h2, "text-center")}>
             Hesap Oluştur
           </h1>
 
           {errors.root && (
-            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
+            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-[var(--ng-radius)] px-4 py-3">
               <span
                 className="text-red-400 text-sm font-semibold"
                 style={{ fontFamily: "var(--font-sans)" }}
@@ -264,7 +266,7 @@ export default function RegisterForm() {
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px bg-[rgba(255,255,255,0.1)]" />
             <span
-              className="text-[rgba(255,255,255,0.4)] text-[13px] font-bold tracking-widest"
+              className="text-[var(--ng-text-3)] text-[13px] font-bold tracking-widest"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               VEYA
@@ -279,7 +281,7 @@ export default function RegisterForm() {
             Zaten hesabın var mı?{" "}
             <Link
               href="/login"
-              className="text-[#25B49A] font-extrabold hover:text-[#4FC3F7] transition-colors"
+              className="text-[var(--ng-green)] font-extrabold hover:text-[var(--ng-sky)] transition-colors"
             >
               Giriş yap
             </Link>

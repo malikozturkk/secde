@@ -89,7 +89,7 @@ export const LEARN_NODES: LearnNode[] = [
     alignment: "center",
     bgColor: "bg-indigo-700",
     bgDark: "bg-indigo-900/50",
-    shadowColor: "#1e1b4b",
+    shadowColor: "var(--ng-violet-deep)",
     iconColor: "text-indigo-100",
     variant: "indigo",
     sparkle: {

@@ -50,10 +50,10 @@ const SuccessComponent: React.FC<QuizSuccessProps> = ({
       >
         {upperTr(prayerLabel)} {isLate ? "KAZA EDİLDİ" : "TAMAMLANDI"}
       </div>
-      <h2 className="font-display text-[42px] leading-none tracking-[0.02em] text-[#FF6B35] [text-shadow:0_4px_0_rgba(124,39,8,0.5),0_0_30px_rgba(255,107,53,0.5)]">
+      <h2 className="font-display text-[42px] leading-none tracking-[0.02em] text-[var(--ng-flame)] [text-shadow:0_4px_0_rgba(124,39,8,0.5),0_0_30px_rgba(255,122,41,0.5)]">
         Maşallah!
       </h2>
-      <p className="text-sm font-black tracking-wide text-white/55">
+      <p className="text-sm font-black tracking-wide text-[var(--ng-text-2)]">
         {isLate
           ? "Vakti geçmişti — kaza olarak kaydedildi."
           : "Vakit kaydedildi — devam edelim."}
@@ -68,7 +68,7 @@ const SuccessComponent: React.FC<QuizSuccessProps> = ({
           +{xpAwarded} XP
         </Pill>
         {isLate && xpBeforePenalty > xpAwarded && (
-          <span className="text-xs font-black tracking-wide text-white/30 line-through">
+          <span className="text-xs font-black tracking-wide text-[var(--ng-text-3)] line-through">
             +{xpBeforePenalty} XP
           </span>
         )}
@@ -84,9 +84,9 @@ const SuccessComponent: React.FC<QuizSuccessProps> = ({
         )}
       </div>
       {isLate && (
-        <p className="mt-3 max-w-[300px] text-xs font-bold leading-snug text-white/40">
+        <p className="mt-3 max-w-[300px] text-xs font-bold leading-snug text-[var(--ng-text-3)]">
           Vaktinde kılsaydın{" "}
-          <strong className="font-black text-white/60">
+          <strong className="font-black text-[var(--ng-text-2)]">
             {xpBeforePenalty} XP
           </strong>{" "}
           kazanacaktın. Serin yine de devam ediyor.

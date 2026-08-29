@@ -21,9 +21,9 @@ interface LeaderboardCardProps {
 }
 
 const RANK_COLOR_CLASS: Record<number, string> = {
-  1: "text-yellow-400",
-  2: "text-zinc-200",
-  3: "text-orange-400",
+  1: "text-[var(--ng-gold)]",
+  2: "text-white",
+  3: "text-[var(--ng-flame)]",
 };
 
 const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
@@ -44,20 +44,21 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
   return (
     <section
       className={cn(
-        "rounded-3xl border border-white/[0.06] bg-[#1C2E35] p-[18px]",
-        "flex flex-col gap-3 overflow-scroll"
+        "rounded-[var(--ng-radius-lg)] p-[18px]",
+        "border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)]",
+        "flex flex-col gap-3 overflow-auto"
       )}
       aria-label="Lider tablosu"
     >
       <header className="flex items-baseline justify-between gap-2">
-        <h3 className="text-base font-black tracking-[-0.01em] text-white">
+        <h3 className="font-display text-[20px] leading-none tracking-[-0.02em] text-white">
           {title}
         </h3>
         {onSeeAll && !isLoading && entries.length > 0 && (
           <button
             type="button"
             onClick={onSeeAll}
-            className="text-[10px] font-black uppercase tracking-[0.10em] text-[var(--color-accent)] hover:brightness-110"
+            className="text-[11px] font-black uppercase tracking-[0.10em] text-[var(--ng-sky)] hover:brightness-110"
           >
             TÜMÜ →
           </button>
@@ -68,7 +69,7 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
         Array.from({ length: 4 }).map((_, idx) => (
           <div
             key={`lb-skel-${idx}`}
-            className="grid grid-cols-[24px_36px_1fr_auto] items-center gap-2.5 border-b border-white/[0.06] py-2 last:border-b-0"
+            className="grid grid-cols-[24px_36px_1fr_auto] items-center gap-2.5 border-b-2 border-white/[0.07] py-2 last:border-b-0"
             aria-hidden="true"
           >
             <span className="font-display text-base text-white/15">·</span>
@@ -82,13 +83,13 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
         ))}
 
       {!isLoading && isError && (
-        <p className="py-3 text-center text-[13px] font-bold text-white/40">
+        <p className="py-3 text-center text-[13px] font-bold text-[var(--ng-text-3)]">
           Lider tablosu şu an yüklenemedi.
         </p>
       )}
 
       {!isLoading && !isError && entries.length === 0 && (
-        <p className="py-3 text-center text-[13px] font-bold text-white/40">
+        <p className="py-3 text-center text-[13px] font-bold text-[var(--ng-text-3)]">
           Henüz kimse tabloya girmedi. İlk sen ol!
         </p>
       )}
@@ -100,24 +101,24 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
             key={entry.username}
             href={`/profile/${entry.username}`}
             className={cn(
-              "grid grid-cols-[24px_36px_1fr_auto] items-center gap-2.5 border-b border-white/[0.06] p-2 no-underline last:border-b-0",
+              "grid grid-cols-[24px_36px_1fr_auto] items-center gap-2.5 border-b-2 border-white/[0.07] p-2 no-underline last:border-b-0",
               "transition-colors hover:bg-white/[0.03]",
               entry.isCurrentUser &&
-                "rounded-2xl border border-[rgba(255,107,53,0.25)] bg-[rgba(255,107,53,0.06)] px-2"
+                "rounded-[var(--ng-radius)] border border-[rgba(255,122,41,0.25)] bg-[rgba(255,122,41,0.06)] px-2"
             )}
           >
             <span
               className={cn(
                 "font-display text-base tabular-nums",
-                RANK_COLOR_CLASS[entry.rank] ?? "text-white/55",
-                entry.isCurrentUser && "text-[#FF6B35]"
+                RANK_COLOR_CLASS[entry.rank] ?? "text-[var(--ng-text-3)]",
+                entry.isCurrentUser && "text-[var(--ng-flame)]"
               )}
             >
               {entry.rank}
             </span>
             <span
               aria-hidden="true"
-              className="h-8 w-8 overflow-hidden rounded-full border border-white/10"
+              className="h-9 w-9 overflow-hidden rounded-full border-2 border-white/15"
               style={{
                 backgroundColor: entry.avatarCustomization.colors.background,
               }}
@@ -130,22 +131,22 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
             <span
               className={cn(
                 "min-w-0 text-[13px] font-black",
-                entry.isCurrentUser ? "text-[#FF6B35]" : "text-white"
+                entry.isCurrentUser ? "text-[var(--ng-flame)]" : "text-white"
               )}
             >
               <span className="block truncate">{entry.username}</span>
               {entry.city && (
-                <small className="block truncate text-[10px] font-bold uppercase tracking-wide text-white/35">
+                <small className="block truncate text-[11px] font-bold uppercase tracking-wide text-[var(--ng-text-3)]">
                   {entry.city}
                 </small>
               )}
             </span>
-            <span className="flex items-center gap-1 font-display text-[13px] tabular-nums text-white/55">
+            <span className="flex items-center gap-1 font-display text-[15px] tabular-nums text-white">
               {entry.score.toLocaleString(STREAK_LOCALE)}
               {showStreakIcon ? (
-                <Fire className="h-4 w-4 fill-[var(--color-streak)]" />
+                <Fire className="h-4 w-4 fill-[var(--ng-flame)]" />
               ) : (
-                <small className="text-[10px] font-bold uppercase text-white/35">
+                <small className="text-[10px] font-bold uppercase text-[var(--ng-text-3)]">
                   {unit}
                 </small>
               )}
@@ -158,7 +159,7 @@ const LeaderboardCardComponent: React.FC<LeaderboardCardProps> = ({
         data &&
         entries.length > 0 &&
         !data.currentUser.inTopList && (
-          <p className="pt-1 text-center text-[11px] font-bold text-white/40">
+          <p className="pt-1 text-center text-[12px] font-bold text-[var(--ng-text-3)]">
             {data.currentUser.rank
               ? `Sen ${
                   data.currentUser.rank

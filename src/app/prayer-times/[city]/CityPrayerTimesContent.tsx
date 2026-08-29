@@ -16,6 +16,7 @@ import {
   formatDistance,
 } from "@/src/lib/qibla-utils";
 import type { PublicPrayerTimes } from "@/src/types/prayer-times.types";
+import { TEXT } from "@/src/constants/surface";
 
 interface CityPrayerTimesContentProps {
   city: CityRoute;
@@ -60,12 +61,12 @@ export default function CityPrayerTimesContent({
           />
         </>
       ) : (
-        <section className="rounded-3xl border border-white/[0.06] bg-[#1C2E35] p-5 text-[14px] leading-relaxed text-white/60">
+        <section className="rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] p-5 text-[14px] leading-relaxed text-[var(--ng-text-2)]">
           Namaz vakitleri şu anda getirilemedi. Sayfa saatlik olarak kendini
           yeniler; bu arada{" "}
           <Link
             href="/learn"
-            className="font-bold text-[var(--color-primary-light)] underline underline-offset-2"
+            className="font-bold text-[var(--ng-green)] underline underline-offset-2"
           >
             rehberlere
           </Link>{" "}
@@ -73,11 +74,11 @@ export default function CityPrayerTimesContent({
         </section>
       )}
 
-      <section className="rounded-3xl border border-white/[0.06] bg-[#1C2E35] p-5">
+      <section className="rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] p-5">
         <h2 className="text-[17px] font-black leading-tight text-white">
           {city.city} kıble yönü
         </h2>
-        <p className="mt-2 text-[14px] leading-relaxed text-white/70">
+        <p className="mt-2 text-[14px] leading-relaxed text-[var(--ng-text-2)]">
           {inCity} Kâbe&apos;nin yönü, kuzeyden itibaren yaklaşık{" "}
           <strong className="text-white">{formatBearing(qibla.bearing)}</strong>{" "}
           ({describeDirection(qibla.bearing)}) olarak hesaplanır. Kâbe&apos;ye
@@ -88,7 +89,7 @@ export default function CityPrayerTimesContent({
           . Yönü telefonunun pusulasıyla birlikte görmek için{" "}
           <Link
             href="/tools/qibla"
-            className="font-bold text-[var(--color-primary-light)] underline underline-offset-2"
+            className="font-bold text-[var(--ng-green)] underline underline-offset-2"
           >
             kıble bulucuyu
           </Link>{" "}
@@ -99,10 +100,10 @@ export default function CityPrayerTimesContent({
       {faq.length > 0 && (
         <section id="faq" className="scroll-mt-24">
           <header className="mb-3 px-1">
-            <h2 className="text-[21px] font-black leading-tight text-white">
+            <h2 className={TEXT.h3}>
               {city.city} namaz vakitleri hakkında sık sorulanlar
             </h2>
-            <p className="mt-1 text-[13px] leading-relaxed text-white/55">
+            <p className="mt-1 text-[13px] leading-relaxed text-[var(--ng-text-2)]">
               Bugünün verisiyle hesaplanmış cevaplar.
             </p>
           </header>
@@ -144,7 +145,7 @@ export default function CityPrayerTimesContent({
         ]}
       />
 
-      <p className="px-1 text-[12px] leading-relaxed text-white/40">
+      <p className="px-1 text-[12px] leading-relaxed text-[var(--ng-text-3)]">
         Vakitler {city.city} il merkezinin koordinatlarına göre hesaplanır;
         ilçelerde ve rakımı belirgin farklı yerlerde birkaç dakikalık sapma
         görülebilir. Oruç ve namaz gibi hassas konularda bulunduğun yerin resmî

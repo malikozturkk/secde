@@ -12,6 +12,7 @@ import {
 import { Button } from "@/src/components/ui/Button";
 import { Input } from "@/src/components/ui/Input";
 import { Info, Mail, MailCheck } from "lucide-react";
+import { TEXT } from "@/src/constants/surface";
 
 export default function ForgotPasswordPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -36,7 +37,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070F12] flex flex-col">
+    <div className="min-h-screen bg-[var(--ng-canvas)] flex flex-col">
       <header className="w-full flex items-center justify-between px-6 py-5 shrink-0">
         <Link
           href="/"
@@ -60,16 +61,16 @@ export default function ForgotPasswordPage() {
           <div className="w-full max-w-[400px] flex flex-col items-center gap-6 text-center">
             <div className="relative flex items-center justify-center">
               <div
-                className="absolute w-28 h-28 rounded-full bg-[#25B49A]/10 animate-ping"
+                className="absolute w-28 h-28 rounded-full bg-[var(--ng-green)]/10 animate-ping"
                 style={{ animationDuration: "2.5s" }}
               />
-              <div className="w-24 h-24 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/40 flex items-center justify-center shadow-lg shadow-[#25B49A]/10">
-                <MailCheck width={44} height={44} stroke="#25B49A" />
+              <div className="w-24 h-24 rounded-full bg-[var(--ng-surface-high)] border-2 border-[var(--ng-green)]/40 flex items-center justify-center shadow-lg shadow-[var(--ng-green)]/10">
+                <MailCheck width={44} height={44} stroke="var(--ng-green)" />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <h1 className="text-white text-2xl font-bold">E-posta Yolda!</h1>
+              <h1 className={TEXT.h2}>E-posta Yolda!</h1>
               <p
                 className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
                 style={{ fontFamily: "var(--font-sans)" }}
@@ -81,12 +82,12 @@ export default function ForgotPasswordPage() {
               </p>
             </div>
 
-            <div className="w-full bg-[#25B49A]/10 border border-[#25B49A]/25 rounded-2xl px-4 py-3 flex items-start gap-3">
-              <span className="text-[#25B49A] text-lg shrink-0 mt-0.5">
+            <div className="w-full bg-[var(--ng-green)]/10 border border-[var(--ng-green)]/25 rounded-[var(--ng-radius)] px-4 py-3 flex items-start gap-3">
+              <span className="text-[var(--ng-green)] text-lg shrink-0 mt-0.5">
                 <Info />
               </span>
               <p
-                className="text-[rgba(255,255,255,0.55)] text-[13px] leading-relaxed text-left"
+                className="text-[var(--ng-text-2)] text-[13px] leading-relaxed text-left"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 Mail gelmediyse spam klasörünü de kontrol etmeyi unutma!
@@ -96,12 +97,12 @@ export default function ForgotPasswordPage() {
         ) : (
           <div className="w-full max-w-[400px] flex flex-col gap-6">
             <div className="flex justify-center">
-              <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
-                <Mail stroke="#25B49A" width={28} height={28} />
+              <div className="w-16 h-16 rounded-full bg-[var(--ng-surface-high)] border-2 border-[var(--ng-green)]/30 flex items-center justify-center">
+                <Mail stroke="var(--ng-green)" width={28} height={28} />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-center">
-              <h1 className="text-white text-2xl font-bold">Şifremi unuttum</h1>
+              <h1 className={TEXT.h2}>Şifremi unuttum</h1>
               <p
                 className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
                 style={{ fontFamily: "var(--font-sans)" }}
@@ -110,7 +111,7 @@ export default function ForgotPasswordPage() {
               </p>
             </div>
             {errors.root && (
-              <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
+              <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-[var(--ng-radius)] px-4 py-3">
                 <span
                   className="text-red-400 text-sm font-semibold"
                   style={{ fontFamily: "var(--font-sans)" }}
@@ -153,7 +154,7 @@ export default function ForgotPasswordPage() {
               Şifreni hatırladın mı?{" "}
               <Link
                 href="/login"
-                className="text-[#25B49A] font-extrabold hover:text-[#4FC3F7] transition-colors"
+                className="text-[var(--ng-green)] font-extrabold hover:text-[var(--ng-sky)] transition-colors"
               >
                 Giriş yap
               </Link>

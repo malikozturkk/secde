@@ -36,8 +36,8 @@ const QuizProgressComponent: React.FC<QuizProgressProps> = ({
               className={cn(
                 "h-full rounded-full transition-[width] duration-200 ease-linear",
                 hasTimer
-                  ? "bg-[var(--color-accent)]"
-                  : "bg-[var(--color-primary-light)]",
+                  ? "bg-[var(--ng-sky)]"
+                  : "bg-[var(--ng-green)]",
                 !hasTimer && isDone && "w-full",
                 !hasTimer && isActive && !answered && "w-2/5",
                 !hasTimer && isActive && answered && "w-3/4",

@@ -8,7 +8,7 @@ const InviteCard = () => {
   return (
     <>
       <button
-        className="border-2 cursor-pointer border-[rgba(255,255,255,0.15)] p-4 rounded-2xl flex flex-col overflow-hidden mb-4 bg-[#070F12] shadow-[0_4px_16px_rgba(0,0,0,0.2)]"
+        className="border-2 cursor-pointer border-[rgba(255,255,255,0.15)] p-4 rounded-[var(--ng-radius)] flex flex-col overflow-hidden mb-4 bg-[var(--ng-canvas)] shadow-[0_4px_16px_rgba(0,0,0,0.2)]"
         onClick={() => setIsInviteOpen(true)}
       >
         <div className="flex gap-4 items-center">

@@ -25,30 +25,30 @@ const DailyGoalCardComponent: React.FC<DailyGoalCardProps> = ({
     <section
       className={cn(
         SURFACE_CARD_GRADIENT_PRIMARY,
-        "flex items-center gap-3 p-4 sm:p-[18px]"
+        "flex items-center gap-4 overflow-hidden p-[18px] sm:p-5"
       )}
       aria-label="Günlük namaz hedefi"
     >
-      <div className="relative h-20 w-16 shrink-0">
+      <div className="relative h-24 w-[76px] shrink-0">
         <CharacterIllustration character={character} animated shadow="soft" />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-[10px] font-black uppercase tracking-[0.12em] text-[var(--color-primary-light)]">
+        <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[var(--ng-green)]">
           {allDone ? "BUGÜN TAMAMLANDI" : "GÜNLÜK HEDEF"}
         </div>
-        <div className="mt-0.5 text-base font-black tracking-[-0.01em] text-white">
+        <div className="mt-1.5 font-display text-[20px] leading-[1.1] tracking-[-0.02em] text-white sm:text-[22px]">
           {allDone
             ? "Bütün vakitler · tamam"
             : `${completedToday}/${totalToday} vakit kılındı`}
         </div>
-        <div className="mt-2 flex items-center gap-2">
+        <div className="mt-3 flex items-center gap-2.5">
           <ProgressBar
             value={progressPercent}
             tone="primary"
-            size="xs"
+            size="md"
             aria-label="Günlük namaz ilerlemesi"
           />
-          <span className="font-display text-sm tabular-nums text-[var(--color-primary-light)]">
+          <span className="shrink-0 font-display text-[17px] tabular-nums text-[var(--ng-green)]">
             %{progressPercent}
           </span>
         </div>

@@ -9,6 +9,7 @@ import { useAuthHydrated } from "@/src/hooks/auth/useAuthHydrated";
 import { Button } from "@/src/components/ui/Button";
 import Link from "next/link";
 import { Mail } from "lucide-react";
+import { TEXT } from "@/src/constants/surface";
 
 const RESEND_COOLDOWN = 180;
 const OTP_LENGTH = 6;
@@ -141,7 +142,7 @@ export default function VerifyOtpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070F12] flex flex-col">
+    <div className="min-h-screen bg-[var(--ng-canvas)] flex flex-col">
       <header className="w-full flex items-center justify-between px-6 py-5 flex-shrink-0">
         <Link
           href="/"
@@ -158,13 +159,13 @@ export default function VerifyOtpPage() {
       <main className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-[400px] flex flex-col gap-6">
           <div className="flex justify-center">
-            <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
-              <Mail stroke="#25B49A" width={28} height={28} />
+            <div className="w-16 h-16 rounded-full bg-[var(--ng-surface-high)] border-2 border-[var(--ng-green)]/30 flex items-center justify-center">
+              <Mail stroke="var(--ng-green)" width={28} height={28} />
             </div>
           </div>
 
           <div className="flex flex-col gap-2 text-center">
-            <h1 className="text-white text-2xl font-bold">E-posta Doğrulama</h1>
+            <h1 className={TEXT.h2}>E-posta Doğrulama</h1>
             <p
               className="text-[rgba(255,255,255,0.5)] text-[14px] leading-relaxed"
               style={{ fontFamily: "var(--font-sans)" }}
@@ -188,7 +189,7 @@ export default function VerifyOtpPage() {
           </div>
 
           {rootError && (
-            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
+            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-[var(--ng-radius)] px-4 py-3">
               <span
                 className="text-red-400 text-sm font-semibold"
                 style={{ fontFamily: "var(--font-sans)" }}
@@ -199,9 +200,9 @@ export default function VerifyOtpPage() {
           )}
 
           {resendSuccess && (
-            <div className="flex items-center gap-2 bg-[#25B49A]/10 border border-[#25B49A]/30 rounded-2xl px-4 py-3">
+            <div className="flex items-center gap-2 bg-[var(--ng-green)]/10 border border-[var(--ng-green)]/30 rounded-[var(--ng-radius)] px-4 py-3">
               <span
-                className="text-[#25B49A] text-sm font-semibold"
+                className="text-[var(--ng-green)] text-sm font-semibold"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 ✓ Yeni kod e-posta adresinize gönderildi.
@@ -232,16 +233,16 @@ export default function VerifyOtpPage() {
                     onFocus={(e) => e.target.select()}
                     className={[
                       "w-12 h-14 text-center text-white text-xl font-bold",
-                      "bg-[#1a2b2a] border-2 rounded-2xl outline-none",
+                      "bg-[var(--ng-surface-deep)] border-[length:var(--ng-stroke)] rounded-[var(--ng-radius)] outline-none",
                       "transition-colors duration-150 caret-transparent",
                       "disabled:opacity-40",
-                      "[&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_#1a2b2a_inset!important]",
+                      "[&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_var(--ng-surface-deep)_inset!important]",
                       "[&:-webkit-autofill]:[-webkit-text-fill-color:white!important]",
                       fieldError
                         ? "border-red-500"
                         : digit
-                        ? "border-[#25B49A]"
-                        : "border-[#2a3d3b] focus:border-[#25B49A]",
+                        ? "border-[var(--ng-green)]"
+                        : "border-[#2a3d3b] focus:border-[var(--ng-green)]",
                     ].join(" ")}
                     style={{ fontFamily: "var(--font-display)" }}
                     aria-label={`${index + 1}. hane`}
@@ -297,7 +298,7 @@ export default function VerifyOtpPage() {
                   "font-extrabold transition-colors",
                   cooldown > 0 || isResending
                     ? "text-[rgba(255,255,255,0.25)] cursor-not-allowed"
-                    : "text-[#25B49A] hover:text-[#4FC3F7] cursor-pointer",
+                    : "text-[var(--ng-green)] hover:text-[var(--ng-sky)] cursor-pointer",
                 ].join(" ")}
               >
                 {isResending

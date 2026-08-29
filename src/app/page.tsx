@@ -18,7 +18,7 @@ export default function Home() {
       <div className="min-h-screen bg-[var(--ng-canvas)] flex items-center justify-center">
         <span
           className="text-3xl text-white animate-pulse"
-          style={{ fontFamily: "var(--font-wordmark)" }}
+          style={{ fontFamily: "var(--font-display)" }}
         >
           NamazGo
         </span>

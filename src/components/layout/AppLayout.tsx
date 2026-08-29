@@ -26,7 +26,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({
   return (
     <div
       className={[
-        "block bg-[var(--color-bg)]",
+        "block bg-[var(--ng-canvas)]",
         isGuest ? "min-h-screen" : "h-screen overflow-hidden",
         isGuest ? "pl-0" : "pl-[var(--sidebar-width)]",
         "max-lg:h-auto max-lg:overflow-visible max-lg:pl-0",

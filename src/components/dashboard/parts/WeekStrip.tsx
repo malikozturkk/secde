@@ -13,21 +13,22 @@ interface WeekStripProps {
 }
 
 const DISC_STATE_CLASS: Record<WeekDayState, string> = {
-  [WeekDayState.Done]: "bg-[#FF6B35] text-white shadow-[0_3px_0_0_#7A2A0D]",
+  [WeekDayState.Done]:
+    "bg-[var(--ng-flame)] text-white border-2 border-white/25 shadow-[0_4px_0_0_var(--ng-flame-deep)]",
   [WeekDayState.TodayDone]:
-    "bg-[#FF6B35] text-white shadow-[0_3px_0_0_#7A2A0D]",
+    "bg-[var(--ng-flame)] text-white border-2 border-white/40 shadow-[0_4px_0_0_var(--ng-flame-deep)]",
   [WeekDayState.Partial]:
-    "bg-[rgba(255,107,53,0.26)] border-2 border-[rgba(255,107,53,0.55)] text-[#FFCA6B]",
+    "bg-[rgba(255,122,41,0.34)] border-2 border-[var(--ng-flame)] text-[var(--ng-gold)]",
   [WeekDayState.Frozen]:
-    "bg-[rgba(79,195,247,0.20)] border-2 border-[#4FC3F7] text-[#4FC3F7]",
+    "bg-[rgba(44,200,255,0.26)] border-2 border-[var(--ng-sky)] text-[var(--ng-sky)] shadow-[0_4px_0_0_var(--ng-sky-deep)]",
   [WeekDayState.Miss]:
-    "border-2 border-dashed border-white/15 text-white/25 bg-transparent",
+    "border-2 border-dashed border-white/20 text-[var(--ng-text-3)] bg-transparent",
   [WeekDayState.TodayPending]: cn(
-    "bg-[rgba(255,107,53,0.18)] border-2 border-[#FF6B35] text-[#FF6B35]",
+    "bg-[rgba(255,122,41,0.24)] border-[length:var(--ng-stroke-thick)] border-[var(--ng-flame)] text-[var(--ng-flame)]",
     "animate-[pulse-ring_2s_ease-in-out_infinite]"
   ),
   [WeekDayState.Future]:
-    "border-2 border-white/[0.08] bg-white/[0.05] text-white/20",
+    "border-2 border-white/[0.12] bg-white/[0.05] text-[var(--ng-text-3)]",
 };
 
 const WeekStripComponent: React.FC<WeekStripProps> = ({
@@ -49,8 +50,12 @@ const WeekStripComponent: React.FC<WeekStripProps> = ({
         }
       }}
       className={cn(
-        "grid grid-cols-7 gap-1.5 rounded-3xl border border-white/[0.06] bg-[#1C2E35] p-3 transition-transform duration-100",
-        onOpen && "cursor-pointer hover:-translate-y-px"
+        "grid grid-cols-7 gap-1.5 rounded-[var(--ng-radius-lg)] p-3.5",
+        "border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)]",
+        "shadow-[0_6px_0_0_var(--ng-surface-deep)]",
+        "transition-transform duration-[var(--motion-press)] ease-[var(--ease-out)]",
+        onOpen &&
+          "cursor-pointer hover:-translate-y-0.5 active:translate-y-[4px] active:shadow-[0_2px_0_0_var(--ng-surface-deep)]"
       )}
     >
       {days.map((day, idx) => {
@@ -74,32 +79,32 @@ const WeekStripComponent: React.FC<WeekStripProps> = ({
                 : undefined
             }
             className={cn(
-              "relative flex flex-col items-center gap-1.5 rounded-2xl px-0.5 py-1.5",
+              "relative flex flex-col items-center gap-2 rounded-[var(--ng-radius)] px-0.5 py-2",
               day.isToday &&
-                "border-[1.5px] border-[rgba(255,107,53,0.35)] bg-[rgba(255,107,53,0.10)]"
+                "border-[length:var(--ng-stroke)] border-[var(--ng-flame)] bg-[rgba(255,122,41,0.16)]"
             )}
           >
             <span
               className={cn(
-                "text-[10px] font-black uppercase tracking-[0.12em]",
-                day.isToday ? "text-[#FF6B35]" : "text-white/35"
+                "text-[11px] font-black uppercase tracking-[0.14em]",
+                day.isToday ? "text-[var(--ng-flame)]" : "text-[var(--ng-text-3)]"
               )}
             >
               {day.label}
             </span>
             <motion.div
               className={cn(
-                "relative grid h-[30px] w-[30px] place-items-center rounded-full sm:h-[36px] sm:w-[36px]",
+                "relative grid h-[34px] w-[34px] place-items-center rounded-full sm:h-[42px] sm:w-[42px]",
                 DISC_STATE_CLASS[day.state]
               )}
               animate={celebrating ? { scale: [1, 1.2, 1] } : undefined}
               transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
             >
-              {showCheck && <Check className="h-[14px] w-[14px]" />}
-              {showFire && <Fire className="h-[14px] w-[14px]" />}
-              {showFrozen && <Snowflake className="h-[13px] w-[13px]" />}
+              {showCheck && <Check className="h-4 w-4" />}
+              {showFire && <Fire className="h-4 w-4" />}
+              {showFrozen && <Snowflake className="h-4 w-4" />}
               {showPartial && (
-                <span className="text-[11px] font-black tabular-nums">
+                <span className="font-display text-[13px] tabular-nums">
                   {day.completedCount}
                 </span>
               )}
@@ -111,8 +116,8 @@ const WeekStripComponent: React.FC<WeekStripProps> = ({
             </motion.div>
             <span
               className={cn(
-                "text-[11px] font-black tabular-nums",
-                day.isToday ? "text-white" : "text-white/35"
+                "font-display text-[13px] tabular-nums",
+                day.isToday ? "text-white" : "text-[var(--ng-text-3)]"
               )}
             >
               {day.dayOfMonth}

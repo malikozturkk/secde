@@ -8,12 +8,12 @@ import {
   LegalList,
 } from "@/src/components/legal/LegalSection";
 
-const tableWrapClass = "overflow-x-auto rounded-xl border border-[var(--color-border)]";
+const tableWrapClass = "overflow-x-auto rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)]";
 const tableClass = "w-full text-left text-[13px] leading-relaxed";
 const thClass =
-  "px-3 py-2 font-bold text-white bg-white/[0.04] border-b border-[var(--color-border)] align-top";
+  "px-3 py-2 font-bold text-white bg-white/[0.06] border-b border-[var(--ng-edge)] align-top";
 const tdClass =
-  "px-3 py-2 border-b border-[var(--color-border)] text-[rgba(255,255,255,0.8)] align-top";
+  "px-3 py-2 border-b border-[var(--ng-edge)] text-[var(--ng-text-2)] align-top";
 
 export default function PrivacyContent() {
   return (
@@ -37,7 +37,7 @@ export default function PrivacyContent() {
           rızanız, bu metinden ayrı olarak{" "}
           <Link
             href="/explicit-consent"
-            className="text-[#25B49A] underline hover:text-[#4FC3F7] transition-colors"
+            className="text-[var(--ng-green)] underline hover:text-[var(--ng-sky)] transition-colors"
           >
             Açık Rıza Metni
           </Link>{" "}

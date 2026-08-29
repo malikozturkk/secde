@@ -63,18 +63,18 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
     <section className="flex flex-col gap-4">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h3 className="m-0 text-[22px] font-black tracking-[-0.01em] text-[var(--color-text)]">
+          <h3 className="m-0 text-[22px] font-black tracking-[-0.01em] text-[var(--ng-text)]">
             Gün Akışı
           </h3>
-          <p className="mt-1 text-[13px] font-bold text-[var(--color-text-muted)]">
+          <p className="mt-1 text-[13px] font-bold text-[var(--ng-text-3)]">
             Güneş&apos;in doğuştan batıma yolculuğu — günün şu anki konumu.
           </p>
         </div>
-        <span className="text-[11px] font-black uppercase tracking-[0.12em] text-white/35">
+        <span className="text-[11px] font-black uppercase tracking-[0.12em] text-[var(--ng-text-3)]">
           Gün Uzunluğu · {dayLengthLabel}
         </span>
       </div>
-      <div className="overflow-hidden rounded-[22px] border border-white/[0.06] bg-[#1c2e35] px-6 pb-6 pt-5">
+      <div className="overflow-hidden rounded-[22px] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] px-6 pb-6 pt-5">
         <svg
           viewBox={`0 0 ${ARC_WIDTH} ${ARC_HEIGHT}`}
           className="block h-auto max-h-[220px] w-full"
@@ -84,11 +84,11 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
           <defs>
             <linearGradient id="wshSkyGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#F59E0B" stopOpacity={0.18} />
-              <stop offset="60%" stopColor="#1A2B2A" stopOpacity={0} />
+              <stop offset="60%" stopColor="var(--ng-surface)" stopOpacity={0} />
             </linearGradient>
             <radialGradient id="wshSunGrad" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#FFF4C2" />
-              <stop offset="60%" stopColor="#FFCA6B" />
+              <stop offset="60%" stopColor="var(--ng-gold)" />
               <stop offset="100%" stopColor="#F59E0B" />
             </radialGradient>
             <filter id="wshSunGlow">
@@ -140,7 +140,7 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
                       cy={p.y}
                       r={5}
                       fill={m.color}
-                      stroke="#1A2B2A"
+                      stroke="var(--ng-surface)"
                       strokeWidth={2}
                     />
                     <line
@@ -158,7 +158,7 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
                     cy={CY + 12}
                     r={4}
                     fill={m.color}
-                    stroke="#1A2B2A"
+                    stroke="var(--ng-surface)"
                     strokeWidth={2}
                   />
                 )}
@@ -200,9 +200,9 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
               <div
                 key={key}
                 className={cn(
-                  "flex flex-col items-center gap-1 rounded-xl border border-white/[0.04] bg-white/[0.02] p-2 transition-[background,border-color] duration-150",
+                  "flex flex-col items-center gap-1 rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-white/[0.02] p-2 transition-[background,border-color] duration-150",
                   isCurrent &&
-                    "border-[rgba(245,166,35,0.35)] bg-[rgba(245,166,35,0.1)]",
+                    "border-[rgba(255,199,44,0.35)] bg-[rgba(255,199,44,0.1)]",
                   isPassed && "opacity-[0.55]"
                 )}
               >
@@ -212,13 +212,13 @@ const DayOverviewComponent: React.FC<DayOverviewProps> = ({ worship }) => {
                 />
                 <span
                   className={cn(
-                    "text-[11px] font-black uppercase tracking-[0.08em] text-[var(--color-text-muted)]",
-                    isCurrent && "text-[var(--color-secondary-light)]"
+                    "text-[11px] font-black uppercase tracking-[0.08em] text-[var(--ng-text-3)]",
+                    isCurrent && "text-[var(--ng-gold)]"
                   )}
                 >
                   {m.shortLabel}
                 </span>
-                <span className="font-display text-base tabular-nums text-[var(--color-text)]">
+                <span className="font-display text-base tabular-nums text-[var(--ng-text)]">
                   {time.time}
                 </span>
               </div>

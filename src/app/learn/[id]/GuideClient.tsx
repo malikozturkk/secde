@@ -15,6 +15,7 @@ import CompletionScreen from "@/src/components/learn/guide/CompletionScreen";
 import { LEARN_NODES } from "@/src/app/learn/learnNodes";
 import { upperTr } from "@/src/lib/turkish";
 import type { GuideCheckQuestionResponse } from "@/src/types/learn.types";
+import { TEXT } from "@/src/constants/surface";
 
 export default function GuideRunnerPage({
   params,
@@ -169,7 +170,7 @@ export default function GuideRunnerPage({
               </div>
             )}
             {activeStepData?.randomQuestion && questionAnswered && (
-              <div className="flex items-center gap-3 bg-[#1a2e26] border border-[#3dffc0] rounded-2xl px-5 py-4">
+              <div className="flex items-center gap-3 bg-[#1a2e26] border border-[#3dffc0] rounded-[var(--ng-radius)] px-5 py-4">
                 <CheckCircle
                   width={20}
                   height={20}
@@ -195,7 +196,7 @@ export default function GuideRunnerPage({
             <span className="bg-[#006C52] text-[#3DF2C0] text-[10px] lg:text-xs rounded-full px-3 py-1 whitespace-nowrap">
               {data?.title ? upperTr(data.title) : ""}
             </span>
-            <h1 className="text-[#F0F8FC] text-2xl lg:text-3xl font-bold">
+            <h1 className={TEXT.h2}>
               {data?.title ?? ""} Rehberi
             </h1>
           </div>
@@ -251,7 +252,7 @@ export default function GuideRunnerPage({
           {hasUnansweredQuestion && (
             <p
               role="status"
-              className="text-center text-[13px] font-semibold text-[var(--color-text-muted)]"
+              className="text-center text-[13px] font-semibold text-[var(--ng-text-3)]"
             >
               Devam etmek için yandaki soruyu doğru cevapla.
             </p>

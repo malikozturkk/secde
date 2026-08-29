@@ -8,7 +8,7 @@ interface ConfettiBurstProps {
   seed?: number;
 }
 
-const COLORS = ["#FF6B35", "#F5A623", "#25B49A", "#4FC3F7", "#C7B9FF"] as const;
+const COLORS = ["var(--ng-flame)", "var(--ng-gold)", "var(--ng-green)", "var(--ng-sky)", "var(--ng-violet)"] as const;
 const SHAPES = ["★", "●", "◆"] as const;
 
 interface Piece {

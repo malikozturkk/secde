@@ -10,6 +10,7 @@ import {
 } from "@/src/constants/duas";
 import { faqPageJsonLd, itemListJsonLd } from "@/src/lib/jsonld";
 import type { FaqEntry } from "@/src/lib/jsonld";
+import { TEXT } from "@/src/constants/surface";
 
 const BREADCRUMBS = [
   { name: "Ana sayfa", path: "/" },
@@ -71,10 +72,10 @@ export default function DuasHubContent() {
         return (
           <section key={category} id={category} className="scroll-mt-24">
             <header className="mb-3 px-1">
-              <h2 className="text-[21px] font-black leading-tight text-white">
+              <h2 className={TEXT.h3}>
                 {label.title}
               </h2>
-              <p className="mt-1 text-[13px] leading-relaxed text-white/55">
+              <p className="mt-1 text-[13px] leading-relaxed text-[var(--ng-text-2)]">
                 {label.description}
               </p>
             </header>
@@ -84,12 +85,12 @@ export default function DuasHubContent() {
                 <li key={dua.slug}>
                   <Link
                     href={`/duas/${dua.slug}`}
-                    className="flex h-full flex-col rounded-2xl border border-white/[0.06] bg-[#1C2E35] px-4 py-3.5 transition-colors hover:border-[rgba(37,180,154,0.35)]"
+                    className="flex h-full flex-col rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] px-4 py-3.5 transition-colors hover:border-[rgba(23,217,160,0.35)]"
                   >
                     <span className="text-[15px] font-black text-white">
                       {dua.shortTitle}
                     </span>
-                    <span className="mt-1 text-[12px] leading-snug text-white/50">
+                    <span className="mt-1 text-[12px] leading-snug text-[var(--ng-text-3)]">
                       {dua.lede}
                     </span>
                   </Link>
@@ -102,7 +103,7 @@ export default function DuasHubContent() {
 
       <section id="faq" className="scroll-mt-24">
         <header className="mb-3 px-1">
-          <h2 className="text-[21px] font-black leading-tight text-white">
+          <h2 className={TEXT.h3}>
             Namaz duaları hakkında sık sorulanlar
           </h2>
         </header>

@@ -20,6 +20,7 @@ import {
   ShieldCheck,
   Trophy,
 } from "lucide-react";
+import { TEXT } from "@/src/constants/surface";
 
 interface ResetPasswordClientProps {
   userId: string;
@@ -52,7 +53,7 @@ export default function ResetPasswordClient({
   };
 
   return (
-    <div className="min-h-screen bg-[#070F12] flex flex-col">
+    <div className="min-h-screen bg-[var(--ng-canvas)] flex flex-col">
       <header className="w-full flex items-center justify-between px-6 py-5 flex-shrink-0">
         <Link
           href="/"
@@ -71,16 +72,16 @@ export default function ResetPasswordClient({
           <div className="w-full max-w-[400px] flex flex-col items-center gap-6 text-center">
             <div className="relative flex items-center justify-center">
               <div
-                className="absolute w-32 h-32 rounded-full bg-[#25B49A]/10 animate-ping"
+                className="absolute w-32 h-32 rounded-full bg-[var(--ng-green)]/10 animate-ping"
                 style={{ animationDuration: "2.8s" }}
               />
-              <div className="w-24 h-24 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/40 flex items-center justify-center shadow-lg shadow-[#25B49A]/10">
-                <ShieldCheck width={46} height={46} stroke="#25B49A" />
+              <div className="w-24 h-24 rounded-full bg-[var(--ng-surface-high)] border-2 border-[var(--ng-green)]/40 flex items-center justify-center shadow-lg shadow-[var(--ng-green)]/10">
+                <ShieldCheck width={46} height={46} stroke="var(--ng-green)" />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <h1 className="text-white text-2xl font-bold">
+              <h1 className={TEXT.h2}>
                 Şifren Güncellendi!
               </h1>
               <p
@@ -91,12 +92,12 @@ export default function ResetPasswordClient({
               </p>
             </div>
 
-            <div className="w-full bg-[#25B49A]/10 border border-[#25B49A]/25 rounded-2xl px-4 py-3 flex items-center gap-3">
+            <div className="w-full bg-[var(--ng-green)]/10 border border-[var(--ng-green)]/25 rounded-[var(--ng-radius)] px-4 py-3 flex items-center gap-3">
               <span className="text-2xl flex-shrink-0">
                 <Award stroke="#EAB308" />
               </span>
               <div className="text-left">
-                <p className="text-[#25B49A] text-[13px] font-extrabold">
+                <p className="text-[var(--ng-green)] text-[13px] font-extrabold">
                   Hesap Güvenliği Sağlandı
                 </p>
                 <p
@@ -117,12 +118,12 @@ export default function ResetPasswordClient({
         ) : (
           <div className="w-full max-w-[400px] flex flex-col gap-6">
             <div className="flex justify-center">
-              <div className="w-16 h-16 rounded-full bg-[#1a2b2a] border-2 border-[#25B49A]/30 flex items-center justify-center">
-                <Lock stroke="#25B49A" width={28} height={28} />
+              <div className="w-16 h-16 rounded-full bg-[var(--ng-surface-high)] border-2 border-[var(--ng-green)]/30 flex items-center justify-center">
+                <Lock stroke="var(--ng-green)" width={28} height={28} />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-center">
-              <h1 className="text-white text-2xl font-bold">
+              <h1 className={TEXT.h2}>
                 Yeni Şifre Belirle
               </h1>
               <p
@@ -134,7 +135,7 @@ export default function ResetPasswordClient({
             </div>
 
             {errors.root && (
-              <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
+              <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-[var(--ng-radius)] px-4 py-3">
                 <span
                   className="text-red-400 text-sm font-semibold"
                   style={{ fontFamily: "var(--font-sans)" }}
@@ -185,7 +186,7 @@ export default function ResetPasswordClient({
               Vazgeçtin mi?{" "}
               <Link
                 href="/login"
-                className="text-[#25B49A] font-extrabold hover:text-[#4FC3F7] transition-colors"
+                className="text-[var(--ng-green)] font-extrabold hover:text-[var(--ng-sky)] transition-colors"
               >
                 Giriş sayfasına dön
               </Link>

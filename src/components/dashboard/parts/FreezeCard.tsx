@@ -49,32 +49,33 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
   return (
     <section
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-[rgba(79,195,247,0.30)]",
-        "bg-gradient-to-br from-[rgba(79,195,247,0.15)] via-[#1C2E35] to-[#1C2E35] to-70%",
-        "p-4 flex flex-col gap-3"
+        "relative overflow-hidden rounded-[var(--ng-radius-lg)]",
+        "border-[length:var(--ng-stroke)] border-[var(--ng-sky)]",
+        "bg-[linear-gradient(180deg,rgba(44,200,255,0.22)_0%,var(--ng-surface)_65%)]",
+        "p-[18px] flex flex-col gap-3.5"
       )}
       aria-label="Seri dondurma"
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-8 -top-12 h-36 w-36 rounded-full bg-[radial-gradient(closest-side,rgba(79,195,247,0.30),transparent_70%)] blur-lg"
+        className="pointer-events-none absolute -right-8 -top-12 h-36 w-36 rounded-full bg-[radial-gradient(closest-side,rgba(44,200,255,0.30),transparent_70%)] blur-lg"
       />
       <header className="relative flex items-center gap-3">
         <div
           className={cn(
-            "grid h-11 w-11 place-items-center rounded-xl text-2xl text-[#082F49]",
-            "bg-gradient-to-b from-[#7DD3FC] to-[#0EA5E9]",
-            "shadow-[0_5px_0_0_#075985,inset_0_2px_0_rgba(255,255,255,0.30)]"
+            "grid h-12 w-12 place-items-center rounded-[var(--ng-radius)] text-[26px] text-[#04303F]",
+            "border-2 border-white/30 bg-[linear-gradient(180deg,#7FE2FF_0%,var(--ng-sky)_100%)]",
+            "shadow-[0_5px_0_0_var(--ng-sky-deep),inset_0_2px_0_rgba(255,255,255,0.40)]"
           )}
           aria-hidden="true"
         >
           ❄
         </div>
         <div className="flex flex-col gap-0.5">
-          <div className="text-base font-black tracking-[-0.01em] text-white">
+          <div className="font-display text-[20px] leading-none tracking-[-0.02em] text-white">
             Seri Dondurma
           </div>
-          <div className="text-[11px] font-bold tracking-wide text-white/55">
+          <div className="mt-1 text-[12px] font-bold leading-snug text-[var(--ng-text-3)]">
             Kaçırdığın bir günde serini koruyalım
           </div>
         </div>
@@ -88,14 +89,14 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
               key={slot}
               aria-label={isFilled ? "Hazır" : "Boş"}
               className={cn(
-                "grid h-14 flex-1 place-items-center rounded-2xl text-2xl",
+                "grid h-16 flex-1 place-items-center rounded-[var(--ng-radius)] text-[26px]",
                 isFilled
                   ? cn(
-                      "border-2 border-[#4FC3F7] text-[#BAE6FD]",
-                      "bg-gradient-to-b from-[rgba(79,195,247,0.20)] to-[rgba(79,195,247,0.05)]",
-                      "shadow-[0_4px_0_0_rgba(7,47,75,0.50),inset_0_1px_0_rgba(255,255,255,0.20)]"
+                      "border-[length:var(--ng-stroke)] border-[var(--ng-sky)] text-[#BAF0FF]",
+                      "bg-[linear-gradient(180deg,rgba(44,200,255,0.32)_0%,rgba(44,200,255,0.10)_100%)]",
+                      "shadow-[0_4px_0_0_var(--ng-sky-deep),inset_0_1px_0_rgba(255,255,255,0.28)]"
                     )
-                  : "border-2 border-dashed border-white/10 bg-white/[0.04] text-white/20"
+                  : "border-2 border-dashed border-white/16 bg-white/[0.06] text-[var(--ng-text-3)]"
               )}
             >
               {isFilled ? "❄" : "+"}
@@ -105,7 +106,7 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
       </div>
 
       <div className="relative flex items-center justify-between gap-2.5">
-        <div className="flex-1 text-[11px] font-bold text-white/55">
+        <div className="flex-1 text-[12px] font-bold leading-snug text-[var(--ng-text-3)]">
           {statusLabel}
         </div>
         {onUseFreeze && (
@@ -114,9 +115,10 @@ const FreezeCardComponent: React.FC<FreezeCardProps> = ({
             onClick={onUseFreeze}
             disabled={!canUse || isUsing}
             className={cn(
-              "inline-flex whitespace-nowrap rounded-2xl px-3.5 py-2 text-[11px] font-black uppercase tracking-[0.10em]",
-              "bg-[#4FC3F7] text-[#082F49] shadow-[0_4px_0_0_#075985]",
-              "transition-transform duration-100 active:translate-y-[3px] active:shadow-[0_1px_0_0_#075985]",
+              "inline-flex shrink-0 whitespace-nowrap rounded-[var(--ng-radius)] px-4 py-2.5 text-[12px] font-black uppercase tracking-[0.10em]",
+              "bg-[var(--ng-sky)] text-[#04303F] shadow-[0_5px_0_0_var(--ng-sky-deep)]",
+              "transition-[transform,box-shadow] duration-[var(--motion-press)] ease-[var(--ease-out)]",
+              "active:translate-y-[4px] active:shadow-[0_1px_0_0_var(--ng-sky-deep)]",
               "disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none disabled:active:translate-y-0"
             )}
           >

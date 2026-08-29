@@ -12,91 +12,91 @@ interface PrayerColorway {
 }
 
 const FAJR: PrayerColorway = {
-  nodeBg: "bg-amber-500",
-  nodeShadow: "shadow-[0_7px_0_0_#7C2D12]",
-  nodeHalo: "ring-amber-500",
-  nodeGlow: "shadow-[0_0_28px_rgba(245,158,11,0.45)]",
-  rowBg: "bg-gradient-to-b from-amber-500/10 to-[#1C2E35] to-60%",
-  rowBorder: "border-amber-500/30",
-  rowTime: "text-amber-300",
-  textAccent: "text-amber-300",
+  nodeBg: "bg-[#FFB020]",
+  nodeShadow: "shadow-[0_8px_0_0_#8A5300]",
+  nodeHalo: "ring-[#FFB020]",
+  nodeGlow: "shadow-[0_0_34px_rgba(255,176,32,0.55)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(255,176,32,0.16)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(255,176,32,0.45)]",
+  rowTime: "text-[#FFC85C]",
+  textAccent: "text-[#FFC85C]",
 };
 
 const DHUHR: PrayerColorway = {
-  nodeBg: "bg-yellow-400",
-  nodeShadow: "shadow-[0_7px_0_0_#7C5300]",
-  nodeHalo: "ring-yellow-400",
-  nodeGlow: "shadow-[0_0_28px_rgba(250,204,21,0.45)]",
-  rowBg: "bg-gradient-to-b from-yellow-400/10 to-[#1C2E35] to-60%",
-  rowBorder: "border-yellow-400/30",
-  rowTime: "text-yellow-300",
-  textAccent: "text-yellow-300",
+  nodeBg: "bg-[var(--ng-gold)]",
+  nodeShadow: "shadow-[0_8px_0_0_var(--ng-gold-deep)]",
+  nodeHalo: "ring-[var(--ng-gold)]",
+  nodeGlow: "shadow-[0_0_34px_rgba(255,199,44,0.55)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(255,199,44,0.16)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(255,199,44,0.45)]",
+  rowTime: "text-[var(--ng-gold)]",
+  textAccent: "text-[var(--ng-gold)]",
 };
 
 const ASR: PrayerColorway = {
-  nodeBg: "bg-orange-500",
-  nodeShadow: "shadow-[0_7px_0_0_#7C2D12]",
-  nodeHalo: "ring-orange-500",
-  nodeGlow: "shadow-[0_0_28px_rgba(249,115,22,0.55)]",
-  rowBg: "bg-gradient-to-b from-orange-500/15 to-[#1C2E35] to-60%",
-  rowBorder: "border-orange-500/35",
-  rowTime: "text-orange-400",
-  textAccent: "text-orange-400",
+  nodeBg: "bg-[var(--ng-flame)]",
+  nodeShadow: "shadow-[0_8px_0_0_var(--ng-flame-deep)]",
+  nodeHalo: "ring-[var(--ng-flame)]",
+  nodeGlow: "shadow-[0_0_34px_rgba(255,122,41,0.60)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(255,122,41,0.18)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(255,122,41,0.50)]",
+  rowTime: "text-[var(--ng-flame)]",
+  textAccent: "text-[var(--ng-flame)]",
 };
 
 const MAGHRIB: PrayerColorway = {
-  nodeBg: "bg-rose-600",
-  nodeShadow: "shadow-[0_7px_0_0_#4C0519]",
-  nodeHalo: "ring-rose-600",
-  nodeGlow: "shadow-[0_0_28px_rgba(225,29,72,0.45)]",
-  rowBg: "bg-gradient-to-b from-rose-600/10 to-[#1C2E35] to-60%",
-  rowBorder: "border-rose-600/30",
-  rowTime: "text-rose-300",
-  textAccent: "text-rose-300",
+  nodeBg: "bg-[var(--ng-rose)]",
+  nodeShadow: "shadow-[0_8px_0_0_var(--ng-rose-deep)]",
+  nodeHalo: "ring-[var(--ng-rose)]",
+  nodeGlow: "shadow-[0_0_34px_rgba(255,84,112,0.55)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(255,84,112,0.16)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(255,84,112,0.45)]",
+  rowTime: "text-[var(--ng-rose)]",
+  textAccent: "text-[var(--ng-rose)]",
 };
 
 const ISHA: PrayerColorway = {
-  nodeBg: "bg-indigo-700",
-  nodeShadow: "shadow-[0_7px_0_0_#1E1B4B]",
-  nodeHalo: "ring-indigo-500",
-  nodeGlow: "shadow-[0_0_28px_rgba(67,56,202,0.45)]",
-  rowBg: "bg-gradient-to-b from-indigo-700/10 to-[#1C2E35] to-60%",
-  rowBorder: "border-indigo-700/30",
-  rowTime: "text-indigo-200",
-  textAccent: "text-indigo-200",
+  nodeBg: "bg-[#6C5CE7]",
+  nodeShadow: "shadow-[0_8px_0_0_#2C1E78]",
+  nodeHalo: "ring-[#8E7BFF]",
+  nodeGlow: "shadow-[0_0_34px_rgba(108,92,231,0.60)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(108,92,231,0.20)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(142,123,255,0.45)]",
+  rowTime: "text-[var(--ng-violet)]",
+  textAccent: "text-[var(--ng-violet)]",
 };
 
 const JUMUAH: PrayerColorway = {
-  nodeBg: "bg-emerald-600",
-  nodeShadow: "shadow-[0_7px_0_0_#022C22]",
-  nodeHalo: "ring-emerald-500",
-  nodeGlow: "shadow-[0_0_28px_rgba(5,150,105,0.45)]",
-  rowBg: "bg-gradient-to-b from-emerald-600/15 to-[#1C2E35] to-60%",
-  rowBorder: "border-emerald-600/40",
-  rowTime: "text-emerald-300",
-  textAccent: "text-emerald-300",
+  nodeBg: "bg-[var(--ng-green)]",
+  nodeShadow: "shadow-[0_8px_0_0_var(--ng-green-deep)]",
+  nodeHalo: "ring-[var(--ng-green)]",
+  nodeGlow: "shadow-[0_0_34px_rgba(23,217,160,0.55)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(23,217,160,0.18)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(23,217,160,0.50)]",
+  rowTime: "text-[var(--ng-green)]",
+  textAccent: "text-[var(--ng-green)]",
 };
 
 const TARAWIH: PrayerColorway = {
-  nodeBg: "bg-violet-600",
-  nodeShadow: "shadow-[0_7px_0_0_#3B0764]",
-  nodeHalo: "ring-violet-500",
-  nodeGlow: "shadow-[0_0_28px_rgba(124,58,237,0.45)]",
-  rowBg: "bg-gradient-to-b from-violet-600/15 to-[#1C2E35] to-60%",
-  rowBorder: "border-violet-600/35",
-  rowTime: "text-violet-300",
-  textAccent: "text-violet-300",
+  nodeBg: "bg-[#9B59F6]",
+  nodeShadow: "shadow-[0_8px_0_0_var(--ng-violet-deep)]",
+  nodeHalo: "ring-[var(--ng-violet)]",
+  nodeGlow: "shadow-[0_0_34px_rgba(155,89,246,0.55)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(155,89,246,0.20)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(169,139,255,0.45)]",
+  rowTime: "text-[var(--ng-violet)]",
+  textAccent: "text-[var(--ng-violet)]",
 };
 
 const EID: PrayerColorway = {
-  nodeBg: "bg-yellow-500",
-  nodeShadow: "shadow-[0_7px_0_0_#713F12]",
-  nodeHalo: "ring-yellow-400",
-  nodeGlow: "shadow-[0_0_28px_rgba(234,179,8,0.5)]",
-  rowBg: "bg-gradient-to-b from-yellow-500/15 to-[#1C2E35] to-60%",
-  rowBorder: "border-yellow-500/40",
-  rowTime: "text-yellow-300",
-  textAccent: "text-yellow-300",
+  nodeBg: "bg-[var(--ng-gold)]",
+  nodeShadow: "shadow-[0_8px_0_0_var(--ng-gold-deep)]",
+  nodeHalo: "ring-[var(--ng-gold)]",
+  nodeGlow: "shadow-[0_0_34px_rgba(255,199,44,0.60)]",
+  rowBg: "bg-[linear-gradient(180deg,rgba(255,199,44,0.20)_0%,var(--ng-surface)_62%)]",
+  rowBorder: "border-[rgba(255,199,44,0.50)]",
+  rowTime: "text-[var(--ng-gold)]",
+  textAccent: "text-[var(--ng-gold)]",
 };
 
 export const PRAYER_COLORWAY: Record<PrayerType, PrayerColorway> = {
@@ -111,14 +111,31 @@ export const PRAYER_COLORWAY: Record<PrayerType, PrayerColorway> = {
   [PrayerType.EidAdha]: EID,
 };
 
-export const SURFACE_CARD_GRADIENT_PRIMARY =
-  "rounded-3xl border border-[rgba(37,180,154,0.30)] bg-gradient-to-br from-[rgba(37,180,154,0.18)] via-[#1C2E35] to-[#1C2E35] to-70% overflow-hidden";
+export const NG_CARD =
+  "rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)]";
+
+export const NG_CARD_HIGH =
+  "rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[var(--ng-edge-strong)] bg-[var(--ng-surface-high)]";
+
+export const NG_CARD_GREEN =
+  "rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[rgba(23,217,160,0.45)] bg-[linear-gradient(180deg,rgba(23,217,160,0.20)_0%,var(--ng-surface)_65%)]";
+
+export const NG_EYEBROW =
+  "text-[11px] font-black uppercase tracking-[0.16em] leading-none";
+
+export const NG_TITLE =
+  "font-display leading-[1.05] tracking-[-0.02em] text-[var(--ng-text)]";
+
+export const NG_PRESS =
+  "transition-[transform,box-shadow] duration-[var(--motion-press)] ease-[var(--ease-out)] active:translate-y-[4px]";
+
+export const SURFACE_CARD_GRADIENT_PRIMARY = NG_CARD_GREEN;
 
 export const MONTH_LEVEL_CLASS: Record<0 | 1 | 2 | 3 | 4 | 5, string> = {
-  0: "bg-white/[0.04] border border-white/[0.08] text-white/30",
-  1: "bg-[rgba(255,107,53,0.14)] border border-[rgba(255,107,53,0.20)] text-[rgba(255,202,107,0.65)]",
-  2: "bg-[rgba(255,107,53,0.26)] border border-[rgba(255,107,53,0.32)] text-white/75",
-  3: "bg-[rgba(255,107,53,0.45)] border border-[rgba(255,107,53,0.55)] text-white",
-  4: "bg-[#FF6B35] border border-[rgba(255,107,53,0.65)] text-white shadow-[0_3px_0_0_rgba(124,39,8,0.4)]",
-  5: "bg-gradient-to-br from-[#FF8A5C] to-[#FF6B35] border border-[rgba(255,107,53,0.65)] text-white shadow-[0_4px_0_0_rgba(124,39,8,0.6)] [box-shadow:inset_0_0_12px_rgba(255,255,255,0.25)]",
+  0: "bg-white/[0.05] border-2 border-white/[0.10] text-[var(--ng-text-3)]",
+  1: "bg-[rgba(255,122,41,0.18)] border-2 border-[rgba(255,122,41,0.30)] text-[rgba(255,199,44,0.75)]",
+  2: "bg-[rgba(255,122,41,0.34)] border-2 border-[rgba(255,122,41,0.45)] text-[var(--ng-text-2)]",
+  3: "bg-[rgba(255,122,41,0.55)] border-2 border-[rgba(255,122,41,0.70)] text-white",
+  4: "bg-[var(--ng-flame)] border-2 border-[rgba(255,122,41,0.80)] text-white shadow-[0_4px_0_0_var(--ng-flame-deep)]",
+  5: "bg-[linear-gradient(180deg,#FFA05C_0%,var(--ng-flame)_100%)] border-2 border-[var(--ng-gold)] text-white shadow-[0_5px_0_0_var(--ng-flame-deep)]",
 };

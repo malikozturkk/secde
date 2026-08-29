@@ -20,23 +20,23 @@ interface QuizOptionProps {
 }
 
 const STATUS_CONTAINER: Record<QuizOptionStatus, string> = {
-  idle: "border-white/10 bg-[#1C2E35] text-white",
+  idle: "border-white/10 bg-[var(--ng-surface)] text-white",
   selected:
-    "border-[var(--color-accent)] bg-[rgba(79,195,247,0.10)] text-white shadow-[0_3px_0_0_#075985]",
+    "border-[var(--ng-sky)] bg-[rgba(44,200,255,0.10)] text-white shadow-[0_3px_0_0_var(--ng-sky-deep)]",
   correct:
-    "border-[var(--color-primary-light)] bg-[rgba(37,180,154,0.12)] text-[var(--color-primary-light)] shadow-[0_3px_0_0_var(--color-primary-dark)]",
+    "border-[var(--ng-green)] bg-[rgba(23,217,160,0.12)] text-[var(--ng-green)] shadow-[0_3px_0_0_var(--ng-green-deep)]",
   incorrect:
     "border-red-500 bg-[rgba(239,68,68,0.10)] text-rose-300 animate-[shake_0.5s_ease-in-out]",
   "missed-correct":
-    "border-[var(--color-primary-light)] bg-[rgba(37,180,154,0.12)] text-[var(--color-primary-light)]",
+    "border-[var(--ng-green)] bg-[rgba(23,217,160,0.12)] text-[var(--ng-green)]",
 };
 
 const STATUS_KEY: Record<QuizOptionStatus, string> = {
-  idle: "bg-white/[0.08] text-white/55",
-  selected: "bg-[var(--color-accent)] text-[#082F49]",
-  correct: "bg-[var(--color-primary-light)] text-[#042F2E]",
+  idle: "bg-white/[0.08] text-[var(--ng-text-2)]",
+  selected: "bg-[var(--ng-sky)] text-[#082F49]",
+  correct: "bg-[var(--ng-green)] text-[#042F2E]",
   incorrect: "bg-red-500 text-white",
-  "missed-correct": "bg-[var(--color-primary-light)] text-[#042F2E]",
+  "missed-correct": "bg-[var(--ng-green)] text-[#042F2E]",
 };
 
 const OptionComponent: React.FC<QuizOptionProps> = ({
@@ -59,7 +59,7 @@ const OptionComponent: React.FC<QuizOptionProps> = ({
       disabled={disabled}
       aria-pressed={status === "selected"}
       className={cn(
-        "flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3.5 text-left",
+        "flex w-full items-center gap-3 rounded-[var(--ng-radius)] border-2 px-4 py-3.5 text-left",
         "text-[15px] font-extrabold transition-all duration-150 ease-out",
         "shadow-[0_3px_0_0_rgba(0,0,0,0.30)]",
         "hover:border-white/20",

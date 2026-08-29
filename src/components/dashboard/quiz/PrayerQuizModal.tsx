@@ -337,7 +337,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
             currentStreak={completionResult.currentStreak}
             leveledUp={completionResult.leveledUp}
           />
-          <div className="border-t border-white/[0.06] bg-[var(--color-bg)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             <Button
               variant="orange"
               size="lg"
@@ -351,7 +351,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
       ) : effectiveLock && lockedView ? (
         <>
           <QuizLockedView reason={lockedView} prayerLabel={meta.label} />
-          <div className="border-t border-white/[0.06] bg-[var(--color-bg)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             <Button
               variant="primary"
               size="lg"
@@ -364,12 +364,12 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
         </>
       ) : (
         <>
-          <header className="flex items-center gap-3 border-b border-white/[0.06] p-4">
+          <header className="flex items-center gap-3 border-b border-[var(--ng-edge)] p-4">
             <button
               type="button"
               onClick={onClose}
               aria-label="Kapat"
-              className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[#1C2E35] text-white/55 active:scale-95"
+              className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[var(--ng-surface)] text-[var(--ng-text-2)] active:scale-95"
             >
               <Cross className="h-4 w-4" />
             </button>
@@ -387,7 +387,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
               aria-label={headerCount}
             >
               {Math.min(currentIndex + 1, total)}
-              <span className="text-white/50">/{total}</span>
+              <span className="text-[var(--ng-text-3)]">/{total}</span>
             </div>
           </header>
 
@@ -425,7 +425,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
                           ? "border-rose-500/60 bg-rose-500/10 text-rose-300"
                           : remainingSeconds! <= 5
                           ? "border-rose-500/60 bg-rose-500/10 text-rose-300 animate-[pulse-ring_1.2s_ease-in-out_infinite]"
-                          : "border-white/15 bg-white/[0.06] text-white/85"
+                          : "border-white/15 bg-white/[0.06] text-[var(--ng-text-2)]"
                       )}
                       aria-live="polite"
                     >
@@ -447,7 +447,7 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
                   ))}
                 </div>
                 {timeExpired && (
-                  <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-[12px] font-bold text-rose-200">
+                  <div className="rounded-[var(--ng-radius)] border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-[12px] font-bold text-rose-200">
                     Süre doldu. Sonucu görmek için kapatabilirsin.
                   </div>
                 )}
@@ -457,10 +457,10 @@ export const PrayerQuizModal: React.FC<PrayerQuizModalProps> = ({
             )}
           </div>
 
-          <div className="border-t border-white/[0.06] bg-[var(--color-bg)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div className="border-t border-[var(--ng-edge)] bg-[var(--ng-canvas)] px-[18px] py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             {errorMessage ? (
               <div
-                className="mb-3 flex items-center gap-2.5 rounded-2xl border border-[rgba(239,68,68,0.30)] bg-[rgba(239,68,68,0.10)] p-3 text-[13px] font-black text-rose-300"
+                className="mb-3 flex items-center gap-2.5 rounded-[var(--ng-radius)] border border-[rgba(239,68,68,0.30)] bg-[rgba(239,68,68,0.10)] p-3 text-[13px] font-black text-rose-300"
                 role="alert"
               >
                 <Cross className="h-[22px] w-[22px] shrink-0" />
@@ -504,7 +504,7 @@ const QuizLoadingSkeleton: React.FC = () => (
 const QuizLoadError: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
   <div className="flex flex-col gap-4" role="alert">
     <h3 className="text-lg font-black text-white">Sorular yüklenemedi</h3>
-    <p className="text-sm font-bold text-white/55">
+    <p className="text-sm font-bold text-[var(--ng-text-2)]">
       Bağlantını kontrol et ve tekrar dene.
     </p>
     <Button variant="primary" size="sm" onClick={onRetry}>
@@ -532,7 +532,7 @@ const QuizLockedView: React.FC<QuizLockedViewProps> = ({
     <h2 className="text-[22px] font-black leading-tight tracking-[-0.01em] text-white">
       {reason.title}
     </h2>
-    <p className="max-w-[280px] text-sm font-bold text-white/55">
+    <p className="max-w-[280px] text-sm font-bold text-[var(--ng-text-2)]">
       {reason.description}
     </p>
   </div>

@@ -6,6 +6,7 @@ import { SeoCta } from "@/src/components/seo/SeoCta";
 import { CITY_ROUTES, FEATURED_CITIES } from "@/src/constants/cities";
 import { faqPageJsonLd, itemListJsonLd } from "@/src/lib/jsonld";
 import type { FaqEntry } from "@/src/lib/jsonld";
+import { TEXT } from "@/src/constants/surface";
 
 const BREADCRUMBS = [
   { name: "Ana sayfa", path: "/" },
@@ -71,12 +72,12 @@ export default function PrayerTimesHubContent() {
             <li key={city.slug}>
               <Link
                 href={`/prayer-times/${city.slug}`}
-                className="block rounded-2xl border border-[rgba(37,180,154,0.22)] bg-gradient-to-br from-[rgba(37,180,154,0.12)] to-[#1C2E35] to-70% px-4 py-3.5 transition-colors hover:border-[rgba(37,180,154,0.5)]"
+                className="block rounded-[var(--ng-radius)] border border-[rgba(23,217,160,0.22)] bg-gradient-to-br from-[rgba(23,217,160,0.12)] to-[var(--ng-surface)] to-70% px-4 py-3.5 transition-colors hover:border-[rgba(23,217,160,0.5)]"
               >
                 <span className="block text-[15px] font-black text-white">
                   {city.city}
                 </span>
-                <span className="mt-0.5 block text-[11px] font-bold text-white/45">
+                <span className="mt-0.5 block text-[11px] font-bold text-[var(--ng-text-3)]">
                   Namaz vakitleri
                 </span>
               </Link>
@@ -94,7 +95,7 @@ export default function PrayerTimesHubContent() {
             <li key={city.slug}>
               <Link
                 href={`/prayer-times/${city.slug}`}
-                className="block rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 text-[13px] font-extrabold text-white/75 transition-colors hover:border-[rgba(37,180,154,0.35)] hover:text-white"
+                className="block rounded-xl border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-white/[0.02] px-3 py-2.5 text-[13px] font-extrabold text-[var(--ng-text-2)] transition-colors hover:border-[rgba(23,217,160,0.35)] hover:text-white"
               >
                 {city.city}
               </Link>
@@ -105,7 +106,7 @@ export default function PrayerTimesHubContent() {
 
       <section id="faq" className="scroll-mt-24">
         <header className="mb-3 px-1">
-          <h2 className="text-[21px] font-black leading-tight text-white">
+          <h2 className={TEXT.h3}>
             Namaz vakitleri hakkında sık sorulanlar
           </h2>
         </header>

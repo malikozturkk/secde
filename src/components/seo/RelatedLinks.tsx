@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { ELEVATION, LINK_CARD, TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 export interface RelatedLink {
   href: string;
@@ -15,31 +17,33 @@ export function RelatedLinks({
   links: readonly RelatedLink[];
 }) {
   return (
-    <section className="rounded-3xl border border-white/[0.06] bg-[#1C2E35] p-5">
-      <h2 className="text-[17px] font-black leading-tight text-white">
-        {title}
-      </h2>
-      <ul className="mt-3 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2">
+    <section className={cn(ELEVATION.surface, "p-5 sm:p-6")}>
+      <h2 className={TEXT.h3}>{title}</h2>
+      <ul className="mt-4 grid list-none grid-cols-1 gap-2.5 p-0 sm:grid-cols-2">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="flex h-full items-start justify-between gap-2 rounded-2xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-[rgba(37,180,154,0.35)] hover:bg-white/[0.05]"
+              className={cn(
+                LINK_CARD,
+                "group flex h-full items-start justify-between gap-2 px-4 py-3.5"
+              )}
             >
               <span>
-                <span className="block text-[14px] font-extrabold text-white">
+                <span className="block text-[15px] font-black leading-snug text-white">
                   {link.label}
                 </span>
                 {link.description && (
-                  <span className="mt-0.5 block text-[12px] leading-snug text-white/50">
+                  <span className={cn("mt-1 block", TEXT.muted)}>
                     {link.description}
                   </span>
                 )}
               </span>
               <ArrowUpRight
-                size={15}
-                className="mt-0.5 shrink-0 text-white/30"
+                size={16}
+                strokeWidth={2.5}
                 aria-hidden
+                className="mt-0.5 shrink-0 text-[var(--ng-text-3)] transition-colors group-hover:text-[var(--ng-green)]"
               />
             </Link>
           </li>

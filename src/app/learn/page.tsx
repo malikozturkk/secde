@@ -39,7 +39,7 @@ export default function LearnPage() {
       title="İbadetleri adım adım öğrenelim"
       lede="Abdest, gusül abdesti ve beş vakit namaz — her rehber adım adım ilerler, aralarda kısa sorularla öğrendiğini pekiştirir. Patikayı baştan takip edebilir veya doğrudan aradığın rehbere geçebilirsin."
     >
-      <div className="relative overflow-hidden rounded-3xl">
+      <div className="relative overflow-hidden rounded-[var(--ng-radius-lg)]">
         <AmbientBackground />
 
         <div className="relative px-2 py-10 lg:px-6">

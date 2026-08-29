@@ -250,45 +250,35 @@ zaten taşmadığı için dolgu görünür bir etki yaratmıyor, butonlar banner
 
 | Rol           | Font                         | Tailwind       |
 | ------------- | ---------------------------- | -------------- |
-| Logotip (`NamazGo`) | **Fredoka One** (400, self-host) | `font-wordmark` |
-| Başlık / sayı | **Quicksand** (yalnızca 600)  | `font-display` |
+| Başlık / sayı | **Fredoka** (600)            | `font-display` |
 | Gövde         | **Nunito** (400/600/700/800) | `font-sans`    |
 
 `body` varsayılanı Nunito'dur.
 
-> **Display fontu neden Quicksand?** Sırasıyla Fredoka One → Fredoka → Baloo 2 kullanıldı.
-> Fredoka'nın `latin-ext` alt kümesi **`Ş ş Ğ ğ İ` gliflerini içermiyor** (fontun `cmap`
-> tablosundan doğrulandı); eksik glifler fallback zincirine düşüyor, zincirin sonu `cursive`
-> olduğu için macOS'ta Apple Chancery ile karışık başlıklar çıkıyordu. Yerine konan Baloo 2
-> Türkçe'yi kapsıyordu ama **ölçüsel olarak Fredoka'nın eşi değildi**: cap yüksekliği 602/1000
-> (Fredoka 700), x/cap oranı 0.764 (Fredoka 0.714) — büyük harfler kısa ve gövdeye göre şişkin
-> okunuyordu. **Quicksand 600** hem Türkçe'nin tamamını kapsar hem de Fredoka'ya ölçüsel olarak
-> neredeyse birebir oturur (x-yüksekliği 503/500, cap 700/700, x/cap 0.719/0.714).
+> **BİLİNEN SORUN — display fontu Türkçe'yi tam kapsamıyor.** `Fredoka`'nın `latin-ext` alt
+> kümesi **`Ş ş Ğ ğ İ` gliflerini içermez** (fontun `cmap` tablosundan doğrulandı). Bu harfleri
+> içeren başlıklar fallback zincirine düşer; zincirin sonu `cursive` olduğu için macOS'ta
+> Apple Chancery, Windows'ta Comic Sans ile karışık render edilir. `NamazGo` logotipinde bu
+> harfler geçmediği için logotip etkilenmez.
 >
-> **Display fontu tek ağırlıkta (600) yüklenir ve `globals.css` içinde `.font-display` için
-> `font-weight: 600` + `font-synthesis-weight: none` ile sabitlenir.** Fredoka da tek ağırlıkta
-> yüklendiği için `font-black` yazılan yerler zaten 600 render ediliyordu; çok ağırlıklı bir
-> aile yüklendiğinde aynı markup birdenbire kalınlaşıp tasarımı bozdu. Display metnini
-> kalınlaştırmak istiyorsan **ağırlık değil boyut/renk değiştir.**
+> Denenen çözümler ve sonuçları:
 >
-> Yeni bir display fontu seçersen: (1) Türkçe kapsamını doğrula (`Ş ş Ğ ğ İ ı Ç Ö Ü`),
-> (2) cap yüksekliği ve x/cap oranını mevcut fontla karşılaştır, (3) fallback zincirinin sonuna
-> asla `cursive`/`fantasy` yazma. Doğru zincir: display → `var(--font-nunito)` → `system-ui` →
-> `sans-serif`.
-
-> **Logotip istisnası — Fredoka One.** `NamazGo` kelime markası **Fredoka One 400** ile yazılır
-> (`font-wordmark` sınıfı / `var(--font-wordmark)` değişkeni).
+> | Aday | Türkçe | Not |
+> | ---- | ------ | --- |
+> | **Baloo 2** | tam | Ölçüsel olarak uzak: cap 602/1000 (Fredoka 700), x/cap 0.764 (0.714). Başlıklar şişkin okundu, **geri alındı**. |
+> | **Quicksand 600** | tam | Ölçüsel olarak neredeyse birebir: x-yükseklik 503/500, cap 700/700, x/cap 0.719/0.714. En güçlü aday. |
+> | **Fredoka One** | eksik | `next/font/google` sunmuyor (paketin `font-data.json`'ında yok); yalnızca self-host edilebilir. |
 >
-> **`next/font/google` Fredoka One'ı sunmuyor** (paketin `font-data.json`'ında yalnızca
-> `Fredoka` var, ağırlıklar 300–700). Bu yüzden font dosyası repoya alınıp
-> `src/fonts/FredokaOne-Regular.woff2` olarak **self-host** edilir ve `next/font/local` ile
-> yüklenir. `Fredoka` ailesinin 600 ağırlığı Fredoka One'ın yerini **tutmaz** — belirgin
-> biçimde daha incedir; bir süre yanlışlıkla o kullanıldı.
+> Bu sorunu çözmeye kalkarsan üç kural: (1) adayın Türkçe kapsamını `cmap`'ten doğrula,
+> (2) cap yüksekliği ve x/cap oranını Fredoka ile karşılaştır, (3) fallback zincirinin sonuna
+> **asla `cursive`/`fantasy` yazma** — eksik glif sessizce sistemin el yazısı fontuna düşer.
 >
-> Fredoka One tek ağırlıktır (400) ve `latin` alt kümesindedir; Türkçe `Ş Ğ İ` **içermez**.
-> Logotipte bu harfler geçmediği için risk yoktur. **`font-wordmark`'ı logotip dışında
-> kullanma.** Dört kullanım yeri: `LandingView`, `PublicTopBar`, `app/page.tsx` splash,
-> `Sidebar.module.css` `.logo`.
+> **`layout.tsx` ile `globals.css` birlikte değişir.** Font değişkenini `layout.tsx`'te
+> yeniden adlandırıp `globals.css`'i güncellemezsen `--font-display` tanımsız bir değişkene
+> bakar ve tüm başlıklar sessizce fallback'e düşer.
+>
+> **`next/font` değişiklikleri sıcak yenilemede yakalanmaz** — `yarn dev` sürecini yeniden
+> başlatmadan ekranda hiçbir şey değişmez.
 
 **Başlık hiyerarşisi.** Her sayfada tam olarak bir `<h1>` olmalıdır. Dashboard/araç bölümlerinde
 başlık `SectionHead` (`components/dashboard/parts/SectionHead.tsx`) ile basılır; bileşen
@@ -296,9 +286,9 @@ varsayılan olarak `<h2>` üretir ve sayfanın _ilk_ başlığında `as="h1"` ve
 iki değerde de aynıdır — prop yalnızca semantiği değiştirir.
 
 **Font yükleme:** Her iki font da `src/app/layout.tsx` içinde `next/font/google`
-(`Nunito`, `Quicksand`) ile build zamanında indirilip **bundle'a gömülür** ve kendi
+(`Nunito`, `Fredoka`) ile build zamanında indirilip **bundle'a gömülür** ve kendi
 origin'imizden servis edilir — çalışma zamanında Google'a hiçbir istek gitmez. Fontlar
-`--font-nunito` / `--font-display-family` CSS değişkenleri olarak `<html>`'e bağlanır; `globals.css`
+`--font-nunito` / `--font-fredoka` CSS değişkenleri olarak `<html>`'e bağlanır; `globals.css`
 `@theme inline` bloğu bunları `--font-sans` / `--font-display`'e eşler. Artık ne `<link>`
 etiketi ne de `globals.css` içinde `@import url(...)` vardır (bu yüzden
 `next/no-page-custom-font` uyarısı da kalktı).

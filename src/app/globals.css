@@ -103,12 +103,8 @@
   --radius-ng: var(--ng-radius);
   --radius-ng-lg: var(--ng-radius-lg);
 
-  --font-sans: var(--font-nunito), system-ui, -apple-system, "Segoe UI", Arial,
-    sans-serif;
-  --font-display: var(--font-display-family), var(--font-nunito), system-ui,
-    -apple-system, "Segoe UI", Arial, sans-serif;
-  --font-wordmark: var(--font-wordmark-family), var(--font-display-family),
-    var(--font-nunito), system-ui, sans-serif;
+  --font-sans: var(--font-nunito), sans-serif;
+  --font-display: var(--font-fredoka), cursive;
 
   --animate-shake: shake 0.5s ease-in-out;
   --animate-fade-slide-up: fadeSlideUp 0.5s ease forwards;
@@ -373,16 +369,4 @@ input:-webkit-autofill:active {
   to {
     opacity: 1;
   }
-}
-
-.font-display,
-[style*="--font-display"] {
-  font-weight: 600;
-  font-synthesis-weight: none;
-}
-
-.font-wordmark {
-  font-family: var(--font-wordmark);
-  font-weight: 400;
-  font-synthesis-weight: none;
 }

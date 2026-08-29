@@ -5,6 +5,7 @@ import { RelatedLinks } from "@/src/components/seo/RelatedLinks";
 import { SeoCta } from "@/src/components/seo/SeoCta";
 import { DUAS, type Dua } from "@/src/constants/duas";
 import { faqPageJsonLd } from "@/src/lib/jsonld";
+import { TEXT } from "@/src/constants/surface";
 
 export default function DuaContent({ dua }: { dua: Dua }) {
   const breadcrumbs = [
@@ -28,18 +29,18 @@ export default function DuaContent({ dua }: { dua: Dua }) {
     >
       <DuaText dua={dua} />
 
-      <section className="rounded-3xl border border-white/[0.06] bg-[#1C2E35] p-5">
+      <section className="rounded-[var(--ng-radius-lg)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] p-5">
         <h2 className="text-[17px] font-black leading-tight text-white">
           Nerede ve ne zaman okunur?
         </h2>
-        <p className="mt-2 text-[14px] leading-relaxed text-white/70">
+        <p className="mt-2 text-[14px] leading-relaxed text-[var(--ng-text-2)]">
           {dua.whenRead}
         </p>
         <ul className="mt-4 flex list-none flex-col gap-2 p-0">
           {dua.notes.map((note) => (
             <li
               key={note}
-              className="relative pl-5 text-[13.5px] leading-relaxed text-white/60 before:absolute before:left-0 before:top-0 before:text-[var(--color-primary-light)] before:content-['•']"
+              className="relative pl-5 text-[13.5px] leading-relaxed text-[var(--ng-text-2)] before:absolute before:left-0 before:top-0 before:text-[var(--ng-green)] before:content-['•']"
             >
               {note}
             </li>
@@ -49,7 +50,7 @@ export default function DuaContent({ dua }: { dua: Dua }) {
 
       <section id="faq" className="scroll-mt-24">
         <header className="mb-3 px-1">
-          <h2 className="text-[21px] font-black leading-tight text-white">
+          <h2 className={TEXT.h3}>
             {dua.shortTitle} hakkında sık sorulanlar
           </h2>
         </header>
@@ -92,7 +93,7 @@ export default function DuaContent({ dua }: { dua: Dua }) {
         ]}
       />
 
-      <p className="px-1 text-[12px] leading-relaxed text-white/40">
+      <p className="px-1 text-[12px] leading-relaxed text-[var(--ng-text-3)]">
         Metinler bilgilendirme amaçlı derlenmiştir. Telaffuzu doğru öğrenmek için
         bir hocadan veya güvenilir bir sesli kayıttan dinleyerek çalışmanı
         öneririz.

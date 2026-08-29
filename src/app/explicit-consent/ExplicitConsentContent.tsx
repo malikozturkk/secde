@@ -65,7 +65,7 @@ export default function ExplicitConsentContent() {
           bilgilendirme için{" "}
           <Link
             href="/privacy"
-            className="text-[#25B49A] underline hover:text-[#4FC3F7] transition-colors"
+            className="text-[var(--ng-green)] underline hover:text-[var(--ng-sky)] transition-colors"
           >
             Aydınlatma Metni
           </Link>
