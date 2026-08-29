@@ -1,0 +1,96 @@
+"use client";
+
+import Link from "next/link";
+import { Download } from "lucide-react";
+import AppLayout from "@/src/components/layout/AppLayout";
+import SettingsRightPanel from "@/src/components/settings/SettingsRightPanel";
+import { Button } from "@/src/components/ui/Button";
+import { useExportMyData } from "@/src/hooks/users/useExportMyData";
+import { getApiErrorMessage } from "@/src/lib/api-error";
+
+export default function DataSettingsClient() {
+  const {
+    mutate: exportData,
+    isPending: isExporting,
+    isSuccess: isExported,
+    error: exportError,
+  } = useExportMyData();
+
+  return (
+    <AppLayout rightPanel={<SettingsRightPanel active="data" />}>
+      <h1 className="mb-2 font-sans text-2xl font-extrabold text-white">
+        Verilerim
+      </h1>
+      <p className="mb-6 max-w-[560px] text-sm font-medium leading-relaxed text-white/50">
+        6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamındaki haklarını
+        buradan kullanabilirsin. Ayrıntılar için{" "}
+        <Link
+          href="/privacy"
+          className="font-bold text-[#4fc3f7] underline underline-offset-2"
+        >
+          Aydınlatma Metni
+        </Link>
+        &apos;ne göz atabilirsin.
+      </p>
+
+      <div className="flex flex-col gap-4">
+        <section className="rounded-3xl border-2 border-white/[0.12] bg-[#1a2b2a] p-5">
+          <div className="mb-2 flex items-center gap-2.5">
+            <Download size={18} className="text-[#4fc3f7]" />
+            <h2 className="font-sans text-base font-extrabold text-white">
+              Verilerimin kopyasını indir
+            </h2>
+          </div>
+          <p className="mb-4 text-sm font-medium leading-relaxed text-white/50">
+            Hesabın, profilin, rıza kayıtların, ibadet ve quiz geçmişin, kaza
+            defterin, oruç kayıtların, sosyal bağlantıların ve bildirim
+            tercihlerin tek bir JSON dosyasında iner. Dosya yalnızca senin
+            tarayıcında oluşturulur; hiçbir yerde saklanmaz.
+          </p>
+          <p className="mb-4 text-[12px] font-semibold text-white/35">
+            Parola özetin, oturum anahtarların ve doğrulama kodların güvenlik
+            materyalidir ve dosyaya dahil edilmez.
+          </p>
+          <Button
+            onClick={() => exportData()}
+            disabled={isExporting}
+            size="lg"
+            className="w-full sm:w-auto"
+          >
+            {isExporting ? "HAZIRLANIYOR..." : "JSON OLARAK İNDİR"}
+          </Button>
+          {isExported && (
+            <p className="mt-3 text-sm font-bold text-[var(--color-primary-light)]">
+              Dosya indirildi.
+            </p>
+          )}
+          {exportError && (
+            <p className="mt-3 text-sm font-bold text-red-400">
+              {getApiErrorMessage(exportError)}
+            </p>
+          )}
+        </section>
+
+        <section className="rounded-3xl border-2 border-white/[0.12] bg-[#1a2b2a] p-5">
+          <h2 className="mb-2 font-sans text-base font-extrabold text-white">
+            Hesabımı sil ve rızamı geri çek
+          </h2>
+          <p className="text-sm font-medium leading-relaxed text-white/50">
+            Mezhep tercihin ve ibadet kayıtların KVKK m.6 anlamında özel
+            nitelikli kişisel veridir ve yalnızca açık rızanla işlenir. Bu
+            veriler olmadan NamazGo hizmetini sunmak mümkün olmadığı için
+            rızanı geri çekmek hesabını silmek anlamına gelir. Silme işlemi{" "}
+            <Link
+              href="/settings/profile"
+              className="font-bold text-[#4fc3f7] underline underline-offset-2"
+            >
+              Profil ayarları
+            </Link>{" "}
+            sayfasındadır; hesabınla birlikte tüm verilerin kalıcı olarak
+            silinir.
+          </p>
+        </section>
+      </div>
+    </AppLayout>
+  );
+}

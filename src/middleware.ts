@@ -8,9 +8,15 @@ import {
   DEFAULT_UNAUTHENTICATED_REDIRECT,
   matchesRoute,
 } from "./constants/routes";
+import { buildContentSecurityPolicy } from "./lib/csp";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const csp = buildContentSecurityPolicy();
+  const withCsp = <T extends NextResponse>(response: T): T => {
+    response.headers.set("Content-Security-Policy", csp);
+    return response;
+  };
   const authToken = request.cookies.get(AUTH_COOKIE_NAME)?.value;
   const isAuthenticated = !!authToken;
 
@@ -19,8 +25,8 @@ export function middleware(request: NextRequest) {
   const isKnownRoute = matchesRoute(pathname, KNOWN_ROUTE_PREFIXES);
 
   if (isAuthenticated && isAuthRoute) {
-    return NextResponse.redirect(
-      new URL(DEFAULT_AUTHENTICATED_REDIRECT, request.url)
+    return withCsp(
+      NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_REDIRECT, request.url))
     );
   }
 
@@ -31,10 +37,10 @@ export function middleware(request: NextRequest) {
   if (!isAuthenticated && !isPublicRoute) {
     const loginUrl = new URL(DEFAULT_UNAUTHENTICATED_REDIRECT, request.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
+    return withCsp(NextResponse.redirect(loginUrl));
   }
 
-  return NextResponse.next();
+  return withCsp(NextResponse.next());
 }
 
 export const config = {
