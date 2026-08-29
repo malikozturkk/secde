@@ -262,28 +262,49 @@ zaten taşmadığı için dolgu görünür bir etki yaratmıyor, butonlar banner
 
 | Rol           | Font                         | Tailwind       |
 | ------------- | ---------------------------- | -------------- |
-| Başlık / sayı | **Fredoka** (600)            | `font-display` |
+| Başlık / sayı | **Fredoka TR** (600, yamalı) | `font-display` |
 | Gövde         | **Nunito** (400/600/700/800) | `font-sans`    |
 
 `body` varsayılanı Nunito'dur.
 
-> **BİLİNEN SORUN — display fontu Türkçe'yi tam kapsamıyor.** `Fredoka`'nın `latin-ext` alt
-> kümesi **`Ş ş Ğ ğ İ` gliflerini içermez** (fontun `cmap` tablosundan doğrulandı). Bu harfleri
-> içeren başlıklar fallback zincirine düşer; zincirin sonu `cursive` olduğu için macOS'ta
-> Apple Chancery, Windows'ta Comic Sans ile karışık render edilir. `NamazGo` logotipinde bu
-> harfler geçmediği için logotip etkilenmez.
+> **ÇÖZÜLDÜ — display fontu artık Türkçe'yi tam kapsıyor.** Google Fonts'taki `Fredoka`
+> (`Fredoka[wdth,wght].ttf`, 320 glif) **`Ş ş Ğ ğ İ` gliflerini hiç içermez** — bu, alt küme
+> seçimiyle ilgili değil, fontun kendi `cmap` tablosundan doğrulanmış bir eksikliktir.
+> `Ç ç Ö ö Ü ü ı` mevcuttur. Eksik beş harf fallback zincirine düşüyor, zincirin sonu
+> `cursive` olduğu için macOS'ta Apple Chancery / Windows'ta Comic Sans ile kelime ortasında
+> font değiştiriyordu.
 >
-> Denenen çözümler ve sonuçları:
+> Çözüm font **değiştirmek değil, yamalamaktır**: eksik beş glif fontun **kendi**
+> parçalarından üretilip fonta eklendi —
 >
-> | Aday | Türkçe | Not |
-> | ---- | ------ | --- |
-> | **Baloo 2** | tam | Ölçüsel olarak uzak: cap 602/1000 (Fredoka 700), x/cap 0.764 (0.714). Başlıklar şişkin okundu, **geri alındı**. |
-> | **Quicksand 600** | tam | Ölçüsel olarak neredeyse birebir: x-yükseklik 503/500, cap 700/700, x/cap 0.719/0.714. En güçlü aday. |
-> | **Fredoka One** | eksik | `next/font/google` sunmuyor (paketin `font-data.json`'ında yok); yalnızca self-host edilebilir. |
+> | Glif | Nasıl üretildi |
+> | ---- | -------------- |
+> | `Ğ` / `ğ` | `G` / `g` + `uni0306` (combining breve), bbox merkezine hizalı |
+> | `Ş` / `ş` | `S` / `s` + `uni0327` (combining cedilla) |
+> | `İ` | `I` + `i` glifinin kendi nokta konturu, tepesi 768'e taşınmış |
 >
-> Bu sorunu çözmeye kalkarsan üç kural: (1) adayın Türkçe kapsamını `cmap`'ten doğrula,
-> (2) cap yüksekliği ve x/cap oranını Fredoka ile karşılaştır, (3) fallback zincirinin sonuna
-> **asla `cursive`/`fantasy` yazma** — eksik glif sessizce sistemin el yazısı fontuna düşer.
+> Konumlandırma uydurulmadı; fontun mevcut composite'lerinden ölçüldü (`Š`/`Ž`/`Ÿ`/`Ä` caps
+> aksanını `y=+200` ve taban bbox merkezine koyuyor; `Ç`/`ç` sedili merkezin %8,6 sağına).
+>
+> **`src/fonts/Fredoka-600-tr.woff2` üretilmiş bir dosyadır — elle düzenleme.** Fredoka'yı
+> yükseltmen gerekirse yamayı `fonttools` ile şu sırayla yeniden kur: (1) kaynak
+> `Fredoka[wdth,wght].ttf`'i `wght=600, wdth=100`'de `instancer` ile statikleştir,
+> (2) yukarıdaki tabloyu `TTGlyphPen` ile composite glif olarak ekle ve `cmap`/`hmtx`/
+> `glyphOrder`'a yaz, (3) `latin`+`latin-ext` alt kümesine indirge, (4) `woff2` olarak kaydet.
+> Sonuç ~17 KB / 233 glif olmalı. Üretim script'i repoda tutulmuyor; `fonttools` bir npm
+> bağımlılığı **değildir** ve build'e girmez. Font `next/font/local` ile yüklenir.
+>
+> Bilinen sınır: yeni glifler `GPOS` kerning sınıflarına dahil değildir, yani `Ş`/`Ğ` için
+> çift harf kerningi `S`/`G` kadar ince ayarlı değildir. Başlık ölçeğinde fark edilmemektedir.
+>
+> Daha önce denenip **geri alınan** yol font değiştirmekti — kayıt için: `Baloo 2` ölçüsel
+> olarak uzaktı (cap 602/1000, x/cap 0.764; Fredoka 700 ve 0.714), başlıklar şişkin okundu;
+> `Quicksand 600` ölçüsel olarak neredeyse birebirdi ama Fredoka'nın karakterini taşımıyordu;
+> `Fredoka One` `next/font/google` tarafından sunulmuyor.
+>
+> Kurallar hâlâ geçerli: fallback zincirinin sonuna **asla `cursive`/`fantasy` yazma** — eksik
+> glif sessizce sistemin el yazısı fontuna düşer. Zincir bugün
+> `var(--font-fredoka), var(--font-nunito), ui-rounded, sans-serif`'tir.
 >
 > **`layout.tsx` ile `globals.css` birlikte değişir.** Font değişkenini `layout.tsx`'te
 > yeniden adlandırıp `globals.css`'i güncellemezsen `--font-display` tanımsız bir değişkene
@@ -297,8 +318,9 @@ başlık `SectionHead` (`components/dashboard/parts/SectionHead.tsx`) ile basıl
 varsayılan olarak `<h2>` üretir ve sayfanın _ilk_ başlığında `as="h1"` verilmelidir. Görsel stil
 iki değerde de aynıdır — prop yalnızca semantiği değiştirir.
 
-**Font yükleme:** Her iki font da `src/app/layout.tsx` içinde `next/font/google`
-(`Nunito`, `Fredoka`) ile build zamanında indirilip **bundle'a gömülür** ve kendi
+**Font yükleme:** `Nunito` `src/app/layout.tsx` içinde `next/font/google` ile build zamanında
+indirilir; `Fredoka` ise yamalı olduğu için `next/font/local` ile repodaki
+`src/fonts/Fredoka-600-tr.woff2` dosyasından yüklenir. İkisi de **bundle'a gömülür** ve kendi
 origin'imizden servis edilir — çalışma zamanında Google'a hiçbir istek gitmez. Fontlar
 `--font-nunito` / `--font-fredoka` CSS değişkenleri olarak `<html>`'e bağlanır; `globals.css`
 `@theme inline` bloğu bunları `--font-sans` / `--font-display`'e eşler. Artık ne `<link>`

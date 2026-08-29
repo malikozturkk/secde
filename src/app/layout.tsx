@@ -1,4 +1,5 @@
-import { Nunito, Fredoka } from "next/font/google";
+import { Nunito } from "next/font/google";
+import localFont from "next/font/local";
 import { createRootMetadata } from "@/src/lib/metadata";
 import QueryProvider from "../providers/QueryProvider";
 import { ToastProvider } from "../components/ui/Toast";
@@ -15,11 +16,13 @@ const nunito = Nunito({
   display: "swap",
 });
 
-const fredoka = Fredoka({
-  subsets: ["latin", "latin-ext"],
+const fredoka = localFont({
+  src: "../fonts/Fredoka-600-tr.woff2",
   weight: "600",
+  style: "normal",
   variable: "--font-fredoka",
   display: "swap",
+  fallback: ["Nunito", "ui-rounded", "system-ui", "sans-serif"],
 });
 
 export const metadata = createRootMetadata();

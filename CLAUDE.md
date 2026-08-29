@@ -220,6 +220,8 @@ src/
 │   ├── seo/            # içerik sayfası kabuğu + JSON-LD (hepsi server component)
 ├── config/site.ts      # site adı, başlık şablonu, OG, tema rengi
 ├── constants/          # sabitler + React Query key fabrikaları + hata mesajı sözlüğü
+├── fonts/              # Fredoka-600-tr.woff2 — Türkçe glifleri eklenmiş yamalı display fontu
+│                       # üretilmiş/elle düzenlenmez; yeniden üretimi docs/DESIGN_SYSTEM.md §3
 ├── hooks/              # React Query hook'ları + UI hook'ları (domain alt klasörleri)
 ├── icons/              # ham .svg  →  icons/tsx/ üretilmiş bileşenler (commit'li)
 ├── lib/                # axios, api-error, error-reporter, utils(cn), metadata, domain util'leri
@@ -491,9 +493,10 @@ Doğrulanmış farklar:
 | `src/features/**` feature-based yapı        | `src/app` + `src/components` + katman klasörleri |
 | Açık tema paleti (`--color-bg: #F7F4EF`)    | Koyu tema (`--color-bg: #070f12`)                |
 
-Hâlâ geçerli olan kısımlar: ürün konsepti, Duolingo tarzı 3D buton dili, Fredoka (display)
+Hâlâ geçerli olan kısımlar: ürün konsepti, Duolingo tarzı 3D buton dili, Fredoka (display,
+Türkçe glifleri için yamalı — `next/font/local`)
 
-- Nunito tipografisi (her ikisi de `next/font` ile self-host, bundle'a gömülü),
+- Nunito tipografisi (`next/font/google`; ikisi de self-host, bundle'a gömülü),
   primary/secondary/streak renk ailesi, animasyon önceliği,
   `any` yasağı, servis katmanı zorunluluğu.
 
