@@ -36,7 +36,7 @@ export default function FollowNetworkCard({
 
   return (
     <>
-      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-2xl flex flex-col overflow-hidden mb-4 bg-[#070F12] shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
+      <div className="border-2 border-[rgba(255,255,255,0.15)] rounded-[var(--ng-radius)] flex flex-col overflow-hidden mb-4 bg-[var(--ng-canvas)] shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
         <div className="flex items-center justify-between border-b-2 border-[rgba(255,255,255,0.1)] px-4 pt-1">
           <button
             onClick={() => setActiveTab("following")}
@@ -62,7 +62,7 @@ export default function FollowNetworkCard({
 
         <div className="flex flex-col min-h-[100px] py-2">
           {list.length === 0 ? (
-            <div className="p-8 text-center text-[rgba(255,255,255,0.4)] font-bold text-[14px]">
+            <div className="p-8 text-center text-[var(--ng-text-3)] font-bold text-[14px]">
               Bu liste henüz boş.
             </div>
           ) : (

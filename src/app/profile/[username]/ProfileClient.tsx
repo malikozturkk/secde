@@ -20,6 +20,8 @@ import FollowNetworkCard from "./components/FollowNetworkCard";
 import AddFriendCard from "./components/AddFriendCard";
 import FollowButton from "./components/FollowButton";
 import FollowListDialog from "./components/FollowListDialog";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 interface ProfilePageProps {
   params: Promise<{ username: string }>;
@@ -121,7 +123,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
         .ng-animate-pop   { animation: ng-pop 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s both; }
         .ng-animate-float { animation: ng-float 3s ease-in-out infinite; }
         .ng-animate-ske   {
-          background: linear-gradient(90deg, #1c2e35 25%, #223540 50%, #1c2e35 75%);
+          background: linear-gradient(90deg, var(--ng-surface) 25%, #223540 50%, var(--ng-surface) 75%);
           background-size: 1200px 100%;
           animation: ng-shimmer 1.8s infinite linear;
         }
@@ -137,9 +139,9 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <NotFound username={username} />
         ) : (
           <div className="ng-animate-up max-w-[1056px] w-full">
-            <div className="bg-[#1c2e35] border border-white/[0.08] rounded-3xl overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.45)]">
+            <div className="bg-[var(--ng-surface)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] rounded-[var(--ng-radius-lg)] overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.45)]">
               <div
-                className="min-h-[210px] flex items-end justify-center border-b border-white/[0.06] relative"
+                className="min-h-[210px] flex items-end justify-center border-b border-[var(--ng-edge)] relative"
                 style={{
                   backgroundColor:
                     profile.avatarCustomization.colors.background,
@@ -164,11 +166,11 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               </div>
 
               <div className="p-6 flex flex-col gap-2">
-                <h1 className="text-[26px] font-black tracking-tight m-0 mb-[3px] leading-[1.15]">
+                <h1 className={cn(TEXT.h2, "m-0 mb-[3px]")}>
                   {profile.username}
                 </h1>
                 {profile.email && (
-                  <span className="text-[13px] font-bold text-white/40 leading-none whitespace-nowrap">
+                  <span className="text-[13px] font-bold text-[var(--ng-text-3)] leading-none whitespace-nowrap">
                     {profile.email}
                   </span>
                 )}
@@ -205,7 +207,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                       {mutualFollowers.slice(0, 3).map((f) => (
                         <div
                           key={f.username}
-                          className="inline-block h-6 w-6 rounded-full ring-2 ring-[#1c2e35] overflow-hidden"
+                          className="inline-block h-6 w-6 rounded-full ring-2 ring-[var(--ng-surface)] overflow-hidden"
                           style={{
                             backgroundColor:
                               f.avatarCustomization.colors.background,
@@ -218,7 +220,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                         </div>
                       ))}
                     </div>
-                    <p className="text-[13px] font-bold text-white/60 m-0">
+                    <p className="text-[13px] font-bold text-[var(--ng-text-2)] m-0">
                       {mutualFollowers
                         .slice(0, 2)
                         .map((f) => f.username)

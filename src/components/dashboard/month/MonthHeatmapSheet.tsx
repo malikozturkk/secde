@@ -111,7 +111,7 @@ const SheetComponent: React.FC<MonthHeatmapSheetProps> = ({
         </header>
       }
       footer={
-        <div className="flex gap-2.5 border-t border-white/[0.06] bg-[var(--color-bg)] px-[18px] py-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom))]">
+        <div className="flex gap-2.5 border-t border-[var(--ng-edge)] bg-[var(--ng-canvas-deep)] px-[18px] py-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom))]">
           <Button
             variant="ghost"
             size="sm"
@@ -144,7 +144,7 @@ const SheetComponent: React.FC<MonthHeatmapSheetProps> = ({
           {SHORT_WEEKDAYS_TR.map((label) => (
             <span
               key={label}
-              className="text-center text-[10px] font-black uppercase tracking-[0.10em] text-white/35"
+              className="text-center text-[10px] font-black uppercase tracking-[0.10em] text-[var(--ng-text-3)]"
             >
               {label}
             </span>
@@ -184,7 +184,7 @@ const SheetNavButton: React.FC<SheetNavButtonProps> = ({
     disabled={disabled}
     aria-label={ariaLabel}
     className={cn(
-      "grid h-8 w-8 place-items-center rounded-xl border-0 bg-[#1C2E35] text-white/55",
+      "grid h-8 w-8 place-items-center rounded-xl border-0 bg-[var(--ng-surface)] text-[var(--ng-text-2)]",
       "transition-transform duration-100 hover:text-white active:translate-y-px",
       "disabled:cursor-not-allowed disabled:opacity-30",
       className
@@ -210,17 +210,17 @@ const MonthStats: React.FC<MonthStatsProps> = ({
       label="SERİ"
       value={String(longestStreak)}
       suffix="gün"
-      valueClass="text-[#FF6B35]"
+      valueClass="text-[var(--ng-flame)]"
     />
     <StatTile
       label="TAM GÜN"
       value={String(perfectDays)}
-      valueClass="text-[var(--color-primary-light)]"
+      valueClass="text-[var(--ng-green)]"
     />
     <StatTile
       label="BAŞARI"
       value={`%${successPercent}`}
-      valueClass="text-[var(--color-secondary)]"
+      valueClass="text-[var(--ng-gold)]"
     />
   </div>
 );
@@ -238,8 +238,8 @@ const StatTile: React.FC<StatTileProps> = ({
   suffix,
   valueClass,
 }) => (
-  <div className="rounded-2xl border border-white/[0.06] bg-[#1C2E35] p-2.5">
-    <div className="text-[9px] font-black uppercase tracking-[0.10em] text-white/35">
+  <div className="rounded-[var(--ng-radius)] border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-[var(--ng-surface)] p-2.5">
+    <div className="text-[9px] font-black uppercase tracking-[0.10em] text-[var(--ng-text-3)]">
       {label}
     </div>
     <div
@@ -250,26 +250,26 @@ const StatTile: React.FC<StatTileProps> = ({
     >
       {value}
       {suffix && (
-        <small className="ml-1 text-[11px] text-white/55">{suffix}</small>
+        <small className="ml-1 text-[11px] text-[var(--ng-text-2)]">{suffix}</small>
       )}
     </div>
   </div>
 );
 
 const MonthLegend: React.FC = () => (
-  <div className="flex items-center gap-2 py-3 text-[10px] font-black uppercase tracking-[0.10em] text-white/35">
+  <div className="flex items-center gap-2 py-3 text-[10px] font-black uppercase tracking-[0.10em] text-[var(--ng-text-3)]">
     <span>AZ</span>
     <div className="flex gap-1">
-      <span className="inline-block h-4 w-4 rounded border border-white/[0.08] bg-white/[0.04]" />
-      <span className="inline-block h-4 w-4 rounded bg-[rgba(255,107,53,0.14)]" />
-      <span className="inline-block h-4 w-4 rounded bg-[rgba(255,107,53,0.26)]" />
-      <span className="inline-block h-4 w-4 rounded bg-[rgba(255,107,53,0.45)]" />
-      <span className="inline-block h-4 w-4 rounded bg-[#FF6B35]" />
-      <span className="inline-block h-4 w-4 rounded bg-gradient-to-br from-[#FF8A5C] to-[#FF6B35]" />
+      <span className="inline-block h-4 w-4 rounded border-[length:var(--ng-stroke)] border-[var(--ng-edge)] bg-white/[0.06]" />
+      <span className="inline-block h-4 w-4 rounded bg-[rgba(255,122,41,0.14)]" />
+      <span className="inline-block h-4 w-4 rounded bg-[rgba(255,122,41,0.26)]" />
+      <span className="inline-block h-4 w-4 rounded bg-[rgba(255,122,41,0.45)]" />
+      <span className="inline-block h-4 w-4 rounded bg-[var(--ng-flame)]" />
+      <span className="inline-block h-4 w-4 rounded bg-gradient-to-br from-[#FF8A5C] to-[var(--ng-flame)]" />
     </div>
     <span>ÇOK</span>
     <span className="ml-auto inline-flex items-center gap-1.5">
-      <span className="inline-block h-3.5 w-3.5 rounded border border-[var(--color-accent)] bg-[rgba(79,195,247,0.20)]" />
+      <span className="inline-block h-3.5 w-3.5 rounded border border-[var(--ng-sky)] bg-[rgba(44,200,255,0.20)]" />
       DONDURMA
     </span>
   </div>

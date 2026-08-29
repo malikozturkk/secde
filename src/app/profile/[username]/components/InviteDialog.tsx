@@ -3,6 +3,8 @@ import { Dialog } from "@/src/components/ui/Dialog";
 import { Copy, Check } from "lucide-react";
 import Link from "next/link";
 import { InviteSearch } from "@/src/icons/tsx/mascot";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 interface InviteDialogProps {
   isOpen: boolean;
@@ -22,17 +24,17 @@ export default function InviteDialog({ isOpen, onClose }: InviteDialogProps) {
     <Dialog isOpen={isOpen} onClose={onClose} maxWidth="md">
       <div className="flex flex-col items-center text-center p-4">
         <InviteSearch width={120} height={120} />
-        <h2 className="text-[24px] font-black text-white mb-3 m-0 tracking-tight">
+        <h2 className={cn(TEXT.h2, "m-0 mb-3")}>
           Arkadaşlarını davet et
         </h2>
 
-        <p className="text-[16px] font-bold text-[rgba(255,255,255,0.6)] mb-8 m-0 max-w-[320px] leading-[1.35]">
+        <p className="text-[16px] font-bold text-[var(--ng-text-2)] mb-8 m-0 max-w-[320px] leading-[1.35]">
           Arkadaşlarını NamazGo&#39;ya davet ederek beraber gelişmenin ve
           öğrenmenin tadını çıkar!
         </p>
 
-        <div className="w-full flex items-center justify-between bg-[#0f171a] border-2 border-[rgba(255,255,255,0.1)] rounded-2xl p-1 pl-4 mb-7 shadow-inner">
-          <span className="text-[14px] text-[rgba(255,255,255,0.4)] font-extrabold truncate shrink">
+        <div className="w-full flex items-center justify-between bg-[#0f171a] border-2 border-[rgba(255,255,255,0.1)] rounded-[var(--ng-radius)] p-1 pl-4 mb-7 shadow-inner">
+          <span className="text-[14px] text-[var(--ng-text-3)] font-extrabold truncate shrink">
             {inviteLink}
           </span>
           <button

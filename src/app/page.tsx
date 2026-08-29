@@ -15,10 +15,10 @@ export default function Home() {
 
   if (!hydrated) {
     return (
-      <div className="min-h-screen bg-[#070F12] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--ng-canvas)] flex items-center justify-center">
         <span
           className="text-3xl text-white animate-pulse"
-          style={{ fontFamily: "var(--font-display)" }}
+          style={{ fontFamily: "var(--font-wordmark)" }}
         >
           NamazGo
         </span>

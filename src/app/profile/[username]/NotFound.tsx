@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { Button } from "@/src/components/ui/Button";
 import Link from "next/link";
 import { siteConfig } from "@/src/config/site";
+import { TEXT } from "@/src/constants/surface";
+import { cn } from "@/src/lib/utils";
 
 export default function NotFound({ username }: { username: string }) {
   useEffect(() => {
@@ -103,9 +105,9 @@ export default function NotFound({ username }: { username: string }) {
           />
         </svg>
       </div>
-      <h2 className="text-[26px] font-black m-0">Kayıp ruh...</h2>
+      <h2 className={cn(TEXT.h2, "m-0")}>Kayıp ruh...</h2>
       <p className="text-[15px] font-semibold text-white/[0.48] leading-[1.8] m-0">
-        <span className="text-[#25B49A] font-black">@{username}</span>{" "}
+        <span className="text-[var(--ng-green)] font-black">@{username}</span>{" "}
         bulunamadı.
         <br />
         Bu kullanıcı aramızda değil gibi görünüyor.

@@ -20,7 +20,7 @@ const MonthCellComponent: React.FC<MonthCellViewProps> = ({ cell }) => {
     return (
       <div
         aria-label="Gelecek"
-        className="grid aspect-square place-items-center rounded-[10px] border border-dashed border-white/[0.06] bg-white/[0.03] text-[11px] font-black tabular-nums text-white/20"
+        className="grid aspect-square place-items-center rounded-[10px] border border-dashed border-[var(--ng-edge)] bg-white/[0.03] text-[11px] font-black tabular-nums text-white/20"
       >
         {cell.day}
       </div>
@@ -32,7 +32,7 @@ const MonthCellComponent: React.FC<MonthCellViewProps> = ({ cell }) => {
         title={`${cell.day} · Seri dondurma kullanıldı`}
         className={cn(
           "relative grid aspect-square place-items-center rounded-[10px]",
-          "border border-[var(--color-accent)] bg-[rgba(79,195,247,0.20)]",
+          "border border-[var(--ng-sky)] bg-[rgba(44,200,255,0.20)]",
           "text-[11px] font-black tabular-nums text-[#BAE6FD]",
           "shadow-[0_3px_0_0_rgba(7,47,75,0.5)]"
         )}
@@ -57,9 +57,9 @@ const MonthCellComponent: React.FC<MonthCellViewProps> = ({ cell }) => {
         "hover:z-[2] hover:scale-110",
         MONTH_LEVEL_CLASS[level],
         cell.kind === MonthCellKind.Today &&
-          "outline outline-2 outline-offset-2 outline-[#FF6B35] z-[1]",
+          "outline outline-2 outline-offset-2 outline-[var(--ng-flame)] z-[1]",
         cell.perfect &&
-          "after:absolute after:bottom-0 after:right-1 after:text-[8px] after:text-white/85 after:content-['★']"
+          "after:absolute after:bottom-0 after:right-1 after:text-[8px] after:text-[var(--ng-text-2)] after:content-['★']"
       )}
     >
       {cell.day}

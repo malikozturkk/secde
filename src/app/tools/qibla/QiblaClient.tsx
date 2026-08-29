@@ -23,6 +23,7 @@ import {
 import { QIBLA_ALIGNED_TOLERANCE_DEGREES } from "@/src/constants/tools";
 import { CompassStatus } from "@/src/types/enums/tools.enums";
 import { cn } from "@/src/lib/utils";
+import { ELEVATION, STAT_TILE, TEXT } from "@/src/constants/surface";
 
 const CITY_OPTIONS = TR_CITIES.map((c) => ({ value: c.city, label: c.city }));
 
@@ -78,23 +79,23 @@ export const QiblaClient: React.FC = () => {
   return (
     <SeoPageShell
       publicShell
+      className="ng-calm"
       breadcrumbs={BREADCRUMBS}
       eyebrow="Kıble bulucu"
       title="Kıble yönünü bul"
       lede="Seçtiğin ilin merkezine göre Kâbe'nin yönünü ve kuş uçuşu uzaklığını hesaplar. Cihazın pusulasını desteklediğinde canlı olarak da yön gösterir; konum izni istemez."
     >
-        <h1 className="m-0 text-[22px] font-black leading-[1.1] tracking-[-0.01em] text-white">
-          Kıble Bulucu
-        </h1>
-
         {!origin ? (
-          <section className="flex flex-col items-start gap-3 rounded-3xl border border-[rgba(245,166,35,0.35)] bg-gradient-to-b from-[rgba(245,166,35,0.12)] to-[#1C2E35] to-60% p-5">
-            <h2 className="m-0 text-xl font-black text-white">
-              Önce konum gerekli
-            </h2>
+          <section
+            className={cn(
+              ELEVATION.surface,
+              "flex flex-col items-start gap-3 p-5"
+            )}
+          >
+            <h2 className={cn(TEXT.h3, "m-0")}>Önce konum gerekli</h2>
             {isGuest ? (
               <>
-                <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
+                <p className={cn(TEXT.body, "m-0")}>
                   Kıble yönü seçtiğin ilin merkezine göre hesaplanır. Hesap
                   gerekmiyor — seçimin yalnızca bu tarayıcıda saklanır.
                 </p>
@@ -106,11 +107,11 @@ export const QiblaClient: React.FC = () => {
                     options={CITY_OPTIONS}
                   />
                 </div>
-                <p className="m-0 text-[12px] font-semibold text-white/35">
+                <p className={cn(TEXT.muted, "m-0")}>
                   Vakit takibi, seri ve XP için{" "}
                   <Link
                     href="/register"
-                    className="font-bold text-[var(--color-primary-light)] underline underline-offset-2"
+                    className="font-bold text-[var(--ng-green)] underline underline-offset-2"
                   >
                     ücretsiz hesap
                   </Link>{" "}
@@ -119,7 +120,7 @@ export const QiblaClient: React.FC = () => {
               </>
             ) : (
               <>
-                <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
+                <p className={cn(TEXT.body, "m-0")}>
                   Kıble yönü kayıtlı iline göre hesaplanır. Önce ayarlardan
                   ilini seç.
                 </p>
@@ -137,10 +138,10 @@ export const QiblaClient: React.FC = () => {
           <>
             <section
               className={cn(
-                "flex flex-col items-center gap-5 rounded-3xl border p-5 transition-colors duration-300",
-                isAligned
-                  ? "border-[rgba(37,180,154,0.45)] bg-gradient-to-b from-[rgba(37,180,154,0.14)] to-[#1C2E35] to-60%"
-                  : "border-white/[0.07] bg-[#1C2E35]"
+                ELEVATION.surface,
+                "flex flex-col items-center gap-5 p-5 transition-colors duration-[var(--motion-base)]",
+                isAligned &&
+                  "border-[color-mix(in_srgb,var(--ng-green)_55%,transparent)]"
               )}
             >
               <CompassRose
@@ -153,10 +154,10 @@ export const QiblaClient: React.FC = () => {
                 <span
                   aria-live="polite"
                   className={cn(
-                    "font-display leading-none tracking-[0.02em]",
+                    TEXT.num,
                     isAligned
-                      ? "text-[30px] text-[var(--color-primary-light)] [text-shadow:0_3px_0_rgba(15,80,72,0.6)]"
-                      : "text-[26px] text-white"
+                      ? "text-[34px] text-[var(--ng-green)]"
+                      : "text-[30px]"
                   )}
                 >
                   {headline ??
@@ -164,7 +165,7 @@ export const QiblaClient: React.FC = () => {
                       reading!.bearing
                     )}`}
                 </span>
-                <span className="text-[11px] font-black uppercase tracking-[0.1em] text-white/35">
+                <span className="text-[11px] font-black uppercase tracking-[0.1em] text-[var(--ng-text-3)]">
                   {liveCompass
                     ? compass.isAbsolute
                       ? "Pusula açık"
@@ -185,37 +186,42 @@ export const QiblaClient: React.FC = () => {
               )}
 
               {compass.status === CompassStatus.Denied && (
-                <p className="m-0 text-center text-[12px] font-bold text-rose-300">
+                <p className="m-0 text-center text-[12px] font-bold text-[var(--ng-rose)]">
                   Pusula izni reddedildi. Açıyı aşağıdan okuyabilirsin.
                 </p>
               )}
             </section>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1 rounded-3xl border border-white/[0.07] bg-[#1C2E35] p-4">
-                <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/40">
+              <div className={STAT_TILE}>
+                <span className={cn(TEXT.muted, "flex items-center gap-1.5")}>
                   <Compass size={13} strokeWidth={2.8} aria-hidden="true" />
                   Kuzeyden açı
-                </div>
-                <span className="font-display text-[26px] leading-none tracking-[0.02em] text-[var(--color-primary-light)]">
+                </span>
+                <span className={cn(TEXT.num, "text-[28px] text-[var(--ng-sky)]")}>
                   {formatBearing(reading!.bearing)}
                 </span>
               </div>
-              <div className="flex flex-col gap-1 rounded-3xl border border-white/[0.07] bg-[#1C2E35] p-4">
-                <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/40">
+              <div className={STAT_TILE}>
+                <span className={cn(TEXT.muted, "flex items-center gap-1.5")}>
                   <MapPin size={13} strokeWidth={2.8} aria-hidden="true" />
                   Kâbe&apos;ye uzaklık
-                </div>
-                <span className="font-display text-[26px] leading-none tracking-[0.02em] text-[var(--color-secondary-light)]">
+                </span>
+                <span className={cn(TEXT.num, "text-[28px] text-[var(--ng-gold)]")}>
                   {formatDistance(reading!.distanceKm)}
                 </span>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-white/[0.07] bg-[#1C2E35] px-4 py-3">
-              <span className="text-[12px] font-black text-white/70">
+            <div
+              className={cn(
+                ELEVATION.surface,
+                "flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+              )}
+            >
+              <span className="text-[13px] font-black text-white">
                 {origin.label}
-                <span className="ml-1.5 font-bold text-white/35">
+                <span className="ml-1.5 text-[12px] font-bold text-[var(--ng-text-3)]">
                   {isGuest ? "seçtiğin şehir" : "kayıtlı şehrin"}
                 </span>
               </span>

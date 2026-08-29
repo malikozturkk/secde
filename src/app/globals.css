@@ -28,6 +28,43 @@
   --z-modal: 200;
   --z-consent-gate: 300;
   --z-toast: 400;
+  --z-tooltip: 150;
+  --motion-press: 120ms;
+  --motion-fast: 180ms;
+  --motion-base: 240ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- v2 "canlı" katman (Duolingo dili) — pilot: dashboard ---- */
+  --ng-green: #17d9a0;
+  --ng-green-deep: #0a6f53;
+  --ng-flame: #ff7a29;
+  --ng-flame-deep: #9c3406;
+  --ng-gold: #ffc72c;
+  --ng-gold-deep: #9c6a05;
+  --ng-sky: #2cc8ff;
+  --ng-sky-deep: #075f83;
+  --ng-violet: #a98bff;
+  --ng-violet-deep: #43268f;
+  --ng-rose: #ff5470;
+  --ng-rose-deep: #8a0f28;
+
+  --ng-canvas: #050c0f;
+  --ng-canvas-deep: #0E1B21;
+  --ng-surface: #12252d;
+  --ng-surface-high: #1a333d;
+  --ng-surface-deep: #081820;
+  --ng-edge: rgba(255, 255, 255, 0.13);
+  --ng-edge-strong: rgba(255, 255, 255, 0.24);
+
+  --ng-text: #ffffff;
+  --ng-text-2: rgba(255, 255, 255, 0.76);
+  --ng-text-3: rgba(255, 255, 255, 0.52);
+
+  --ng-stroke: 2px;
+  --ng-stroke-thick: 3px;
+  --ng-radius: 20px;
+  --ng-radius-lg: 28px;
 }
 
 @theme inline {
@@ -43,8 +80,35 @@
   --color-surface: var(--color-surface);
   --color-text-muted: var(--color-text-muted);
 
-  --font-sans: var(--font-nunito), sans-serif;
-  --font-display: var(--font-fredoka), cursive;
+  --color-ng-green: var(--ng-green);
+  --color-ng-green-deep: var(--ng-green-deep);
+  --color-ng-flame: var(--ng-flame);
+  --color-ng-flame-deep: var(--ng-flame-deep);
+  --color-ng-gold: var(--ng-gold);
+  --color-ng-gold-deep: var(--ng-gold-deep);
+  --color-ng-sky: var(--ng-sky);
+  --color-ng-sky-deep: var(--ng-sky-deep);
+  --color-ng-violet: var(--ng-violet);
+  --color-ng-violet-deep: var(--ng-violet-deep);
+  --color-ng-rose: var(--ng-rose);
+  --color-ng-rose-deep: var(--ng-rose-deep);
+  --color-ng-surface: var(--ng-surface);
+  --color-ng-surface-high: var(--ng-surface-high);
+  --color-ng-surface-deep: var(--ng-surface-deep);
+  --color-ng-edge: var(--ng-edge);
+  --color-ng-edge-strong: var(--ng-edge-strong);
+  --color-ng-text-2: var(--ng-text-2);
+  --color-ng-text-3: var(--ng-text-3);
+
+  --radius-ng: var(--ng-radius);
+  --radius-ng-lg: var(--ng-radius-lg);
+
+  --font-sans: var(--font-nunito), system-ui, -apple-system, "Segoe UI", Arial,
+    sans-serif;
+  --font-display: var(--font-display-family), var(--font-nunito), system-ui,
+    -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-wordmark: var(--font-wordmark-family), var(--font-display-family),
+    var(--font-nunito), system-ui, sans-serif;
 
   --animate-shake: shake 0.5s ease-in-out;
   --animate-fade-slide-up: fadeSlideUp 0.5s ease forwards;
@@ -134,7 +198,7 @@
 }
 
 body {
-  background-color: var(--color-bg);
+  background-color: var(--ng-canvas);
   color: var(--color-text);
   font-family: var(--font-sans);
   margin: 0;
@@ -148,11 +212,11 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #1a2b2a inset !important;
-  box-shadow: 0 0 0 1000px #1a2b2a inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--ng-surface-deep) inset !important;
+  box-shadow: 0 0 0 1000px var(--ng-surface-deep) inset !important;
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
-  background-color: #1a2b2a !important;
+  background-color: var(--ng-surface-deep) !important;
   transition: background-color 0s !important;
 }
 
@@ -243,4 +307,82 @@ input:-webkit-autofill:active {
 
 .wsh-bubble-pulse {
   animation: wshBubblePulse 2.6s ease-in-out infinite;
+}
+
+.ng-calm {
+  --ng-green: #4e9e86;
+  --ng-green-deep: #234c40;
+  --ng-flame: #b5714a;
+  --ng-flame-deep: #543120;
+  --ng-gold: #c9a24a;
+  --ng-gold-deep: #5f4a20;
+  --ng-sky: #5f9bb0;
+  --ng-sky-deep: #274d5b;
+  --ng-violet: #8b7cae;
+  --ng-violet-deep: #3d3552;
+  --ng-rose: #b05a68;
+  --ng-rose-deep: #522830;
+
+  --ng-edge: rgba(255, 255, 255, 0.09);
+  --ng-edge-strong: rgba(255, 255, 255, 0.16);
+  --ng-stroke: 1px;
+  --ng-stroke-thick: 2px;
+}
+
+.ng-calm h1,
+.ng-calm h2,
+.ng-calm h3 {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-bounce,
+  .animate-ring-inner,
+  .animate-ring-outer,
+  .animate-star-1,
+  .animate-star-2,
+  .animate-star-3,
+  .animate-star-4,
+  .animate-xp-badge,
+  .wsh-bubble-pulse,
+  .sparkle,
+  .float-particle,
+  .nebula {
+    animation: none !important;
+  }
+
+  .animate-shake,
+  .animate-fade-slide-up,
+  .animate-pulse-ring,
+  .animate-check-in,
+  .animate-summary-in,
+  .animate-row-in {
+    animation: reducedFade var(--motion-fast) var(--ease-out) both !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes reducedFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.font-display,
+[style*="--font-display"] {
+  font-weight: 600;
+  font-synthesis-weight: none;
+}
+
+.font-wordmark {
+  font-family: var(--font-wordmark);
+  font-weight: 400;
+  font-synthesis-weight: none;
 }

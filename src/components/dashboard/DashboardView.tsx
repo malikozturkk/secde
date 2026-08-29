@@ -276,15 +276,15 @@ export const DashboardView: React.FC = () => {
           isLeaderboardError={leaderboardQuery.isError}
         />
       }
-      mainClassName="px-4 pb-10 pt-6 lg:pt-8"
+      mainClassName="px-4 pb-12 pt-6 lg:px-6 lg:pt-8"
     >
-      <div className="flex flex-col gap-4 lg:gap-5">
-        <header className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-4">
+      <div className="flex flex-col gap-[18px] lg:gap-6">
+        <header className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-5">
           <div className="hidden lg:block">
-            <h1 className="m-0 text-2xl font-black tracking-[-0.01em] text-white">
+            <h1 className="m-0 font-black text-[34px] leading-none tracking-[-0.035em] text-white">
               Serilerim
             </h1>
-            <div className="mt-1 text-xs font-bold tracking-wide text-white/55">
+            <div className="mt-2 text-[13px] font-black uppercase tracking-[0.10em] text-[var(--ng-text-3)]">
               {todayLabel}
             </div>
           </div>
@@ -440,7 +440,7 @@ const RightRail: React.FC<RightRailProps> = ({
   isLeaderboardLoading,
   isLeaderboardError,
 }) => (
-  <div className="flex h-full flex-col gap-4 overflow-y-auto pr-1 lg:pr-0">
+  <div className="flex h-full flex-col gap-[18px] overflow-y-auto pr-1 lg:pr-0">
     <LevelStatCard
       level={level}
       badgeKey={levelBadgeKey}
@@ -479,11 +479,11 @@ const RightRail: React.FC<RightRailProps> = ({
 );
 
 const RightRailSkeleton: React.FC = () => (
-  <div className="flex h-full flex-col gap-4">
-    <div className="h-[96px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-3xl bg-white/[0.06]" />
-    <div className="h-[140px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-3xl bg-white/[0.06]" />
-    <div className="h-[180px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-3xl bg-white/[0.06]" />
-    <div className="h-[220px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-3xl bg-white/[0.06]" />
+  <div className="flex h-full flex-col gap-[18px]">
+    <div className="h-[96px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-[var(--ng-radius-lg)] bg-white/[0.07]" />
+    <div className="h-[140px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-[var(--ng-radius-lg)] bg-white/[0.07]" />
+    <div className="h-[180px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-[var(--ng-radius-lg)] bg-white/[0.07]" />
+    <div className="h-[220px] w-full animate-[shimmer_2s_ease-in-out_infinite] rounded-[var(--ng-radius-lg)] bg-white/[0.07]" />
   </div>
 );
 
@@ -496,7 +496,7 @@ const DashboardFooterMascot: React.FC<DashboardFooterMascotProps> = ({
 }) => (
   <div
     aria-hidden="true"
-    className="pointer-events-none mx-auto mt-2 h-[80px] w-[120px] opacity-50 lg:hidden"
+    className="pointer-events-none mx-auto mt-3 h-[92px] w-[136px] opacity-60 lg:hidden"
   >
     <CharacterIllustration character={character} animated shadow="soft" />
   </div>
