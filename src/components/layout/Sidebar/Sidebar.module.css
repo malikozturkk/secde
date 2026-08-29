@@ -271,6 +271,15 @@
     transform: scale(1.12);
   }
 
+  .settingsMobileIcon {
+    color: #ffffff;
+    stroke-width: 2;
+  }
+
+  .mobileNavItemActive .settingsMobileIcon {
+    color: var(--color-primary-light);
+  }
+
   .mobileActiveDot {
     width: 5px;
     height: 5px;

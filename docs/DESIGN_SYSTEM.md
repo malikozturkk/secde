@@ -159,12 +159,18 @@ toast.error(mesaj, { duration: 6000 });
 
 ## 4.5 SEO içerik bileşenleri (`src/components/seo/`)
 
-İçerik sayfalarının (`/faq`, `/prayer-times*`, `/duas*`) kabuğu. Hepsi **server
+İçerik sayfalarının (`/faq`, `/prayer-times*`, `/duas*`) kabuğu. Bu üç küme **server
 component**tir; `"use client"` eklemek içeriği hidrasyona bağlar ve amacını bozar.
+
+`/learn*` ve `/tools*` de aynı kabuğu kullanır ama **client component**tir (pusula, sayaç,
+quiz gibi etkileşim taşırlar) — onlarda kural yalnızca görsel tutarlılıktır, sıfır-JS değil.
+Bu sayfalar `SeoPageShell`'e `publicShell` verir; kabuk bunu `AppLayout`'un
+`forcePublicShell` prop'una geçirir ve sayfa oturum açıkken de public kabukla açılır
+(`CLAUDE.md` §7.6).
 
 | Bileşen             | Görevi                                                                              |
 | ------------------- | ------------------------------------------------------------------------------------ |
-| `SeoPageShell`      | `AppLayout` + kırıntı + `h1` + girizgâh; `BreadcrumbList` şemasını otomatik basar    |
+| `SeoPageShell`      | `AppLayout` + kırıntı + `h1` + girizgâh, `max-w-[860px]` kap; `BreadcrumbList` şemasını otomatik basar. `publicShell` prop'u kabuğu public'e sabitler |
 | `Breadcrumbs`       | Görünür kırıntı; `breadcrumbJsonLd()` ile **aynı** diziden beslenmeli                |
 | `JsonLd`            | `<script type="application/ld+json">` — `<` kaçırılır                                |
 | `FaqAccordion`      | Native `<details>` akordiyon, sıfır client JS                                        |

@@ -450,6 +450,29 @@ mobilde alt bar). `Sidebar`, `user` yoksa hiçbir şey render etmez. Sidebar'da
 `Puan Tabloları`, `Görevler`, `Mağaza`, `İstatistik` öğeleri **yorum satırındadır** —
 bu route'lar henüz yok.
 
+Mobilde (`max-width: 1023px`) `Sidebar` gizlenir ve yerini alt bar alır. Alt bar
+`NAV_ITEMS`'a ek olarak **`Ayarlar`** öğesini de basar (`MOBILE_NAV_ITEMS`): masaüstünde
+`Ayarlar` sidebar'ın `bottomSection`'ında ayrı durur, mobilde o bölüm hiç render edilmediği
+için alt bara eklenmezse ayarlara giden hiçbir giriş noktası kalmaz. Aktiflik `matchPrefix:
+"/settings"` ile hesaplanır; `href` `/settings/profile` olduğu için prefix verilmezse
+`/settings/account` gibi alt sayfalarda ikon sönük kalırdı.
+
+`AppLayout` iki kabuk üretir ve seçim `isGuest = forcePublicShell || (hydrated && !user)`
+ile yapılır:
+
+| Kabuk       | Ne gösterir                                       | Kim alır                                                     |
+| ----------- | ------------------------------------------------- | ------------------------------------------------------------ |
+| Oturum içi  | `Sidebar` + `pl-[var(--sidebar-width)]`, `h-screen` | Dashboard, `/worship`, `/profile`, `/search`, `/settings/*`  |
+| Public      | `PublicTopBar`, sol boşluk yok, `min-h-screen`      | Oturumsuz her sayfa **+ her koşulda `/learn*` ve `/tools*`** |
+
+**`/learn*` ve `/tools*` yalnızca public alanda yaşar.** Sidebar'da `Öğren` ve `Araçlar`
+öğeleri **yoktur** (bilinçli, yorum satırıyla işaretli); bu bölümlere `PublicTopBar`
+üzerinden gidilir. Sayfalar `forcePublicShell` ile kabuğu sabitler, böylece oturum açık
+kullanıcı adresi doğrudan yazdığında da aynı görünümü alır — tek görünüm olduğu için kap
+genişliği (`max-w-[860px]`), kırıntı ve `h1`/girizgâh tipografisi `/faq`, `/prayer-times`
+ve `/duas` ile birebir aynıdır. Bu iki bölümü Sidebar'a geri eklemek görünüm ikiliğini
+geri getirir; eklemeden önce sor.
+
 ---
 
 ## 8. Bilinen tutarsızlık: `.cursor/rules/project-info.mdc`

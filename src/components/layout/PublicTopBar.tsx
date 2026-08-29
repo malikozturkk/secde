@@ -7,11 +7,10 @@ import { Button } from "@/src/components/ui/Button";
 export default function PublicTopBar() {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-white/[0.06] bg-[#070f12]/85 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-4 px-4 py-3">
+      <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4 px-4 px-6 py-6">
         <Link
           href="/"
-          className="text-xl text-white transition-opacity hover:opacity-80"
-          style={{ fontFamily: "var(--font-display)", letterSpacing: "0.5px" }}
+          className="text-xl font-display text-white tracking-wider"
         >
           NamazGo
         </Link>

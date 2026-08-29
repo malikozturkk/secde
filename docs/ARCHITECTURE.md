@@ -447,8 +447,8 @@ diğerleri için `startsWith`. Navigasyonda `Puan Tabloları`, `Görevler`, `Ma�
 | `/verify-otp`                        | `app/(auth)/verify-otp/`      | Server page + `VerifyOtpForm`                                                                           |
 | `/forgot-password`                   | `app/(auth)/forgot-password/` | Server page + form                                                                                      |
 | `/reset-password`                    | `app/(auth)/reset-password/`  | Server page + `ResetPasswordClient`                                                                     |
-| `/learn`                             | `app/learn/page.tsx`          | Server, `revalidate = 3600`, `LEARN_NODES` statik listesinden render                                    |
-| `/learn/[id]`                        | `app/learn/[id]/`             | `generateMetadata` + `GuideClient`                                                                      |
+| `/learn`                             | `app/learn/page.tsx`          | Server, `revalidate = 3600`, `LEARN_NODES` listesi `SeoPageShell` içinde; **public-only kabuk**          |
+| `/learn/[id]`                        | `app/learn/[id]/`             | `generateMetadata` + `GuideClient`; `AppLayout forcePublicShell`                                         |
 | `/worship`                           | `app/worship/page.tsx`        | Server page + `WorshipView`                                                                             |
 | `/profile/[username]`                | `app/profile/[username]/`     | `generateMetadata` + `ProfileClient`                                                                    |
 | `/search`                            | `app/search/page.tsx`         | Server page + `Suspense` fallback + `SearchPageContent`                                                 |
@@ -465,9 +465,15 @@ diğerleri için `startsWith`. Navigasyonda `Puan Tabloları`, `Görevler`, `Ma�
 yönlenir; geçersiz id `Error("Invalid guide ID")` fırlatır. Yeni rehber eklerken hem
 `learn.service.ts`, hem `useGuide` switch'i, hem de `app/learn/learnNodes.tsx` güncellenmelidir.
 
+**`/learn*` ve `/tools*` yalnızca public alandadır.** Sidebar'dan çıkarıldılar; giriş
+noktaları `PublicTopBar`, Landing footer'ı ve SEO sayfalarının `RelatedLinks`/`SeoCta`
+blokları. Oturum açık kullanıcı adresi doğrudan yazarsa sayfa yine açılır ama public
+kabukla — `AppLayout`'a `forcePublicShell` geçilir (`CLAUDE.md` §7.6). `middleware.ts`
+tarafında bir değişiklik yoktur, ikisi de `PUBLIC_ROUTES` içinde kalmaya devam eder.
+
 ### 8.1 SEO içerik sayfaları
 
-`/faq`, `/prayer-times*` ve `/duas*` diğer sayfalardan iki noktada ayrılır:
+`/faq`, `/prayer-times*` ve `/duas*` diğer sayfalardan iki noktada ayrılır (`/learn*` ve `/tools*` aynı **kabuğu** kullanır ama etkileşimli oldukları için client component'tir; onlarda yalnızca 1. maddenin görsel kısmı geçerlidir):
 
 1. **Tamamen server component'tirler.** İçerik `"use client"` görmez, akordiyonlar native
    `<details>` ile çalışır, hiç client JS yüklemezler. Amaç metnin **ilk HTML'de** bulunmasıdır —

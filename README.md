@@ -78,9 +78,9 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 |---|---|---|
 | `/` | Herkese açık | Oturum varsa Dashboard (seri/günlük vakitler), yoksa Landing |
 | `/login`, `/register`, `/forgot-password`, `/reset-password`, `/verify-otp` | Herkese açık | Kimlik doğrulama akışı |
-| `/learn` | Herkese açık | Rehber yol haritası (abdest, gusül, beş vakit, cuma) |
+| `/learn` | Herkese açık | Rehber yol haritası (abdest, gusül, beş vakit, cuma). Public alana ait; Sidebar'da yok |
 | `/learn/[id]` | Herkese açık | Adım adım interaktif rehber |
-| `/tools` | Herkese açık | Araç merkezi |
+| `/tools` | Herkese açık | Araç merkezi. Public alana ait; Sidebar'da yok |
 | `/tools/qibla`, `/tools/dhikr`, `/tools/zakat` | Herkese açık | Kıble pusulası, zikirmatik, zekât hesaplayıcı |
 | `/faq` | Herkese açık | 5 başlık altında 36 soru-cevap; `FAQPage` yapısal verisiyle |
 | `/prayer-times` | Herkese açık | 81 ilin listelendiği hub |
@@ -97,8 +97,13 @@ Test altyapısı, CI ve i18n kütüphanesi bu projede **bulunmuyor**.
 
 Erişim kontrolü `src/middleware.ts` içinde `auth-token` cookie'sinin varlığına göre yapılır.
 Rehberler, araçlar ve SEO içerik sayfaları (`/faq`, `/prayer-times`, `/duas`) bilinçli
-olarak herkese açıktır — arama motorlarından gelen ziyaretçi kayıt olmadan içeriği görebilir. Hiçbir prefix'e uymayan yol yönlendirilmez, Next'in 404'ü
-render edilir.
+olarak herkese açıktır — arama motorlarından gelen ziyaretçi kayıt olmadan içeriği görebilir.
+Hiçbir prefix'e uymayan yol yönlendirilmez, Next'in 404'ü render edilir.
+
+`/learn*` ve `/tools*` **yalnızca public alanda** yaşar: Sidebar'da yer almazlar, giriş
+noktaları üstteki `PublicTopBar` ile içerik sayfalarındaki ilgili-link bloklarıdır. Oturum
+açık kullanıcı adresi doğrudan yazarsa sayfa yine açılır, ama public kabukla — böylece bu
+bölümlerin tek bir görünümü olur ve kap genişliği diğer public sayfalarla aynı kalır.
 
 ---
 

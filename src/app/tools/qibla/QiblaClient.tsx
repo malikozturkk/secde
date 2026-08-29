@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { ArrowLeft, Compass, MapPin } from "lucide-react";
+import { Compass, MapPin } from "lucide-react";
 import Link from "next/link";
-import AppLayout from "@/src/components/layout/AppLayout";
+import { SeoPageShell } from "@/src/components/seo/SeoPageShell";
 import { Button } from "@/src/components/ui/Button";
 import { CompassRose } from "@/src/components/tools/CompassRose";
 import { useAuthStore } from "@/src/store/auth.store";
+import { useAuthHydrated } from "@/src/hooks/auth/useAuthHydrated";
 import { useDeviceCompass } from "@/src/hooks/tools/useDeviceCompass";
+import { useGuestCity } from "@/src/hooks/tools/useGuestCity";
+import { Select } from "@/src/components/ui/Select";
+import { TR_CITIES } from "@/src/constants/registration";
 import { matchTrCity } from "@/src/lib/geocode";
 import {
   buildQiblaReading,
@@ -20,22 +24,34 @@ import { QIBLA_ALIGNED_TOLERANCE_DEGREES } from "@/src/constants/tools";
 import { CompassStatus } from "@/src/types/enums/tools.enums";
 import { cn } from "@/src/lib/utils";
 
+const CITY_OPTIONS = TR_CITIES.map((c) => ({ value: c.city, label: c.city }));
+
+const BREADCRUMBS = [
+  { name: "Ana sayfa", path: "/" },
+  { name: "Araçlar", path: "/tools" },
+  { name: "Kıble Bulucu", path: "/tools/qibla" },
+];
+
 export const QiblaClient: React.FC = () => {
   const { user } = useAuthStore();
+  const hydrated = useAuthHydrated();
   const compass = useDeviceCompass();
+  const guest = useGuestCity();
+  const isGuest = hydrated && !user;
 
   const registeredCity = useMemo(() => matchTrCity(user?.city), [user?.city]);
 
   const origin = useMemo(() => {
-    if (registeredCity) {
+    const source = registeredCity ?? (isGuest ? guest.city : null);
+    if (source) {
       return {
-        latitude: registeredCity.latitude,
-        longitude: registeredCity.longitude,
-        label: registeredCity.city,
+        latitude: source.latitude,
+        longitude: source.longitude,
+        label: source.city,
       };
     }
     return null;
-  }, [registeredCity]);
+  }, [registeredCity, isGuest, guest.city]);
 
   const reading = useMemo(
     () =>
@@ -60,16 +76,13 @@ export const QiblaClient: React.FC = () => {
   }, [delta]);
 
   return (
-    <AppLayout mainClassName="px-4 pb-10 pt-6 lg:pt-8">
-      <div className="mx-auto flex w-full flex-col gap-4">
-        <Link
-          href="/tools"
-          className="inline-flex w-fit items-center gap-1.5 rounded-xl text-[11px] font-black uppercase tracking-[0.1em] text-white/45 transition-colors hover:text-white/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary-light)]"
-        >
-          <ArrowLeft size={14} strokeWidth={3} aria-hidden="true" />
-          Araçlar
-        </Link>
-
+    <SeoPageShell
+      publicShell
+      breadcrumbs={BREADCRUMBS}
+      eyebrow="Kıble bulucu"
+      title="Kıble yönünü bul"
+      lede="Seçtiğin ilin merkezine göre Kâbe'nin yönünü ve kuş uçuşu uzaklığını hesaplar. Cihazın pusulasını desteklediğinde canlı olarak da yön gösterir; konum izni istemez."
+    >
         <h1 className="m-0 text-[22px] font-black leading-[1.1] tracking-[-0.01em] text-white">
           Kıble Bulucu
         </h1>
@@ -79,17 +92,46 @@ export const QiblaClient: React.FC = () => {
             <h2 className="m-0 text-xl font-black text-white">
               Önce konum gerekli
             </h2>
-            <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
-              Kıble yönü kayıtlı iline göre hesaplanır. Önce ayarlardan ilini
-              seç.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Link href="/settings/account">
-                <Button size="sm" variant="primary">
-                  Şehrimi seç
-                </Button>
-              </Link>
-            </div>
+            {isGuest ? (
+              <>
+                <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
+                  Kıble yönü seçtiğin ilin merkezine göre hesaplanır. Hesap
+                  gerekmiyor — seçimin yalnızca bu tarayıcıda saklanır.
+                </p>
+                <div className="w-full max-w-[280px]">
+                  <Select
+                    placeholder="İlini seç"
+                    value=""
+                    onChange={guest.setCity}
+                    options={CITY_OPTIONS}
+                  />
+                </div>
+                <p className="m-0 text-[12px] font-semibold text-white/35">
+                  Vakit takibi, seri ve XP için{" "}
+                  <Link
+                    href="/register"
+                    className="font-bold text-[var(--color-primary-light)] underline underline-offset-2"
+                  >
+                    ücretsiz hesap
+                  </Link>{" "}
+                  oluşturabilirsin.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="m-0 text-[13px] font-bold leading-snug text-white/55">
+                  Kıble yönü kayıtlı iline göre hesaplanır. Önce ayarlardan
+                  ilini seç.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Link href="/settings/account">
+                    <Button size="sm" variant="primary">
+                      Şehrimi seç
+                    </Button>
+                  </Link>
+                </div>
+              </>
+            )}
           </section>
         ) : (
           <>
@@ -174,18 +216,23 @@ export const QiblaClient: React.FC = () => {
               <span className="text-[12px] font-black text-white/70">
                 {origin.label}
                 <span className="ml-1.5 font-bold text-white/35">
-                  kayıtlı şehrin
+                  {isGuest ? "seçtiğin şehir" : "kayıtlı şehrin"}
                 </span>
               </span>
-              <Link href="/settings/account">
-                <Button size="xs" variant="ghost">
-                  Şehrimi değiştir
+              {isGuest ? (
+                <Button size="xs" variant="ghost" onClick={guest.clear}>
+                  Şehri değiştir
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/settings/account">
+                  <Button size="xs" variant="ghost">
+                    Şehrimi değiştir
+                  </Button>
+                </Link>
+              )}
             </div>
           </>
         )}
-      </div>
-    </AppLayout>
+    </SeoPageShell>
   );
 };

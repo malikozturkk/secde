@@ -8,19 +8,14 @@ import { NavItem, MobileNavItem } from "./NavItem";
 import styles from "./Sidebar.module.css";
 import { useAuthStore } from "@/src/store/auth.store";
 import DefaultAvatar from "@/src/app/profile/[username]/DefaultAvatar";
-import {
-  Learn,
-  Series,
-  Settings,
-  Tools,
-  Worship,
-} from "@/src/icons/tsx/sidebar";
+import { Series, Settings, Worship } from "@/src/icons/tsx/sidebar";
 
 interface NavItemConfig {
   label: string;
   href: string;
   icon: React.ReactNode;
   hideOnMobile: boolean;
+  matchPrefix?: string;
 }
 interface SidebarProps {
   className?: string;
@@ -40,21 +35,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       hideOnMobile: false,
     },
     {
-      label: "Öğren",
-      href: "/learn",
-      icon: <Learn />,
-      hideOnMobile: false,
-    },
-    {
       label: "Vakitler",
       href: "/worship",
       icon: <Worship />,
-      hideOnMobile: false,
-    },
-    {
-      label: "Araçlar",
-      href: "/tools",
-      icon: <Tools />,
       hideOnMobile: false,
     },
     // {
@@ -106,6 +89,17 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     return pathname.startsWith(href);
   };
 
+  const MOBILE_NAV_ITEMS: NavItemConfig[] = [
+    ...NAV_ITEMS,
+    {
+      label: "Ayarlar",
+      href: "/settings/profile",
+      matchPrefix: "/settings",
+      icon: <Settings className={styles.settingsMobileIcon} />,
+      hideOnMobile: false,
+    },
+  ];
+
   return (
     <LayoutGroup>
       <motion.aside
@@ -130,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               href={item.href}
               label={item.label}
               icon={item.icon}
-              isActive={isRouteActive(item.href)}
+              isActive={isRouteActive(item.matchPrefix ?? item.href)}
               hideOnMobile={item.hideOnMobile}
               index={index}
             />
@@ -152,13 +146,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       </motion.aside>
 
       <nav className={styles.mobileBar} aria-label="Ana navigasyon">
-        {NAV_ITEMS.map((item) => (
+        {MOBILE_NAV_ITEMS.map((item) => (
           <MobileNavItem
             key={item.href}
             href={item.href}
             label={item.label}
             icon={item.icon}
-            isActive={isRouteActive(item.href)}
+            isActive={isRouteActive(item.matchPrefix ?? item.href)}
             hideOnMobile={item.hideOnMobile}
           />
         ))}

@@ -11,6 +11,7 @@ interface SeoPageShellProps {
   lede: string;
   eyebrow?: string;
   jsonLd?: JsonLdObject | JsonLdObject[];
+  publicShell?: boolean;
   children: ReactNode;
 }
 
@@ -20,6 +21,7 @@ export function SeoPageShell({
   lede,
   eyebrow,
   jsonLd,
+  publicShell,
   children,
 }: SeoPageShellProps) {
   const schemas = [
@@ -28,7 +30,7 @@ export function SeoPageShell({
   ];
 
   return (
-    <AppLayout mainClassName="px-4 pb-16 pt-6 lg:pt-8">
+    <AppLayout forcePublicShell={publicShell} mainClassName="px-4 pb-16 pt-6 lg:pt-8">
       <JsonLd data={schemas} />
 
       <div className="mx-auto flex w-full max-w-[860px] flex-col gap-6">

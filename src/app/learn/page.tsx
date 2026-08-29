@@ -1,6 +1,6 @@
 import { createMetadata } from "@/src/lib/metadata";
 import "@/src/styles/learn.css";
-import AppLayout from "@/src/components/layout/AppLayout";
+import { SeoPageShell } from "@/src/components/seo/SeoPageShell";
 import { AmbientBackground } from "@/src/components/learn/AmbientBackground";
 import { DynamicPath } from "@/src/components/learn/DynamicPath";
 import { NodeRow } from "@/src/components/learn/NodeRow";
@@ -17,6 +17,11 @@ export const metadata = createMetadata({
 
 export const revalidate = 3600;
 
+const BREADCRUMBS = [
+  { name: "Ana sayfa", path: "/" },
+  { name: "Rehberler", path: "/learn" },
+];
+
 export default function LearnPage() {
   const regularNodes = LEARN_NODES.filter((n) => !n.isFeatured);
   const featuredNode = LEARN_NODES.find((n) => n.isFeatured);
@@ -27,21 +32,19 @@ export default function LearnPage() {
   ];
 
   return (
-    <AppLayout>
-      <main className="lg:pt-24 lg:pb-20 lg:px-10 min-h-screen relative overflow-hidden">
+    <SeoPageShell
+      publicShell
+      breadcrumbs={BREADCRUMBS}
+      eyebrow="Rehberler"
+      title="İbadetleri adım adım öğrenelim"
+      lede="Abdest, gusül abdesti ve beş vakit namaz — her rehber adım adım ilerler, aralarda kısa sorularla öğrendiğini pekiştirir. Patikayı baştan takip edebilir veya doğrudan aradığın rehbere geçebilirsin."
+    >
+      <div className="relative overflow-hidden rounded-3xl">
         <AmbientBackground />
 
-        <div className="relative">
-          <header className="mb-16 text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-on-surface mb-2">
-              İbadetleri Öğrenelim
-            </h1>
-            <p className="text-on-surface-variant text-lg">
-              Abdest, Gusül Abdesti, Namazlar rehberlerini oyunlaştırarak öğren
-            </p>
-          </header>
+        <div className="relative px-2 py-10 lg:px-6">
           <DynamicPath nodeIds={nodeIds} />
-          <div className="space-y-48 lg:pb-20">
+          <div className="space-y-48">
             {regularNodes.map((node) => (
               <NodeRow key={node.id} alignment={node.alignment as never}>
                 <LearnNodeCard node={node} />
@@ -50,7 +53,7 @@ export default function LearnPage() {
             {featuredNode && <FeaturedLearnNode node={featuredNode} />}
           </div>
         </div>
-      </main>
-    </AppLayout>
+      </div>
+    </SeoPageShell>
   );
 }

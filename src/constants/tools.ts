@@ -114,6 +114,7 @@ export const NISAB_LABELS: Record<NisabBasis, string> = {
 };
 
 export const ZAKAT_STORAGE_KEY = "namazgo.zakat.v1";
+export const GUEST_CITY_STORAGE_KEY = "namazgo.guest-city.v1";
 
 export const ZAKAT_DISCLAIMER =
   "Bu hesap yalnızca bir yardımcıdır. Fiyatları kendin girdiğin için sonuç girdiğin değerler kadar doğrudur. Zekât, üzerinden bir kamerî yıl geçmiş ve nisabı aşan mala düşer; tereddüt ettiğin durumda bir ilim ehline danış.";

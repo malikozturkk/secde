@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useCallback, useMemo, useState } from "react";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import AppLayout from "@/src/components/layout/AppLayout";
+import { SeoPageShell } from "@/src/components/seo/SeoPageShell";
 import { Input } from "@/src/components/ui/Input";
 import { ProgressBar } from "@/src/components/ui/ProgressBar";
 import { Zakat } from "@/src/icons/tsx/tools";
@@ -56,6 +54,12 @@ const EMPTY_VALUES: Record<FieldKey, string> = {
   silverPerGram: "",
 };
 
+const BREADCRUMBS = [
+  { name: "Ana sayfa", path: "/" },
+  { name: "Araçlar", path: "/tools" },
+  { name: "Zekât Hesaplayıcı", path: "/tools/zakat" },
+];
+
 export const ZakatClient: React.FC = () => {
   const { user } = useAuthStore();
   const [values, setValues] = useState<Record<FieldKey, string>>(EMPTY_VALUES);
@@ -103,16 +107,13 @@ export const ZakatClient: React.FC = () => {
   const showResult = result.hasInput && !missingPrice;
 
   return (
-    <AppLayout mainClassName="px-4 pb-10 pt-6 lg:pt-8">
-      <div className="mx-auto flex w-full flex-col gap-4">
-        <Link
-          href="/tools"
-          className="inline-flex w-fit items-center gap-1.5 rounded-xl text-[11px] font-black uppercase tracking-[0.1em] text-white/45 transition-colors hover:text-white/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary-light)]"
-        >
-          <ArrowLeft size={14} strokeWidth={3} aria-hidden="true" />
-          Araçlar
-        </Link>
-
+    <SeoPageShell
+      publicShell
+      breadcrumbs={BREADCRUMBS}
+      eyebrow="Zekât hesaplayıcı"
+      title="Nisabı aşıyor musun, ne kadar zekât düşüyor?"
+      lede="Nakit, altın, gümüş ve borçlarını gir; nisap eşiğini altın veya gümüş üzerinden seç. Hesap tarayıcında kalır, hiçbir veri sunucuya gönderilmez."
+    >
         <section
           className={cn(
             "flex flex-col items-center gap-3 rounded-3xl border p-5 transition-colors duration-300",
@@ -246,7 +247,6 @@ export const ZakatClient: React.FC = () => {
         <p className="px-1 text-[11px] font-bold leading-relaxed text-white/35">
           {ZAKAT_DISCLAIMER}
         </p>
-      </div>
-    </AppLayout>
+    </SeoPageShell>
   );
 };

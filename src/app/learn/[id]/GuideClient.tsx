@@ -146,6 +146,7 @@ export default function GuideRunnerPage({
       )}
 
       <AppLayout
+        forcePublicShell
         rightPanel={
           <div className="flex flex-col h-full gap-4 lg:gap-8">
             {activeStepData?.randomQuestion && !questionAnswered && (

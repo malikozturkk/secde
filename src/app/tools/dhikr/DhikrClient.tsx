@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useCallback } from "react";
-import Link from "next/link";
-import { ArrowLeft, RotateCcw, Undo2 } from "lucide-react";
-import AppLayout from "@/src/components/layout/AppLayout";
+import { RotateCcw, Undo2 } from "lucide-react";
+import { SeoPageShell } from "@/src/components/seo/SeoPageShell";
 import { useDhikrCounter } from "@/src/hooks/tools/useDhikrCounter";
 import { DHIKR_PRESETS } from "@/src/constants/tools";
 import { cn } from "@/src/lib/utils";
@@ -12,6 +11,12 @@ const RING = 268;
 const STROKE = 14;
 const RADIUS = (RING - STROKE) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+const BREADCRUMBS = [
+  { name: "Ana sayfa", path: "/" },
+  { name: "Araçlar", path: "/tools" },
+  { name: "Zikirmatik", path: "/tools/dhikr" },
+];
 
 export const DhikrClient: React.FC = () => {
   const {
@@ -36,16 +41,13 @@ export const DhikrClient: React.FC = () => {
   );
 
   return (
-    <AppLayout mainClassName="px-4 pb-10 pt-6 lg:pt-8">
-      <div className="mx-auto flex w-full flex-col gap-4">
-        <Link
-          href="/tools"
-          className="inline-flex w-fit items-center gap-1.5 rounded-xl text-[11px] font-black uppercase tracking-[0.1em] text-white/45 transition-colors hover:text-white/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary-light)]"
-        >
-          <ArrowLeft size={14} strokeWidth={3} aria-hidden="true" />
-          Araçlar
-        </Link>
-
+    <SeoPageShell
+      publicShell
+      breadcrumbs={BREADCRUMBS}
+      eyebrow="Zikirmatik"
+      title="Tesbihatını say"
+      lede="Sübhânallah, Elhamdülillah, Allâhu ekber ve daha fazlası için hazır hedefler. Sayacın hedefe ulaşınca titreşimle haber verir; sayım yalnızca bu tarayıcıda tutulur."
+    >
         <div className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {DHIKR_PRESETS.map((item) => {
             const active = item.id === preset.id;
@@ -170,7 +172,6 @@ export const DhikrClient: React.FC = () => {
             Sıfırla
           </button>
         </div>
-      </div>
-    </AppLayout>
+    </SeoPageShell>
   );
 };
