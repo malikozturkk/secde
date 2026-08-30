@@ -158,9 +158,9 @@ build üretiyor.
 
 `yarn build` artık **gerçek bir regresyon sinyalidir** — kırıldıysa senin değişikliğindendir.
 
-### `yarn lint` mevcut durumu (22 Ağu 2026 itibarıyla çalıştırılıp doğrulandı)
+### `yarn lint` mevcut durumu (30 Ağu 2026 itibarıyla çalıştırılıp doğrulandı)
 
-**Lint şu an başarısız: 7 error, 8 warning.** Bunlar mevcut teknik borçtur, senin
+**Lint şu an başarısız: 7 error, 9 warning.** Bunlar mevcut teknik borçtur, senin
 değişikliğinden kaynaklanmaz. Kural: _dokunduğun dosyada_ yeni ihlal üretme, mevcutları
 temizlemek istiyorsan ayrı iş olarak yap.
 
@@ -168,15 +168,15 @@ temizlemek istiyorsan ayrı iş olarak yap.
 
 | Kural                                 | Konumlar                                                                                                                                                                                                                                                     |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `react-hooks/set-state-in-effect` (6) | `app/page.tsx:13` · `app/profile/[username]/components/FollowListDialog.tsx:41` · `app/settings/avatar/AvatarSettingsClient.tsx:252` · `components/learn/DynamicPath.tsx:54` · `components/settings/avatar/HexInput.tsx:26` · `hooks/useCookieConsent.ts:75` |
+| `react-hooks/set-state-in-effect` (6) | `app/page.tsx:13` · `app/profile/[username]/components/FollowListDialog.tsx:41` · `app/settings/avatar/AvatarSettingsClient.tsx:253` · `components/learn/DynamicPath.tsx:54` · `components/settings/avatar/HexInput.tsx:26` · `hooks/useCookieConsent.ts:75` |
 | `react/no-unescaped-entities` (1)     | `app/profile/[username]/components/InviteCard.tsx:19`                                                                                                                                                                                                        |
 
-**Warning'ler (8):**
+**Warning'ler (9):**
 
 | Kural                                   | Konumlar                                                                                        |
 | --------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `@typescript-eslint/no-unused-vars` (5) | `app/(auth)/reset-password/ResetPasswordClient.tsx:16,17,19,21` · `components/ui/Sparkle.tsx:2` |
-| `react-hooks/exhaustive-deps` (3)       | `app/settings/avatar/AvatarSettingsClient.tsx:254,256` · `components/learn/DynamicPath.tsx:70`  |
+| `@typescript-eslint/no-unused-vars` (6) | `app/(auth)/reset-password/ResetPasswordClient.tsx:16,17,19,21` · `components/ui/Sparkle.tsx:2` · `components/landing/LandingView.tsx:7` |
+| `react-hooks/exhaustive-deps` (3)       | `app/settings/avatar/AvatarSettingsClient.tsx:255,257` · `components/learn/DynamicPath.tsx:70`  |
 
 ---
 

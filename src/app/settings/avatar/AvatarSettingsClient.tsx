@@ -14,7 +14,7 @@ import {
   type UpdateProfileFormValues,
 } from "@/src/validations/auth.validation";
 import { useQueryClient } from "@tanstack/react-query";
-import type { Gender, AvatarCustomization } from "@/src/types/auth.types";
+import { Gender, type AvatarCustomization } from "@/src/types/auth.types";
 import { Tooltip } from "@/src/components/ui/Tooltip";
 import { Button } from "@/src/components/ui/Button";
 import ColorSwatch from "@/src/components/settings/avatar/ColorSwatch";
@@ -293,7 +293,7 @@ export default function AvatarSettingsPage() {
   };
 
   const previewConfig: AvatarCustomization = {
-    gender: (user?.avatarCustomization?.gender ?? "male") as Gender,
+    gender: user?.avatarCustomization?.gender ?? Gender.MALE,
     accessories: user?.avatarCustomization?.accessories ?? {},
     colors,
   };

@@ -171,6 +171,8 @@ UserDetail = Omit<User, "madhab"> & {
 `AvatarCustomization` = `{ gender, colors: {iris, pupil, hair, skin, lips, nose, earInner,
 eyebrow, outfit, background}, accessories }` — avatar tamamen renk konfigürasyonundan
 üretilir, sunucuda görsel yoktur (bkz. `DefaultAvatar`, `src/lib/avatar-utils.ts`).
+`gender` alanı `Gender` enum'ıdır (`MALE` / `FEMALE`) ve hangi avatar çiziminin
+kullanılacağını belirler.
 
 ---
 

@@ -379,6 +379,17 @@ champion, legend`.
   ile 350 ms geciktirilir (`app/search/SearchPageContent.tsx`).
 - Avatarlar sunucuda görsel olarak tutulmaz; `avatarCustomization` renk konfigürasyonundan
   `DefaultAvatar` bileşeniyle çizilir (`src/lib/avatar-utils.ts`).
+- `DefaultAvatar` bir dağıtıcıdır: `avatarCustomization.gender` değerine göre
+  `FemaleAvatar` (omuz altına inen uzun saç, kâkül, ince kavisli kaş, hafif allık)
+  veya `MaleAvatar` bileşenini render eder. İki çizim aynı yüz dilini paylaşır —
+  yuvarlatılmış yüz, aynı göz/burun geometrisi, aynı gülümseme; kadın yüzü yalnızca
+  bir tık dar (140 px, erkek 148 px) ve daha yuvarlaktır. Çeneyi sivriltmek yüzü
+  üçgenleştirip ifadeyi sertleştirdiği için bilinçli olarak yapılmadı
+  bileşenini render eder; `FEMALE` dışındaki her değer erkek çizime düşer. Üçü de
+  `src/app/profile/[username]/` altındadır. Yeni bir avatar varyantı eklerken çizimi
+  ayrı bir bileşene koy ve seçimi yalnızca `DefaultAvatar` içinde yap — çağrı yerleri
+  (Sidebar, LeaderboardCard, SearchUserRow, ProfileClient, FollowListDialog,
+  FollowNetworkCard, ayarlar ekranları) her zaman `DefaultAvatar` kullanır.
 
 ---
 
