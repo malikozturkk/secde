@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import LegalLayout from "@/src/components/legal/LegalLayout";
+import type { LegalDocumentMeta } from "@/src/types/legal.types";
 import {
   LegalSection,
   LegalSubSection,
@@ -15,11 +16,15 @@ const thClass =
 const tdClass =
   "px-3 py-2 border-b border-[var(--ng-edge)] text-[var(--ng-text-2)] align-top";
 
-export default function PrivacyContent() {
+export default function PrivacyContent({
+  version,
+  effectiveDate,
+}: LegalDocumentMeta) {
   return (
     <LegalLayout
       title="Kişisel Verilere İlişkin Aydınlatma Metni"
-      lastUpdated="12 Ağustos 2026"
+      version={version}
+      effectiveDate={effectiveDate}
     >
       <LegalSection id="giris" title="1. Amaç ve Kapsam">
         <p>

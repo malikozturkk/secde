@@ -387,15 +387,27 @@ KVKK 2026/347 İlke Kararı ayrımı koda işlenmiştir: aydınlatma metni "kabu
 irade beyanıdır. `ConsentGateModal` başlığı "Yasal metinlerimiz güncellendi", onay butonu
 "Onayla ve devam et"tir; her madde için eylem etiketi yukarıdaki `ACTION_LABELS`'tan gelir.
 
+Yasal metinlerin **sürümü ve yürürlük tarihi hiçbir yerde sabit yazılmaz**: `services/legal.service.ts`
+(`fetchLegalDocuments` / `fetchLegalDocument`, `next.revalidate = 60`; root layout da aynı fetch'i
+kullandığı için tüm statik sayfaların ISR süresi 60 sn'dir) `GET /legal/documents`
+ucundan okur; `/terms`, `/privacy` ve `/explicit-consent` sayfaları async server component olarak bu
+değeri çeker ve `LegalLayout`'a `version` + `effectiveDate` (ISO) olarak geçirir. Tarih
+`lib/legal-format.ts` içindeki `formatLegalDate` ile tr-TR biçimine çevrilir (UTC okunur). Uç
+erişilemezse sürüm/tarih satırı hiç render edilmez — eski bir sürüm gösterilmez.
+
 İlgili sabitler: `CONSENT_PATHS`, `CONSENT_LABELS` (`constants/consent.ts`),
 hata kodları `types/enums/consent.enums.ts` (kayıt akışında
 `SPECIAL_CATEGORY_CONSENT_NOT_ACCEPTED` dahil).
 
 ### 6.2 Çerez onayı — bilgilendirici
 
-Tamamen istemci tarafı: `useCookieConsent` → `js-cookie` ile **versiyonlu** çerez kaydı
-(`namazgo-cookie-consent`, 365 gün, `sameSite: "lax"`). `COOKIE_CONSENT_VERSION = "1.0.0"`;
-kayıtlı versiyon güncel versiyondan farklıysa banner tekrar gösterilir.
+Tercih istemcide saklanır ama **sürüm backend'den gelir**: `app/layout.tsx` (server component)
+`fetchLegalDocument("COOKIE_POLICY")` ile güncel sürümü okur ve `CookieConsentProvider`'a
+`policyVersion` olarak geçirir; `useCookieConsent(policyVersion)` → `js-cookie` ile versiyonlu çerez
+kaydı (`namazgo-cookie-consent`, 365 gün, `sameSite: "lax"`, gövdede `version` + `preferences` +
+`acceptedAt`). Kayıtlı versiyon backend'in verdiği versiyondan farklıysa banner tekrar gösterilir.
+`policyVersion` null ise (uç erişilemedi) banner **gösterilmez** ve hiçbir tercih yazılmaz —
+bilinmeyen bir sürümle onay kaydı oluşmaz. Frontend'de sabit çerez sürümü yoktur.
 
 Kategori **ikidir** (`CookiePreferences`): `essential` (her zaman `true`'ya zorlanır) ve
 `personalization`. v2.0'da analitik/pazarlama kategorileri kaldırıldı — uygulamada bu

@@ -1,6 +1,7 @@
 import { Nunito } from "next/font/google";
 import localFont from "next/font/local";
 import { createRootMetadata } from "@/src/lib/metadata";
+import { fetchLegalDocument } from "@/src/services/legal.service";
 import QueryProvider from "../providers/QueryProvider";
 import { ToastProvider } from "../components/ui/Toast";
 import { ConsentGateProvider } from "../providers/ConsentGateProvider";
@@ -27,18 +28,20 @@ const fredoka = localFont({
 
 export const metadata = createRootMetadata();
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookiePolicy = await fetchLegalDocument("COOKIE_POLICY");
+
   return (
     <html lang="tr" className={`${nunito.variable} ${fredoka.variable}`}>
       <body>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <QueryProvider>
           <ToastProvider>
-            <CookieConsentProvider>
+            <CookieConsentProvider policyVersion={cookiePolicy?.version ?? null}>
               <ConsentGateProvider>{children}</ConsentGateProvider>
               <CookieBanner />
             </CookieConsentProvider>

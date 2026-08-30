@@ -1,4 +1,5 @@
 import { createMetadata } from "@/src/lib/metadata";
+import { fetchLegalDocument } from "@/src/services/legal.service";
 import PrivacyContent from "./PrivacyContent";
 
 export const metadata = createMetadata({
@@ -8,6 +9,13 @@ export const metadata = createMetadata({
   path: "/privacy",
 });
 
-export default function PrivacyPage() {
-  return <PrivacyContent />;
+export default async function PrivacyPage() {
+  const document = await fetchLegalDocument("PRIVACY_POLICY");
+
+  return (
+    <PrivacyContent
+      version={document?.version ?? null}
+      effectiveDate={document?.effectiveDate ?? null}
+    />
+  );
 }

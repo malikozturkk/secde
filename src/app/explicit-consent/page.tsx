@@ -1,4 +1,5 @@
 import { createMetadata } from "@/src/lib/metadata";
+import { fetchLegalDocument } from "@/src/services/legal.service";
 import ExplicitConsentContent from "./ExplicitConsentContent";
 
 export const metadata = createMetadata({
@@ -8,6 +9,13 @@ export const metadata = createMetadata({
   path: "/explicit-consent",
 });
 
-export default function ExplicitConsentPage() {
-  return <ExplicitConsentContent />;
+export default async function ExplicitConsentPage() {
+  const document = await fetchLegalDocument("SPECIAL_CATEGORY_DATA");
+
+  return (
+    <ExplicitConsentContent
+      version={document?.version ?? null}
+      effectiveDate={document?.effectiveDate ?? null}
+    />
+  );
 }

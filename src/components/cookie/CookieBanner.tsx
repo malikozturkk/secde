@@ -25,6 +25,7 @@ const CATEGORIES = [
 
 export default function CookieBanner() {
   const {
+    policyVersion,
     showBanner,
     showDetails,
     preferences,
@@ -107,6 +108,12 @@ export default function CookieBanner() {
               </Link>{" "}
               inceleyebilirsiniz.
             </p>
+
+            {policyVersion && (
+              <p className="text-xs text-[var(--ng-text-3)]">
+                Çerez politikası sürümü: {policyVersion}
+              </p>
+            )}
 
             {CATEGORIES.map((cat) => (
               <div

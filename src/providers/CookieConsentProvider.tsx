@@ -10,10 +10,12 @@ const CookieConsentContext = createContext<CookieConsentState | null>(null);
 
 export function CookieConsentProvider({
   children,
+  policyVersion,
 }: {
   children: React.ReactNode;
+  policyVersion: string | null;
 }) {
-  const consent = useCookieConsent();
+  const consent = useCookieConsent(policyVersion);
 
   return (
     <CookieConsentContext.Provider value={consent}>

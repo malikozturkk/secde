@@ -3,18 +3,22 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { formatLegalDate } from "@/src/lib/legal-format";
 
 interface LegalLayoutProps {
   title: string;
-  lastUpdated: string;
+  version: string | null;
+  effectiveDate: string | null;
   children: React.ReactNode;
 }
 
 const LegalLayout: React.FC<LegalLayoutProps> = ({
   title,
-  lastUpdated,
+  version,
+  effectiveDate,
   children,
 }) => {
+  const lastUpdated = formatLegalDate(effectiveDate);
   return (
     <div className="min-h-screen bg-[var(--ng-canvas)] text-white font-sans">
       <header className="border-b border-[var(--ng-edge)]">
@@ -39,8 +43,8 @@ const LegalLayout: React.FC<LegalLayoutProps> = ({
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">{title}</h1>
           <div className="flex items-center justify-between text-[var(--ng-text-3)] text-sm">
-            <span>Son güncelleme: {lastUpdated}</span>
-            <span>Version: 1.0.0</span>
+            {lastUpdated && <span>Son güncelleme: {lastUpdated}</span>}
+            {version && <span>Sürüm: {version}</span>}
           </div>
         </div>
 

@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 
 const COOKIE_CONSENT_KEY = "namazgo-cookie-consent";
-const COOKIE_CONSENT_VERSION = "1.0.0";
 const COOKIE_EXPIRY_DAYS = 365;
 
 export interface CookiePreferences {
@@ -11,6 +10,7 @@ export interface CookiePreferences {
 }
 
 export interface CookieConsentState {
+  policyVersion: string | null;
   hasConsented: boolean;
   preferences: CookiePreferences;
   showBanner: boolean;
@@ -45,10 +45,10 @@ function readStoredConsent(): {
   }
 }
 
-function writeConsent(preferences: CookiePreferences) {
+function writeConsent(preferences: CookiePreferences, version: string) {
   Cookies.set(
     COOKIE_CONSENT_KEY,
-    JSON.stringify({ version: COOKIE_CONSENT_VERSION, preferences }),
+    JSON.stringify({ version, preferences, acceptedAt: new Date().toISOString() }),
     {
       expires: COOKIE_EXPIRY_DAYS,
       sameSite: "lax",
@@ -58,7 +58,9 @@ function writeConsent(preferences: CookiePreferences) {
   );
 }
 
-export function useCookieConsent(): CookieConsentState {
+export function useCookieConsent(
+  policyVersion: string | null
+): CookieConsentState {
   const [hasConsented, setHasConsented] = useState(false);
   const [preferences, setPreferences] =
     useState<CookiePreferences>(DEFAULT_PREFERENCES);
@@ -66,17 +68,26 @@ export function useCookieConsent(): CookieConsentState {
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
+    if (!policyVersion) {
+      setHasConsented(false);
+      setShowBanner(false);
+      setShowDetails(false);
+      return;
+    }
+
     const stored = readStoredConsent();
-    if (stored && stored.version === COOKIE_CONSENT_VERSION) {
+    if (stored && stored.version === policyVersion) {
       setPreferences({ ...stored.preferences, essential: true });
       setHasConsented(true);
       setShowBanner(false);
     } else {
+      setHasConsented(false);
       setShowBanner(true);
     }
-  }, []);
+  }, [policyVersion]);
 
   const acceptAll = useCallback(() => {
+    if (!policyVersion) return;
     const allAccepted: CookiePreferences = {
       essential: true,
       personalization: true,
@@ -85,20 +96,22 @@ export function useCookieConsent(): CookieConsentState {
     setHasConsented(true);
     setShowBanner(false);
     setShowDetails(false);
-    writeConsent(allAccepted);
-  }, []);
+    writeConsent(allAccepted, policyVersion);
+  }, [policyVersion]);
 
   const rejectAll = useCallback(() => {
+    if (!policyVersion) return;
     const onlyEssential: CookiePreferences = { ...DEFAULT_PREFERENCES };
     setPreferences(onlyEssential);
     setHasConsented(true);
     setShowBanner(false);
     setShowDetails(false);
-    writeConsent(onlyEssential);
-  }, []);
+    writeConsent(onlyEssential, policyVersion);
+  }, [policyVersion]);
 
   const savePreferences = useCallback(
     (prefs: Partial<CookiePreferences>) => {
+      if (!policyVersion) return;
       const merged: CookiePreferences = {
         ...preferences,
         ...prefs,
@@ -108,9 +121,9 @@ export function useCookieConsent(): CookieConsentState {
       setHasConsented(true);
       setShowBanner(false);
       setShowDetails(false);
-      writeConsent(merged);
+      writeConsent(merged, policyVersion);
     },
-    [preferences]
+    [preferences, policyVersion]
   );
 
   const openDetails = useCallback(() => {
@@ -125,11 +138,12 @@ export function useCookieConsent(): CookieConsentState {
     Cookies.remove(COOKIE_CONSENT_KEY);
     setHasConsented(false);
     setPreferences(DEFAULT_PREFERENCES);
-    setShowBanner(true);
+    setShowBanner(Boolean(policyVersion));
     setShowDetails(false);
-  }, []);
+  }, [policyVersion]);
 
   return {
+    policyVersion,
     hasConsented,
     preferences,
     showBanner,

@@ -2,13 +2,18 @@
 
 import Link from "next/link";
 import LegalLayout from "@/src/components/legal/LegalLayout";
+import type { LegalDocumentMeta } from "@/src/types/legal.types";
 import { LegalSection, LegalList } from "@/src/components/legal/LegalSection";
 
-export default function ExplicitConsentContent() {
+export default function ExplicitConsentContent({
+  version,
+  effectiveDate,
+}: LegalDocumentMeta) {
   return (
     <LegalLayout
       title="Özel Nitelikli Kişisel Verilerin İşlenmesine İlişkin Açık Rıza Metni"
-      lastUpdated="12 Ağustos 2026"
+      version={version}
+      effectiveDate={effectiveDate}
     >
       <LegalSection id="kapsam" title="1. Rızanın Konusu">
         <p>

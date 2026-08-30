@@ -1,15 +1,23 @@
 "use client";
 
 import LegalLayout from "@/src/components/legal/LegalLayout";
+import type { LegalDocumentMeta } from "@/src/types/legal.types";
 import {
   LegalSection,
   LegalSubSection,
   LegalList,
 } from "@/src/components/legal/LegalSection";
 
-export default function TermsContent() {
+export default function TermsContent({
+  version,
+  effectiveDate,
+}: LegalDocumentMeta) {
   return (
-    <LegalLayout title="Kullanım Şartları" lastUpdated="12 Ağustos 2026">
+    <LegalLayout
+      title="Kullanım Şartları"
+      version={version}
+      effectiveDate={effectiveDate}
+    >
       <LegalSection id="giris" title="1. Genel Hükümler ve Kabul">
         <p>
           İşbu Kullanım Şartları (&quot;Sözleşme&quot;), NamazGo platformunu

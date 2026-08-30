@@ -253,6 +253,11 @@ components/**           →  sadece hook tüketir
 ```
 
 - **Bileşen içinde doğrudan axios/fetch çağırma.** Her zaman service + hook.
+- **Yasal metin sürümü/tarihi asla koda yazılmaz.** Kullanım Şartları, Aydınlatma Metni, Açık Rıza
+  ve Çerez Politikası'nın güncel sürümü ile yürürlük tarihi tek kaynaktan — backend'in
+  `GET /legal/documents` ucundan — gelir (`services/legal.service.ts`; server component'te
+  `fetch` + `next.revalidate`, çünkü `/terms`, `/privacy`, `/explicit-consent` ve root layout
+  oturum gerektirmez). Sürüm bilinmiyorsa gösterme/kaydetme; sabit bir değere düşme.
 - **Veri çekmek için `useEffect` kullanma.** React Query kullan.
 - Zarf açma kalıbı (tüm hook'larda aynı):
   ```ts
@@ -401,7 +406,7 @@ olarak görünüyor, kullanıcı da boşuna tekrar deniyordu. Doğru kalıp:
 
 |                      | Yasal onay (blocking)                                                                                                                                                                                                  | Çerez onayı                                                                                      |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Kaynak               | Backend `/consent/status`, `/consent/accept`                                                                                                                                                                           | Tamamen client, `js-cookie` çerezi (versiyonlu, `COOKIE_CONSENT_VERSION = "1.0.0"`)              |
+| Kaynak               | Backend `/consent/status`, `/consent/accept`                                                                                                                                                                           | Tercih client'ta (`js-cookie`), **sürüm backend'den**: `GET /legal/documents` → `COOKIE_POLICY`   |
 | Kod                  | `providers/ConsentGateProvider.tsx`, `components/consent/`                                                                                                                                                             | `hooks/useCookieConsent.ts`, `providers/CookieConsentProvider.tsx`, `components/cookie/`         |
 | Tipler / kategoriler | 3 tip (`ConsentType`): `TERMS_OF_SERVICE` "Kullanım Koşulları" (`/terms`), `PRIVACY_POLICY` "Aydınlatma Metni" (`/privacy`, yalnızca "okudum" teyidi), `SPECIAL_CATEGORY_DATA` "Açık Rıza Metni" (`/explicit-consent`) | 2 kategori: `essential` (hep `true`) + `personalization` — analitik/pazarlama v2.0'da kaldırıldı |
 | Etki                 | `blocked` veya `requiresReaccept` ise modal ile uygulamayı kilitler                                                                                                                                                    | Alt banner gösterir                                                                              |
